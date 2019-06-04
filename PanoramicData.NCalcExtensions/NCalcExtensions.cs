@@ -6,12 +6,102 @@ namespace PanoramicData.NCalcExtensions
 {
 	public static class NCalcExtensions
 	{
-		public static void NCalcExtensionFunctions(string functionName, FunctionArgs functionArgs)
+		public static void Extend(string functionName, FunctionArgs functionArgs)
 		{
 			string param1;
 			string param2;
 			switch (functionName)
 			{
+				case "dateTime":
+					// Time Zone
+					string timeZone;
+					if (functionArgs.Parameters.Length > 0)
+					{
+						timeZone = functionArgs.Parameters[0].Evaluate() as string;
+						if (timeZone == null)
+						{
+							throw new FormatException("The first argument should be a string, e.g. 'UTC'");
+						}
+						// TODO - support more than just UTC
+						if (timeZone != "UTC")
+						{
+							throw new FormatException("Only UTC timeZone is currently supported.");
+						}
+					}
+					else
+					{
+						timeZone = "UTC";
+					}
+					// Time zone has been determined
+
+					// Format
+					string format;
+					if (functionArgs.Parameters.Length > 1)
+					{
+						format = functionArgs.Parameters[1].Evaluate() as string;
+					}
+					else
+					{
+						format = "YYYY-MM-dd HH:mm:ss";
+					}
+					// Format has been determined
+
+					// Days to add
+					double daysToAdd = 0;
+					if (functionArgs.Parameters.Length > 2)
+					{
+						var daysToAddNullable = GetNullableDouble(functionArgs.Parameters[2]);
+						if (!daysToAddNullable.HasValue)
+						{
+							throw new FormatException("Days to add must be a number.");
+						}
+						daysToAdd = daysToAddNullable.Value;
+					}
+
+					// Hours to add
+					double hoursToAdd = 0;
+					if (functionArgs.Parameters.Length > 3)
+					{
+						var hoursToAddNullable = GetNullableDouble(functionArgs.Parameters[3]);
+						if (!hoursToAddNullable.HasValue)
+						{
+							throw new FormatException("Hours to add must be a number.");
+						}
+						hoursToAdd = hoursToAddNullable.Value;
+					}
+
+					// Minutes to add
+					double minutesToAdd = 0;
+					if (functionArgs.Parameters.Length > 4)
+					{
+						var minutesToAddNullable = GetNullableDouble(functionArgs.Parameters[4]);
+						if (!minutesToAddNullable.HasValue)
+						{
+							throw new FormatException("Minutes to add must be a number.");
+						}
+						minutesToAdd = minutesToAddNullable.Value;
+					}
+
+					// Seconds to add
+					double secondsToAdd = 0;
+					if (functionArgs.Parameters.Length > 5)
+					{
+						var secondsToAddNullable = GetNullableDouble(functionArgs.Parameters[5]);
+						if (!secondsToAddNullable.HasValue)
+						{
+							throw new FormatException("Seconds to add must be a number.");
+						}
+						secondsToAdd = secondsToAddNullable.Value;
+					}
+
+					functionArgs.Result = DateTimeOffset
+						.UtcNow
+						.AddDays(daysToAdd)
+						.AddHours(hoursToAdd)
+						.AddMinutes(minutesToAdd)
+						.AddSeconds(secondsToAdd)
+						.ToString(format);
+					return;
 				case "in":
 					if (functionArgs.Parameters.Length < 2)
 					{
@@ -19,8 +109,8 @@ namespace PanoramicData.NCalcExtensions
 					}
 					try
 					{
-						var list = functionArgs.Parameters.Skip(1).Select(p => p.Evaluate()).ToList();
 						var item = functionArgs.Parameters[0].Evaluate();
+						var list = functionArgs.Parameters.Skip(1).Select(p => p.Evaluate()).ToList();
 						functionArgs.Result = list.Contains(item);
 						return;
 					}
@@ -273,6 +363,19 @@ namespace PanoramicData.NCalcExtensions
 
 					functionArgs.Result = Humanize(param1Double, param2TimeUnit);
 					return;
+			}
+		}
+
+		private static double? GetNullableDouble(Expression expression)
+		{
+			switch (expression.Evaluate())
+			{
+				case double doubleResult:
+					return (double?)doubleResult;
+				case int intResult:
+					return (double?)intResult;
+				default:
+					return null;
 			}
 		}
 

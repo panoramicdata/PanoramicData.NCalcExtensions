@@ -26,6 +26,25 @@ return nCalcExpression.Evaluate();
 
 Supported functions:
 
+---
+# dateTime()
+
+## Purpose
+Return the DateTime in the specified format as a string, with an optional offet.
+
+## Parameters
+- timeZone (only 'UTC' currently supported)
+- format
+- day offset
+- hour offset
+- minute offset
+- second offset
+
+## Examples
+- dateTime('UTC', 'yyyy-MM-dd HH:mm:ss', -90, 0, 0, 0) : 90 days ago (e.g. '2019-03-14 05:09')
+- dateTime('UTC', 'yyyy-MM-dd HH:mm:ss') : now (e.g. '2019-03-14 05:09')
+
+---
 # if()
 
 ## Purpose
@@ -40,6 +59,7 @@ Return one of two values, depending on the input function.
 - if(1 == 1, 'yes', 'no') : 'yes'
 - if(1 == 2, 3, 4) : 4
 
+---
 # in()
 
 ## Purpose
@@ -54,6 +74,7 @@ Determines whether a value is in a set of other values.
 - in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
 - in('needle', 'haystack', 'with', 'only', 'hay') : false
 
+---
 # isInfinite()
 
 ## Purpose
@@ -67,6 +88,7 @@ Determines whether a value is infinite
 - isInfinite(1/0) : true
 - isInfinite(0/1) : false
 
+---
 # isNaN()
 
 ## Purpose
@@ -80,6 +102,7 @@ Determines whether a value is not a number.
 - isNaN(null) : true
 - isNaN(1) : false
 
+---
 # contains()
 
 ## Purpose
@@ -94,6 +117,7 @@ Determines whether a value is in a set of other values.
 - in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
 - in('needle', 'haystack', 'with', 'only', 'hay') : false
 
+---
 # indexOf()
 
 ## Purpose
@@ -108,6 +132,7 @@ Determines the first position of a string within another string.  Returns -1 if 
 - firstIndexOf('#abcabc#', 'abc') : 1
 - firstIndexOf('#abcabc#', 'abcd') : -1
 
+---
 # lastIndexOf()
 
 ## Purpose
@@ -122,6 +147,7 @@ Determines the last position of a string within another string.  Returns -1 if n
 - lastIndexOf('#abcabc#', 'abc') : 4
 - lastIndexOf('#abcabc#', 'abcd') : -1
 
+---
 # length()
 
 ## Purpose
@@ -134,6 +160,7 @@ Determines length of a string.
 ## Examples
 - length('a piece of string') : 17
 
+---
 # startsWith()
 
 ## Purpose
@@ -148,6 +175,7 @@ Determines whether a string starts with another string.
 - endsWith('abcdefg', 'ab') : true
 - endsWith('abcdefg', 'cd') : false
 
+---
 # endsWith()
 
 ## Purpose
@@ -162,6 +190,7 @@ Determines whether a string ends with another string.
 - endsWith('abcdefg', 'fg') : true
 - endsWith('abcdefg', 'fgh') : false
 
+---
 # timeSpan()
 
 ## Purpose
@@ -176,6 +205,7 @@ Determines the amount of time between two DateTimes.
 ## Examples
 - in('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 3600
 
+---
 # toLower()
 
 ## Purpose
@@ -188,6 +218,7 @@ Converts a string to lower case.
 ## Examples
 - toLower('PaNToMIMe') : 'pantomime'
 
+---
 # toUpper()
 
 ## Purpose
@@ -200,6 +231,7 @@ Converts a string to upper case.
 ## Examples
 - toUpper('PaNToMIMe') : 'PANTOMIME'
 
+---
 # capitalize()
 
 ## Purpose
@@ -212,6 +244,7 @@ Capitalizes a string.
 ## Examples
 - capitalize('new year') : 'New Year'
 
+---
 # humanize()
 
 ## Purpose

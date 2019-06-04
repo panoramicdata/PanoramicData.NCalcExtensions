@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		version.json = version.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanoramicData.NCalcExtensions.Test", "PanoramicData.NCalcExtensions.Test\PanoramicData.NCalcExtensions.Test.csproj", "{EA50B1AD-C32A-4683-A165-C25E77F57C02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{4CC16329-746A-4D3E-8835-6C7070122760}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CC16329-746A-4D3E-8835-6C7070122760}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CC16329-746A-4D3E-8835-6C7070122760}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA50B1AD-C32A-4683-A165-C25E77F57C02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA50B1AD-C32A-4683-A165-C25E77F57C02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA50B1AD-C32A-4683-A165-C25E77F57C02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA50B1AD-C32A-4683-A165-C25E77F57C02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
