@@ -14,7 +14,7 @@ var calculation = "lastIndexOf('abcdefg', 'def')";
 var nCalcExpression = new Expression(calculation);
 
 // Add the extension functions
-nCalcExpression.EvaluateFunction += NCalcExtensions.NCalcExtensionFunctions;
+nCalcExpression.EvaluateFunction += NCalcExtensions.NCalcExtensions.Extend;
 
 if (nCalcExpression.HasErrors())
 {
@@ -23,6 +23,26 @@ if (nCalcExpression.HasErrors())
 
 return nCalcExpression.Evaluate();
 ````
+
+General functions:
+
+- [if()](#if)
+- [in()](#in)
+- [isInfinite()](#isinfinite)
+- [isNaN()](#isnan)
+- [timeSpan()](#timespan)
+- [humanize()](#humanize)
+
+String functions:
+- [contains()](#contains)
+- [indexOf()](#indexof)
+- [lastIndexOf()](#lastindexof)
+- [length()](#length)
+- [startsWith()](#startswith)
+- [endsWith()](#endswith)
+- [toLower()](#tolower)
+- [toUpper()](#toupper)
+- [capitalize()](#capitalize)
 
 Supported functions:
 
