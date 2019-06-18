@@ -14,7 +14,7 @@ var calculation = "lastIndexOf('abcdefg', 'def')";
 var nCalcExpression = new Expression(calculation);
 
 // Add the extension functions
-nCalcExpression.EvaluateFunction += NCalcExtensions.NCalcExtensionFunctions;
+nCalcExpression.EvaluateFunction += NCalcExtensions.NCalcExtensions.Extend;
 
 if (nCalcExpression.HasErrors())
 {
