@@ -1,5 +1,6 @@
 ﻿using NCalc;
 using System;
+using System.Globalization;
 using System.Linq;
 
 namespace PanoramicData.NCalcExtensions
@@ -12,6 +13,14 @@ namespace PanoramicData.NCalcExtensions
 			string param2;
 			switch (functionName)
 			{
+				case "dateTimeAsEpochMs":
+					var dateTimeOffset = DateTimeOffset.ParseExact(
+						functionArgs.Parameters[0].Evaluate() as string, // Input date as string
+						functionArgs.Parameters[1].Evaluate() as string,
+						CultureInfo.InvariantCulture.DateTimeFormat,
+						DateTimeStyles.AssumeUniversal);
+					functionArgs.Result = dateTimeOffset.ToUnixTimeMilliseconds();
+					break;
 				case "dateTime":
 					// Time Zone
 					string timeZone;

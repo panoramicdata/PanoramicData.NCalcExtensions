@@ -26,7 +26,8 @@ return nCalcExpression.Evaluate();
 
 General functions:
 
-- [humanize()](#humanize)
+- [dateTime()](#dateTime)
+- [dateTimeAsEpochMs()](#dateTimeAsEpochMs)
 - [if()](#if)
 - [in()](#in)
 - [isInfinite()](#isinfinite)
@@ -51,7 +52,7 @@ Supported functions:
 # dateTime()
 
 ## Purpose
-Return the DateTime in the specified format as a string, with an optional offet.
+Return the DateTime in the specified format as a string, with an optional offset.
 
 ## Parameters
 - timeZone (only 'UTC' currently supported)
@@ -64,6 +65,19 @@ Return the DateTime in the specified format as a string, with an optional offet.
 ## Examples
 - dateTime('UTC', 'yyyy-MM-dd HH:mm:ss', -90, 0, 0, 0) : 90 days ago (e.g. '2019-03-14 05:09')
 - dateTime('UTC', 'yyyy-MM-dd HH:mm:ss') : now (e.g. '2019-03-14 05:09')
+
+---
+# dateTimeAsEpochMs()
+
+## Purpose
+Parses the input DateTime and outputs as milliseconds since the Epoch (1st Jan 1970).
+
+## Parameters
+- input date string
+- format
+
+## Examples
+- dateTimeAsEpochMs('20190702T000000', 'yyyyMMddTHHmmssK') : 1562025600000
 
 ---
 # if()
