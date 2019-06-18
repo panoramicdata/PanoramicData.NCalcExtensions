@@ -26,23 +26,24 @@ return nCalcExpression.Evaluate();
 
 General functions:
 
+- [humanize()](#humanize)
 - [if()](#if)
 - [in()](#in)
 - [isInfinite()](#isinfinite)
 - [isNaN()](#isnan)
 - [timeSpan()](#timespan)
-- [humanize()](#humanize)
 
 String functions:
+- [capitalize()](#capitalize)
 - [contains()](#contains)
+- [endsWith()](#endswith)
 - [indexOf()](#indexof)
 - [lastIndexOf()](#lastindexof)
 - [length()](#length)
 - [startsWith()](#startswith)
-- [endsWith()](#endswith)
+- [substring()](#substring)
 - [toLower()](#tolower)
 - [toUpper()](#toupper)
-- [capitalize()](#capitalize)
 
 Supported functions:
 
@@ -209,6 +210,22 @@ Determines whether a string ends with another string.
 ## Examples
 - endsWith('abcdefg', 'fg') : true
 - endsWith('abcdefg', 'fgh') : false
+
+---
+# substring()
+
+## Purpose
+
+Retrieves part of a string.
+
+## Parameters
+- inputString
+- startIndex
+- length (optional)
+
+## Examples
+- substring('haystack', 3) : 'stack'
+- substring('haystack', 0, 3) : 'hay'
 
 ---
 # timeSpan()

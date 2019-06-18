@@ -102,6 +102,18 @@ namespace PanoramicData.NCalcExtensions
 						.AddSeconds(secondsToAdd)
 						.ToString(format);
 					return;
+				case "endsWith":
+					try
+					{
+						param1 = (string)functionArgs.Parameters[0].Evaluate();
+						param2 = (string)functionArgs.Parameters[1].Evaluate();
+					}
+					catch (Exception)
+					{
+						throw new FormatException("endsWith() requires two string parameters.");
+					}
+					functionArgs.Result = param1.EndsWith(param2, StringComparison.InvariantCulture);
+					return;
 				case "in":
 					if (functionArgs.Parameters.Length < 2)
 					{
@@ -254,17 +266,28 @@ namespace PanoramicData.NCalcExtensions
 					}
 					functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);
 					return;
-				case "endsWith":
+				case "substring":
+					int startIndex;
+					int length;
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
-						param2 = (string)functionArgs.Parameters[1].Evaluate();
+						startIndex = (int)functionArgs.Parameters[1].Evaluate();
 					}
 					catch (Exception)
 					{
-						throw new FormatException("endsWith() requires two string parameters.");
+						throw new FormatException("substring() requires a string parameter and one or two numeric parameters.");
 					}
-					functionArgs.Result = param1.EndsWith(param2, StringComparison.InvariantCulture);
+					if (functionArgs.Parameters.Length > 2)
+					{
+						length = (int)functionArgs.Parameters[2].Evaluate();
+					}
+					else
+					{
+						length = int.MaxValue;
+					}
+
+					functionArgs.Result = param1.Substring(startIndex, length);
 					return;
 				case "timeSpan":
 					if (functionArgs.Parameters.Length != 3)
