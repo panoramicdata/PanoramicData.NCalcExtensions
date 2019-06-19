@@ -6,6 +6,7 @@ namespace PanoramicData.NCalcExtensions
 		public ExtendedExpression(string expression) : base(expression)
 		{
 			EvaluateFunction += NCalcExtensions.Extend;
+			CacheEnabled = false;
 		}
 	}
 }

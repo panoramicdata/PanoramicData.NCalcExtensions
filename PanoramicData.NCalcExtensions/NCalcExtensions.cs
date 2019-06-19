@@ -13,6 +13,53 @@ namespace PanoramicData.NCalcExtensions
 			string param2;
 			switch (functionName)
 			{
+				case "format":
+					{
+						if (functionArgs.Parameters.Length != 2)
+						{
+							throw new ArgumentException("Expected two arguments");
+						}
+
+						if (!(functionArgs.Parameters[1].Evaluate() is string formatFormat))
+						{
+							throw new ArgumentException("Expected second argument to be a format string");
+						}
+
+						var inputObject = functionArgs.Parameters[0].Evaluate();
+						switch (inputObject)
+						{
+							case int inputInt:
+								functionArgs.Result = inputInt.ToString(formatFormat);
+								return;
+							case double inputDouble:
+								functionArgs.Result = inputDouble.ToString(formatFormat);
+								return;
+							case string inputString:
+								// Assume this is a number
+								if (long.TryParse(inputString, out var longValue))
+								{
+									functionArgs.Result = longValue.ToString(formatFormat);
+									return;
+								}
+								if (double.TryParse(inputString, out var doubleValue))
+								{
+									functionArgs.Result = doubleValue.ToString(formatFormat);
+									return;
+								}
+								if (DateTimeOffset.TryParse(
+									inputString,
+									CultureInfo.InvariantCulture.DateTimeFormat,
+									DateTimeStyles.AssumeUniversal,
+									out var dateTimeOffsetValue))
+								{
+									functionArgs.Result = dateTimeOffsetValue.ToString(formatFormat);
+									return;
+								}
+								throw new FormatException($"Could not parse '{inputString}' as a number or date.");
+							default:
+								throw new NotSupportedException($"Unsupported input type {inputObject.GetType().Name}");
+						}
+					}
 				case "dateTimeAsEpochMs":
 					var dateTimeOffset = DateTimeOffset.ParseExact(
 						functionArgs.Parameters[0].Evaluate() as string, // Input date as string
@@ -290,13 +337,11 @@ namespace PanoramicData.NCalcExtensions
 					if (functionArgs.Parameters.Length > 2)
 					{
 						length = (int)functionArgs.Parameters[2].Evaluate();
-					}
-					else
-					{
-						length = int.MaxValue;
+						functionArgs.Result = param1.Substring(startIndex, length);
+						return;
 					}
 
-					functionArgs.Result = param1.Substring(startIndex, length);
+					functionArgs.Result = param1.Substring(startIndex);
 					return;
 				case "timeSpan":
 					if (functionArgs.Parameters.Length != 3)

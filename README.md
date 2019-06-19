@@ -28,6 +28,7 @@ General functions:
 
 - [dateTime()](#dateTime)
 - [dateTimeAsEpochMs()](#dateTimeAsEpochMs)
+- [format()](#format)
 - [if()](#if)
 - [in()](#in)
 - [isInfinite()](#isinfinite)
@@ -65,6 +66,34 @@ Return the DateTime in the specified format as a string, with an optional offset
 ## Examples
 - dateTime('UTC', 'yyyy-MM-dd HH:mm:ss', -90, 0, 0, 0) : 90 days ago (e.g. '2019-03-14 05:09')
 - dateTime('UTC', 'yyyy-MM-dd HH:mm:ss') : now (e.g. '2019-03-14 05:09')
+
+---
+# dateTimeAsEpochMs()
+
+## Purpose
+Parses the input DateTime and outputs as milliseconds since the Epoch (1st Jan 1970).
+
+## Parameters
+- input date string
+- format
+
+## Examples
+- dateTimeAsEpochMs('20190702T000000', 'yyyyMMddTHHmmssK') : 1562025600000
+
+---
+# format()
+
+## Purpose
+Formats strings and numbers as output strings with the specified format
+
+## Parameters
+- object (number or text)
+- format
+
+## Examples
+- format(1, '00') : '01'
+- format(1.0, '00') : '01'
+- format('01/01/2019', 'yyyy-MM-dd') : '2019-01-01'
 
 ---
 # dateTimeAsEpochMs()
