@@ -254,6 +254,23 @@ Determines whether a string ends with another string.
 - endsWith('abcdefg', 'fg') : true
 - endsWith('abcdefg', 'fgh') : false
 
+
+---
+# replace()
+
+## Purpose
+
+Replace a string with another string
+
+## Parameters
+- haystackString
+- needleString
+- betterNeedleString
+
+## Examples
+- replace('abcdefg', 'cde', 'CDE') : 'abCDEfg'
+- replace('abcdefg', 'cde', '') : 'abfg'
+
 ---
 # substring()
 

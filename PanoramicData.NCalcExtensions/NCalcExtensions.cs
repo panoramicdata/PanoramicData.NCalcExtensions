@@ -322,6 +322,19 @@ namespace PanoramicData.NCalcExtensions
 					}
 					functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);
 					return;
+				case "replace":
+					try
+					{
+						var haystack = (string)functionArgs.Parameters[0].Evaluate();
+						var needle = (string)functionArgs.Parameters[1].Evaluate();
+						var newNeedle = (string)functionArgs.Parameters[2].Evaluate();
+						functionArgs.Result = haystack.Replace(needle, newNeedle);
+					}
+					catch (Exception)
+					{
+						throw new FormatException("replace() requires three string parameters.");
+					}
+					return;
 				case "substring":
 					int startIndex;
 					int length;
