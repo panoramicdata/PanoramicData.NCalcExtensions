@@ -26,6 +26,7 @@ return nCalcExpression.Evaluate();
 
 General functions:
 
+- [cast()](#cast)
 - [dateTime()](#dateTime)
 - [dateTimeAsEpochMs()](#dateTimeAsEpochMs)
 - [format()](#format)
@@ -34,6 +35,7 @@ General functions:
 - [isInfinite()](#isinfinite)
 - [isNaN()](#isnan)
 - [timeSpan()](#timespan)
+- [toDateTime()](#toDateTime)
 
 String functions:
 - [capitalize()](#capitalize)
@@ -48,6 +50,20 @@ String functions:
 - [toUpper()](#toupper)
 
 Supported functions:
+
+---
+# cast()
+
+## Purpose
+Cast an object to another (e.g. float to decimal).
+The method requires that conversion of value to target type be supported.
+
+## Parameters
+- inputObject
+- typeString
+
+## Examples
+- cast(0.3, 'System.Decimal')
 
 ---
 # dateTime()
@@ -286,6 +302,20 @@ Retrieves part of a string.
 ## Examples
 - substring('haystack', 3) : 'stack'
 - substring('haystack', 0, 3) : 'hay'
+
+---
+# toDateTime()
+
+## Purpose
+
+Converts a string to a DateTime
+
+## Parameters
+- inputString
+- stringFormat
+
+## Examples
+- toDateTime('2019-01-01', 'yyyy-MM-dd') : The date
 
 ---
 # timeSpan()

@@ -13,52 +13,26 @@ namespace PanoramicData.NCalcExtensions
 			string param2;
 			switch (functionName)
 			{
-				case "format":
+				case "cast":
 					{
-						if (functionArgs.Parameters.Length != 2)
+						const int castParameterCount = 2;
+						if (functionArgs.Parameters.Length != castParameterCount)
 						{
-							throw new ArgumentException("Expected two arguments");
+							throw new ArgumentException($"Expected {castParameterCount} arguments");
 						}
-
-						if (!(functionArgs.Parameters[1].Evaluate() is string formatFormat))
-						{
-							throw new ArgumentException("Expected second argument to be a format string");
-						}
-
 						var inputObject = functionArgs.Parameters[0].Evaluate();
-						switch (inputObject)
+						if (!(functionArgs.Parameters[1].Evaluate() is string castTypeString))
 						{
-							case int inputInt:
-								functionArgs.Result = inputInt.ToString(formatFormat);
-								return;
-							case double inputDouble:
-								functionArgs.Result = inputDouble.ToString(formatFormat);
-								return;
-							case string inputString:
-								// Assume this is a number
-								if (long.TryParse(inputString, out var longValue))
-								{
-									functionArgs.Result = longValue.ToString(formatFormat);
-									return;
-								}
-								if (double.TryParse(inputString, out var doubleValue))
-								{
-									functionArgs.Result = doubleValue.ToString(formatFormat);
-									return;
-								}
-								if (DateTimeOffset.TryParse(
-									inputString,
-									CultureInfo.InvariantCulture.DateTimeFormat,
-									DateTimeStyles.AssumeUniversal,
-									out var dateTimeOffsetValue))
-								{
-									functionArgs.Result = dateTimeOffsetValue.ToString(formatFormat);
-									return;
-								}
-								throw new FormatException($"Could not parse '{inputString}' as a number or date.");
-							default:
-								throw new NotSupportedException($"Unsupported input type {inputObject.GetType().Name}");
+							throw new ArgumentException("Expected second argument to be a string.");
 						}
+						var castType = Type.GetType(castTypeString);
+						if (castType == null)
+						{
+							throw new ArgumentException("Expected second argument to be a valid .NET type e.g. System.Decimal.");
+						}
+						var result = Convert.ChangeType(inputObject, castType);
+						functionArgs.Result = result;
+						return;
 					}
 				case "dateTimeAsEpochMs":
 					var dateTimeOffset = DateTimeOffset.ParseExact(
@@ -170,6 +144,53 @@ namespace PanoramicData.NCalcExtensions
 					}
 					functionArgs.Result = param1.EndsWith(param2, StringComparison.InvariantCulture);
 					return;
+				case "format":
+					{
+						if (functionArgs.Parameters.Length != 2)
+						{
+							throw new ArgumentException("Expected two arguments");
+						}
+
+						if (!(functionArgs.Parameters[1].Evaluate() is string formatFormat))
+						{
+							throw new ArgumentException("Expected second argument to be a format string");
+						}
+
+						var inputObject = functionArgs.Parameters[0].Evaluate();
+						switch (inputObject)
+						{
+							case int inputInt:
+								functionArgs.Result = inputInt.ToString(formatFormat);
+								return;
+							case double inputDouble:
+								functionArgs.Result = inputDouble.ToString(formatFormat);
+								return;
+							case string inputString:
+								// Assume this is a number
+								if (long.TryParse(inputString, out var longValue))
+								{
+									functionArgs.Result = longValue.ToString(formatFormat);
+									return;
+								}
+								if (double.TryParse(inputString, out var doubleValue))
+								{
+									functionArgs.Result = doubleValue.ToString(formatFormat);
+									return;
+								}
+								if (DateTimeOffset.TryParse(
+									inputString,
+									CultureInfo.InvariantCulture.DateTimeFormat,
+									DateTimeStyles.AssumeUniversal,
+									out var dateTimeOffsetValue))
+								{
+									functionArgs.Result = dateTimeOffsetValue.ToString(formatFormat);
+									return;
+								}
+								throw new FormatException($"Could not parse '{inputString}' as a number or date.");
+							default:
+								throw new NotSupportedException($"Unsupported input type {inputObject.GetType().Name}");
+						}
+					}
 				case "in":
 					if (functionArgs.Parameters.Length < 2)
 					{
@@ -392,17 +413,28 @@ namespace PanoramicData.NCalcExtensions
 					var timeSpan = toDateTime - fromDateTime;
 					functionArgs.Result = GetUnits(timeSpan, timeUnit);
 					return;
-				case "toUpper":
-					try
+				case "toDateTime":
 					{
-						param1 = (string)functionArgs.Parameters[0].Evaluate();
+						const int toDateTimeParameterCount = 2;
+						if (functionArgs.Parameters.Length != toDateTimeParameterCount)
+						{
+							throw new ArgumentException($"Expected {toDateTimeParameterCount} arguments");
+						}
+						if (!(functionArgs.Parameters[0].Evaluate() is string inputString))
+						{
+							throw new ArgumentException("Expected first argument to be a string.");
+						}
+						if (!(functionArgs.Parameters[1].Evaluate() is string formatString))
+						{
+							throw new ArgumentException("Expected second argument to be a string.");
+						}
+						if (!DateTime.TryParseExact(inputString, formatString, CultureInfo.InvariantCulture, DateTimeStyles.None, out var outputDateTime))
+						{
+							throw new ArgumentException("Input string did not match expected format.");
+						}
+						functionArgs.Result = outputDateTime;
+						return;
 					}
-					catch (Exception)
-					{
-						throw new FormatException("toUpper() requires one string parameter.");
-					}
-					functionArgs.Result = param1.ToUpperInvariant();
-					return;
 				case "toLower":
 					try
 					{
@@ -413,6 +445,17 @@ namespace PanoramicData.NCalcExtensions
 						throw new FormatException("toLower() requires one string parameter.");
 					}
 					functionArgs.Result = param1.ToLowerInvariant();
+					return;
+				case "toUpper":
+					try
+					{
+						param1 = (string)functionArgs.Parameters[0].Evaluate();
+					}
+					catch (Exception)
+					{
+						throw new FormatException("toUpper() requires one string parameter.");
+					}
+					functionArgs.Result = param1.ToUpperInvariant();
 					return;
 				case "capitalize":
 				case "capitalise":
