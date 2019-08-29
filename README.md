@@ -44,6 +44,7 @@ String functions:
 - [indexOf()](#indexof)
 - [lastIndexOf()](#lastindexof)
 - [length()](#length)
+- [replace()](#replace)
 - [startsWith()](#startswith)
 - [substring()](#substring)
 - [toLower()](#tolower)
