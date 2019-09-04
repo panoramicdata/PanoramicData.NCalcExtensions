@@ -53,6 +53,13 @@ namespace PanoramicData.NCalcExtensions.Test
 		}
 
 		[Fact]
+		public void Format_DateTimeFormat_Succeeds()
+		{
+			var expression = new ExtendedExpression("format(dateTime('UTC', 'yyyy-MM-dd'), 'yyyy-MM-dd')");
+			expression.Evaluate().Should().Be(DateTime.UtcNow.ToString("yyyy-MM-dd"));
+		}
+
+		[Fact]
 		public void Format_StringFormat_Succeeds()
 		{
 			var expression = new ExtendedExpression("format('02', '0')");
@@ -60,7 +67,7 @@ namespace PanoramicData.NCalcExtensions.Test
 		}
 
 		[Fact]
-		public void Format_DateTimeFormat_Succeeds()
+		public void Format_DateTimeStringFormat_Succeeds()
 		{
 			var expression = new ExtendedExpression("format('01/01/2019', 'yyyy-MM-dd')");
 			expression.Evaluate().Should().Be("2019-01-01");

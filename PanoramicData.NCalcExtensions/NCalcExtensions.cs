@@ -168,6 +168,9 @@ namespace PanoramicData.NCalcExtensions
 							case double inputDouble:
 								functionArgs.Result = inputDouble.ToString(formatFormat);
 								return;
+							case DateTime dateTime:
+								functionArgs.Result = dateTime.ToString(formatFormat);
+								return;
 							case string inputString:
 								// Assume this is a number
 								if (long.TryParse(inputString, out var longValue))
