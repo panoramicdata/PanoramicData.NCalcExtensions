@@ -34,6 +34,8 @@ General functions:
 - [in()](#in)
 - [isInfinite()](#isinfinite)
 - [isNaN()](#isnan)
+- [regexGroup()](#regexGroup)
+- [regexIsMatch()](#regexIsMatch)
 - [timeSpan()](#timespan)
 - [toDateTime()](#toDateTime)
 
@@ -271,6 +273,40 @@ Determines whether a string ends with another string.
 - endsWith('abcdefg', 'fg') : true
 - endsWith('abcdefg', 'fgh') : false
 
+
+---
+# regexGroup()
+
+## Purpose
+
+Selects a regex group capture
+
+## Parameters
+- input
+- regex
+- zero-based capture index (default: 0)
+
+## Examples
+- regexGroup('abcdef', '^ab(.+?)f$') : 'cde'
+- regexGroup('abcdef', '^ab(.)+f$') : 'c'
+- regexGroup('abcdef', '^ab(.)+f$', 1) : 'd'
+- regexGroup('abcdef', '^ab(.)+f$', 2) : 'e'
+- regexGroup('abcdef', '^ab(.)+f$', 10) : null
+
+---
+# regexIsMatch()
+
+## Purpose
+
+Determine whether a string matches a regex
+
+## Parameters
+- input
+- regex
+
+## Examples
+- regexIsMatch('abcdef', '^ab.+') : true
+- regexIsMatch('Zbcdef', '^ab.+') : false
 
 ---
 # replace()

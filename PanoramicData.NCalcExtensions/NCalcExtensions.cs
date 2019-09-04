@@ -1,12 +1,15 @@
 ﻿using NCalc;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace PanoramicData.NCalcExtensions
 {
 	public static class NCalcExtensions
 	{
+		[SuppressMessage("Design", "RCS1224:Make method an extension method.", Justification = "Nonsense")]
 		public static void Extend(string functionName, FunctionArgs functionArgs)
 		{
 			string param1;
@@ -343,6 +346,47 @@ namespace PanoramicData.NCalcExtensions
 					}
 					functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);
 					return;
+				case "regexGroup":
+					try
+					{
+						var input = (string)functionArgs.Parameters[0].Evaluate();
+						var regexExpression = (string)functionArgs.Parameters[1].Evaluate();
+						var regexCaptureIndex = functionArgs.Parameters.Length == 3
+							? (int)functionArgs.Parameters[2].Evaluate()
+							: 0;
+						var regex = new Regex(regexExpression);
+						if (!regex.IsMatch(input))
+						{
+							functionArgs.Result = null;
+						}
+						else
+						{
+							Group group = regex
+								.Match(input)
+								.Groups[1];
+							functionArgs.Result = regexCaptureIndex >= group.Captures.Count
+								? null
+								: group.Captures[regexCaptureIndex].Value;
+						}
+					}
+					catch (Exception)
+					{
+						throw new FormatException("replace() requires three string parameters.");
+					}
+					return;
+				case "regexIsMatch":
+					try
+					{
+						var input = (string)functionArgs.Parameters[0].Evaluate();
+						var regexExpression = (string)functionArgs.Parameters[1].Evaluate();
+						var regex = new Regex(regexExpression);
+						functionArgs.Result = regex.IsMatch(input);
+					}
+					catch (Exception)
+					{
+						throw new FormatException("replace() requires three string parameters.");
+					}
+					return;
 				case "replace":
 					try
 					{
@@ -538,6 +582,7 @@ namespace PanoramicData.NCalcExtensions
 			}
 		}
 
+		[SuppressMessage("Design", "RCS1224:Make method an extension method.", Justification = "Nonsense")]
 		internal static string Humanize(double param1Double, TimeUnit timeUnit)
 		{
 			try
