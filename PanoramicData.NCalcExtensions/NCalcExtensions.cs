@@ -290,6 +290,25 @@ namespace PanoramicData.NCalcExtensions
 					{
 						throw new FormatException(e.Message);
 					}
+				case "isNull":
+					if (functionArgs.Parameters.Length != 1)
+					{
+						throw new FormatException("isNull() requires one parameter.");
+					}
+					try
+					{
+						var outputObject = functionArgs.Parameters[0].Evaluate();
+						functionArgs.Result = outputObject == null;
+						return;
+					}
+					catch (FormatException)
+					{
+						throw;
+					}
+					catch (Exception e)
+					{
+						throw new FormatException(e.Message);
+					}
 				case "contains":
 					try
 					{

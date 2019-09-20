@@ -184,6 +184,22 @@ Determines whether a value is not a number.
 ## Examples
 - isNaN(null) : true
 - isNaN(1) : false
+---
+
+# isNull()
+
+## Purpose
+
+Determines whether a value is null.
+
+## Parameters
+- value
+
+## Examples
+- isNull(1) : false
+- isNull('text') : false
+- isNull(bob) : true is bob is null
+- isNull(null) : true
 
 ---
 # contains()
