@@ -36,6 +36,7 @@ General functions:
 - [isNaN()](#isnan)
 - [regexGroup()](#regexGroup)
 - [regexIsMatch()](#regexIsMatch)
+- [throw()](#throw)
 - [timeSpan()](#timespan)
 - [toDateTime()](#toDateTime)
 
@@ -369,6 +370,21 @@ Converts a string to a DateTime
 
 ## Examples
 - toDateTime('2019-01-01', 'yyyy-MM-dd') : The date
+
+---
+# throw()
+
+## Purpose
+
+Throws an NCalcExtensionsException.   Useful in an if().
+
+## Parameters
+- message (optional)
+
+## Examples
+- throw()
+- throw('This is a message')
+- if(problem, throw('There is a problem'), 5)
 
 ---
 # timeSpan()

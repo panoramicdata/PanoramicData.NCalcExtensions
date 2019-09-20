@@ -1,4 +1,5 @@
 ﻿using NCalc;
+using PanoramicData.NCalcExtensions.Exceptions;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -141,6 +142,10 @@ namespace PanoramicData.NCalcExtensions
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
 						param2 = (string)functionArgs.Parameters[1].Evaluate();
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (Exception)
 					{
 						throw new FormatException("endsWith() requires two string parameters.");
@@ -209,6 +214,10 @@ namespace PanoramicData.NCalcExtensions
 						functionArgs.Result = list.Contains(item);
 						return;
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (Exception)
 					{
 						throw new FormatException("in() parameters malformed.");
@@ -234,6 +243,10 @@ namespace PanoramicData.NCalcExtensions
 							functionArgs.Result = functionArgs.Parameters[1].Evaluate();
 							return;
 						}
+						catch (NCalcExtensionsException)
+						{
+							throw;
+						}
 						catch (Exception)
 						{
 							throw new FormatException($"Could not evaluate if function parameter 2 '{functionArgs.Parameters[1].ParsedExpression}'.");
@@ -243,6 +256,10 @@ namespace PanoramicData.NCalcExtensions
 					{
 						functionArgs.Result = functionArgs.Parameters[2].Evaluate();
 						return;
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception)
 					{
@@ -263,6 +280,10 @@ namespace PanoramicData.NCalcExtensions
 							);
 						return;
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (FormatException)
 					{
 						throw;
@@ -281,6 +302,10 @@ namespace PanoramicData.NCalcExtensions
 						var outputObject = functionArgs.Parameters[0].Evaluate();
 						functionArgs.Result = !(outputObject is double) || double.IsNaN((double)outputObject);
 						return;
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (FormatException)
 					{
@@ -301,6 +326,10 @@ namespace PanoramicData.NCalcExtensions
 						functionArgs.Result = outputObject == null;
 						return;
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (FormatException)
 					{
 						throw;
@@ -315,6 +344,10 @@ namespace PanoramicData.NCalcExtensions
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
 						param2 = (string)functionArgs.Parameters[1].Evaluate();
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (Exception)
 					{
 						throw new FormatException("contains() requires two string parameters.");
@@ -326,6 +359,10 @@ namespace PanoramicData.NCalcExtensions
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
 						param2 = (string)functionArgs.Parameters[1].Evaluate();
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception)
 					{
@@ -339,6 +376,10 @@ namespace PanoramicData.NCalcExtensions
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
 						param2 = (string)functionArgs.Parameters[1].Evaluate();
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (Exception)
 					{
 						throw new FormatException("lastIndexOf() requires two string parameters.");
@@ -349,6 +390,10 @@ namespace PanoramicData.NCalcExtensions
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception)
 					{
@@ -361,6 +406,10 @@ namespace PanoramicData.NCalcExtensions
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
 						param2 = (string)functionArgs.Parameters[1].Evaluate();
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception)
 					{
@@ -391,6 +440,10 @@ namespace PanoramicData.NCalcExtensions
 								: group.Captures[regexCaptureIndex].Value;
 						}
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (Exception)
 					{
 						throw new FormatException("replace() requires three string parameters.");
@@ -403,6 +456,10 @@ namespace PanoramicData.NCalcExtensions
 						var regexExpression = (string)functionArgs.Parameters[1].Evaluate();
 						var regex = new Regex(regexExpression);
 						functionArgs.Result = regex.IsMatch(input);
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception)
 					{
@@ -417,6 +474,10 @@ namespace PanoramicData.NCalcExtensions
 						var newNeedle = (string)functionArgs.Parameters[2].Evaluate();
 						functionArgs.Result = haystack.Replace(needle, newNeedle);
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (Exception)
 					{
 						throw new FormatException("replace() requires three string parameters.");
@@ -429,6 +490,10 @@ namespace PanoramicData.NCalcExtensions
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
 						startIndex = (int)functionArgs.Parameters[1].Evaluate();
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception)
 					{
@@ -443,6 +508,21 @@ namespace PanoramicData.NCalcExtensions
 
 					functionArgs.Result = param1.Substring(startIndex);
 					return;
+				case "throw":
+					switch (functionArgs.Parameters.Length)
+					{
+						case 0:
+							throw new NCalcExtensionsException();
+						case 1:
+							if (!(functionArgs.Parameters[0].Evaluate() is string exceptionMessageText))
+							{
+								throw new FormatException("throw() parameter must be a string.");
+							}
+							throw new NCalcExtensionsException(exceptionMessageText);
+
+						default:
+							throw new FormatException("throw() takes zero or one parameters.");
+					}
 				case "timeSpan":
 					if (functionArgs.Parameters.Length != 3)
 					{
@@ -456,6 +536,10 @@ namespace PanoramicData.NCalcExtensions
 						fromString = functionArgs.Parameters[0].Evaluate().ToString();
 						toString = functionArgs.Parameters[1].Evaluate().ToString();
 						timeUnitString = functionArgs.Parameters[2].Evaluate().ToString();
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception e)
 					{
@@ -506,6 +590,10 @@ namespace PanoramicData.NCalcExtensions
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (Exception)
 					{
 						throw new FormatException("toLower() requires one string parameter.");
@@ -516,6 +604,10 @@ namespace PanoramicData.NCalcExtensions
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception)
 					{
@@ -528,6 +620,10 @@ namespace PanoramicData.NCalcExtensions
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception)
 					{
@@ -549,6 +645,10 @@ namespace PanoramicData.NCalcExtensions
 						{
 							throw new Exception();
 						}
+					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
 					}
 					catch (Exception)
 					{

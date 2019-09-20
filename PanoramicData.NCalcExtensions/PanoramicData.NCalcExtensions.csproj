@@ -9,7 +9,7 @@
     <RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>ncalc extensions</PackageTags>
-    <PackageReleaseNotes>Added isNull() and ExtendedExpression now always creates an addition parameter called 'null' with value null.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added throw()</PackageReleaseNotes>
     <Description>Extensions for NCalc</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
