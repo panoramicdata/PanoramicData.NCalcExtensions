@@ -682,68 +682,45 @@ namespace PanoramicData.NCalcExtensions
 		}
 
 		private static double? GetNullableDouble(Expression expression)
-		{
-			switch (expression.Evaluate())
+			=> (expression.Evaluate()) switch
 			{
-				case double doubleResult:
-					return (double?)doubleResult;
-				case int intResult:
-					return (double?)intResult;
-				default:
-					return null;
-			}
-		}
+				double doubleResult => (double?)doubleResult,
+				int intResult => (double?)intResult,
+				_ => null,
+			};
 
 		public static string UpperCaseFirst(this string s)
 			=> s.Substring(0, 1).ToUpperInvariant() + s.Substring(1);
 
 		private static double GetUnits(TimeSpan timeSpan, TimeUnit timeUnit)
-		{
-			switch (timeUnit)
+			=> timeUnit switch
 			{
-				case TimeUnit.Milliseconds:
-					return timeSpan.TotalMilliseconds;
-				case TimeUnit.Seconds:
-					return timeSpan.TotalSeconds;
-				case TimeUnit.Minutes:
-					return timeSpan.TotalMinutes;
-				case TimeUnit.Hours:
-					return timeSpan.TotalHours;
-				case TimeUnit.Days:
-					return timeSpan.TotalDays;
-				case TimeUnit.Weeks:
-					return timeSpan.TotalDays / 7;
-				case TimeUnit.Years:
-					return timeSpan.TotalDays / 365.25;
-				default:
-					throw new ArgumentOutOfRangeException($"Time unit not supported: '{timeUnit}'");
-			}
-		}
+				TimeUnit.Milliseconds => timeSpan.TotalMilliseconds,
+				TimeUnit.Seconds => timeSpan.TotalSeconds,
+				TimeUnit.Minutes => timeSpan.TotalMinutes,
+				TimeUnit.Hours => timeSpan.TotalHours,
+				TimeUnit.Days => timeSpan.TotalDays,
+				TimeUnit.Weeks => timeSpan.TotalDays / 7,
+				TimeUnit.Years => timeSpan.TotalDays / 365.25,
+				_ => throw new ArgumentOutOfRangeException($"Time unit not supported: '{timeUnit}'"),
+			};
 
 		[SuppressMessage("Design", "RCS1224:Make method an extension method.", Justification = "Nonsense")]
 		internal static string Humanize(double param1Double, TimeUnit timeUnit)
 		{
 			try
 			{
-				switch (timeUnit)
+				return timeUnit switch
 				{
-					case TimeUnit.Milliseconds:
-						return TimeSpan.FromMilliseconds(param1Double).Humanize();
-					case TimeUnit.Seconds:
-						return TimeSpan.FromSeconds(param1Double).Humanize();
-					case TimeUnit.Minutes:
-						return TimeSpan.FromMinutes(param1Double).Humanize();
-					case TimeUnit.Hours:
-						return TimeSpan.FromHours(param1Double).Humanize();
-					case TimeUnit.Days:
-						return TimeSpan.FromDays(param1Double).Humanize();
-					case TimeUnit.Weeks:
-						return TimeSpan.FromDays(param1Double * 7).Humanize();
-					case TimeUnit.Years:
-						return TimeSpan.FromDays(param1Double * 365.25).Humanize();
-					default:
-						throw new FormatException($"{timeUnit} is not a supported time unit for humanization.");
-				}
+					TimeUnit.Milliseconds => TimeSpan.FromMilliseconds(param1Double).Humanize(),
+					TimeUnit.Seconds => TimeSpan.FromSeconds(param1Double).Humanize(),
+					TimeUnit.Minutes => TimeSpan.FromMinutes(param1Double).Humanize(),
+					TimeUnit.Hours => TimeSpan.FromHours(param1Double).Humanize(),
+					TimeUnit.Days => TimeSpan.FromDays(param1Double).Humanize(),
+					TimeUnit.Weeks => TimeSpan.FromDays(param1Double * 7).Humanize(),
+					TimeUnit.Years => TimeSpan.FromDays(param1Double * 365.25).Humanize(),
+					_ => throw new FormatException($"{timeUnit} is not a supported time unit for humanization."),
+				};
 			}
 			catch (OverflowException)
 			{
