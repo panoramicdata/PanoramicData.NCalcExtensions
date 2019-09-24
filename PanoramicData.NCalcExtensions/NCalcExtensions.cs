@@ -232,6 +232,10 @@ namespace PanoramicData.NCalcExtensions
 					{
 						boolParam1 = (bool)functionArgs.Parameters[0].Evaluate();
 					}
+					catch (NCalcExtensionsException)
+					{
+						throw;
+					}
 					catch (Exception)
 					{
 						throw new FormatException($"Could not evaluate if function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
@@ -247,9 +251,9 @@ namespace PanoramicData.NCalcExtensions
 						{
 							throw;
 						}
-						catch (Exception)
+						catch (Exception e)
 						{
-							throw new FormatException($"Could not evaluate if function parameter 2 '{functionArgs.Parameters[1].ParsedExpression}'.");
+							throw new FormatException($"Could not evaluate if function parameter 2 '{functionArgs.Parameters[1].ParsedExpression}' due to {e.Message}.", e);
 						}
 					}
 					try
@@ -261,9 +265,9 @@ namespace PanoramicData.NCalcExtensions
 					{
 						throw;
 					}
-					catch (Exception)
+					catch (Exception e)
 					{
-						throw new FormatException($"Could not evaluate if function parameter 3 '{functionArgs.Parameters[2].ParsedExpression}'.");
+						throw new FormatException($"Could not evaluate if function parameter 3 '{functionArgs.Parameters[2].ParsedExpression}' due to {e.Message}.", e);
 					}
 				case "isInfinite":
 					if (functionArgs.Parameters.Length != 1)
@@ -402,18 +406,30 @@ namespace PanoramicData.NCalcExtensions
 					functionArgs.Result = param1.Length;
 					return;
 				case "startsWith":
+					if (functionArgs.Parameters.Length != 2)
+					{
+						throw new FormatException("startsWith() requires two parameters.");
+					}
 					try
 					{
-						param1 = (string)functionArgs.Parameters[0].Evaluate();
-						param2 = (string)functionArgs.Parameters[1].Evaluate();
+						param1 = (string)functionArgs.Parameters[0].Evaluate() as string;
+						param2 = (string)functionArgs.Parameters[1].Evaluate() as string;
 					}
 					catch (NCalcExtensionsException)
 					{
 						throw;
 					}
-					catch (Exception)
+					catch (Exception e)
 					{
-						throw new FormatException("startsWith() requires two string parameters.");
+						throw new FormatException($"Unexpected exception in startsWith(): {e.Message}", e);
+					}
+					if (param1 == null)
+					{
+						throw new FormatException($"startsWith() parameter 1 is not a string");
+					}
+					if (param2 == null)
+					{
+						throw new FormatException($"startsWith() parameter 2 is not a string");
 					}
 					functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);
 					return;

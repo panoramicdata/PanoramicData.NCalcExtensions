@@ -40,5 +40,13 @@ namespace PanoramicData.NCalcExtensions.Test
 			var expression = new ExtendedExpression("throw('a', 'b')");
 			Assert.Throws<FormatException>(() => expression.Evaluate());
 		}
+
+		[Fact]
+		public void InnerThrow_Fails()
+		{
+			var expression = new ExtendedExpression("if(false, 1, throw('sdf' + a))");
+			expression.Parameters["a"] = "blah";
+			Assert.Throws<NCalcExtensionsException>(() => expression.Evaluate());
+		}
 	}
 }
