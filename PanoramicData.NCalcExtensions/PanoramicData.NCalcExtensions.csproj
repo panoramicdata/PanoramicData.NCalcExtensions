@@ -10,7 +10,7 @@
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>ncalc extensions</PackageTags>
-		<PackageReleaseNotes>Improved logging</PackageReleaseNotes>
+		<PackageReleaseNotes>Added reserved keywords True (=true) and False (=false)</PackageReleaseNotes>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
