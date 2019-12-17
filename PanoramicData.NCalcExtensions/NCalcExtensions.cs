@@ -17,28 +17,28 @@ namespace PanoramicData.NCalcExtensions
 			string param2;
 			switch (functionName)
 			{
-				case "cast":
+				case ExtensionFunction.Cast:
 					{
 						const int castParameterCount = 2;
 						if (functionArgs.Parameters.Length != castParameterCount)
 						{
-							throw new ArgumentException($"Expected {castParameterCount} arguments");
+							throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected {castParameterCount} arguments");
 						}
 						var inputObject = functionArgs.Parameters[0].Evaluate();
 						if (!(functionArgs.Parameters[1].Evaluate() is string castTypeString))
 						{
-							throw new ArgumentException("Expected second argument to be a string.");
+							throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a string.");
 						}
 						var castType = Type.GetType(castTypeString);
 						if (castType == null)
 						{
-							throw new ArgumentException("Expected second argument to be a valid .NET type e.g. System.Decimal.");
+							throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a valid .NET type e.g. System.Decimal.");
 						}
 						var result = Convert.ChangeType(inputObject, castType);
 						functionArgs.Result = result;
 						return;
 					}
-				case "dateTimeAsEpochMs":
+				case ExtensionFunction.DateTimeAsEpochMs:
 					var dateTimeOffset = DateTimeOffset.ParseExact(
 						functionArgs.Parameters[0].Evaluate() as string, // Input date as string
 						functionArgs.Parameters[1].Evaluate() as string,
@@ -46,7 +46,7 @@ namespace PanoramicData.NCalcExtensions
 						DateTimeStyles.AssumeUniversal);
 					functionArgs.Result = dateTimeOffset.ToUnixTimeMilliseconds();
 					break;
-				case "dateTime":
+				case ExtensionFunction.DateTime:
 					// Time Zone
 					string timeZone;
 					if (functionArgs.Parameters.Length > 0)
@@ -54,12 +54,12 @@ namespace PanoramicData.NCalcExtensions
 						timeZone = functionArgs.Parameters[0].Evaluate() as string;
 						if (timeZone == null)
 						{
-							throw new FormatException("The first argument should be a string, e.g. 'UTC'");
+							throw new FormatException($"{ExtensionFunction.DateTime} function - The first argument should be a string, e.g. 'UTC'");
 						}
 						// TODO - support more than just UTC
 						if (timeZone != "UTC")
 						{
-							throw new FormatException("Only UTC timeZone is currently supported.");
+							throw new FormatException($"{ExtensionFunction.DateTime} function - Only UTC timeZone is currently supported.");
 						}
 					}
 					else
@@ -87,7 +87,7 @@ namespace PanoramicData.NCalcExtensions
 						var daysToAddNullable = GetNullableDouble(functionArgs.Parameters[2]);
 						if (!daysToAddNullable.HasValue)
 						{
-							throw new FormatException("Days to add must be a number.");
+							throw new FormatException($"{ExtensionFunction.DateTime} function - Days to add must be a number.");
 						}
 						daysToAdd = daysToAddNullable.Value;
 					}
@@ -99,7 +99,7 @@ namespace PanoramicData.NCalcExtensions
 						var hoursToAddNullable = GetNullableDouble(functionArgs.Parameters[3]);
 						if (!hoursToAddNullable.HasValue)
 						{
-							throw new FormatException("Hours to add must be a number.");
+							throw new FormatException($"{ExtensionFunction.DateTime} function - Hours to add must be a number.");
 						}
 						hoursToAdd = hoursToAddNullable.Value;
 					}
@@ -111,7 +111,7 @@ namespace PanoramicData.NCalcExtensions
 						var minutesToAddNullable = GetNullableDouble(functionArgs.Parameters[4]);
 						if (!minutesToAddNullable.HasValue)
 						{
-							throw new FormatException("Minutes to add must be a number.");
+							throw new FormatException($"{ExtensionFunction.DateTime} function - Minutes to add must be a number.");
 						}
 						minutesToAdd = minutesToAddNullable.Value;
 					}
@@ -123,7 +123,7 @@ namespace PanoramicData.NCalcExtensions
 						var secondsToAddNullable = GetNullableDouble(functionArgs.Parameters[5]);
 						if (!secondsToAddNullable.HasValue)
 						{
-							throw new FormatException("Seconds to add must be a number.");
+							throw new FormatException($"{ExtensionFunction.DateTime} function - Seconds to add must be a number.");
 						}
 						secondsToAdd = secondsToAddNullable.Value;
 					}
@@ -136,7 +136,7 @@ namespace PanoramicData.NCalcExtensions
 						.AddSeconds(secondsToAdd)
 						.ToString(format);
 					return;
-				case "endsWith":
+				case ExtensionFunction.EndsWith:
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
@@ -148,20 +148,20 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("endsWith() requires two string parameters.");
+						throw new FormatException($"{ExtensionFunction.EndsWith} function requires two string parameters.");
 					}
 					functionArgs.Result = param1.EndsWith(param2, StringComparison.InvariantCulture);
 					return;
-				case "format":
+				case ExtensionFunction.Format:
 					{
 						if (functionArgs.Parameters.Length != 2)
 						{
-							throw new ArgumentException("Expected two arguments");
+							throw new ArgumentException($"{ExtensionFunction.Format} function - expected two arguments");
 						}
 
 						if (!(functionArgs.Parameters[1].Evaluate() is string formatFormat))
 						{
-							throw new ArgumentException("Expected second argument to be a format string");
+							throw new ArgumentException($"{ExtensionFunction.Format} function - expected second argument to be a format string");
 						}
 
 						var inputObject = functionArgs.Parameters[0].Evaluate();
@@ -202,10 +202,10 @@ namespace PanoramicData.NCalcExtensions
 								throw new NotSupportedException($"Unsupported input type {inputObject.GetType().Name}");
 						}
 					}
-				case "in":
+				case ExtensionFunction.In:
 					if (functionArgs.Parameters.Length < 2)
 					{
-						throw new FormatException("in() requires at least two parameters.");
+						throw new FormatException($"{ExtensionFunction.In}() requires at least two parameters.");
 					}
 					try
 					{
@@ -220,13 +220,13 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("in() parameters malformed.");
+						throw new FormatException($"{ExtensionFunction.In}() parameters malformed.");
 					}
-				case "if":
+				case ExtensionFunction.If:
 					bool boolParam1;
 					if (functionArgs.Parameters.Length != 3)
 					{
-						throw new FormatException("if() requires three parameters.");
+						throw new FormatException($"{ExtensionFunction.If}() requires three parameters.");
 					}
 					try
 					{
@@ -238,7 +238,7 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException($"Could not evaluate if function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
+						throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
 					}
 					if (boolParam1)
 					{
@@ -253,7 +253,7 @@ namespace PanoramicData.NCalcExtensions
 						}
 						catch (Exception e)
 						{
-							throw new FormatException($"Could not evaluate if function parameter 2 '{functionArgs.Parameters[1].ParsedExpression}' due to {e.Message}.", e);
+							throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 2 '{functionArgs.Parameters[1].ParsedExpression}' due to {e.Message}.", e);
 						}
 					}
 					try
@@ -267,12 +267,12 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception e)
 					{
-						throw new FormatException($"Could not evaluate if function parameter 3 '{functionArgs.Parameters[2].ParsedExpression}' due to {e.Message}.", e);
+						throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 3 '{functionArgs.Parameters[2].ParsedExpression}' due to {e.Message}.", e);
 					}
-				case "isInfinite":
+				case ExtensionFunction.IsInfinite:
 					if (functionArgs.Parameters.Length != 1)
 					{
-						throw new FormatException("isInfinite() requires one parameter.");
+						throw new FormatException($"{ExtensionFunction.IsInfinite}() requires one parameter.");
 					}
 					try
 					{
@@ -296,10 +296,10 @@ namespace PanoramicData.NCalcExtensions
 					{
 						throw new FormatException(e.Message);
 					}
-				case "isNaN":
+				case ExtensionFunction.IsNaN:
 					if (functionArgs.Parameters.Length != 1)
 					{
-						throw new FormatException("isNaN() requires one parameter.");
+						throw new FormatException($"{ExtensionFunction.IsNaN}() requires one parameter.");
 					}
 					try
 					{
@@ -319,10 +319,10 @@ namespace PanoramicData.NCalcExtensions
 					{
 						throw new FormatException(e.Message);
 					}
-				case "isNull":
+				case ExtensionFunction.IsNull:
 					if (functionArgs.Parameters.Length != 1)
 					{
-						throw new FormatException("isNull() requires one parameter.");
+						throw new FormatException($"{ExtensionFunction.IsNull}() requires one parameter.");
 					}
 					try
 					{
@@ -342,7 +342,7 @@ namespace PanoramicData.NCalcExtensions
 					{
 						throw new FormatException(e.Message);
 					}
-				case "contains":
+				case ExtensionFunction.Contains:
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
@@ -354,11 +354,11 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("contains() requires two string parameters.");
+						throw new FormatException($"{ExtensionFunction.Contains}() requires two string parameters.");
 					}
 					functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture) >= 0;
 					return;
-				case "indexOf":
+				case ExtensionFunction.IndexOf:
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
@@ -370,11 +370,11 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("indexOf() requires two string parameters.");
+						throw new FormatException($"{ExtensionFunction.IndexOf}() requires two string parameters.");
 					}
 					functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture);
 					return;
-				case "lastIndexOf":
+				case ExtensionFunction.LastIndexOf:
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
@@ -386,11 +386,11 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("lastIndexOf() requires two string parameters.");
+						throw new FormatException($"{ExtensionFunction.LastIndexOf}() requires two string parameters.");
 					}
 					functionArgs.Result = param1.LastIndexOf(param2, StringComparison.InvariantCulture);
 					return;
-				case "length":
+				case ExtensionFunction.Length:
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
@@ -401,14 +401,14 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("length() requires one string parameter.");
+						throw new FormatException($"{ExtensionFunction.Length}() requires one string parameter.");
 					}
 					functionArgs.Result = param1.Length;
 					return;
-				case "startsWith":
+				case ExtensionFunction.StartsWith:
 					if (functionArgs.Parameters.Length != 2)
 					{
-						throw new FormatException("startsWith() requires two parameters.");
+						throw new FormatException($"{ExtensionFunction.StartsWith}() requires two parameters.");
 					}
 					try
 					{
@@ -421,19 +421,19 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception e)
 					{
-						throw new FormatException($"Unexpected exception in startsWith(): {e.Message}", e);
+						throw new FormatException($"Unexpected exception in {ExtensionFunction.StartsWith}(): {e.Message}", e);
 					}
 					if (param1 == null)
 					{
-						throw new FormatException($"startsWith() parameter 1 is not a string");
+						throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 1 is not a string");
 					}
 					if (param2 == null)
 					{
-						throw new FormatException($"startsWith() parameter 2 is not a string");
+						throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 2 is not a string");
 					}
 					functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);
 					return;
-				case "regexGroup":
+				case ExtensionFunction.RegexGroup:
 					try
 					{
 						var input = (string)functionArgs.Parameters[0].Evaluate();
@@ -462,10 +462,10 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("replace() requires three string parameters.");
+						throw new FormatException($"{ExtensionFunction.Replace}() requires three string parameters.");
 					}
 					return;
-				case "regexIsMatch":
+				case ExtensionFunction.RegexIsMatch:
 					try
 					{
 						var input = (string)functionArgs.Parameters[0].Evaluate();
@@ -479,10 +479,10 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("replace() requires three string parameters.");
+						throw new FormatException($"{ExtensionFunction.Replace}() requires three string parameters.");
 					}
 					return;
-				case "replace":
+				case ExtensionFunction.Replace:
 					try
 					{
 						var haystack = (string)functionArgs.Parameters[0].Evaluate();
@@ -496,10 +496,10 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("replace() requires three string parameters.");
+						throw new FormatException($"{ExtensionFunction.Replace}() requires three string parameters.");
 					}
 					return;
-				case "substring":
+				case ExtensionFunction.Substring:
 					int startIndex;
 					int length;
 					try
@@ -513,7 +513,7 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("substring() requires a string parameter and one or two numeric parameters.");
+						throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
 					}
 					if (functionArgs.Parameters.Length > 2)
 					{
@@ -524,7 +524,49 @@ namespace PanoramicData.NCalcExtensions
 
 					functionArgs.Result = param1.Substring(startIndex);
 					return;
-				case "throw":
+				case ExtensionFunction.Switch:
+					{
+						if (functionArgs.Parameters.Length < 3)
+						{
+							throw new FormatException($"{ExtensionFunction.Switch}() requires at least three parameters.");
+						}
+						object valueParam;
+						try
+						{
+							valueParam = functionArgs.Parameters[0].Evaluate();
+						}
+						catch (NCalcExtensionsException)
+						{
+							throw;
+						}
+						catch (Exception e)
+						{
+							throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
+						}
+
+						// Determine the pair count
+						var pairCount = (functionArgs.Parameters.Length - 1) / 2;
+						for (var pairIndex = 0; pairIndex < pairCount * 2; pairIndex += 2)
+						{
+							var caseIndex = 1 + pairIndex;
+							var @case = functionArgs.Parameters[caseIndex].Evaluate();
+							if (@case.Equals(valueParam))
+							{
+								functionArgs.Result = functionArgs.Parameters[caseIndex + 1].Evaluate();
+								return;
+							}
+						}
+
+						var defaultIsPresent = functionArgs.Parameters.Length % 2 == 0;
+						if (defaultIsPresent)
+						{
+							functionArgs.Result = functionArgs.Parameters.Last().Evaluate();
+							return;
+						}
+
+						throw new FormatException($"Default {ExtensionFunction.Switch} condition occurred, but no default case specified.");
+					}
+				case ExtensionFunction.Throw:
 					switch (functionArgs.Parameters.Length)
 					{
 						case 0:
@@ -532,17 +574,17 @@ namespace PanoramicData.NCalcExtensions
 						case 1:
 							if (!(functionArgs.Parameters[0].Evaluate() is string exceptionMessageText))
 							{
-								throw new FormatException("throw() parameter must be a string.");
+								throw new FormatException($"{ExtensionFunction.Throw} function - parameter must be a string.");
 							}
 							throw new NCalcExtensionsException(exceptionMessageText);
 
 						default:
-							throw new FormatException("throw() takes zero or one parameters.");
+							throw new FormatException($"{ExtensionFunction.Throw} function - takes zero or one parameters.");
 					}
-				case "timeSpan":
+				case ExtensionFunction.TimeSpan:
 					if (functionArgs.Parameters.Length != 3)
 					{
-						throw new FormatException("timeSpan() requires three parameters.");
+						throw new FormatException($"{ExtensionFunction.TimeSpan} function - requires three parameters.");
 					}
 					string fromString;
 					string toString;
@@ -559,49 +601,49 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception e)
 					{
-						throw new FormatException($"timeSpan() could not extract three parameters into strings: {e.Message}");
+						throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not extract three parameters into strings: {e.Message}");
 					}
 
 					if (!DateTime.TryParse(fromString, out var fromDateTime))
 					{
-						throw new FormatException($"timeSpan() could not convert '{fromString}' to DateTime");
+						throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{fromString}' to DateTime");
 					}
 					if (!DateTime.TryParse(toString, out var toDateTime))
 					{
-						throw new FormatException($"timeSpan() could not convert '{toString}' to DateTime");
+						throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{toString}' to DateTime");
 					}
 					if (!Enum.TryParse(timeUnitString, true, out TimeUnit timeUnit))
 					{
-						throw new FormatException($"timeSpan() could not convert '{timeUnitString}' to a supported time unit");
+						throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{timeUnitString}' to a supported time unit");
 					}
 
 					// Determine the timespan
 					var timeSpan = toDateTime - fromDateTime;
 					functionArgs.Result = GetUnits(timeSpan, timeUnit);
 					return;
-				case "toDateTime":
+				case ExtensionFunction.ToDateTime:
 					{
 						const int toDateTimeParameterCount = 2;
 						if (functionArgs.Parameters.Length != toDateTimeParameterCount)
 						{
-							throw new ArgumentException($"Expected {toDateTimeParameterCount} arguments");
+							throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected {toDateTimeParameterCount} arguments");
 						}
 						if (!(functionArgs.Parameters[0].Evaluate() is string inputString))
 						{
-							throw new ArgumentException("Expected first argument to be a string.");
+							throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected first argument to be a string.");
 						}
 						if (!(functionArgs.Parameters[1].Evaluate() is string formatString))
 						{
-							throw new ArgumentException("Expected second argument to be a string.");
+							throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected second argument to be a string.");
 						}
 						if (!DateTime.TryParseExact(inputString, formatString, CultureInfo.InvariantCulture, DateTimeStyles.None, out var outputDateTime))
 						{
-							throw new ArgumentException("Input string did not match expected format.");
+							throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format.");
 						}
 						functionArgs.Result = outputDateTime;
 						return;
 					}
-				case "toLower":
+				case ExtensionFunction.ToLower:
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
@@ -612,11 +654,11 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("toLower() requires one string parameter.");
+						throw new FormatException($"{ExtensionFunction.ToLower} function -  requires one string parameter.");
 					}
 					functionArgs.Result = param1.ToLowerInvariant();
 					return;
-				case "toUpper":
+				case ExtensionFunction.ToUpper:
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
@@ -627,12 +669,12 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("toUpper() requires one string parameter.");
+						throw new FormatException($"{ExtensionFunction.ToUpper} function -  requires one string parameter.");
 					}
 					functionArgs.Result = param1.ToUpperInvariant();
 					return;
-				case "capitalize":
-				case "capitalise":
+				case ExtensionFunction.Capitalise:
+				case ExtensionFunction.Capitalize:
 					try
 					{
 						param1 = (string)functionArgs.Parameters[0].Evaluate();
@@ -643,12 +685,12 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException("capitalise() requires one string parameter.");
+						throw new FormatException($"{ExtensionFunction.Capitalize} function -  requires one string parameter.");
 					}
 					functionArgs.Result = param1.ToLowerInvariant().UpperCaseFirst();
 					return;
-				case "humanize":
-				case "humanise":
+				case ExtensionFunction.Humanise:
+				case ExtensionFunction.Humanize:
 					double param1Double;
 					try
 					{
@@ -668,12 +710,12 @@ namespace PanoramicData.NCalcExtensions
 					}
 					catch (Exception)
 					{
-						throw new FormatException($"Incorrect usage of humanize(double value, string timeUnit).  The first number should be a valid floating-point number and the second should be a time unit ({string.Join(", ", Enum.GetNames(typeof(TimeUnit)))}).");
+						throw new FormatException($"{ExtensionFunction.Humanize} function - The first number should be a valid floating-point number and the second should be a time unit ({string.Join(", ", Enum.GetNames(typeof(TimeUnit)))}).");
 					}
 
 					if (!Enum.TryParse<TimeUnit>(param2, true, out var param2TimeUnit))
 					{
-						throw new FormatException($"humanize() parameter 2 must be a time unit - one of {string.Join(", ", Enum.GetNames(typeof(TimeUnit)).Select(n => $"'{n}'"))}.");
+						throw new FormatException($"{ExtensionFunction.Humanize} function - Parameter 2 must be a time unit - one of {string.Join(", ", Enum.GetNames(typeof(TimeUnit)).Select(n => $"'{n}'"))}.");
 					}
 
 					functionArgs.Result = Humanize(param1Double, param2TimeUnit);

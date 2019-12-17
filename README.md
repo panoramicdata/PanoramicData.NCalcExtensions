@@ -36,6 +36,7 @@ General functions:
 - [isNaN()](#isnan)
 - [regexGroup()](#regexGroup)
 - [regexIsMatch()](#regexIsMatch)
+- [switch()](#switch)
 - [throw()](#throw)
 - [timeSpan()](#timespan)
 - [toDateTime()](#toDateTime)
@@ -356,6 +357,22 @@ Retrieves part of a string.
 ## Examples
 - substring('haystack', 3) : 'stack'
 - substring('haystack', 0, 3) : 'hay'
+
+---
+# switch()
+
+## Purpose
+Return one of a number of values, depending on the input function.
+
+## Parameters
+- switched value
+- a set of pairs: case_n, output_n
+- if present, a final value can be used as a default.  If the default WOULD have been returned, but no default is present, an exception is thrown.
+
+## Examples
+- switch('yes', 'yes', 1, 'no', 2) : 1
+- switch('blah', 'yes', 1, 'no', 2) : throws exception
+- switch('blah', 'yes', 1, 'no', 2, 3) : 3
 
 ---
 # toDateTime()

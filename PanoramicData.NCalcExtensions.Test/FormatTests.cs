@@ -11,31 +11,18 @@ namespace PanoramicData.NCalcExtensions.Test
 		{
 			var expression = new ExtendedExpression("format(1, 1)");
 			var exception = Assert.Throws<ArgumentException>(() => expression.Evaluate());
-			exception.Message.Should().Be("Expected second argument to be a format string");
+			exception.Message.Should().Be("format function - expected second argument to be a format string");
 		}
 
-		[Fact]
-		public void Format_OneParameter_Fails()
+		[Theory]
+		[InlineData("format()")]
+		[InlineData("format(1)")]
+		[InlineData("format(1, 2, 3)")]
+		public void Format_NotTwoParameters_Fails(string inputText)
 		{
-			var expression = new ExtendedExpression("format(1)");
+			var expression = new ExtendedExpression(inputText);
 			var exception = Assert.Throws<ArgumentException>(() => expression.Evaluate());
-			exception.Message.Should().Be("Expected two arguments");
-		}
-
-		[Fact]
-		public void Format_ZeroParameters_Fails()
-		{
-			var expression = new ExtendedExpression("format()");
-			var exception = Assert.Throws<ArgumentException>(() => expression.Evaluate());
-			exception.Message.Should().Be("Expected two arguments");
-		}
-
-		[Fact]
-		public void Format_MoreThanTwoParameters_Fails()
-		{
-			var expression = new ExtendedExpression("format(1, '0', 'Third parameter')");
-			var exception = Assert.Throws<ArgumentException>(() => expression.Evaluate());
-			exception.Message.Should().Be("Expected two arguments");
+			exception.Message.Should().Be("format function - expected two arguments");
 		}
 
 		[Fact]
