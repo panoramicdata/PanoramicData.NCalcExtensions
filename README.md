@@ -34,6 +34,7 @@ General functions:
 - [in()](#in)
 - [isInfinite()](#isinfinite)
 - [isNaN()](#isnan)
+- [jPath()](#jPath)
 - [regexGroup()](#regexGroup)
 - [regexIsMatch()](#regexIsMatch)
 - [switch()](#switch)
@@ -291,6 +292,35 @@ Determines whether a string ends with another string.
 - endsWith('abcdefg', 'fg') : true
 - endsWith('abcdefg', 'fgh') : false
 
+---
+
+# jPath()
+
+## Purpose
+
+Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression
+
+## Parameters
+- input JObject
+- JPath string expression
+
+## Examples
+sourceJObject JSON:
+```
+{
+  "name": "bob",
+  "numbers": [ 1, 2 ]
+  "arrayList": [ 
+    { "key": "key1", "value": "value1" },
+    { "key": "key2", "value": "value2" } 
+  ]
+}
+```
+- jPath(sourceJObject, 'name') : 'bob'
+- jPath(sourceJObject, 'size') : an exception is thrown
+- jPath(sourceJObject, 'size', True) : null is returned
+- jPath(sourceJObject, 'numbers[0]') : 1
+- jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]') : "value1"
 
 ---
 # regexGroup()

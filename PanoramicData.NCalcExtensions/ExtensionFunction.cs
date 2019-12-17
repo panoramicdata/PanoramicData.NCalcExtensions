@@ -1,12 +1,4 @@
-﻿using NCalc;
-using PanoramicData.NCalcExtensions.Exceptions;
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace PanoramicData.NCalcExtensions
+﻿namespace PanoramicData.NCalcExtensions
 {
 	public static class ExtensionFunction
 	{
@@ -18,6 +10,7 @@ namespace PanoramicData.NCalcExtensions
 		public const string DateTime = "dateTime";
 		public const string EndsWith = "endsWith";
 		public const string Format = "format";
+		public const string JPath = "jPath";
 		public const string Humanise = "humanise";
 		public const string Humanize = "humanize";
 		public const string If = "if";
