@@ -10,7 +10,7 @@
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>ncalc extensions</PackageTags>
-		<PackageReleaseNotes>Added switch function.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added jPath function.</PackageReleaseNotes>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
