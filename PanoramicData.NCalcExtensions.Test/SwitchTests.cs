@@ -24,6 +24,7 @@ namespace PanoramicData.NCalcExtensions.Test
 		[InlineData("switch('no', 'yes', '1', 'no', '2')", "2")]
 		[InlineData("switch('blah', 'yes', 1, 'no', 2, 3)", 3)]
 		[InlineData("switch('blah', 'yes', 1, 'no', 2, '3')", "3")]
+		[InlineData("switch(1, 1, 'one', 2, 'two')", "one")]
 		public void Switch_ReturnsExpected(string expression, object expectedOutput)
 			=> Assert.Equal(expectedOutput, new ExtendedExpression(expression).Evaluate());
 
