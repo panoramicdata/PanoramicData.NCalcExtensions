@@ -10,34 +10,38 @@ namespace PanoramicData.NCalcExtensions
 {
 	public static class NCalcExtensions
 	{
-		[SuppressMessage("Design", "RCS1224:Make method an extension method.", Justification = "Nonsense")]
 		public static void Extend(string functionName, FunctionArgs functionArgs)
 		{
+			if (functionArgs == null)
+			{
+				throw new ArgumentNullException(nameof(functionArgs));
+			}
+
 			string param1;
 			string param2;
 			switch (functionName)
 			{
 				case ExtensionFunction.Cast:
-				{
-					const int castParameterCount = 2;
-					if (functionArgs.Parameters.Length != castParameterCount)
 					{
-						throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected {castParameterCount} arguments");
+						const int castParameterCount = 2;
+						if (functionArgs.Parameters.Length != castParameterCount)
+						{
+							throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected {castParameterCount} arguments");
+						}
+						var inputObject = functionArgs.Parameters[0].Evaluate();
+						if (!(functionArgs.Parameters[1].Evaluate() is string castTypeString))
+						{
+							throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a string.");
+						}
+						var castType = Type.GetType(castTypeString);
+						if (castType == null)
+						{
+							throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a valid .NET type e.g. System.Decimal.");
+						}
+						var result = Convert.ChangeType(inputObject, castType, CultureInfo.InvariantCulture);
+						functionArgs.Result = result;
+						return;
 					}
-					var inputObject = functionArgs.Parameters[0].Evaluate();
-					if (!(functionArgs.Parameters[1].Evaluate() is string castTypeString))
-					{
-						throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a string.");
-					}
-					var castType = Type.GetType(castTypeString);
-					if (castType == null)
-					{
-						throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a valid .NET type e.g. System.Decimal.");
-					}
-					var result = Convert.ChangeType(inputObject, castType);
-					functionArgs.Result = result;
-					return;
-				}
 				case ExtensionFunction.DateTimeAsEpochMs:
 					var dateTimeOffset = DateTimeOffset.ParseExact(
 						functionArgs.Parameters[0].Evaluate() as string, // Input date as string
@@ -128,7 +132,7 @@ namespace PanoramicData.NCalcExtensions
 						.AddHours(hoursToAdd)
 						.AddMinutes(minutesToAdd)
 						.AddSeconds(secondsToAdd)
-						.ToString(format);
+						.ToString(format, CultureInfo.InvariantCulture);
 					return;
 				case ExtensionFunction.EndsWith:
 					try
@@ -147,55 +151,55 @@ namespace PanoramicData.NCalcExtensions
 					functionArgs.Result = param1.EndsWith(param2, StringComparison.InvariantCulture);
 					return;
 				case ExtensionFunction.Format:
-				{
-					if (functionArgs.Parameters.Length != 2)
 					{
-						throw new ArgumentException($"{ExtensionFunction.Format} function - expected two arguments");
-					}
+						if (functionArgs.Parameters.Length != 2)
+						{
+							throw new ArgumentException($"{ExtensionFunction.Format} function - expected two arguments");
+						}
 
-					if (!(functionArgs.Parameters[1].Evaluate() is string formatFormat))
-					{
-						throw new ArgumentException($"{ExtensionFunction.Format} function - expected second argument to be a format string");
-					}
+						if (!(functionArgs.Parameters[1].Evaluate() is string formatFormat))
+						{
+							throw new ArgumentException($"{ExtensionFunction.Format} function - expected second argument to be a format string");
+						}
 
-					var inputObject = functionArgs.Parameters[0].Evaluate();
-					switch (inputObject)
-					{
-						case int inputInt:
-							functionArgs.Result = inputInt.ToString(formatFormat);
-							return;
-						case double inputDouble:
-							functionArgs.Result = inputDouble.ToString(formatFormat);
-							return;
-						case DateTime dateTime:
-							functionArgs.Result = dateTime.ToString(formatFormat);
-							return;
-						case string inputString:
-							// Assume this is a number
-							if (long.TryParse(inputString, out var longValue))
-							{
-								functionArgs.Result = longValue.ToString(formatFormat);
+						var inputObject = functionArgs.Parameters[0].Evaluate();
+						switch (inputObject)
+						{
+							case int inputInt:
+								functionArgs.Result = inputInt.ToString(formatFormat, CultureInfo.InvariantCulture);
 								return;
-							}
-							if (double.TryParse(inputString, out var doubleValue))
-							{
-								functionArgs.Result = doubleValue.ToString(formatFormat);
+							case double inputDouble:
+								functionArgs.Result = inputDouble.ToString(formatFormat, CultureInfo.InvariantCulture);
 								return;
-							}
-							if (DateTimeOffset.TryParse(
-								inputString,
-								CultureInfo.InvariantCulture.DateTimeFormat,
-								DateTimeStyles.AssumeUniversal,
-								out var dateTimeOffsetValue))
-							{
-								functionArgs.Result = dateTimeOffsetValue.ToString(formatFormat);
+							case DateTime dateTime:
+								functionArgs.Result = dateTime.ToString(formatFormat, CultureInfo.InvariantCulture);
 								return;
-							}
-							throw new FormatException($"Could not parse '{inputString}' as a number or date.");
-						default:
-							throw new NotSupportedException($"Unsupported input type {inputObject.GetType().Name}");
+							case string inputString:
+								// Assume this is a number
+								if (long.TryParse(inputString, out var longValue))
+								{
+									functionArgs.Result = longValue.ToString(formatFormat, CultureInfo.InvariantCulture);
+									return;
+								}
+								if (double.TryParse(inputString, out var doubleValue))
+								{
+									functionArgs.Result = doubleValue.ToString(formatFormat, CultureInfo.InvariantCulture);
+									return;
+								}
+								if (DateTimeOffset.TryParse(
+									inputString,
+									CultureInfo.InvariantCulture.DateTimeFormat,
+									DateTimeStyles.AssumeUniversal,
+									out var dateTimeOffsetValue))
+								{
+									functionArgs.Result = dateTimeOffsetValue.ToString(formatFormat, CultureInfo.InvariantCulture);
+									return;
+								}
+								throw new FormatException($"Could not parse '{inputString}' as a number or date.");
+							default:
+								throw new NotSupportedException($"Unsupported input type {inputObject.GetType().Name}");
+						}
 					}
-				}
 				case ExtensionFunction.In:
 					if (functionArgs.Parameters.Length < 2)
 					{
@@ -519,47 +523,47 @@ namespace PanoramicData.NCalcExtensions
 					functionArgs.Result = param1.Substring(startIndex);
 					return;
 				case ExtensionFunction.Switch:
-				{
-					if (functionArgs.Parameters.Length < 3)
 					{
-						throw new FormatException($"{ExtensionFunction.Switch}() requires at least three parameters.");
-					}
-					object valueParam;
-					try
-					{
-						valueParam = functionArgs.Parameters[0].Evaluate();
-					}
-					catch (NCalcExtensionsException)
-					{
-						throw;
-					}
-					catch (Exception e)
-					{
-						throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
-					}
-
-					// Determine the pair count
-					var pairCount = (functionArgs.Parameters.Length - 1) / 2;
-					for (var pairIndex = 0; pairIndex < pairCount * 2; pairIndex += 2)
-					{
-						var caseIndex = 1 + pairIndex;
-						var @case = functionArgs.Parameters[caseIndex].Evaluate();
-						if (@case.Equals(valueParam))
+						if (functionArgs.Parameters.Length < 3)
 						{
-							functionArgs.Result = functionArgs.Parameters[caseIndex + 1].Evaluate();
+							throw new FormatException($"{ExtensionFunction.Switch}() requires at least three parameters.");
+						}
+						object valueParam;
+						try
+						{
+							valueParam = functionArgs.Parameters[0].Evaluate();
+						}
+						catch (NCalcExtensionsException)
+						{
+							throw;
+						}
+						catch (Exception)
+						{
+							throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
+						}
+
+						// Determine the pair count
+						var pairCount = (functionArgs.Parameters.Length - 1) / 2;
+						for (var pairIndex = 0; pairIndex < pairCount * 2; pairIndex += 2)
+						{
+							var caseIndex = 1 + pairIndex;
+							var @case = functionArgs.Parameters[caseIndex].Evaluate();
+							if (@case.Equals(valueParam))
+							{
+								functionArgs.Result = functionArgs.Parameters[caseIndex + 1].Evaluate();
+								return;
+							}
+						}
+
+						var defaultIsPresent = functionArgs.Parameters.Length % 2 == 0;
+						if (defaultIsPresent)
+						{
+							functionArgs.Result = functionArgs.Parameters.Last().Evaluate();
 							return;
 						}
-					}
 
-					var defaultIsPresent = functionArgs.Parameters.Length % 2 == 0;
-					if (defaultIsPresent)
-					{
-						functionArgs.Result = functionArgs.Parameters.Last().Evaluate();
-						return;
+						throw new FormatException($"Default {ExtensionFunction.Switch} condition occurred, but no default case specified.");
 					}
-
-					throw new FormatException($"Default {ExtensionFunction.Switch} condition occurred, but no default case specified.");
-				}
 				case ExtensionFunction.Throw:
 					switch (functionArgs.Parameters.Length)
 					{
@@ -616,27 +620,27 @@ namespace PanoramicData.NCalcExtensions
 					functionArgs.Result = GetUnits(timeSpan, timeUnit);
 					return;
 				case ExtensionFunction.ToDateTime:
-				{
-					const int toDateTimeParameterCount = 2;
-					if (functionArgs.Parameters.Length != toDateTimeParameterCount)
 					{
-						throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected {toDateTimeParameterCount} arguments");
+						const int toDateTimeParameterCount = 2;
+						if (functionArgs.Parameters.Length != toDateTimeParameterCount)
+						{
+							throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected {toDateTimeParameterCount} arguments");
+						}
+						if (!(functionArgs.Parameters[0].Evaluate() is string inputString))
+						{
+							throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected first argument to be a string.");
+						}
+						if (!(functionArgs.Parameters[1].Evaluate() is string formatString))
+						{
+							throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected second argument to be a string.");
+						}
+						if (!DateTime.TryParseExact(inputString, formatString, CultureInfo.InvariantCulture, DateTimeStyles.None, out var outputDateTime))
+						{
+							throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format.");
+						}
+						functionArgs.Result = outputDateTime;
+						return;
 					}
-					if (!(functionArgs.Parameters[0].Evaluate() is string inputString))
-					{
-						throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected first argument to be a string.");
-					}
-					if (!(functionArgs.Parameters[1].Evaluate() is string formatString))
-					{
-						throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected second argument to be a string.");
-					}
-					if (!DateTime.TryParseExact(inputString, formatString, CultureInfo.InvariantCulture, DateTimeStyles.None, out var outputDateTime))
-					{
-						throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format.");
-					}
-					functionArgs.Result = outputDateTime;
-					return;
-				}
 				case ExtensionFunction.ToLower:
 					try
 					{
@@ -715,10 +719,10 @@ namespace PanoramicData.NCalcExtensions
 					functionArgs.Result = Humanize(param1Double, param2TimeUnit);
 					return;
 				case ExtensionFunction.JPath:
-				{
-					Extensions.JPath.Evaluate(functionArgs);
-					return;
-				}
+					{
+						Extensions.JPath.Evaluate(functionArgs);
+						return;
+					}
 			}
 		}
 
@@ -731,7 +735,14 @@ namespace PanoramicData.NCalcExtensions
 			};
 
 		public static string UpperCaseFirst(this string s)
-			=> s.Substring(0, 1).ToUpperInvariant() + s.Substring(1);
+		{
+			if (s == null)
+			{
+				throw new ArgumentNullException(nameof(s));
+			}
+
+			return s.Substring(0, 1).ToUpperInvariant() + s.Substring(1);
+		}
 
 		private static double GetUnits(TimeSpan timeSpan, TimeUnit timeUnit)
 			=> timeUnit switch

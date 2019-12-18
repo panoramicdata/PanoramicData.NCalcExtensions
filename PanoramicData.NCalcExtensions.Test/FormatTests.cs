@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using System;
+using System.Globalization;
 using Xunit;
 
 namespace PanoramicData.NCalcExtensions.Test
@@ -43,7 +44,7 @@ namespace PanoramicData.NCalcExtensions.Test
 		public void Format_DateTimeFormat_Succeeds()
 		{
 			var expression = new ExtendedExpression("format(dateTime('UTC', 'yyyy-MM-dd'), 'yyyy-MM-dd')");
-			expression.Evaluate().Should().Be(DateTime.UtcNow.ToString("yyyy-MM-dd"));
+			expression.Evaluate().Should().Be(DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
 		}
 
 		[Fact]

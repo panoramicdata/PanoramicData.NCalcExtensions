@@ -4,7 +4,7 @@ namespace PanoramicData.NCalcExtensions.Test
 {
 	public class NCalcTest
 	{
-		protected object Test(string expressionText)
+		protected static object Test(string expressionText)
 		{
 			var expression = new Expression(expressionText);
 			expression.EvaluateFunction += NCalcExtensions.Extend;
