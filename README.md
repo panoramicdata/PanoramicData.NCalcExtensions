@@ -205,7 +205,7 @@ Determines whether a value is null.
 - isNull(null) : true
 
 ---
-# contains()
+# in()
 
 ## Purpose
 
@@ -274,8 +274,8 @@ Determines whether a string starts with another string.
 - shortString
 
 ## Examples
-- endsWith('abcdefg', 'ab') : true
-- endsWith('abcdefg', 'cd') : false
+- startsWith('abcdefg', 'ab') : true
+- startsWith('abcdefg', 'cd') : false
 
 ---
 # endsWith()
