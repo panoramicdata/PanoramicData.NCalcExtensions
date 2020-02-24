@@ -34,6 +34,7 @@ General functions:
 - [in()](#in)
 - [isInfinite()](#isinfinite)
 - [isNaN()](#isnan)
+- [isNull()](#isnull)
 - [jPath()](#jPath)
 - [regexGroup()](#regexGroup)
 - [regexIsMatch()](#regexIsMatch)
@@ -201,7 +202,7 @@ Determines whether a value is null.
 ## Examples
 - isNull(1) : false
 - isNull('text') : false
-- isNull(bob) : true is bob is null
+- isNull(bob) : true if bob is null
 - isNull(null) : true
 
 ---
