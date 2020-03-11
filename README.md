@@ -447,7 +447,7 @@ Determines the amount of time between two DateTimes.
 - timeUnit
 
 ## Examples
-- in('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 3600
+- timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 3600
 
 ---
 # toLower()
