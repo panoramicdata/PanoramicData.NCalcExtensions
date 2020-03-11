@@ -19,6 +19,7 @@
 		public const string IsInfinite = "isInfinite";
 		public const string IsNaN = "isNaN";
 		public const string IsNull = "isNull";
+		public const string CanEvaluate = "canEvaluate";
 		public const string LastIndexOf = "lastIndexOf";
 		public const string Length = "length";
 		public const string RegexGroup = "regexGroup";

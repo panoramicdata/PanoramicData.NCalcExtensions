@@ -1,5 +1,4 @@
 ﻿using NCalc;
-using PanoramicData.NCalcExtensions.Exceptions;
 using PanoramicData.NCalcExtensions.Extensions;
 using System;
 
@@ -59,6 +58,9 @@ namespace PanoramicData.NCalcExtensions
 					return;
 				case ExtensionFunction.IsNull:
 					IsNull.Evaluate(functionArgs);
+					return;
+				case ExtensionFunction.CanEvaluate:
+					CanEvaluate.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.JPath:
 					JPath.Evaluate(functionArgs);

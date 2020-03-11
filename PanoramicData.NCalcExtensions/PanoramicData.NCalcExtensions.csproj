@@ -4,15 +4,15 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ApplicationIcon>PanoramicData.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Copyright>Panoramic Data Limited 2019</Copyright>
+		<Copyright>Panoramic Data Limited 2019, 2020</Copyright>
 		<LangVersion>latest</LangVersion>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>ncalc extensions</PackageTags>
-		<PackageReleaseNotes>Added jPath function.</PackageReleaseNotes>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReleaseNotes>Added canEvaluate()</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

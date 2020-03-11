@@ -26,6 +26,7 @@ return nCalcExpression.Evaluate();
 
 General functions:
 
+- [canEvaluate()](#canEvaluate)
 - [cast()](#cast)
 - [dateTime()](#dateTime)
 - [dateTimeAsEpochMs()](#dateTimeAsEpochMs)
@@ -57,6 +58,19 @@ String functions:
 - [toUpper()](#toupper)
 
 Supported functions:
+
+---
+# canEvaluate()
+
+## Purpose
+Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set.
+
+## Parameters
+- parameter1, parameter2, ...
+
+## Examples
+- canEvaluate(nonExistent) : false
+- canEvaluate(1) : true
 
 ---
 # cast()
