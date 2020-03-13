@@ -126,11 +126,13 @@ Formats strings and numbers as output strings with the specified format
 ## Parameters
 - object (number or text)
 - format
+- timeZone [optional] - see https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
 
 ## Examples
 - format(1, '00') : '01'
 - format(1.0, '00') : '01'
 - format('01/01/2019', 'yyyy-MM-dd') : '2019-01-01'
+- format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') [where theDateTime is a .NET DateTime, set to DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture)] : '2020-03-13 12:00'
 
 ---
 # dateTimeAsEpochMs()
@@ -424,14 +426,17 @@ Return one of a number of values, depending on the input function.
 
 ## Purpose
 
-Converts a string to a DateTime
+Converts a string to a UTC DateTime.  May take an optional inputTimeZone.
 
 ## Parameters
 - inputString
 - stringFormat
+- inputTimeZone (optional) See https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
 
 ## Examples
-- toDateTime('2019-01-01', 'yyyy-MM-dd') : The date
+- toDateTime('2019-01-01', 'yyyy-MM-dd') : A date time representing 2019-01-01
+- toDateTime('2020-02-29 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-02-29 17:00:00 UTC
+- toDateTime('2020-03-13 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-03-13 16:00:00 UTC
 
 ---
 # throw()

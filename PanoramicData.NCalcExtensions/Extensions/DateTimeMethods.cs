@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace PanoramicData.NCalcExtensions.Extensions
 {
-	internal static class DateTime
+	internal static class DateTimeMethods
 	{
 		internal static void Evaluate(FunctionArgs functionArgs)
 		{

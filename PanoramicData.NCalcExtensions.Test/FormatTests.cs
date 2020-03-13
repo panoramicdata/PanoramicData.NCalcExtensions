@@ -18,12 +18,20 @@ namespace PanoramicData.NCalcExtensions.Test
 		[Theory]
 		[InlineData("format()")]
 		[InlineData("format(1)")]
-		[InlineData("format(1, 2, 3)")]
 		public void Format_NotTwoParameters_Fails(string inputText)
 		{
 			var expression = new ExtendedExpression(inputText);
 			var exception = Assert.Throws<ArgumentException>(() => expression.Evaluate());
-			exception.Message.Should().Be("format function - expected two arguments");
+			exception.Message.Should().Be("format function - expected between 2 and 3 arguments");
+		}
+
+		[Theory]
+		[InlineData("format(1, 2, 3)")]
+		public void Format_ThreeParametersForInt_Fails(string inputText)
+		{
+			var expression = new ExtendedExpression(inputText);
+			var exception = Assert.Throws<ArgumentException>(() => expression.Evaluate());
+			exception.Message.Should().Be("format function - expected second argument to be a format string");
 		}
 
 		[Fact]
@@ -45,6 +53,14 @@ namespace PanoramicData.NCalcExtensions.Test
 		{
 			var expression = new ExtendedExpression("format(dateTime('UTC', 'yyyy-MM-dd'), 'yyyy-MM-dd')");
 			expression.Evaluate().Should().Be(DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+		}
+
+		[Fact]
+		public void Format_DateTimeFormatWithTimeZone_Succeeds()
+		{
+			var expression = new ExtendedExpression("format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time')");
+			expression.Parameters.Add("theDateTime", DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture));
+			expression.Evaluate().Should().Be("2020-03-13 12:00");
 		}
 
 		[Fact]

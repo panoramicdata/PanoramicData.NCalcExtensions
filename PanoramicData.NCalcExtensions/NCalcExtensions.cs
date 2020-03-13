@@ -26,7 +26,7 @@ namespace PanoramicData.NCalcExtensions
 					Contains.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.DateTime:
-					Extensions.DateTime.Evaluate(functionArgs);
+					DateTimeMethods.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.DateTimeAsEpochMs:
 					DateTimeAsEpochMs.Evaluate(functionArgs);
