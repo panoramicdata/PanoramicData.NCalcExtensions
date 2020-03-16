@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using Xunit;
 
 namespace PanoramicData.NCalcExtensions.Test
 {
@@ -31,6 +33,26 @@ namespace PanoramicData.NCalcExtensions.Test
 		{
 			var expression = new ExtendedExpression("isNull(null)");
 			Assert.True(expression.Evaluate() as bool?);
+		}
+
+		[Fact]
+		public void IsNull_JObjectWithJTokenTypeOfNull_ReturnsTrue()
+		{
+			var theObject = new Exception(null);
+			var jObject = JObject.FromObject(theObject);
+			var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
+			expression.Parameters.Add(nameof(jObject), jObject["Message"]);
+			Assert.True(expression.Evaluate() as bool?);
+		}
+
+		[Fact]
+		public void IsNull_JObjectWithJTokenTypeOfString_ReturnsFalse()
+		{
+			var theObject = new Exception("A message");
+			var jObject = JObject.FromObject(theObject);
+			var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
+			expression.Parameters.Add(nameof(jObject), jObject["Message"]);
+			Assert.False(expression.Evaluate() as bool?);
 		}
 	}
 }

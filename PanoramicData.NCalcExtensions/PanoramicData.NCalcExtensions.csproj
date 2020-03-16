@@ -12,7 +12,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added canEvaluate()</PackageReleaseNotes>
+		<PackageReleaseNotes>isNull() now evaluates JObjects of type JTokenType.Null as null</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

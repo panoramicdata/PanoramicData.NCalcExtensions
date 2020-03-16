@@ -210,7 +210,9 @@ Determines whether a value is not a number.
 
 ## Purpose
 
-Determines whether a value is null.
+Determines whether a value is either:
+- null; or
+- it's a JObject and it's type is JTokenType.Null.
 
 ## Parameters
 - value

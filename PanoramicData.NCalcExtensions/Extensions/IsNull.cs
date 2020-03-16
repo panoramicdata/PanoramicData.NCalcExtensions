@@ -1,4 +1,5 @@
 ﻿using NCalc;
+using Newtonsoft.Json.Linq;
 using PanoramicData.NCalcExtensions.Exceptions;
 using System;
 
@@ -15,7 +16,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 			try
 			{
 				var outputObject = functionArgs.Parameters[0].Evaluate();
-				functionArgs.Result = outputObject == null;
+				functionArgs.Result = outputObject is null || (outputObject as JToken)?.Type == JTokenType.Null;
 				return;
 			}
 			catch (NCalcExtensionsException)
