@@ -17,7 +17,6 @@ namespace PanoramicData.NCalcExtensions.Extensions
 			{
 				var outputObject = functionArgs.Parameters[0].Evaluate();
 				functionArgs.Result = outputObject is null || (outputObject as JToken)?.Type == JTokenType.Null;
-				return;
 			}
 			catch (NCalcExtensionsException)
 			{
