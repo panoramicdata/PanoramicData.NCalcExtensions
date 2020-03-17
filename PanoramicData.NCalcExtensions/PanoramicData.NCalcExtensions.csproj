@@ -9,10 +9,13 @@
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
+		<Icon>Icon.png</Icon>
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>isNull() now evaluates JObjects of type JTokenType.Null as null</PackageReleaseNotes>
+		<PackageReleaseNotes>Added isSet()
+Added toString()
+Add toDateTime(DateTime dateTime, string timeZone)</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

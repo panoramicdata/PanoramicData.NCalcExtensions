@@ -36,6 +36,7 @@ General functions:
 - [isInfinite()](#isinfinite)
 - [isNaN()](#isnan)
 - [isNull()](#isnull)
+- [isSet()](#isset)
 - [jPath()](#jPath)
 - [regexGroup()](#regexGroup)
 - [regexIsMatch()](#regexIsMatch)
@@ -56,6 +57,7 @@ String functions:
 - [substring()](#substring)
 - [toLower()](#tolower)
 - [toUpper()](#toupper)
+- [toString()](#tostring)
 
 Supported functions:
 
@@ -204,24 +206,6 @@ Determines whether a value is not a number.
 ## Examples
 - isNaN(null) : true
 - isNaN(1) : false
----
-
-# isNull()
-
-## Purpose
-
-Determines whether a value is either:
-- null; or
-- it's a JObject and it's type is JTokenType.Null.
-
-## Parameters
-- value
-
-## Examples
-- isNull(1) : false
-- isNull('text') : false
-- isNull(bob) : true if bob is null
-- isNull(null) : true
 
 ---
 # in()
@@ -252,6 +236,37 @@ Determines the first position of a string within another string.  Returns -1 if 
 ## Examples
 - firstIndexOf('#abcabc#', 'abc') : 1
 - firstIndexOf('#abcabc#', 'abcd') : -1
+---
+
+# isNull()
+
+## Purpose
+
+Determines whether a value is either:
+- null; or
+- it's a JObject and it's type is JTokenType.Null.
+
+## Parameters
+- value
+
+## Examples
+- isNull(1) : false
+- isNull('text') : false
+- isNull(bob) : true if bob is null
+- isNull(null) : true
+---
+
+# isSet()
+
+## Purpose
+
+Determines whether a parameter is set:
+
+## Parameters
+- parameter name
+
+## Examples
+- isSet('a') : true/false depending on whether a is an available variable
 
 ---
 # lastIndexOf()
@@ -482,6 +497,19 @@ Converts a string to lower case.
 
 ## Examples
 - toLower('PaNToMIMe') : 'pantomime'
+
+---
+# toString()
+
+## Purpose
+
+Converts any object to a string
+
+## Parameters
+- object
+
+## Examples
+- toString(1) : '1'
 
 ---
 # toUpper()
