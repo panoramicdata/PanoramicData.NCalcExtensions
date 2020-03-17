@@ -9,7 +9,7 @@
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<Icon>Icon.png</Icon>
+		<PackageIcon>Icon.png</PackageIcon>
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
