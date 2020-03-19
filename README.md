@@ -28,6 +28,7 @@ General functions:
 
 - [canEvaluate()](#canEvaluate)
 - [cast()](#cast)
+- [changeTimeZone()](#changeTimeZone)
 - [dateTime()](#dateTime)
 - [dateTimeAsEpochMs()](#dateTimeAsEpochMs)
 - [format()](#format)
@@ -87,6 +88,22 @@ The method requires that conversion of value to target type be supported.
 
 ## Examples
 - cast(0.3, 'System.Decimal')
+
+---
+# changeTimeZone()
+
+## Purpose
+Change a DateTime's time zone.
+For a list of supported TimeZone names, see https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
+
+## Parameters
+- source DateTime
+- source TimeZone name
+- destination TimeZone name
+
+## Examples
+- changeTimeZone(theDateTime, 'UTC', 'Eastern Standard Time')
+- changeTimeZone(theDateTime, 'Eastern Standard Time', 'UTC')
 
 ---
 # dateTime()

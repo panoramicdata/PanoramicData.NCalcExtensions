@@ -6,6 +6,7 @@
 		public const string Capitalise = "capitalise";
 		public const string Capitalize = "capitalize";
 		public const string Cast = "cast";
+		public const string ChangeTimeZone = "changeTimeZone";
 		public const string Contains = "contains";
 		public const string DateTime = "dateTime";
 		public const string DateTimeAsEpochMs = "dateTimeAsEpochMs";

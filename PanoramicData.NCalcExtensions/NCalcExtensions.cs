@@ -22,6 +22,9 @@ namespace PanoramicData.NCalcExtensions
 				case ExtensionFunction.Cast:
 					Cast.Evaluate(functionArgs);
 					return;
+				case ExtensionFunction.ChangeTimeZone:
+					ChangeTimeZone.Evaluate(functionArgs);
+					return;
 				case ExtensionFunction.Contains:
 					Contains.Evaluate(functionArgs);
 					return;

@@ -52,9 +52,14 @@ namespace PanoramicData.NCalcExtensions.Extensions
 			{
 				throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format.");
 			}
-			var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZoneName);
-			var dateTimeOffset = new DateTimeOffset(parsedDateTime, timeZoneInfo.GetUtcOffset(parsedDateTime));
-			return dateTimeOffset.UtcDateTime;
+			return ConvertTimeZone(parsedDateTime, timeZoneName, "UTC");
+		}
+
+		internal static object ConvertTimeZone(DateTime parsedDateTime, string sourceTimeZoneName, string destinationTimeZoneName)
+		{
+			var sourceTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(sourceTimeZoneName);
+			var destinationTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(destinationTimeZoneName);
+			return TimeZoneInfo.ConvertTime(parsedDateTime, sourceTimeZoneInfo, destinationTimeZoneInfo);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿	<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -13,9 +13,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added isSet()
-Added toString()
-Add toDateTime(DateTime dateTime, string timeZone)</PackageReleaseNotes>
+		<PackageReleaseNotes>Added changeTimeZone(DateTime dateTime, string sourceTimeZone, string destinationTimeZone)</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
