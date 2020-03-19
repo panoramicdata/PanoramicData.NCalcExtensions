@@ -8,7 +8,7 @@ namespace PanoramicData.NCalcExtensions.Test
 		[Fact]
 		public void UtcToEst_Succeeds()
 		{
-			var parameterName = "theDateTimeUtc";
+			const string parameterName = "theDateTimeUtc";
 			var expression = new ExtendedExpression($"changeTimeZone({parameterName}, 'UTC', 'Eastern Standard Time')");
 			expression.Parameters[parameterName] = new DateTime(2020, 03, 13, 16, 00, 00);
 			var result = expression.Evaluate();
@@ -18,7 +18,7 @@ namespace PanoramicData.NCalcExtensions.Test
 		[Fact]
 		public void EstToUtc_Succeeds()
 		{
-			var parameterName = "theDateTimeUtc";
+			const string parameterName = "theDateTimeUtc";
 			var expression = new ExtendedExpression($"changeTimeZone({parameterName}, 'Eastern Standard Time', 'UTC')");
 			expression.Parameters[parameterName] = new DateTime(2020, 03, 13, 12, 00, 00);
 			var result = expression.Evaluate();
