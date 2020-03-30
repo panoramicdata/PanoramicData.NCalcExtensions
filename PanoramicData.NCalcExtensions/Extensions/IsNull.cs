@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using PanoramicData.NCalcExtensions.Exceptions;
 using System;
+using System.Linq;
 
 namespace PanoramicData.NCalcExtensions.Extensions
 {
@@ -11,7 +12,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 		{
 			if (functionArgs.Parameters.Length != 1)
 			{
-				throw new FormatException($"{ExtensionFunction.IsNull}() requires one parameter.");
+				throw new FormatException($"{ExtensionFunction.ToString}() requires one parameter.");
 			}
 			try
 			{

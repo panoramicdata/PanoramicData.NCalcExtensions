@@ -22,6 +22,9 @@ namespace PanoramicData.NCalcExtensions
 				case ExtensionFunction.Cast:
 					Cast.Evaluate(functionArgs);
 					return;
+				case ExtensionFunction.ChangeTimeZone:
+					ChangeTimeZone.Evaluate(functionArgs);
+					return;
 				case ExtensionFunction.Contains:
 					Contains.Evaluate(functionArgs);
 					return;
@@ -58,6 +61,9 @@ namespace PanoramicData.NCalcExtensions
 					return;
 				case ExtensionFunction.IsNull:
 					IsNull.Evaluate(functionArgs);
+					return;
+				case ExtensionFunction.IsSet:
+					IsSet.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.CanEvaluate:
 					CanEvaluate.Evaluate(functionArgs);
@@ -99,6 +105,9 @@ namespace PanoramicData.NCalcExtensions
 					return;
 				case ExtensionFunction.ToLower:
 					ToLower.Evaluate(functionArgs);
+					return;
+				case ExtensionFunction.ToString:
+					Extensions.ToString.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.ToUpper:
 					ToUpper.Evaluate(functionArgs);

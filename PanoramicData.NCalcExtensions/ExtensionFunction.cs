@@ -2,15 +2,16 @@
 {
 	public static class ExtensionFunction
 	{
-		public const string Cast = "cast";
+		public const string CanEvaluate = "canEvaluate";
 		public const string Capitalise = "capitalise";
 		public const string Capitalize = "capitalize";
+		public const string Cast = "cast";
+		public const string ChangeTimeZone = "changeTimeZone";
 		public const string Contains = "contains";
-		public const string DateTimeAsEpochMs = "dateTimeAsEpochMs";
 		public const string DateTime = "dateTime";
+		public const string DateTimeAsEpochMs = "dateTimeAsEpochMs";
 		public const string EndsWith = "endsWith";
 		public const string Format = "format";
-		public const string JPath = "jPath";
 		public const string Humanise = "humanise";
 		public const string Humanize = "humanize";
 		public const string If = "if";
@@ -19,7 +20,8 @@
 		public const string IsInfinite = "isInfinite";
 		public const string IsNaN = "isNaN";
 		public const string IsNull = "isNull";
-		public const string CanEvaluate = "canEvaluate";
+		public const string IsSet = "isSet";
+		public const string JPath = "jPath";
 		public const string LastIndexOf = "lastIndexOf";
 		public const string Length = "length";
 		public const string RegexGroup = "regexGroup";
@@ -32,6 +34,7 @@
 		public const string TimeSpan = "timespan";
 		public const string ToDateTime = "toDateTime";
 		public const string ToLower = "toLower";
+		public new const string ToString = "toString";
 		public const string ToUpper = "toUpper";
 	}
 }
