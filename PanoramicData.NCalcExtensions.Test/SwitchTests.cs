@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentAssertions;
+using System;
 using Xunit;
 
 namespace PanoramicData.NCalcExtensions.Test
@@ -36,5 +37,15 @@ namespace PanoramicData.NCalcExtensions.Test
 				var e = new ExtendedExpression(expression);
 				e.Evaluate();
 			});
+
+		[Fact]
+		public void Switch_ComparingIntegers_Works()
+		{
+			var expression = "switch(incident_Priority, 4, 4, 1, 1, 21)";
+			var e = new ExtendedExpression(expression);
+			e.Parameters["incident_Priority"] = 1;
+			var result = e.Evaluate();
+			result.Should().Be(1);
+		}
 	}
 }
