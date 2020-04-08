@@ -51,6 +51,7 @@ String functions:
 - [contains()](#contains)
 - [endsWith()](#endswith)
 - [indexOf()](#indexof)
+- [parseInt()](#parseInt)
 - [lastIndexOf()](#lastindexof)
 - [length()](#length)
 - [replace()](#replace)
@@ -251,8 +252,8 @@ Determines the first position of a string within another string.  Returns -1 if 
 - shortString
 
 ## Examples
-- firstIndexOf('#abcabc#', 'abc') : 1
-- firstIndexOf('#abcabc#', 'abcd') : -1
+- indexOf('#abcabc#', 'abc') : 1
+- indexOf('#abcabc#', 'abcd') : -1
 ---
 
 # isNull()
@@ -372,6 +373,19 @@ sourceJObject JSON:
 - jPath(sourceJObject, 'size', True) : null is returned
 - jPath(sourceJObject, 'numbers[0]') : 1
 - jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]') : "value1"
+---
+
+# parseInt()
+
+## Purpose
+
+Returns an integer version of a string.
+
+## Parameters
+- integerAsString
+
+## Examples
+- parseInt('1') : 1
 
 ---
 # regexGroup()

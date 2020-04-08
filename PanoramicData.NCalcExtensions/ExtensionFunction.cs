@@ -24,6 +24,7 @@
 		public const string JPath = "jPath";
 		public const string LastIndexOf = "lastIndexOf";
 		public const string Length = "length";
+		public const string ParseInt = "parseInt";
 		public const string RegexGroup = "regexGroup";
 		public const string RegexIsMatch = "regexIsMatch";
 		public const string Replace = "replace";

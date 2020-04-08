@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ApplicationIcon>PanoramicData.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Copyright>Panoramic Data Limited 2019, 2020</Copyright>
+		<Copyright>Panoramic Data Limited 2020</Copyright>
 		<LangVersion>latest</LangVersion>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
@@ -13,7 +13,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added changeTimeZone(DateTime dateTime, string sourceTimeZone, string destinationTimeZone)</PackageReleaseNotes>
+		<PackageReleaseNotes>Added parseInt()</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

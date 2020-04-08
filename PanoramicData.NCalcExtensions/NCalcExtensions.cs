@@ -77,6 +77,9 @@ namespace PanoramicData.NCalcExtensions
 				case ExtensionFunction.Length:
 					Length.Evaluate(functionArgs);
 					return;
+				case ExtensionFunction.ParseInt:
+					ParseInt.Evaluate(functionArgs);
+					return;
 				case ExtensionFunction.RegexGroup:
 					RegexGroup.Evaluate(functionArgs);
 					return;
