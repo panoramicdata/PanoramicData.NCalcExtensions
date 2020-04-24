@@ -442,7 +442,7 @@ Replace a string with another string
 
 ## Purpose
 
-Retrieves part of a string.
+Retrieves part of a string.  If more 
 
 ## Parameters
 - inputString
@@ -452,6 +452,8 @@ Retrieves part of a string.
 ## Examples
 - substring('haystack', 3) : 'stack'
 - substring('haystack', 0, 3) : 'hay'
+- substring('haystack', 3, 100) : 'stack'
+- substring('haystack', 0, 100) : 'haystack'
 
 ---
 # switch()

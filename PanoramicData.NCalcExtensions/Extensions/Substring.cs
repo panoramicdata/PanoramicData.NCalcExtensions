@@ -8,12 +8,12 @@ namespace PanoramicData.NCalcExtensions.Extensions
 	{
 		internal static void Evaluate(FunctionArgs functionArgs)
 		{
+			string input;
 			int startIndex;
 			int length;
-			string param1;
 			try
 			{
-				param1 = (string)functionArgs.Parameters[0].Evaluate();
+				input = (string)functionArgs.Parameters[0].Evaluate();
 				startIndex = (int)functionArgs.Parameters[1].Evaluate();
 			}
 			catch (NCalcExtensionsException)
@@ -27,11 +27,11 @@ namespace PanoramicData.NCalcExtensions.Extensions
 			if (functionArgs.Parameters.Length > 2)
 			{
 				length = (int)functionArgs.Parameters[2].Evaluate();
-				functionArgs.Result = param1.Substring(startIndex, length);
+				functionArgs.Result = input.Substring(startIndex, Math.Min(length, input.Length - startIndex));
 				return;
 			}
 
-			functionArgs.Result = param1.Substring(startIndex);
+			functionArgs.Result = input.Substring(startIndex);
 		}
 	}
 }
