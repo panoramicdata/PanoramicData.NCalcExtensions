@@ -442,7 +442,7 @@ Replace a string with another string
 
 ## Purpose
 
-Retrieves part of a string.  If more 
+Retrieves part of a string.  If more characters are requested than available at the end of the string, just the available characters are returned.
 
 ## Parameters
 - inputString
