@@ -41,7 +41,7 @@ namespace PanoramicData.NCalcExtensions.Test
 		[Fact]
 		public void Switch_ComparingIntegers_Works()
 		{
-			var expression = "switch(incident_Priority, 4, 4, 1, 1, 21)";
+			const string expression = "switch(incident_Priority, 4, 4, 1, 1, 21)";
 			var e = new ExtendedExpression(expression);
 			e.Parameters["incident_Priority"] = 1;
 			var result = e.Evaluate();
