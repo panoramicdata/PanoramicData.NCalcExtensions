@@ -3,7 +3,6 @@ using Xunit;
 
 namespace PanoramicData.NCalcExtensions.Test
 {
-
 	public class BangTests : NCalcTest
 	{
 		[Fact]
