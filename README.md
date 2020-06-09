@@ -155,19 +155,6 @@ Formats strings and numbers as output strings with the specified format
 - format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') [where theDateTime is a .NET DateTime, set to DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture)] : '2020-03-13 12:00'
 
 ---
-# dateTimeAsEpochMs()
-
-## Purpose
-Parses the input DateTime and outputs as milliseconds since the Epoch (1st Jan 1970).
-
-## Parameters
-- input date string
-- format
-
-## Examples
-- dateTimeAsEpochMs('20190702T000000', 'yyyyMMddTHHmmssK') : 1562025600000
-
----
 # if()
 
 ## Purpose
