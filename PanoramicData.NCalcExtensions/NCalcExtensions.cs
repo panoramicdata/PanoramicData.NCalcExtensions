@@ -101,6 +101,7 @@ namespace PanoramicData.NCalcExtensions
 				case ExtensionFunction.Throw:
 					throw Throw.Evaluate(functionArgs);
 				case ExtensionFunction.TimeSpan:
+				case ExtensionFunction.TimeSpanCamel:
 					Extensions.TimeSpan.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.ToDateTime:

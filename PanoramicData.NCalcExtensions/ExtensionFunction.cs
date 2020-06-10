@@ -33,6 +33,7 @@
 		public const string Switch = "switch";
 		public const string Throw = "throw";
 		public const string TimeSpan = "timespan";
+		public const string TimeSpanCamel = "timeSpan";
 		public const string ToDateTime = "toDateTime";
 		public const string ToLower = "toLower";
 		public new const string ToString = "toString";
