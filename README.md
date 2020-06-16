@@ -51,6 +51,7 @@ String functions:
 - [contains()](#contains)
 - [endsWith()](#endswith)
 - [indexOf()](#indexof)
+- [padLeft()](#padLeft)
 - [parseInt()](#parseInt)
 - [lastIndexOf()](#lastindexof)
 - [length()](#length)
@@ -360,6 +361,25 @@ sourceJObject JSON:
 - jPath(sourceJObject, 'size', True) : null is returned
 - jPath(sourceJObject, 'numbers[0]') : 1
 - jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]') : "value1"
+---
+
+# padLeft()
+
+## Purpose
+
+Pad the left of a string with a character to a desired string length.
+
+## Parameters
+- stringToPad
+- desiredStringLength (must be >=1)
+- paddingCharacter
+
+## Examples
+- padLeft('', 1, '0') : '0'
+- padLeft('12', 5, '0') : '00012'
+- padLeft('12345', 5, '0') : '12345'
+- padLeft('12345', 3, '0') : '12345'
+
 ---
 
 # parseInt()

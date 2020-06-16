@@ -77,6 +77,9 @@ namespace PanoramicData.NCalcExtensions
 				case ExtensionFunction.Length:
 					Length.Evaluate(functionArgs);
 					return;
+				case ExtensionFunction.PadLeft:
+					PadLeft.Evaluate(functionArgs);
+					return;
 				case ExtensionFunction.ParseInt:
 					ParseInt.Evaluate(functionArgs);
 					return;
@@ -93,7 +96,7 @@ namespace PanoramicData.NCalcExtensions
 					StartsWith.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.Substring:
-					Substring.Evaluate(functionArgs);
+					PadLeft.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.Switch:
 					Switch.Evaluate(functionArgs);

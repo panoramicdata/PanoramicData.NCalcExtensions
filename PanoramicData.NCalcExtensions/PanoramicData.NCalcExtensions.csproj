@@ -13,7 +13,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>substring() now tolerates asking for characters beyond the end of the string.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added padLeft() function.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

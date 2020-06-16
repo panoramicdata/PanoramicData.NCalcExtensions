@@ -10,7 +10,6 @@ namespace PanoramicData.NCalcExtensions.Extensions
 		{
 			string input;
 			int startIndex;
-			int length;
 			try
 			{
 				input = (string)functionArgs.Parameters[0].Evaluate();
@@ -26,7 +25,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 			}
 			if (functionArgs.Parameters.Length > 2)
 			{
-				length = (int)functionArgs.Parameters[2].Evaluate();
+				var length = (int)functionArgs.Parameters[2].Evaluate();
 				functionArgs.Result = input.Substring(startIndex, Math.Min(length, input.Length - startIndex));
 				return;
 			}
