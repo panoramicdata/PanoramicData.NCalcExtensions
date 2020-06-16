@@ -5,6 +5,7 @@
 		<ApplicationIcon>PanoramicData.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Copyright>Panoramic Data Limited 2020</Copyright>
+		<Authors>Panoramic Data Limited</Authors>
 		<LangVersion>latest</LangVersion>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
