@@ -96,7 +96,7 @@ namespace PanoramicData.NCalcExtensions
 					StartsWith.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.Substring:
-					PadLeft.Evaluate(functionArgs);
+					Substring.Evaluate(functionArgs);
 					return;
 				case ExtensionFunction.Switch:
 					Switch.Evaluate(functionArgs);
