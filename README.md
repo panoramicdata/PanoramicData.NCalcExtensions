@@ -2,7 +2,7 @@
 
 Extension functions for NCalc.
 
-![Nuget](https://img.shields.io/nuget/v/PanoramicData.NCalcExtensions)
+[![Nuget](https://img.shields.io/nuget/v/PanoramicData.NCalcExtensions)](https://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
 
 Please submit your requests for new functions in the form of pull requests.
 
