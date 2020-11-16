@@ -56,7 +56,7 @@ namespace PanoramicData.NCalcExtensions.Test
 		[Fact]
 		public void NullFirstParameterWithTimeZone_Succeeds()
 		{
-			object estDateTime = null;
+			object? estDateTime = null;
 			var expression = new ExtendedExpression("toDateTime(estDateTime, 'Eastern Standard Time')");
 			expression.Parameters[nameof(estDateTime)] = estDateTime;
 			var utcDateTime = expression.Evaluate();

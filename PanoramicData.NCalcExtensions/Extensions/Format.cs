@@ -16,7 +16,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 			}
 
 			var inputObject = functionArgs.Parameters[0].Evaluate();
-			if (!(functionArgs.Parameters[1].Evaluate() is string formatFormat))
+			if (functionArgs.Parameters[1].Evaluate() is not string formatFormat)
 			{
 				throw new ArgumentException($"{ExtensionFunction.Format} function - expected second argument to be a format string");
 			}

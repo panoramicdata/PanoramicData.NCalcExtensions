@@ -22,4 +22,4 @@ using System.Diagnostics.CodeAnalysis;
 	 "CA1303:Do not pass literals as localized parameters",
 	 Justification = "The code library will not be localized.  See https://docs.microsoft.com/en-gb/visualstudio/code-quality/ca1303.",
 	 Scope = "namespaceanddescendants",
-	 Target = "PanoramicData.NCalcExtensions")]
+	 Target = "~N:PanoramicData.NCalcExtensions")]

@@ -7,6 +7,7 @@
 		<Copyright>Panoramic Data Limited 2020</Copyright>
 		<Authors>Panoramic Data Limited</Authors>
 		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
@@ -22,12 +23,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+		<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="NCalc.NetCore" Version="1.0.1" />
-		<PackageReference Include="Nerdbank.GitVersioning" Version="3.1.91">
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.3.37">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

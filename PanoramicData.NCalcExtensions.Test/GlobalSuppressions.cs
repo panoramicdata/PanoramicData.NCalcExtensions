@@ -9,5 +9,5 @@ using System.Diagnostics.CodeAnalysis;
 	 "Globalization",
 	 "CA1303:Do not pass literals as localized parameters",
 	 Justification = "The library will not be localized",
-	 Scope = "namespaceanddescendantsmember",
-	 Target = "PanoramicData.NCalcExtensions.Test")]
+	 Scope = "namespaceanddescendants",
+	 Target = "~N:PanoramicData.NCalcExtensions.Test")]

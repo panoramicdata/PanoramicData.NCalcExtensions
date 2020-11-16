@@ -30,7 +30,7 @@ namespace PanoramicData.NCalcExtensions.Test
 			var result = Test("timespan(format(toDateTime('2020-01-01T00:00:00.000', 'yyyy-MM-ddTHH:mm:ss.FFF', 'Eastern Standard Time'), 'yyyy-MM-dd HH:mm:ss', 'UTC'), dateTime('UTC', 'yyyy-MM-dd HH:mm:ss'), 'seconds') <= 600");
 			var resultAsTimeSpan = result as bool?;
 			Assert.True(resultAsTimeSpan.HasValue);
-			Assert.False(resultAsTimeSpan.Value);
+			Assert.False(resultAsTimeSpan);
 		}
 	}
 }
