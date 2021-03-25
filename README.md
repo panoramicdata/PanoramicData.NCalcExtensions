@@ -580,6 +580,21 @@ Capitalizes a string.
 - capitalize('new year') : 'New Year'
 
 ---
+# contains()
+
+## Purpose
+
+Determines whether one string contains another.
+
+## Parameters
+- string searched-in text
+- string searched-for text
+
+## Examples
+- contains('haystack containing needle', 'needle') : true
+- contains('haystack containing only hay', 'needle') : false
+
+---
 # humanize()
 
 ## Purpose
