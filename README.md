@@ -47,6 +47,7 @@ General functions:
 - [throw()](#throw)
 - [timeSpan()](#timespan)
 - [toDateTime()](#toDateTime)
+- [typeOf()](#typeOf)
 
 String functions:
 - [capitalize()](#capitalize)
@@ -481,23 +482,6 @@ Return one of a number of values, depending on the input function.
 - switch('blah', 'yes', 1, 'no', 2, 3) : 3
 
 ---
-# toDateTime()
-
-## Purpose
-
-Converts a string to a UTC DateTime.  May take an optional inputTimeZone.
-
-## Parameters
-- inputString
-- stringFormat
-- inputTimeZone (optional) See https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
-
-## Examples
-- toDateTime('2019-01-01', 'yyyy-MM-dd') : A date time representing 2019-01-01
-- toDateTime('2020-02-29 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-02-29 17:00:00 UTC
-- toDateTime('2020-03-13 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-03-13 16:00:00 UTC
-
----
 # throw()
 
 ## Purpose
@@ -526,6 +510,23 @@ Determines the amount of time between two DateTimes.
 
 ## Examples
 - timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 3600
+
+---
+# toDateTime()
+
+## Purpose
+
+Converts a string to a UTC DateTime.  May take an optional inputTimeZone.
+
+## Parameters
+- inputString
+- stringFormat
+- inputTimeZone (optional) See https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
+
+## Examples
+- toDateTime('2019-01-01', 'yyyy-MM-dd') : A date time representing 2019-01-01
+- toDateTime('2020-02-29 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-02-29 17:00:00 UTC
+- toDateTime('2020-03-13 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-03-13 16:00:00 UTC
 
 ---
 # toLower()
@@ -565,6 +566,22 @@ Converts a string to upper case.
 
 ## Examples
 - toUpper('PaNToMIMe') : 'PANTOMIME'
+
+---
+# typeOf()
+
+## Purpose
+
+Determines the C# type of the object.
+
+## Parameters
+- parameter
+
+## Examples
+- typeOf('text') : 'String'
+- typeOf(1) : 'Int32'
+- typeOf(1.1) : 'Double'
+- typeOf(null) : null
 
 ---
 # capitalize()

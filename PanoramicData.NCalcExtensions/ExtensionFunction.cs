@@ -39,5 +39,6 @@
 		public const string ToLower = "toLower";
 		public new const string ToString = "toString";
 		public const string ToUpper = "toUpper";
+		public const string TypeOf = "typeOf";
 	}
 }

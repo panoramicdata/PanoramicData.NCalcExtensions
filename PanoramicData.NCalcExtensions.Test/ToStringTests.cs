@@ -2,7 +2,6 @@
 
 namespace PanoramicData.NCalcExtensions.Test
 {
-
 	public class ToStringTests
 	{
 		[Fact]
