@@ -45,7 +45,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 				}
 			}
 
-			JToken result;
+			JToken? result;
 			try
 			{
 				result = jPathSourceObject.SelectToken(jPathExpression);
@@ -54,7 +54,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 			{
 				throw new NCalcExtensionsException($"{ExtensionFunction.JPath} function - An unknown issue occurred while trying to select jPathExpression value: {ex.Message}");
 			}
-			if (result == null)
+			if (result is null)
 			{
 				if (returnNullIfNotFound)
 				{

@@ -19,7 +19,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 				{
 					throw new NCalcExtensionsException($"{ExtensionFunction.PadLeft}() requires a DesiredStringLength for parameter 2 that is >= 1.");
 				}
-				var paddingString = functionArgs.Parameters[2].Evaluate() as string;
+				var paddingString = functionArgs.Parameters[2].Evaluate() as string ?? throw new NCalcExtensionsException($"{ExtensionFunction.PadLeft}() requires that parameter 3 be a string."); ;
 				if (paddingString.Length != 1)
 				{
 					throw new NCalcExtensionsException($"{ExtensionFunction.PadLeft}() requires a single character string for parameter 3.");
