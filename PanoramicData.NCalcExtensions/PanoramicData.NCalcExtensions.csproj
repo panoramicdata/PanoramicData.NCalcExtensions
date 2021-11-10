@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added padLeft() function.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added cross-platform timezone support.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -33,6 +33,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="TimeZoneConverter" Version="3.5.0" />
 
 	</ItemGroup>
 

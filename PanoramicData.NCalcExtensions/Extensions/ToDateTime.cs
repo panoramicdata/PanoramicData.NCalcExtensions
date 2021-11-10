@@ -1,6 +1,7 @@
 ﻿using NCalc;
 using System;
 using System.Globalization;
+using TimeZoneConverter;
 
 namespace PanoramicData.NCalcExtensions.Extensions
 {
@@ -41,7 +42,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 
 		private static object GetFromDateTime(DateTime dateTime, string timeZoneName)
 		{
-			var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZoneName);
+			var timeZoneInfo = TZConvert.GetTimeZoneInfo(timeZoneName);
 			var dateTimeOffset = new DateTimeOffset(dateTime, timeZoneInfo.GetUtcOffset(dateTime));
 			return dateTimeOffset.UtcDateTime;
 		}
@@ -57,8 +58,8 @@ namespace PanoramicData.NCalcExtensions.Extensions
 
 		internal static object ConvertTimeZone(DateTime parsedDateTime, string sourceTimeZoneName, string destinationTimeZoneName)
 		{
-			var sourceTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(sourceTimeZoneName);
-			var destinationTimeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(destinationTimeZoneName);
+			var sourceTimeZoneInfo = TZConvert.GetTimeZoneInfo(sourceTimeZoneName);
+			var destinationTimeZoneInfo = TZConvert.GetTimeZoneInfo(destinationTimeZoneName);
 			return TimeZoneInfo.ConvertTime(parsedDateTime, sourceTimeZoneInfo, destinationTimeZoneInfo);
 		}
 	}

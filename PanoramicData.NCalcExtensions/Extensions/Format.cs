@@ -1,6 +1,7 @@
 ﻿using NCalc;
 using System;
 using System.Globalization;
+using TimeZoneConverter;
 
 namespace PanoramicData.NCalcExtensions.Extensions
 {
@@ -34,7 +35,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 
 		private static string ToDateTimeInTargetTimeZone(DateTime dateTime, string formatFormat, string timeZoneString)
 		{
-			var timeZoneInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZoneString);
+			var timeZoneInfo = TZConvert.GetTimeZoneInfo(timeZoneString);
 			var dateTimeOffset = new DateTimeOffset(dateTime, -timeZoneInfo.GetUtcOffset(dateTime));
 			return dateTimeOffset.UtcDateTime.ToString(formatFormat, CultureInfo.InvariantCulture);
 		}
