@@ -11,7 +11,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 			if (functionArgs.Parameters.Length > 0)
 			{
 				// Time Zone
-				if (!(functionArgs.Parameters[0].Evaluate() is string timeZone))
+				if (functionArgs.Parameters[0].Evaluate() is not string timeZone)
 				{
 					throw new FormatException($"{ExtensionFunction.DateTime} function - The first argument should be a string, e.g. 'UTC'");
 				}

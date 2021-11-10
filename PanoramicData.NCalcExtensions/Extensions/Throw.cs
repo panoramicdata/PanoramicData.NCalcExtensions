@@ -13,7 +13,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 				case 0:
 					return new NCalcExtensionsException();
 				case 1:
-					if (!(functionArgs.Parameters[0].Evaluate() is string exceptionMessageText))
+					if (functionArgs.Parameters[0].Evaluate() is not string exceptionMessageText)
 					{
 						return new FormatException($"{ExtensionFunction.Throw} function - parameter must be a string.");
 					}

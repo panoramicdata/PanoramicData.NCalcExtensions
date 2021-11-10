@@ -14,9 +14,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 				}
 				functionArgs.Result = true;
 			}
-#pragma warning disable CA1031 // Do not catch general exception types
 			catch
-#pragma warning restore CA1031 // Do not catch general exception types
 			{
 				functionArgs.Result = false;
 			}

@@ -15,7 +15,7 @@ namespace PanoramicData.NCalcExtensions.Extensions
 			try
 			{
 				var outputObject = functionArgs.Parameters[0].Evaluate();
-				functionArgs.Result = !(outputObject is double) || double.IsNaN((double)outputObject);
+				functionArgs.Result = outputObject is not double || double.IsNaN((double)outputObject);
 				return;
 			}
 			catch (NCalcExtensionsException)
