@@ -1,14 +1,11 @@
-﻿using NCalc;
+﻿namespace PanoramicData.NCalcExtensions.Test;
 
-namespace PanoramicData.NCalcExtensions.Test
+public class NCalcTest
 {
-	public class NCalcTest
+	protected static object Test(string expressionText)
 	{
-		protected static object Test(string expressionText)
-		{
-			var expression = new Expression(expressionText);
-			expression.EvaluateFunction += NCalcExtensions.Extend;
-			return expression.Evaluate();
-		}
+		var expression = new Expression(expressionText);
+		expression.EvaluateFunction += NCalcExtensions.Extend;
+		return expression.Evaluate();
 	}
 }

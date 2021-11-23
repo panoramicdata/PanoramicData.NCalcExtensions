@@ -1,27 +1,22 @@
-﻿using NCalc;
-using PanoramicData.NCalcExtensions.Exceptions;
-using System;
+﻿namespace PanoramicData.NCalcExtensions.Extensions;
 
-namespace PanoramicData.NCalcExtensions.Extensions
+internal static class Contains
 {
-	internal static class Contains
+	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		internal static void Evaluate(FunctionArgs functionArgs)
+		try
 		{
-			try
-			{
-				var param1 = (string)functionArgs.Parameters[0].Evaluate();
-				var param2 = (string)functionArgs.Parameters[1].Evaluate();
-				functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture) >= 0;
-			}
-			catch (NCalcExtensionsException)
-			{
-				throw;
-			}
-			catch (Exception)
-			{
-				throw new FormatException($"{ExtensionFunction.Contains}() requires two string parameters.");
-			}
+			var param1 = (string)functionArgs.Parameters[0].Evaluate();
+			var param2 = (string)functionArgs.Parameters[1].Evaluate();
+			functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture) >= 0;
+		}
+		catch (NCalcExtensionsException)
+		{
+			throw;
+		}
+		catch (Exception)
+		{
+			throw new FormatException($"{ExtensionFunction.Contains}() requires two string parameters.");
 		}
 	}
 }

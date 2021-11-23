@@ -1,15 +1,12 @@
-﻿using Xunit;
+﻿namespace PanoramicData.NCalcExtensions.Test;
 
-namespace PanoramicData.NCalcExtensions.Test
+public class ParameterTests
 {
-	public class ParameterTests
+	[Fact]
+	public void SquareBracketParameter_Succeeds()
 	{
-		[Fact]
-		public void SquareBracketParameter_Succeeds()
-		{
-			var expression = new ExtendedExpression("[a.b]");
-			expression.Parameters["a.b"] = "AAAA";
-			Assert.Equal("AAAA", expression.Evaluate() as string);
-		}
+		var expression = new ExtendedExpression("[a.b]");
+		expression.Parameters["a.b"] = "AAAA";
+		Assert.Equal("AAAA", expression.Evaluate() as string);
 	}
 }

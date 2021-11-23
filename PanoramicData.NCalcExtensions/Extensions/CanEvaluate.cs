@@ -1,23 +1,20 @@
-﻿using NCalc;
+﻿namespace PanoramicData.NCalcExtensions.Extensions;
 
-namespace PanoramicData.NCalcExtensions.Extensions
+internal static class CanEvaluate
 {
-	internal static class CanEvaluate
+	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		internal static void Evaluate(FunctionArgs functionArgs)
+		try
 		{
-			try
+			foreach (var parameter in functionArgs.Parameters)
 			{
-				foreach (var parameter in functionArgs.Parameters)
-				{
-					var outputObject = parameter.Evaluate();
-				}
-				functionArgs.Result = true;
+				var outputObject = parameter.Evaluate();
 			}
-			catch
-			{
-				functionArgs.Result = false;
-			}
+			functionArgs.Result = true;
+		}
+		catch
+		{
+			functionArgs.Result = false;
 		}
 	}
 }

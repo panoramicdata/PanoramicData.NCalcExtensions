@@ -1,13 +1,12 @@
-﻿namespace PanoramicData.NCalcExtensions
+﻿namespace PanoramicData.NCalcExtensions;
+
+public enum TimeUnit
 {
-	public enum TimeUnit
-	{
-		Milliseconds,
-		Seconds,
-		Minutes,
-		Hours,
-		Days,
-		Weeks,
-		Years,
-	}
+	Milliseconds,
+	Seconds,
+	Minutes,
+	Hours,
+	Days,
+	Weeks,
+	Years,
 }
