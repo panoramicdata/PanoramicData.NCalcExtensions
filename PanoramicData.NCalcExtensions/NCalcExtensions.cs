@@ -11,6 +11,17 @@ public static class NCalcExtensions
 
 		switch (functionName)
 		{
+			// These should works with predicates (and don't yet)
+			// For example: any(value == 1, 1, 2, 3) : true
+			// For example: all(value == 1, 1, 2, 3) : false
+
+			//case ExtensionFunction.Any:
+			//	Any.Evaluate(functionArgs);
+			//	return;
+			//case ExtensionFunction.All:
+			//	All.Evaluate(functionArgs);
+			//	return;
+
 			case ExtensionFunction.Capitalise:
 			case ExtensionFunction.Capitalize:
 				Capitalize.Evaluate(functionArgs);
@@ -72,6 +83,9 @@ public static class NCalcExtensions
 				return;
 			case ExtensionFunction.Length:
 				Length.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.List:
+				List.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.PadLeft:
 				PadLeft.Evaluate(functionArgs);

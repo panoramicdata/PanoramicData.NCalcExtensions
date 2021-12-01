@@ -2,6 +2,8 @@
 
 public static class ExtensionFunction
 {
+	//public const string Any = "any";
+	//public const string All = "all";
 	public const string CanEvaluate = "canEvaluate";
 	public const string Capitalise = "capitalise";
 	public const string Capitalize = "capitalize";
@@ -24,6 +26,7 @@ public static class ExtensionFunction
 	public const string JPath = "jPath";
 	public const string LastIndexOf = "lastIndexOf";
 	public const string Length = "length";
+	public const string List = "list";
 	public const string PadLeft = "padLeft";
 	public const string ParseInt = "parseInt";
 	public const string RegexGroup = "regexGroup";

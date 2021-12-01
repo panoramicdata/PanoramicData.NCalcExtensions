@@ -41,6 +41,7 @@ General functions:
 - [isNull()](#isnull)
 - [isSet()](#isset)
 - [jPath()](#jPath)
+- [list()](#list)
 - [regexGroup()](#regexGroup)
 - [regexIsMatch()](#regexIsMatch)
 - [switch()](#switch)
@@ -364,6 +365,22 @@ sourceJObject JSON:
 - jPath(sourceJObject, 'size', True) : null is returned
 - jPath(sourceJObject, 'numbers[0]') : 1
 - jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]') : "value1"
+---
+
+# list()
+
+## Purpose
+
+Emits a List<object?> and collapses down lists of lists to a single list.
+
+## Parameters
+- the parameters
+
+## Examples
+- list('', 1, '0')
+- list(null, 1, '0')
+- list(list(null, 1, '0'), 1, '0')
+
 ---
 
 # padLeft()
