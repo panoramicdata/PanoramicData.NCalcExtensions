@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added list(), which returns a List&lt;object&gt;.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added list(), which returns a List&lt;object?&gt;.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
