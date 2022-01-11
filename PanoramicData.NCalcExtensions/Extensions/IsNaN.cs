@@ -8,6 +8,7 @@ internal static class IsNaN
 		{
 			throw new FormatException($"{ExtensionFunction.IsNaN}() requires one parameter.");
 		}
+
 		try
 		{
 			var outputObject = functionArgs.Parameters[0].Evaluate();

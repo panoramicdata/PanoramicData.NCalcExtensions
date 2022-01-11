@@ -8,6 +8,7 @@ internal static class Switch
 		{
 			throw new FormatException($"{ExtensionFunction.Switch}() requires at least three parameters.");
 		}
+
 		object valueParam;
 		try
 		{

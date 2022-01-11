@@ -17,6 +17,7 @@ internal static class Capitalize
 		{
 			throw new FormatException($"{ExtensionFunction.Capitalize} function -  requires one string parameter.");
 		}
+
 		functionArgs.Result = param1.ToLowerInvariant().UpperCaseFirst();
 	}
 }

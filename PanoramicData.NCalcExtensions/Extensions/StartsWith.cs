@@ -10,6 +10,7 @@ internal static class StartsWith
 		{
 			throw new FormatException($"{ExtensionFunction.StartsWith}() requires two parameters.");
 		}
+
 		try
 		{
 			param1 = (string)functionArgs.Parameters[0].Evaluate() as string;
@@ -23,14 +24,17 @@ internal static class StartsWith
 		{
 			throw new FormatException($"Unexpected exception in {ExtensionFunction.StartsWith}(): {e.Message}", e);
 		}
+
 		if (param1 == null)
 		{
 			throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 1 is not a string");
 		}
+
 		if (param2 == null)
 		{
 			throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 2 is not a string");
 		}
+
 		functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);
 	}
 }

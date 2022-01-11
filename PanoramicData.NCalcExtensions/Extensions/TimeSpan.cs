@@ -8,6 +8,7 @@ internal static class TimeSpan
 		{
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function - requires three parameters.");
 		}
+
 		string fromString;
 		string toString;
 		string timeUnitString;
@@ -30,10 +31,12 @@ internal static class TimeSpan
 		{
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{fromString}' to DateTime");
 		}
+
 		if (!System.DateTime.TryParse(toString, out var toDateTime))
 		{
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{toString}' to DateTime");
 		}
+
 		if (!Enum.TryParse(timeUnitString, true, out TimeUnit timeUnit))
 		{
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{timeUnitString}' to a supported time unit");

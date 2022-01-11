@@ -42,10 +42,12 @@ internal static class Format
 		{
 			return longValue.ToString(formatFormat, CultureInfo.InvariantCulture);
 		}
+
 		if (double.TryParse(inputString, out var doubleValue))
 		{
 			return doubleValue.ToString(formatFormat, CultureInfo.InvariantCulture);
 		}
+
 		if (DateTimeOffset.TryParse(
 			inputString,
 			CultureInfo.InvariantCulture.DateTimeFormat,
@@ -54,6 +56,7 @@ internal static class Format
 		{
 			return dateTimeOffsetValue.ToString(formatFormat, CultureInfo.InvariantCulture);
 		}
+
 		throw new FormatException($"Could not parse '{inputString}' as a number or date.");
 	}
 }

@@ -8,6 +8,7 @@ internal static class IsNull
 		{
 			throw new FormatException($"{ExtensionFunction.ToString}() requires one parameter.");
 		}
+
 		try
 		{
 			var outputObject = functionArgs.Parameters[0].Evaluate();

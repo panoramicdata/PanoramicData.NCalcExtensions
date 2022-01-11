@@ -8,6 +8,7 @@ internal static class IsInfinite
 		{
 			throw new FormatException($"{ExtensionFunction.IsInfinite}() requires one parameter.");
 		}
+
 		try
 		{
 			var outputObject = functionArgs.Parameters[0].Evaluate();

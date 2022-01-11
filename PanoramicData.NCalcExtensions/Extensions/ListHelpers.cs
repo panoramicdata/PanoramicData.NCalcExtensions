@@ -12,8 +12,10 @@ internal static class ListHelpers
 			{
 				return new List<object?>();
 			}
+
 			value = value.SelectMany(v => v as List<object?>).ToList();
 		}
+
 		return value;
 	}
 }

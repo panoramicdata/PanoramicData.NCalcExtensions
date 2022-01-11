@@ -28,6 +28,7 @@ internal static class JPath
 		{
 			throw new FormatException(SyntaxMessage);
 		}
+
 		if (functionArgs.Parameters.Length >= 3)
 		{
 			try
@@ -49,6 +50,7 @@ internal static class JPath
 		{
 			throw new NCalcExtensionsException($"{ExtensionFunction.JPath} function - An unknown issue occurred while trying to select jPathExpression value: {ex.Message}");
 		}
+
 		if (result is null)
 		{
 			if (returnNullIfNotFound)
@@ -66,6 +68,7 @@ internal static class JPath
 			functionArgs.Result = jValue.Value;
 			return;
 		}
+
 		throw new FormatException($"{ExtensionFunction.JPath} function - jPath expression should identify a single value in the source object. Result type found: {result.Type}");
 	}
 }

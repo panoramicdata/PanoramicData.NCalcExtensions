@@ -8,6 +8,7 @@ internal static class IsSet
 		{
 			throw new FormatException($"{ExtensionFunction.IsSet}() requires one parameter.");
 		}
+
 		functionArgs.Result = functionArgs.Parameters[0].Parameters.Keys.Any(p => p == functionArgs.Parameters[0].Evaluate() as string);
 	}
 }

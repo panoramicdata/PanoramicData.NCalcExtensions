@@ -12,6 +12,7 @@ internal static class Any
 		{
 			throw new NCalcExtensionsException("All parameters to the any() function must be bools");
 		}
+
 		functionArgs.Result = value.Any(v => v as bool? == true);
 	}
 }

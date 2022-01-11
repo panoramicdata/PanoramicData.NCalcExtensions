@@ -10,6 +10,7 @@ internal static class CanEvaluate
 			{
 				var outputObject = parameter.Evaluate();
 			}
+
 			functionArgs.Result = true;
 		}
 		catch

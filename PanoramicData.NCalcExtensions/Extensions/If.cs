@@ -9,6 +9,7 @@ internal static class If
 		{
 			throw new FormatException($"{ExtensionFunction.If}() requires three parameters.");
 		}
+
 		try
 		{
 			boolParam1 = (bool)functionArgs.Parameters[0].Evaluate();
@@ -21,6 +22,7 @@ internal static class If
 		{
 			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
 		}
+
 		if (boolParam1)
 		{
 			try
@@ -37,6 +39,7 @@ internal static class If
 				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 2 '{functionArgs.Parameters[1].ParsedExpression}' due to {e.Message}.", e);
 			}
 		}
+
 		try
 		{
 			functionArgs.Result = functionArgs.Parameters[2].Evaluate();

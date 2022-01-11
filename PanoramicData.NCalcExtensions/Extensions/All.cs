@@ -12,10 +12,12 @@ internal static class All
 		{
 			throw new NCalcExtensionsException("All parameters to the all() function must be bools");
 		}
+
 		if (value.Count == 0)
 		{
 			throw new NCalcExtensionsException("All needs parameters");
 		}
+
 		functionArgs.Result = value.All(v => v as bool? == true);
 	}
 }

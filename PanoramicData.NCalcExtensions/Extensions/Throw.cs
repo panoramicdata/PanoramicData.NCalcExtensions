@@ -13,6 +13,7 @@ internal static class Throw
 				{
 					return new FormatException($"{ExtensionFunction.Throw} function - parameter must be a string.");
 				}
+
 				return new NCalcExtensionsException(exceptionMessageText);
 
 			default:

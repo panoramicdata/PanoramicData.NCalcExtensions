@@ -8,6 +8,7 @@ internal static class In
 		{
 			throw new FormatException($"{ExtensionFunction.In}() requires at least two parameters.");
 		}
+
 		try
 		{
 			var item = functionArgs.Parameters[0].Evaluate();

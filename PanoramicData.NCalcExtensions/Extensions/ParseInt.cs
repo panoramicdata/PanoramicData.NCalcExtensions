@@ -8,12 +8,14 @@ internal static class ParseInt
 		{
 			throw new FormatException($"{ExtensionFunction.ParseInt} function - requires one string parameter.");
 		}
+
 		var param1 = functionArgs.Parameters[0].Evaluate() as string
 			?? throw new FormatException($"{ExtensionFunction.ParseInt} function - requires one string parameter.");
 		if (!int.TryParse(param1, out var result))
 		{
 			throw new FormatException($"{ExtensionFunction.ParseInt} function - parameter could not be parsed to an integer.");
 		}
+
 		functionArgs.Result = result;
 	}
 }

@@ -34,6 +34,7 @@ internal static class DateTimeMethods
 			{
 				throw new FormatException($"{ExtensionFunction.DateTime} function - Days to add must be a number.");
 			}
+
 			daysToAdd = daysToAddNullable.Value;
 		}
 
@@ -46,6 +47,7 @@ internal static class DateTimeMethods
 			{
 				throw new FormatException($"{ExtensionFunction.DateTime} function - Hours to add must be a number.");
 			}
+
 			hoursToAdd = hoursToAddNullable.Value;
 		}
 
@@ -58,6 +60,7 @@ internal static class DateTimeMethods
 			{
 				throw new FormatException($"{ExtensionFunction.DateTime} function - Minutes to add must be a number.");
 			}
+
 			minutesToAdd = minutesToAddNullable.Value;
 		}
 
@@ -70,6 +73,7 @@ internal static class DateTimeMethods
 			{
 				throw new FormatException($"{ExtensionFunction.DateTime} function - Seconds to add must be a number.");
 			}
+
 			secondsToAdd = secondsToAddNullable.Value;
 		}
 

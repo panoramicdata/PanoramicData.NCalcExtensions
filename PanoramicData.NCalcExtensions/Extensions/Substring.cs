@@ -19,6 +19,7 @@ internal static class Substring
 		{
 			throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
 		}
+
 		if (functionArgs.Parameters.Length > 2)
 		{
 			var length = (int)functionArgs.Parameters[2].Evaluate();

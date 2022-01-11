@@ -57,6 +57,7 @@ internal static class ToDateTime
 		{
 			throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format.");
 		}
+
 		return ConvertTimeZone(parsedDateTime, timeZoneName, "UTC");
 	}
 
