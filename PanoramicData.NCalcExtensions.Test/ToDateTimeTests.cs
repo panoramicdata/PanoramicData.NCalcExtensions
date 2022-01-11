@@ -7,13 +7,16 @@ public class ToDateTimeTests : NCalcTest
 	{
 		const string format = "yyyy-MM-dd HH:mm";
 		var result = Test($"toDateTime('2020-02-29 12:00', '{format}')");
-		Assert.Equal(new DateTime(2020, 02, 29, 12, 00, 00), result);
+		result.Should().Be(new DateTime(2020, 02, 29, 12, 00, 00));
 	}
+
 	[Fact]
 	public void SingleParameter_Fails()
 	{
 		var expression = new ExtendedExpression("toDateTime('2020-02-29 12:00')");
-		Assert.Throws<ArgumentException>(() => expression.Evaluate());
+		AssertionExtensions
+			.Should(() => { expression.Evaluate(); })
+			.Throw<ArgumentException>();
 	}
 
 	[Fact]
@@ -21,7 +24,7 @@ public class ToDateTimeTests : NCalcTest
 	{
 		const string format = "yyyy-MM-dd HH:mm";
 		var result = Test($"toDateTime('2020-06-06 12:00', '{format}')");
-		Assert.Equal(new DateTime(2020, 06, 06, 12, 00, 00), result);
+		result.Should().Be(new DateTime(2020, 06, 06, 12, 00, 00));
 	}
 
 	[Fact]
@@ -29,7 +32,7 @@ public class ToDateTimeTests : NCalcTest
 	{
 		const string format = "yyyy-MM-dd HH:mm";
 		var result = Test($"toDateTime('2020-02-29 12:00', '{format}', 'Eastern Standard Time')");
-		Assert.Equal(new DateTime(2020, 02, 29, 17, 00, 00), result);
+		result.Should().Be(new DateTime(2020, 02, 29, 17, 00, 00));
 	}
 
 	[Fact]
@@ -37,7 +40,7 @@ public class ToDateTimeTests : NCalcTest
 	{
 		const string format = "yyyy-MM-dd HH:mm";
 		var result = Test($"toDateTime('2020-03-13 12:00', '{format}', 'Eastern Standard Time')");
-		Assert.Equal(new DateTime(2020, 03, 13, 16, 00, 00), result);
+		result.Should().Be(new DateTime(2020, 03, 13, 16, 00, 00));
 	}
 
 	[Fact]
@@ -47,7 +50,7 @@ public class ToDateTimeTests : NCalcTest
 		var expression = new ExtendedExpression("toDateTime(estDateTime, 'Eastern Standard Time')");
 		expression.Parameters[nameof(estDateTime)] = estDateTime;
 		var utcDateTime = expression.Evaluate();
-		Assert.Equal(new DateTime(2020, 03, 02, 17, 00, 00), utcDateTime);
+		utcDateTime.Should().Be(new DateTime(2020, 03, 02, 17, 00, 00));
 	}
 
 	[Fact]
@@ -57,7 +60,7 @@ public class ToDateTimeTests : NCalcTest
 		var expression = new ExtendedExpression("toDateTime(estDateTime, 'Eastern Standard Time')");
 		expression.Parameters[nameof(estDateTime)] = estDateTime;
 		var utcDateTime = expression.Evaluate();
-		Assert.Null(utcDateTime);
+		utcDateTime.Should().BeNull();
 	}
 
 	[Fact]
@@ -66,6 +69,35 @@ public class ToDateTimeTests : NCalcTest
 		var estDateTime = new DateTime(2020, 03, 02, 12, 00, 00);
 		var expression = new ExtendedExpression("toDateTime(theDateTime)");
 		expression.Parameters[nameof(estDateTime)] = estDateTime;
-		Assert.Throws<ArgumentException>(() => expression.Evaluate());
+		AssertionExtensions
+			.Should(() => { expression.Evaluate(); })
+			.Throw<ArgumentException>();
+	}
+
+	[Fact]
+	public void DateTimeIntSeconds_Succeeds()
+	{
+		var expectedDateTime = new DateTime(1975, 02, 17, 00, 00, 00);
+		var expression = new ExtendedExpression("toDateTime(161827200.0, 's', 'UTC')");
+		expression.Parameters[nameof(expectedDateTime)] = expectedDateTime;
+		expression.Evaluate().Should().Be(expectedDateTime);
+	}
+
+	[Fact]
+	public void DateTimeLongMilliseconds_Succeeds()
+	{
+		var expectedDateTime = new DateTime(1975, 02, 17, 00, 00, 00);
+		var expression = new ExtendedExpression("toDateTime(161827200000.0, 'ms', 'UTC')");
+		expression.Parameters[nameof(expectedDateTime)] = expectedDateTime;
+		expression.Evaluate().Should().Be(expectedDateTime);
+	}
+
+	[Fact]
+	public void DateTimeLongMicroseconds_Succeeds()
+	{
+		var expectedDateTime = new DateTime(1975, 02, 17, 00, 00, 00);
+		var expression = new ExtendedExpression("toDateTime(161827200000000.0, 'us', 'UTC')");
+		expression.Parameters[nameof(expectedDateTime)] = expectedDateTime;
+		expression.Evaluate().Should().Be(expectedDateTime);
 	}
 }

@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ApplicationIcon>PanoramicData.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Copyright>Panoramic Data Limited 2021</Copyright>
+		<Copyright>Panoramic Data Limited 2019-2022</Copyright>
 		<Authors>Panoramic Data Limited</Authors>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added list(), which returns a List&lt;object?&gt;.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added a toDateTime() override, permitting providing seconds, milliseconds and microseconds since the epoch.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -28,7 +28,7 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="NCalc.NetCore" Version="1.0.1" />
-		<PackageReference Include="Nerdbank.GitVersioning" Version="3.4.244">
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.4.255">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>

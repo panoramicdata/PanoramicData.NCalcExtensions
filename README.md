@@ -535,6 +535,10 @@ Determines the amount of time between two DateTimes.
 
 Converts a string to a UTC DateTime.  May take an optional inputTimeZone.
 
+Note that when using numbers as the first input parameter, provide it as a decimal (see examples, below)
+to avoid hitting an NCalc bug relating to longs being interpreted as floats.
+
+
 ## Parameters
 - inputString
 - stringFormat
@@ -544,6 +548,9 @@ Converts a string to a UTC DateTime.  May take an optional inputTimeZone.
 - toDateTime('2019-01-01', 'yyyy-MM-dd') : A date time representing 2019-01-01
 - toDateTime('2020-02-29 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-02-29 17:00:00 UTC
 - toDateTime('2020-03-13 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-03-13 16:00:00 UTC
+- toDateTime(161827200.0, 's', 'UTC') : A date time representing 1975-02-17 00:00:00 UTC
+- toDateTime(156816000000.0, 'ms', 'UTC') : A date time representing 1974-12-21 00:00:00 UTC
+- toDateTime(156816000000000.0, 'us', 'UTC') : A date time representing 1974-12-21 00:00:00 UTC
 
 ---
 # toLower()

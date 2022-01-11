@@ -21,6 +21,15 @@ internal static class ToDateTime
 			// String, format and timezone
 			(string dateTimeString, string format, string timeZoneName) => GetFromString(dateTimeString, format, timeZoneName),
 
+			// long, format and timezone
+			// Format can be:
+			// - 's' (meaning seconds since the epoch)
+			// - 'ms' (meaning milliseconds since the epoch)
+			// - 'us' (meaning microseconds since the epoch)
+			(long countSinceEpoch, string format, string timeZoneName) => GetFromDouble(countSinceEpoch, format, timeZoneName),
+			(int countSinceEpoch, string format, string timeZoneName) => GetFromDouble(countSinceEpoch, format, timeZoneName),
+			(double countSinceEpoch, string format, string timeZoneName) => GetFromDouble(countSinceEpoch, format, timeZoneName),
+
 			// DateTime, and timezone, no third argument
 			(DateTime dateTime, string timeZoneName, null) => GetFromDateTime(dateTime, timeZoneName),
 
@@ -31,7 +40,7 @@ internal static class ToDateTime
 			(string _, _, _) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected second argument to be a string."),
 			(DateTime _, _, _) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected second argument to be a string."),
 
-			_ => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected first argument to be a string or DateTime.")
+			_ => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected first argument to be a long, int, double, string or DateTime.")
 		};
 	}
 
@@ -48,6 +57,21 @@ internal static class ToDateTime
 		{
 			throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format.");
 		}
+		return ConvertTimeZone(parsedDateTime, timeZoneName, "UTC");
+	}
+
+	private static object GetFromDouble(double countSinceEpoch, string format, string timeZoneName)
+	{
+		var millisecondsSinceTheEpoch = format switch
+		{
+			"us" => countSinceEpoch / 1000,
+			"ms" => countSinceEpoch,
+			"s" => countSinceEpoch * 1000,
+			_ => throw new ArgumentException("Format should relate to time since the epoch be one of 's' (seconds), 'ms' (milliseconds) or 'us' (microseconds)", nameof(format))
+		};
+
+		var parsedDateTime = new DateTime(1970, 1, 1).AddMilliseconds(millisecondsSinceTheEpoch);
+
 		return ConvertTimeZone(parsedDateTime, timeZoneName, "UTC");
 	}
 
