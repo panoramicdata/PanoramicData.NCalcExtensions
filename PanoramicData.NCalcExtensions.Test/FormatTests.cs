@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace PanoramicData.NCalcExtensions.Test;
+﻿namespace PanoramicData.NCalcExtensions.Test;
 
 public class FormatTests
 {
@@ -80,5 +78,13 @@ public class FormatTests
 		var expression = new ExtendedExpression("format('XXX', 'yyyy-MM-dd')");
 		var exception = Assert.Throws<FormatException>(() => expression.Evaluate());
 		exception.Message.Should().Be("Could not parse 'XXX' as a number or date.");
+	}
+
+	[Fact]
+	public void Format_SingleH_Succeeds()
+	{
+		var expression = new ExtendedExpression("parseInt(format(toDateTime((dateTimeAsEpochMs('2021-01-17 12:45:00', 'yyyy-MM-dd HH:mm:ss')) + (dateTimeAsEpochMs('1970-01-01 08:00:00', 'yyyy-MM-dd HH:mm:ss')), 'ms', 'UTC'), 'HH'))");
+		var result = expression.Evaluate();
+		result.Should().Be(20);
 	}
 }
