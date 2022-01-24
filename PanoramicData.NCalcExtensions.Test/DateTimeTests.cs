@@ -28,4 +28,10 @@ public class DateTimeTests : NCalcTest
 		Assert.True(resultAsTimeSpan.HasValue);
 		Assert.False(resultAsTimeSpan);
 	}
+
+	[Fact]
+	public void TimeTest()
+	{
+		DateTime.Parse("2022-01-24 17:04").ToString(":m").Should().Be(":4");
+	}
 }
