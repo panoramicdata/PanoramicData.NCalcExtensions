@@ -2,7 +2,7 @@
 
 internal static class DateTimeAsEpochMs
 {
-	internal static void Evaluate(NCalc.FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		var dateTimeOffset = DateTimeOffset.ParseExact(
 			functionArgs.Parameters[0].Evaluate() as string, // Input date as string
