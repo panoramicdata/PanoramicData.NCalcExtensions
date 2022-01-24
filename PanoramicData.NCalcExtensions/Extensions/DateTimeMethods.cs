@@ -93,4 +93,41 @@ internal static class DateTimeMethods
 			int intResult => intResult,
 			_ => null,
 		};
+
+	internal static string BetterToString(this DateTime dateTime, string format)
+		=> format switch
+		{
+			"dayOfYear" => dateTime.DayOfYear.ToString(),
+			"weekOfMonth" => dateTime.WeekOfMonth().ToString(),
+			"weekOfMonthText" => dateTime.WeekOfMonth() switch
+			{
+				1 => "first",
+				2 => "second",
+				3 => "third",
+				4 => "fourth",
+				_ => "last"
+			},
+			_ => dateTime.ToString(format, CultureInfo.InvariantCulture)
+		};
+
+	public static int WeekOfMonth(this DateTime dateTime)
+	{
+		var date = dateTime.Date;
+		var firstMonthDay = new DateTime(date.Year, date.Month, 1);
+		var firstMonthMonday = firstMonthDay.AddDays((DayOfWeek.Monday + 7 - firstMonthDay.DayOfWeek) % 7);
+		if (firstMonthMonday > date)
+		{
+			firstMonthDay = firstMonthDay.AddMonths(-1);
+			firstMonthMonday = firstMonthDay.AddDays((DayOfWeek.Monday + 7 - firstMonthDay.DayOfWeek) % 7);
+		}
+
+		return ((date - firstMonthMonday).Days / 7) + 1;
+	}
+
+	internal static string ToDateTimeInTargetTimeZone(this DateTime dateTime, string formatFormat, string timeZoneString)
+	{
+		var timeZoneInfo = TZConvert.GetTimeZoneInfo(timeZoneString);
+		var dateTimeOffset = new DateTimeOffset(dateTime, -timeZoneInfo.GetUtcOffset(dateTime));
+		return dateTimeOffset.UtcDateTime.BetterToString(formatFormat);
+	}
 }

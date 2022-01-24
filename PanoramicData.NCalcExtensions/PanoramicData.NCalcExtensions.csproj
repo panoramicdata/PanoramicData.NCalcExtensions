@@ -15,11 +15,15 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added a toDateTime() override, permitting providing seconds, milliseconds and microseconds since the epoch.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added format strings: dayOfYear, weekOfMonth, weekOfMonthText.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<None Include="Icon.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="$(AssemblyName).Test" />
 	</ItemGroup>
 
 	<ItemGroup>

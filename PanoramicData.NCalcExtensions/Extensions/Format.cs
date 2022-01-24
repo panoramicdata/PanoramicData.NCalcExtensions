@@ -21,18 +21,11 @@ internal static class Format
 		{
 			(int inputInt, 2) => inputInt.ToString(formatFormat, CultureInfo.InvariantCulture),
 			(double inputDouble, 2) => inputDouble.ToString(formatFormat, CultureInfo.InvariantCulture),
-			(DateTime dateTime, 2) => dateTime.ToString(formatFormat, CultureInfo.InvariantCulture),
-			(DateTime dateTime, 3) => ToDateTimeInTargetTimeZone(dateTime, formatFormat, functionArgs.Parameters[2].Evaluate() as string ?? throw new ArgumentException($"{ExtensionFunction.Format} function - expected third argument to be a TimeZone string")),
+			(DateTime dateTime, 2) => dateTime.BetterToString(formatFormat),
+			(DateTime dateTime, 3) => dateTime.ToDateTimeInTargetTimeZone(formatFormat, functionArgs.Parameters[2].Evaluate() as string ?? throw new ArgumentException($"{ExtensionFunction.Format} function - expected third argument to be a TimeZone string")),
 			(string inputString, 2) => GetThing(inputString, formatFormat),
 			_ => throw new NotSupportedException($"Unsupported input type {inputObject.GetType().Name} or incorrect number of parameters.")
 		};
-	}
-
-	private static string ToDateTimeInTargetTimeZone(DateTime dateTime, string formatFormat, string timeZoneString)
-	{
-		var timeZoneInfo = TZConvert.GetTimeZoneInfo(timeZoneString);
-		var dateTimeOffset = new DateTimeOffset(dateTime, -timeZoneInfo.GetUtcOffset(dateTime));
-		return dateTimeOffset.UtcDateTime.ToString(formatFormat, CultureInfo.InvariantCulture);
 	}
 
 	private static object GetThing(string inputString, string formatFormat)
@@ -54,7 +47,7 @@ internal static class Format
 			DateTimeStyles.AssumeUniversal,
 			out var dateTimeOffsetValue))
 		{
-			return dateTimeOffsetValue.ToString(formatFormat, CultureInfo.InvariantCulture);
+			return dateTimeOffsetValue.UtcDateTime.BetterToString(formatFormat);
 		}
 
 		throw new FormatException($"Could not parse '{inputString}' as a number or date.");

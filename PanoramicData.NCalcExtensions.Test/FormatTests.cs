@@ -66,6 +66,27 @@ public class FormatTests
 	}
 
 	[Fact]
+	public void Format_DateFormat_DayOfYear_Succeeds()
+	{
+		var expression = new ExtendedExpression("format('2021-11-29', 'dayOfYear')");
+		expression.Evaluate().Should().Be("333");
+	}
+
+	[Fact]
+	public void Format_DateFormat_WeekOfMonth_Succeeds()
+	{
+		var expression = new ExtendedExpression("format('2021-11-30', 'weekOfMonth')");
+		expression.Evaluate().Should().Be("5");
+	}
+
+	[Fact]
+	public void Format_DateFormat_WeekOfMonthText_Succeeds()
+	{
+		var expression = new ExtendedExpression("format('2021-11-30', 'weekOfMonthText')");
+		expression.Evaluate().Should().Be("last");
+	}
+
+	[Fact]
 	public void Format_DateTimeStringFormat_Succeeds()
 	{
 		var expression = new ExtendedExpression("format('01/01/2019', 'yyyy-MM-dd')");

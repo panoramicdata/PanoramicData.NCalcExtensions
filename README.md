@@ -156,6 +156,9 @@ Formats strings and numbers as output strings with the specified format
 ## Examples
 - format(1, '00') : '01'
 - format(1.0, '00') : '01'
+- format('2021-11-29', 'dayOfYear') : '333'
+- format('2021-11-01', 'weekOfMonthText') : 'first'
+- format('2021-11-30', 'weekOfMonth') : '5'
 - format('01/01/2019', 'yyyy-MM-dd') : '2019-01-01'
 - format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') [where theDateTime is a .NET DateTime, set to DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture)] : '2020-03-13 12:00'
 
