@@ -23,6 +23,8 @@ public static class ExtensionFunction
 	public const string IsNaN = "isNaN";
 	public const string IsNull = "isNull";
 	public const string IsSet = "isSet";
+	public const string ItemAtIndex = "itemAtIndex";
+	public const string Join = "join";
 	public const string JPath = "jPath";
 	public const string LastIndexOf = "lastIndexOf";
 	public const string Length = "length";
@@ -32,6 +34,7 @@ public static class ExtensionFunction
 	public const string RegexGroup = "regexGroup";
 	public const string RegexIsMatch = "regexIsMatch";
 	public const string Replace = "replace";
+	public const string Split = "split";
 	public const string StartsWith = "startsWith";
 	public const string Substring = "substring";
 	public const string Switch = "switch";

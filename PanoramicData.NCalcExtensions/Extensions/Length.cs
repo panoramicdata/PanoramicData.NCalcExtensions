@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.Collections;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
 
 internal static class Length
 {
@@ -6,8 +8,13 @@ internal static class Length
 	{
 		try
 		{
-			var param1 = (string)functionArgs.Parameters[0].Evaluate();
-			functionArgs.Result = param1.Length;
+			var param1 = functionArgs.Parameters[0].Evaluate();
+			functionArgs.Result = param1 switch
+			{
+				string a => a.Length,
+				IList b => b.Count,
+				_ => throw new Exception()
+			};
 		}
 		catch (NCalcExtensionsException)
 		{
@@ -15,7 +22,7 @@ internal static class Length
 		}
 		catch (Exception)
 		{
-			throw new FormatException($"{ExtensionFunction.Length}() requires one string parameter.");
+			throw new FormatException($"{ExtensionFunction.Length}() requires one string or IList parameter.");
 		}
 	}
 }

@@ -22,6 +22,9 @@ public static class NCalcExtensions
 			//	All.Evaluate(functionArgs);
 			//	return;
 
+			case ExtensionFunction.CanEvaluate:
+				CanEvaluate.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Capitalise:
 			case ExtensionFunction.Capitalize:
 				Capitalize.Evaluate(functionArgs);
@@ -72,8 +75,11 @@ public static class NCalcExtensions
 			case ExtensionFunction.IsSet:
 				IsSet.Evaluate(functionArgs);
 				return;
-			case ExtensionFunction.CanEvaluate:
-				CanEvaluate.Evaluate(functionArgs);
+			case ExtensionFunction.ItemAtIndex:
+				ItemAtIndex.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Join:
+				Join.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.JPath:
 				JPath.Evaluate(functionArgs);
@@ -101,6 +107,9 @@ public static class NCalcExtensions
 				return;
 			case ExtensionFunction.Replace:
 				Replace.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Split:
+				Split.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.StartsWith:
 				StartsWith.Evaluate(functionArgs);

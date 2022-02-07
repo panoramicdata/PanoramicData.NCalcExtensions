@@ -31,7 +31,5 @@ public class DateTimeTests : NCalcTest
 
 	[Fact]
 	public void TimeTest()
-	{
-		DateTime.Parse("2022-01-24 17:04").ToString(":m").Should().Be(":4");
-	}
+		=> DateTime.Parse("2022-01-24 17:04").ToString(":m").Should().Be(":4");
 }

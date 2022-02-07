@@ -40,7 +40,10 @@ General functions:
 - [isNaN()](#isnan)
 - [isNull()](#isnull)
 - [isSet()](#isset)
+- [itemAtIndex()](#itemAtIndex)
+- [join()](#join)
 - [jPath()](#jPath)
+- [length()](#length)
 - [list()](#list)
 - [regexGroup()](#regexGroup)
 - [regexIsMatch()](#regexIsMatch)
@@ -55,11 +58,13 @@ String functions:
 - [contains()](#contains)
 - [endsWith()](#endswith)
 - [indexOf()](#indexof)
-- [padLeft()](#padLeft)
-- [parseInt()](#parseInt)
+- [join()](#join)
 - [lastIndexOf()](#lastindexof)
 - [length()](#length)
+- [padLeft()](#padLeft)
+- [parseInt()](#parseInt)
 - [replace()](#replace)
+- [split()](#split)
 - [startsWith()](#startswith)
 - [substring()](#substring)
 - [toLower()](#tolower)
@@ -193,6 +198,21 @@ Determines whether a value is in a set of other values.
 - in('needle', 'haystack', 'with', 'only', 'hay') : false
 
 ---
+# indexOf()
+
+## Purpose
+
+Determines the first position of a string within another string.  Returns -1 if not present.
+
+## Parameters
+- longString
+- shortString
+
+## Examples
+- indexOf('#abcabc#', 'abc') : 1
+- indexOf('#abcabc#', 'abcd') : -1
+
+---
 # isInfinite()
 
 ## Purpose
@@ -219,36 +239,6 @@ Determines whether a value is not a number.
 ## Examples
 - isNaN(null) : true
 - isNaN(1) : false
-
----
-# in()
-
-## Purpose
-
-Determines whether a value is in a set of other values.
-
-## Parameters
-- list
-- item
-
-## Examples
-- in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
-- in('needle', 'haystack', 'with', 'only', 'hay') : false
-
----
-# indexOf()
-
-## Purpose
-
-Determines the first position of a string within another string.  Returns -1 if not present.
-
-## Parameters
-- longString
-- shortString
-
-## Examples
-- indexOf('#abcabc#', 'abc') : 1
-- indexOf('#abcabc#', 'abcd') : -1
 ---
 
 # isNull()
@@ -282,6 +272,33 @@ Determines whether a parameter is set:
 - isSet('a') : true/false depending on whether a is an available variable
 
 ---
+# itemAtIndex()
+
+## Purpose
+
+Determines the item at the given index.  The first index is 0.
+
+## Parameters
+- parameter name
+
+## Examples
+- itemAtIndex(split('a b c', ' '), 1) : 'b'
+
+
+---
+# join()
+
+## Purpose
+
+Joins a list of strings into a single string.
+
+## Parameters
+- parameter name
+
+## Examples
+- join(split('a b c', ' '), ', ') : 'a, b, c'
+
+---
 # lastIndexOf()
 
 ## Purpose
@@ -301,13 +318,28 @@ Determines the last position of a string within another string.  Returns -1 if n
 
 ## Purpose
 
-Determines length of a string.
+Determines length of a string or IList.
 
 ## Parameters
-- string
+- string or IList
 
 ## Examples
 - length('a piece of string') : 17
+- length(split('a piece of string', ' ')) : 4
+
+---
+# split()
+
+## Purpose
+
+Splits a string on a given character into a list of strings.
+
+## Parameters
+- longString
+- character
+
+## Examples
+- split('a bc d', ' ') : list('a', 'bc', 'd')
 
 ---
 # startsWith()
