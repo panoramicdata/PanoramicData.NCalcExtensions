@@ -79,6 +79,15 @@ public class FormatTests
 		expression.Evaluate().Should().Be("5");
 	}
 
+	[Theory]
+	[InlineData("2021-11-30", 5)]
+	[InlineData("2022-02-09", 2)]
+	public void Format_DateFormat_WeekOfMonth2_Succeeds(string dateTimeString, int expectedWeekOfMonth)
+	{
+		var expression = new ExtendedExpression($"format('{dateTimeString}', 'weekOfMonth')");
+		expression.Evaluate().Should().Be(expectedWeekOfMonth.ToString(CultureInfo.InvariantCulture));
+	}
+
 	[Fact]
 	public void Format_DateFormat_WeekOfMonthText_Succeeds()
 	{

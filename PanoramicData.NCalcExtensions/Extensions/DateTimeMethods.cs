@@ -124,6 +124,13 @@ internal static class DateTimeMethods
 		return ((date - firstMonthMonday).Days / 7) + 1;
 	}
 
+	//private static readonly GregorianCalendar _gc = new();
+	//public static int WeekOfMonth(this DateTime time)
+	//	=> time.GetWeekOfYear() - new DateTime(time.Year, time.Month, 1).GetWeekOfYear() + 1;
+
+	//static int GetWeekOfYear(this DateTime time)
+	//	=> _gc.GetWeekOfYear(time, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+
 	internal static string ToDateTimeInTargetTimeZone(this DateTime dateTime, string formatFormat, string timeZoneString)
 	{
 		var timeZoneInfo = TZConvert.GetTimeZoneInfo(timeZoneString);
