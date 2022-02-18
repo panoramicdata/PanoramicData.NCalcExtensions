@@ -155,15 +155,24 @@ Formats strings and numbers as output strings with the specified format
 
 ## Parameters
 - object (number or text)
-- format
+- format: the format to use
+  - see C# number and date/time formatting
+  - weekOfMonth is the numeric week of month as would be shown on a calendar with one row per week with weeks starting on a Sunday
+  - weekOfMonthText is the same as weekOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'
+  - weekDayOfMonth is the number of times this weekday has occurred within the month so far, including this one
+  - weekDayOfMonthText is the same as weekDayOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'
 - timeZone [optional] - see https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
 
 ## Examples
 - format(1, '00') : '01'
 - format(1.0, '00') : '01'
 - format('2021-11-29', 'dayOfYear') : '333'
+- format('2021-11-01', 'weekOfMonth') : 1
 - format('2021-11-01', 'weekOfMonthText') : 'first'
-- format('2021-11-30', 'weekOfMonth') : '5'
+- format('2021-11-28', 'weekOfMonth') : 5
+- format('2021-11-28', 'weekOfMonthText') : 'last'
+- format('2021-11-28', 'weekDayOfMonth') : 4
+- format('2021-11-28', 'weekDayOfMonthText') : 'forth'
 - format('01/01/2019', 'yyyy-MM-dd') : '2019-01-01'
 - format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') [where theDateTime is a .NET DateTime, set to DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture)] : '2020-03-13 12:00'
 

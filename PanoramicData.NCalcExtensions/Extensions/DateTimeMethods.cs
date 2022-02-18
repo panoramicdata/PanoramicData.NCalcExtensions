@@ -99,37 +99,31 @@ internal static class DateTimeMethods
 		{
 			"dayOfYear" => dateTime.DayOfYear.ToString(),
 			"weekOfMonth" => dateTime.WeekOfMonth().ToString(),
-			"weekOfMonthText" => dateTime.WeekOfMonth() switch
-			{
-				1 => "first",
-				2 => "second",
-				3 => "third",
-				4 => "fourth",
-				_ => "last"
-			},
+			"weekOfMonthText" => GetWeekText(dateTime.WeekOfMonth()),
+			"weekDayOfMonth" => dateTime.WeekDayOfMonth().ToString(),
+			"weekDayOfMonthText" => GetWeekText(dateTime.WeekDayOfMonth()),
 			_ => dateTime.ToString(format, CultureInfo.InvariantCulture)
 		};
+
+	private static string GetWeekText(int weekOfMonth) => weekOfMonth switch
+	{
+		1 => "first",
+		2 => "second",
+		3 => "third",
+		4 => "fourth",
+		_ => "last"
+	};
 
 	public static int WeekOfMonth(this DateTime dateTime)
 	{
 		var date = dateTime.Date;
-		var firstMonthDay = new DateTime(date.Year, date.Month, 1);
-		var firstMonthMonday = firstMonthDay.AddDays((DayOfWeek.Monday + 7 - firstMonthDay.DayOfWeek) % 7);
-		if (firstMonthMonday > date)
-		{
-			firstMonthDay = firstMonthDay.AddMonths(-1);
-			firstMonthMonday = firstMonthDay.AddDays((DayOfWeek.Monday + 7 - firstMonthDay.DayOfWeek) % 7);
-		}
-
-		return ((date - firstMonthMonday).Days / 7) + 1;
+		var firstOfMonth = new DateTime(date.Year, date.Month, 1);
+		return ((date - firstOfMonth
+			.AddDays(-(int)firstOfMonth.DayOfWeek)).Days / 7) + 1;
 	}
 
-	//private static readonly GregorianCalendar _gc = new();
-	//public static int WeekOfMonth(this DateTime time)
-	//	=> time.GetWeekOfYear() - new DateTime(time.Year, time.Month, 1).GetWeekOfYear() + 1;
-
-	//static int GetWeekOfYear(this DateTime time)
-	//	=> _gc.GetWeekOfYear(time, CalendarWeekRule.FirstDay, DayOfWeek.Sunday);
+	public static int WeekDayOfMonth(this DateTime dateTime)
+		=> ((dateTime.Day - 1) / 7) + 1;
 
 	internal static string ToDateTimeInTargetTimeZone(this DateTime dateTime, string formatFormat, string timeZoneString)
 	{
