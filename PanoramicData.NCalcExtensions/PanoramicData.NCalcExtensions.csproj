@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added itemAtIndex(), join(), split() and added IList support for length().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added parse().</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

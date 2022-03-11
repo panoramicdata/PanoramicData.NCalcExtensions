@@ -96,6 +96,9 @@ public static class NCalcExtensions
 			case ExtensionFunction.PadLeft:
 				PadLeft.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Parse:
+				Parse.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.ParseInt:
 				ParseInt.Evaluate(functionArgs);
 				return;

@@ -72,11 +72,57 @@ public class FormatTests
 		expression.Evaluate().Should().Be("333");
 	}
 
-	[Fact]
-	public void Format_DateFormat_WeekOfMonth_Succeeds()
+	/// <summary>
+	///  See https://cdn.a-printable-calendar.com/images/large/full-year-calendar-2021.png and 
+	///  See https://cdn.a-printable-calendar.com/images/large/full-year-calendar-2022.png
+	/// </summary>
+	/// <param name="dateTimeString"></param>
+	/// <param name="expectedWeekOfMonth"></param>
+	[Theory(DisplayName = "The numeric week of month as would be shown on a calendar with one row per week with weeks starting on a Sunday")]
+	[InlineData("2021-11-01", 1)]
+	[InlineData("2021-11-02", 1)]
+	[InlineData("2021-11-03", 1)]
+	[InlineData("2021-11-04", 1)]
+	[InlineData("2021-11-05", 1)]
+	[InlineData("2021-11-06", 1)]
+	[InlineData("2021-11-07", 2)]
+	[InlineData("2021-11-08", 2)]
+	[InlineData("2021-11-09", 2)]
+	[InlineData("2021-11-10", 2)]
+	[InlineData("2021-11-11", 2)]
+	[InlineData("2021-11-12", 2)]
+	[InlineData("2021-11-13", 2)]
+	[InlineData("2021-11-14", 3)]
+	[InlineData("2021-11-15", 3)]
+	[InlineData("2021-11-16", 3)]
+	[InlineData("2021-11-17", 3)]
+	[InlineData("2021-11-19", 3)]
+	[InlineData("2021-11-20", 3)]
+	[InlineData("2021-11-21", 4)]
+	[InlineData("2021-11-22", 4)]
+	[InlineData("2021-11-23", 4)]
+	[InlineData("2021-11-24", 4)]
+	[InlineData("2021-11-25", 4)]
+	[InlineData("2021-11-26", 4)]
+	[InlineData("2021-11-27", 4)]
+	[InlineData("2021-11-28", 5)]
+	[InlineData("2021-11-29", 5)]
+	[InlineData("2021-11-30", 5)]
+	[InlineData("2022-02-09", 2)]
+	public void Format_DateFormat_WeekOfMonth_Succeeds(string dateTimeString, int expectedWeekOfMonth)
 	{
-		var expression = new ExtendedExpression("format('2021-11-30', 'weekOfMonth')");
-		expression.Evaluate().Should().Be("5");
+		var expression = new ExtendedExpression($"format('{dateTimeString}', 'weekOfMonth')");
+		expression.Evaluate().Should().Be(expectedWeekOfMonth.ToString(CultureInfo.InvariantCulture));
+	}
+
+	[Theory(DisplayName = "weekDayOfMonth calculates the number of times (including this time) that the day of week has occurred so far.")]
+	[InlineData("2021-11-28", 4)] // This is in week 5 and is the 4th Sunday
+	[InlineData("2021-11-30", 5)] // This is in week 5 and is the 5th Tuesday
+	[InlineData("2022-02-09", 2)] // This is in week 2 and is the 2nd Wednesday
+	public void Format_DateFormat_WeekDayOfMonth_Succeeds(string dateTimeString, int expectedWeekDayOfMonth)
+	{
+		var expression = new ExtendedExpression($"format('{dateTimeString}', 'weekDayOfMonth')");
+		expression.Evaluate().Should().Be(expectedWeekDayOfMonth.ToString(CultureInfo.InvariantCulture));
 	}
 
 	[Fact]
