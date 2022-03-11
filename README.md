@@ -62,7 +62,8 @@ String functions:
 - [lastIndexOf()](#lastindexof)
 - [length()](#length)
 - [padLeft()](#padLeft)
-- [parseInt()](#parseInt)
+- [parse()](#parse)
+- [parseInt()](#parseInt) (deprecated - use "parse()" instead)
 - [replace()](#replace)
 - [split()](#split)
 - [startsWith()](#startswith)
@@ -444,6 +445,31 @@ Pad the left of a string with a character to a desired string length.
 - padLeft('12345', 5, '0') : '12345'
 - padLeft('12345', 3, '0') : '12345'
 
+---
+
+# parse()
+
+## Purpose
+
+Returns the conversion of a string to a numeric type.  Supported types are:
+- sbyte
+- byte
+- short
+- ushort
+- int
+- uint
+- long
+- ulong
+- double
+- float
+- decimal
+
+## Parameters
+- type (see above)
+- text
+
+## Examples
+- parseInt('int', '1') : 1
 ---
 
 # parseInt()

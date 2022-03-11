@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Fixed weekOfMonth, added weekDayOfMonth and improved related documentation.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added parse().</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

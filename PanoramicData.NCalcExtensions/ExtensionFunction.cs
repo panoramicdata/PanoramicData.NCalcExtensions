@@ -30,6 +30,7 @@ public static class ExtensionFunction
 	public const string Length = "length";
 	public const string List = "list";
 	public const string PadLeft = "padLeft";
+	public const string Parse = "parse";
 	public const string ParseInt = "parseInt";
 	public const string RegexGroup = "regexGroup";
 	public const string RegexIsMatch = "regexIsMatch";
