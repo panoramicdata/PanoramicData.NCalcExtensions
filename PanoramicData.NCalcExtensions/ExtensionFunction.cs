@@ -29,6 +29,7 @@ public static class ExtensionFunction
 	public const string LastIndexOf = "lastIndexOf";
 	public const string Length = "length";
 	public const string List = "list";
+	public const string NullCoalesce = "nullCoalesce";
 	public const string PadLeft = "padLeft";
 	public const string Parse = "parse";
 	public const string ParseInt = "parseInt";

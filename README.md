@@ -45,6 +45,7 @@ General functions:
 - [jPath()](#jPath)
 - [length()](#length)
 - [list()](#list)
+- [nullCoalesce()](#nullCoalesce)
 - [regexGroup()](#regexGroup)
 - [regexIsMatch()](#regexIsMatch)
 - [switch()](#switch)
@@ -336,6 +337,23 @@ Determines length of a string or IList.
 ## Examples
 - length('a piece of string') : 17
 - length(split('a piece of string', ' ')) : 4
+
+---
+# nullCoalesce()
+
+## Purpose
+
+Returns the first parameter that is not null, otherwise: null.
+
+## Parameters
+- any number of objects
+
+## Examples
+- nullCoalesce() : null
+- nullCoalesce(1, null) : 1
+- nullCoalesce(null, 1, 2, 3) : 1
+- nullCoalesce(null, null, null) : null
+- nullCoalesce(null, null, 'xxx', 3) : 'xxx'
 
 ---
 # split()

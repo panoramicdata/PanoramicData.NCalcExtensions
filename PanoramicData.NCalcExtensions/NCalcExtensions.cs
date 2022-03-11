@@ -93,6 +93,9 @@ public static class NCalcExtensions
 			case ExtensionFunction.List:
 				List.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.NullCoalesce:
+				NullCoalesce.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.PadLeft:
 				PadLeft.Evaluate(functionArgs);
 				return;
