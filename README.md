@@ -469,7 +469,7 @@ Returns the conversion of a string to a numeric type.  Supported types are:
 - text
 
 ## Examples
-- parseInt('int', '1') : 1
+- parse('int', '1') : 1
 ---
 
 # parseInt()
