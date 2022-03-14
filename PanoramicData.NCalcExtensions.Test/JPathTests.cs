@@ -2,6 +2,8 @@
 
 public class JPathTests : NCalcTest
 {
+	private static JObject TestJObject = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2], \"kvps\": [ { \"key\": \"key1\", \"value\": \"value1\" }, { \"key\": \"key2\", \"value\": \"value2\" } ] }");
+
 	[Theory]
 	[InlineData("name", "bob")]
 	[InlineData("numbers[0]", 1)]
@@ -11,12 +13,23 @@ public class JPathTests : NCalcTest
 	public void JPath_ValidPath_Works(string path, object expectedResult)
 	{
 		var expression = new ExtendedExpression($"jPath(source, '{path}')");
-		expression.Parameters["source"] = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2], \"kvps\": [ { \"key\": \"key1\", \"value\": \"value1\" }, { \"key\": \"key2\", \"value\": \"value2\" } ] }");
+		expression.Parameters["source"] = TestJObject;
 		var result = expression.Evaluate();
 		result.Should().Be(
 			expectedResult,
 			because: "the jPath is valid, present and returns a single result"
 		);
+	}
+
+	[Theory]
+	[InlineData("key1", "value1")]
+	[InlineData("keyXXX", null)]
+	public void JPath_DictionaryAccess_Works(string key, string? expectedValue)
+	{
+		var expression = new ExtendedExpression($"jPath(source, 'kvps[?(@key==\\'{key}\\')].value', true)");
+		expression.Parameters["source"] = TestJObject;
+		var result = expression.Evaluate();
+		result.Should().Be(expectedValue);
 	}
 
 	[Fact]

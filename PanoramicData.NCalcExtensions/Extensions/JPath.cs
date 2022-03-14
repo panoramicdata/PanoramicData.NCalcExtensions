@@ -69,6 +69,6 @@ internal static class JPath
 			return;
 		}
 
-		throw new FormatException($"{ExtensionFunction.JPath} function - jPath expression should identify a single value in the source object. Result type found: {result.Type}");
+		functionArgs.Result = JObject.FromObject(result);
 	}
 }
