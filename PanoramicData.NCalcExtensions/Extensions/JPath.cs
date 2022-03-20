@@ -63,12 +63,18 @@ internal static class JPath
 		}
 
 		// Try and get the result out of a JValue
-		if (result is JValue jValue)
+		functionArgs.Result = result switch
 		{
-			functionArgs.Result = jValue.Value;
-			return;
-		}
-
-		functionArgs.Result = JObject.FromObject(result);
+			JValue jValue => jValue.Value,
+			JArray jArray => jArray
+				.Values()
+				.Select(jToken => jToken switch
+					{
+						JValue jValue => jValue.Value,
+						_ => JObject.FromObject(jToken)
+					})
+				.ToArray(),
+			_ => JObject.FromObject(result)
+		};
 	}
 }

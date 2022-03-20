@@ -52,6 +52,7 @@ General functions:
 - [throw()](#throw)
 - [timeSpan()](#timespan)
 - [toDateTime()](#toDateTime)
+- [try()](#try)
 - [typeOf()](#typeOf)
 
 String functions:
@@ -678,6 +679,27 @@ Converts a string to upper case.
 
 ## Examples
 - toUpper('PaNToMIMe') : 'PANTOMIME'
+
+---
+# try()
+
+## Purpose
+
+If a function throws an exception, return an alternate value.
+
+## Parameters
+- function to attempt
+- result to return if an exception is thrown (nul is returned if this parameter is omitted and an exception is thrown)
+
+## Examples
+- try(1, 'Failed') : 1
+- try(throw('Woo')) : null
+- try(throw('Woo'), 'Failed') : 'Failed'
+- try(throw('Woo'), exception_message) : 'Woo'
+- try(throw('Woo'), exception_type) : typeof(PanoramicData.NCalcExtensions.Exceptions.NCalcExtensionsException)
+- try(throw('Woo'), exception_typeFullName) : 'PanoramicData.NCalcExtensions.Exceptions.NCalcExtensionsException'
+- try(throw('Woo'), exception_typeName) : 'NCalcExtensionsException'
+- try(throw('Woo'), exception) : The Exception object thrown by the throw function.
 
 ---
 # typeOf()

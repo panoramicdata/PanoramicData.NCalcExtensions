@@ -144,6 +144,9 @@ public static class NCalcExtensions
 			case ExtensionFunction.ToUpper:
 				ToUpper.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Try:
+				Try.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.TypeOf:
 				TypeOf.Evaluate(functionArgs);
 				return;

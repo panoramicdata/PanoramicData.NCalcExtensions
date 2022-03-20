@@ -2,7 +2,7 @@
 
 public class JPathTests : NCalcTest
 {
-	private static JObject TestJObject = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2], \"kvps\": [ { \"key\": \"key1\", \"value\": \"value1\" }, { \"key\": \"key2\", \"value\": \"value2\" } ] }");
+	private static readonly JObject TestJObject = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2], \"kvps\": [ { \"key\": \"key1\", \"value\": \"value1\" }, { \"key\": \"key2\", \"value\": \"value2\" } ] }");
 
 	[Theory]
 	[InlineData("name", "bob")]
@@ -72,10 +72,12 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'numbers')");
 		expression.Parameters["source"] = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2] }");
-		var exception = Assert.Throws<FormatException>(() => expression.Evaluate());
-		exception.Message.Should().Be(
-			"jPath function - jPath expression should identify a single value in the source object. Result type found: Array",
-			because: "the entry is an array of numbers, which is not a single result"
-		);
+		var result = expression.Evaluate();
+		result.Should().BeOfType<object?[]>();
+		var theArray = result as object?[];
+		theArray.Should().NotBeNull();
+		theArray.Should().HaveCount(2);
+		theArray[0].Should().Be(1);
+		theArray[1].Should().Be(2);
 	}
 }

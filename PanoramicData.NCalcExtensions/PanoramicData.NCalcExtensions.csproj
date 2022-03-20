@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added nullCoalesce().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added Try/Catch support with try().</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
