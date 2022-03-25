@@ -38,6 +38,9 @@ public static class NCalcExtensions
 			case ExtensionFunction.Contains:
 				Contains.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Convert:
+				ConvertFunction.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.DateTime:
 				DateTimeMethods.Evaluate(functionArgs);
 				return;

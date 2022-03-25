@@ -30,6 +30,7 @@ General functions:
 
 - [canEvaluate()](#canEvaluate)
 - [cast()](#cast)
+- [convert()](#convert)
 - [changeTimeZone()](#changeTimeZone)
 - [dateTime()](#dateTime)
 - [dateTimeAsEpochMs()](#dateTimeAsEpochMs)
@@ -118,6 +119,23 @@ For a list of supported TimeZone names, see https://docs.microsoft.com/en-us/dot
 ## Examples
 - changeTimeZone(theDateTime, 'UTC', 'Eastern Standard Time')
 - changeTimeZone(theDateTime, 'Eastern Standard Time', 'UTC')
+
+---
+# convert()
+
+## Purpose
+Converts the output of parameter 1 into the result of parameter 2.
+Can be used to return an empty string instead of the result of parameter 1,
+which can be useful when the return value is not useful.
+The result of parameter 1 is available as the variable "value".
+
+## Parameters
+- the value to calculate
+- destination TimeZone name
+
+## Examples
+- convert(anyFunction(), 'XYZ'): 'XYZ'
+- convert(1 + 1, value + 1): 3
 
 ---
 # dateTime()
