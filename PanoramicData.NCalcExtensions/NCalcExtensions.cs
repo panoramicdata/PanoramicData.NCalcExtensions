@@ -75,6 +75,12 @@ public static class NCalcExtensions
 			case ExtensionFunction.IsNull:
 				IsNull.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.IsNullOrEmpty:
+				IsNullOrEmpty.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.IsNullOrWhiteSpace:
+				IsNullOrWhiteSpace.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.IsSet:
 				IsSet.Evaluate(functionArgs);
 				return;

@@ -23,6 +23,8 @@ public static class ExtensionFunction
 	public const string IsInfinite = "isInfinite";
 	public const string IsNaN = "isNaN";
 	public const string IsNull = "isNull";
+	public const string IsNullOrWhiteSpace = "isNullOrWhiteSpace";
+	public const string IsNullOrEmpty = "isNullOrEmpty";
 	public const string IsSet = "isSet";
 	public const string ItemAtIndex = "itemAtIndex";
 	public const string Join = "join";

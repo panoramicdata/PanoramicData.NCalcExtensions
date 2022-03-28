@@ -40,6 +40,8 @@ General functions:
 - [isInfinite()](#isinfinite)
 - [isNaN()](#isnan)
 - [isNull()](#isnull)
+- [isNullOrEmpty()](#isnullOrEmpty)
+- [isNullOrWhiteSpace()](#isnullOrWhiteSpace)
 - [isSet()](#isset)
 - [itemAtIndex()](#itemAtIndex)
 - [join()](#join)
@@ -287,6 +289,48 @@ Determines whether a value is either:
 - isNull('text') : false
 - isNull(bob) : true if bob is null
 - isNull(null) : true
+---
+
+# isNullOrEmpty()
+
+## Purpose
+
+Determines whether a value is either:
+- null; or
+- it's a JObject and it's type is JTokenType.Null or;
+- it's a string and it's empty.
+
+## Parameters
+- value
+
+## Examples
+- isNullOrEmpty(null) : true
+- isNullOrEmpty('') : true
+- isNullOrEmpty(' ') : false
+- isNullOrEmpty(bob) : true if bob is null or whitespace
+- isNullOrEmpty(1) : false
+- isNullOrEmpty('text') : false
+---
+
+# isNullOrWhiteSpace()
+
+## Purpose
+
+Determines whether a value is either:
+- null; or
+- it's a JObject and it's type is JTokenType.Null or;
+- it's a string and it's empty or only contains whitespace characters (\r, \n, \t, or ' ').
+
+## Parameters
+- value
+
+## Examples
+- isNullOrWhiteSpace(null) : true
+- isNullOrWhiteSpace('') : true
+- isNullOrWhiteSpace(' ') : true
+- isNullOrWhiteSpace(bob) : true if bob is null or whitespace
+- isNullOrWhiteSpace(1) : false
+- isNullOrWhiteSpace('text') : false
 ---
 
 # isSet()

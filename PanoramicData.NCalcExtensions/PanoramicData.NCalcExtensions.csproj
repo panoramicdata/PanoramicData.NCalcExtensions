@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added convert().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added isNullOrEmpty() and isNullOrWhiteSpace().</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
