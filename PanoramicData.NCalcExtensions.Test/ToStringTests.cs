@@ -6,12 +6,12 @@ public class ToStringTests
 	public void ToString_IsNull_ReturnsNull()
 	{
 		var expression = new ExtendedExpression("toString(null)");
-		Assert.Null(expression.Evaluate());
+		expression.Evaluate().Should().BeNull();
 	}
 	[Fact]
 	public void ToString_Int_Succeeds()
 	{
 		var expression = new ExtendedExpression("toString(1)");
-		Assert.Equal("1", expression.Evaluate());
+		expression.Evaluate().Should().Be("1");
 	}
 }
