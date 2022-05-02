@@ -10,7 +10,11 @@ internal static class Join
 		string joinString;
 		try
 		{
-			input = (List<string>)functionArgs.Parameters[0].Evaluate();
+			var firstParam = functionArgs.Parameters[0].Evaluate();
+			if (firstParam is List<object>)
+				input = ((List<object>)firstParam).Select(u => u.ToString()).ToList();
+			else
+				input = (List<string>)firstParam;
 			joinString = (string)functionArgs.Parameters[1].Evaluate();
 		}
 		catch (NCalcExtensionsException)
