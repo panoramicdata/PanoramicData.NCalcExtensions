@@ -15,9 +15,9 @@ internal static class Join
 			{
 				input = new List<string>();
 			}
-			else if (firstParam is List<object>)
+			else if (firstParam is List<object> objList)
 			{
-				input = ((List<object>)firstParam).Select(u => u.ToString()).ToList();
+				input = objList.Select(u => u.ToString()).ToList();
 			}
 			else
 			{
