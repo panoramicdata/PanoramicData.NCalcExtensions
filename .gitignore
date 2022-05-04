@@ -163,3 +163,4 @@ WixInstallerAgent*.wxs
 WixInstallerWp*.wxs
 
 /.vs/PanoramicData.NCalcExtensions
+/.vs

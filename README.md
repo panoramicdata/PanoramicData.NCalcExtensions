@@ -632,6 +632,7 @@ Retrieves part of a string.  If more characters are requested than available at 
 - substring('haystack', 0, 3) : 'hay'
 - substring('haystack', 3, 100) : 'stack'
 - substring('haystack', 0, 100) : 'haystack'
+- substring('haystack', 0, 0) : ''
 
 ---
 # switch()

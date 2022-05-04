@@ -2,6 +2,18 @@ namespace PanoramicData.NCalcExtensions.Test;
 
 public class SubstringTests
 {
+	[Theory]
+	[InlineData("substring('haystack', 3)", "stack")]
+	[InlineData("substring('haystack', 0, 3)", "hay")]
+	[InlineData("substring('haystack', 3, 100)", "stack")]
+	[InlineData("substring('haystack', 0, 100)", "haystack")]
+	[InlineData("substring('haystack', 0, 0)", "")]
+	public void Substring_HelpExamples_Succeed(string expressionText, string expected)
+	{
+		var expression = new ExtendedExpression(expressionText);
+		Assert.Equal(expected, expression.Evaluate() as string);
+	}
+
 	[Fact]
 	public void Substring_TwoParameters_Succeeds()
 	{
