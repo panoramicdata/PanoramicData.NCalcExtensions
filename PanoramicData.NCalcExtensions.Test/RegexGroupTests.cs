@@ -29,4 +29,17 @@ public class RegexGroupTests : NCalcTest
 		result = Test("regexGroup('abc:def:XYZ', '^.+?:.+?:(.)+$', 3)");
 		Assert.Null(result);
 	}
+
+	[Fact]
+	public void RegexGroup_NotSoSimple_Succeeds()
+	{
+		var text = "AutoTask: xxx.xxx@xxx.com at 2022-05-10 08:26:57 UTC (37407238)\nTitle: Notification Description: xxx@xxx.xxx";
+		var expression = new Expression("regexGroup(text, 'AutoTask: .+ \\\\((\\\\d+)\\\\)\\\\n')");
+		expression.Parameters["text"] = text;
+		expression.EvaluateFunction += NCalcExtensions.Extend;
+		var result = expression.Evaluate();
+
+		Assert.Equal("37407238", result);
+	}
+
 }
