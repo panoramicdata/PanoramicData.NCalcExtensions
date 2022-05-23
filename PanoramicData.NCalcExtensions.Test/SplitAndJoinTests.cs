@@ -25,6 +25,7 @@ public class SplitAndJoinTests : NCalcTest
 	[Theory]
 	[InlineData("join(split('a b c', ' '), ',')", "a,b,c")]
 	[InlineData("join(split('a b c', ' '), ', ')", "a, b, c")]
+	[InlineData("join(list('a', 'b', 'c'), ', ')", "a, b, c")]
 	public void Switch_ReturnsExpected(string expression, object? expectedOutput)
 		=> Assert.Equal(expectedOutput, new ExtendedExpression(expression).Evaluate());
 }
