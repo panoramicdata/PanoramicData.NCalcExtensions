@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added isNullOrEmpty() and isNullOrWhiteSpace().</PackageReleaseNotes>
+		<PackageReleaseNotes>Fixed Join function when lists are in use.  Thanks to chenglidev (https://github.com/chenglidev) for the pull request.  Updated nuget packages.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -27,8 +27,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CoreCLR-NCalc" Version="2.2.98" />
-		<PackageReference Include="Nerdbank.GitVersioning" Version="3.4.255">
+		<PackageReference Include="CoreCLR-NCalc" Version="2.2.101" />
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.5.107">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
