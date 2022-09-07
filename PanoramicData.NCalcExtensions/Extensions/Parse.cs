@@ -40,12 +40,13 @@ internal static class Parse
 				 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
 			"decimal" => decimal.TryParse(text, out var result) ? result
 				 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-			"jObject" => ParseJson(text),
+			"jObject" => ParseJObject(text),
+			"jArray" => ParseJArray(text),
 			_ => throw new FormatException($"type '{typeString}' not supported.")
 		};
 	}
 
-	private static JObject ParseJson(string text)
+	private static JObject ParseJObject(string text)
 	{
 		try
 		{
@@ -54,6 +55,18 @@ internal static class Parse
 		catch (JsonReaderException e)
 		{
 			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JObject)}'.");
+		}
+	}
+
+	private static JArray ParseJArray(string text)
+	{
+		try
+		{
+			return JArray.Parse(text);
+		}
+		catch (JsonReaderException e)
+		{
+			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JArray)}'.");
 		}
 	}
 }

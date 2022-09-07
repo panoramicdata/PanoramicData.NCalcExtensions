@@ -29,6 +29,7 @@ public class ParseTests
 	[InlineData("float")]
 	[InlineData("decimal")]
 	[InlineData("jObject")]
+	[InlineData("jArray")]
 	public void Parse_Unparsable_Throws(string parameters)
 	{
 		var expression = new ExtendedExpression($"parse('{parameters}', 'x')");
@@ -165,6 +166,16 @@ public class ParseTests
 	public void Parse_JObject_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"parse('jObject', '{text}')");
+		var result = expression.Evaluate();
+		JsonConvert.SerializeObject(result).Should().Be(text);
+	}
+
+	[Theory]
+	[InlineData("[]")]
+	[InlineData("[\"a\",1]")]
+	public void Parse_JArray_Succeeds(string text)
+	{
+		var expression = new ExtendedExpression($"parse('jArray', '{text}')");
 		var result = expression.Evaluate();
 		JsonConvert.SerializeObject(result).Should().Be(text);
 	}
