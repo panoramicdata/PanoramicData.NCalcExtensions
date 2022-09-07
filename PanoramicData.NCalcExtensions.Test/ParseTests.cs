@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Test;
+﻿using Newtonsoft.Json;
+
+namespace PanoramicData.NCalcExtensions.Test;
 
 public class ParseTests
 {
@@ -26,6 +28,7 @@ public class ParseTests
 	[InlineData("double")]
 	[InlineData("float")]
 	[InlineData("decimal")]
+	[InlineData("jObject")]
 	public void Parse_Unparsable_Throws(string parameters)
 	{
 		var expression = new ExtendedExpression($"parse('{parameters}', 'x')");
@@ -154,5 +157,15 @@ public class ParseTests
 		var expression = new ExtendedExpression($"parse('ushort', '{text}')");
 		var result = expression.Evaluate();
 		result.Should().Be(ushort.Parse(text));
+	}
+
+	[Theory]
+	[InlineData("{}")]
+	[InlineData("{\"a\":1}")]
+	public void Parse_JObject_Succeeds(string text)
+	{
+		var expression = new ExtendedExpression($"parse('jObject', '{text}')");
+		var result = expression.Evaluate();
+		JsonConvert.SerializeObject(result).Should().Be(text);
 	}
 }

@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Fixed Join function when lists are in use.  Thanks to chenglidev (https://github.com/chenglidev) for the pull request.  Updated nuget packages.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added JObject parse type.  Updated nuget packages.  Spelling corrections and checking added.</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28922.388
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PanoramicData.NCalcExtensions", "PanoramicData.NCalcExtensions\PanoramicData.NCalcExtensions.csproj", "{4CC16329-746A-4D3E-8835-6C7070122760}"
 EndProject
@@ -11,11 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		global.json = global.json
 		PanoramicData.ico = PanoramicData.ico
+		PanoramicData.NCalcExtensions.sln.vsspell = PanoramicData.NCalcExtensions.sln.vsspell
+		PanoramicData.NCalcExtensions.sln.vsspell.dic = PanoramicData.NCalcExtensions.sln.vsspell.dic
 		README.md = README.md
 		version.json = version.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanoramicData.NCalcExtensions.Test", "PanoramicData.NCalcExtensions.Test\PanoramicData.NCalcExtensions.Test.csproj", "{EA50B1AD-C32A-4683-A165-C25E77F57C02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PanoramicData.NCalcExtensions.Test", "PanoramicData.NCalcExtensions.Test\PanoramicData.NCalcExtensions.Test.csproj", "{EA50B1AD-C32A-4683-A165-C25E77F57C02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

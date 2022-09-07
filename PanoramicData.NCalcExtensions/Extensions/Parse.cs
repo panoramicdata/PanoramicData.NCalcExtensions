@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using Newtonsoft.Json;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
 
 internal static class Parse
 {
@@ -38,7 +40,20 @@ internal static class Parse
 				 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
 			"decimal" => decimal.TryParse(text, out var result) ? result
 				 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
+			"jObject" => ParseJson(text),
 			_ => throw new FormatException($"type '{typeString}' not supported.")
 		};
+	}
+
+	private static JObject ParseJson(string text)
+	{
+		try
+		{
+			return JObject.Parse(text);
+		}
+		catch (JsonReaderException e)
+		{
+			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JObject)}'.");
+		}
 	}
 }

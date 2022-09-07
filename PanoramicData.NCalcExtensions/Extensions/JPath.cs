@@ -6,7 +6,7 @@ internal static class JPath
 	{
 		JObject jPathSourceObject;
 		string jPathExpression;
-		var returnNullIfNotFound = false; // False default obvs
+		var returnNullIfNotFound = false; // False default
 
 		const string SyntaxMessage = ExtensionFunction.JPath + " function - first parameter should be a JObject and second a string jPath expression with optional third parameter " + nameof(returnNullIfNotFound) + ".";
 

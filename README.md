@@ -752,7 +752,7 @@ If a function throws an exception, return an alternate value.
 
 ## Parameters
 - function to attempt
-- result to return if an exception is thrown (nul is returned if this parameter is omitted and an exception is thrown)
+- result to return if an exception is thrown (null is returned if this parameter is omitted and an exception is thrown)
 
 ## Examples
 - try(1, 'Failed') : 1
