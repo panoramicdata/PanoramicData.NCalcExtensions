@@ -43,4 +43,44 @@ public class SwitchTests : NCalcTest
 		var result = e.Evaluate();
 		result.Should().Be(1);
 	}
+
+	[Fact]
+	public void Switch_ComparingIntegersInsideIf_Works()
+	{
+		const string expression = "if(incident_exists, switch(incident_Priority, 4, 4, 1, 1, 21), 9)";
+		var e = new ExtendedExpression(expression);
+		e.Parameters["incident_exists"] = true;
+		e.Parameters["incident_Priority"] = 4;
+		var result = e.Evaluate();
+		result.Should().Be(4);
+	}
+
+	[Fact]
+	public void Switch_ComparingIntegersViaJObject_Works()
+	{
+		const string expression = "if(incident_exists, switch(incident_Priority, 4, 4, 1, 1, 21), 9)";
+		var e = new ExtendedExpression(expression);
+		JObject jobject = new JObject();
+		jobject["incident_exists"] = true;
+		jobject["incident_Priority"] = 4;
+		foreach (var property in jobject.Properties())
+		{
+			e.Parameters[property.Name] = GetValue(property);
+		}
+		var result = e.Evaluate();
+		result.Should().Be(4);
+	}
+
+	private static object? GetValue(JProperty jProperty) => jProperty.Value.Type switch
+	{
+		JTokenType.Null => (object?)null,
+		JTokenType.Undefined => (object?)null,
+		JTokenType.String => jProperty.Value.ToObject<string>(),
+		JTokenType.Integer => jProperty.Value.ToObject<int>(),
+		JTokenType.Float => jProperty.Value.ToObject<double>(),
+		JTokenType.Boolean => jProperty.Value.ToObject<bool>(),
+		_ => jProperty.Value
+	};
+
 }
+
