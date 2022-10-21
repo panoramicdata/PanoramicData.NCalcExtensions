@@ -9,8 +9,10 @@ public static class ExtensionFunction
 	public const string Capitalize = "capitalize";
 	public const string Cast = "cast";
 	public const string ChangeTimeZone = "changeTimeZone";
+	public const string Concat = "concat";
 	public const string Contains = "contains";
 	public const string Convert = "convert";
+	public const string Count = "count";
 	public const string DateTime = "dateTime";
 	public const string DateTimeAsEpochMs = "dateTimeAsEpochMs";
 	public const string EndsWith = "endsWith";
@@ -39,10 +41,12 @@ public static class ExtensionFunction
 	public const string RegexGroup = "regexGroup";
 	public const string RegexIsMatch = "regexIsMatch";
 	public const string Replace = "replace";
+	public const string Skip = "skip";
 	public const string Split = "split";
 	public const string StartsWith = "startsWith";
 	public const string Substring = "substring";
 	public const string Switch = "switch";
+	public const string Take = "take";
 	public const string Throw = "throw";
 	public const string TimeSpan = "timespan";
 	public const string TimeSpanCamel = "timeSpan";

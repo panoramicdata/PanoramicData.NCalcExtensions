@@ -30,7 +30,9 @@ General functions:
 
 - [canEvaluate()](#canEvaluate)
 - [cast()](#cast)
+- [concat()](#concat)
 - [convert()](#convert)
+- [count()](#count)
 - [changeTimeZone()](#changeTimeZone)
 - [dateTime()](#dateTime)
 - [dateTimeAsEpochMs()](#dateTimeAsEpochMs)
@@ -51,7 +53,9 @@ General functions:
 - [nullCoalesce()](#nullCoalesce)
 - [regexGroup()](#regexGroup)
 - [regexIsMatch()](#regexIsMatch)
+- [skip()](#skip)
 - [switch()](#switch)
+- [take()](#take)
 - [throw()](#throw)
 - [timeSpan()](#timespan)
 - [toDateTime()](#toDateTime)
@@ -121,6 +125,23 @@ For a list of supported TimeZone names, see https://docs.microsoft.com/en-us/dot
 ## Examples
 - changeTimeZone(theDateTime, 'UTC', 'Eastern Standard Time')
 - changeTimeZone(theDateTime, 'Eastern Standard Time', 'UTC')
+
+---
+# concat()
+
+## Purpose
+Concatenates lists and objects.
+The examples all result in a List<object?> containing 4 integers: 1, 2, 3 and 4.
+
+## Parameters
+- the lists or objects to concatenate
+
+## Examples
+- concat(list(1, 2), list(3, 4))
+- concat(list(1, 2, 3, 4))
+- concat(1, 2, 3, 4)
+- concat(list(1, 2, 3), 4)
+- concat(1, list(2, 3, 4))
 
 ---
 # convert()
@@ -419,6 +440,20 @@ Returns the first parameter that is not null, otherwise: null.
 - nullCoalesce(null, null, 'xxx', 3) : 'xxx'
 
 ---
+# skip()
+
+## Purpose
+Skips a number of items in a list.
+If the number of items to skip is greater than the number of items in the list, an empty list is returned.
+
+## Parameters
+- the list to skip from
+- the number of items to skip
+
+## Examples
+- skip(list(1, 2, 3), 1): list(2, 3)
+
+---
 # split()
 
 ## Purpose
@@ -649,6 +684,21 @@ Return one of a number of values, depending on the input function.
 - switch('yes', 'yes', 1, 'no', 2) : 1
 - switch('blah', 'yes', 1, 'no', 2) : throws exception
 - switch('blah', 'yes', 1, 'no', 2, 3) : 3
+
+---
+# take()
+
+## Purpose
+Takes a number of items from a list.
+If a number is provided that is longer than the list, the full list is returned.
+
+## Parameters
+- the list to take from
+- the number of items to take
+
+## Examples
+- take(list(1, 2, 3), 2): list(1, 2)
+- take(list(1, 2, 3), 10): list(1, 2, 3)
 
 ---
 # throw()

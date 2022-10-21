@@ -8,12 +8,11 @@ internal static class Length
 	{
 		try
 		{
-			var param1 = functionArgs.Parameters[0].Evaluate();
-			functionArgs.Result = param1 switch
+			var value = functionArgs.Parameters[0].Evaluate();
+			functionArgs.Result = value switch
 			{
 				string a => a.Length,
-				IList b => b.Count,
-				_ => throw new Exception()
+				_ => GetLength(value)
 			};
 		}
 		catch (NCalcExtensionsException)
@@ -24,5 +23,16 @@ internal static class Length
 		{
 			throw new FormatException($"{ExtensionFunction.Length}() requires one string or IList parameter.");
 		}
+	}
+
+	private static int GetLength(object value)
+	{
+		var a = value as IList;
+		if (a is not null)
+		{
+			return a.Count;
+		}
+
+		throw new FormatException($"{ExtensionFunction.Length}() requires one string or IList parameter.");
 	}
 }

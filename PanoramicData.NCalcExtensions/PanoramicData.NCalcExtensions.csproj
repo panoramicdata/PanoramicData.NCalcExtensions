@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added JArray parse type.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added concat(), count(), skip() and take().</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

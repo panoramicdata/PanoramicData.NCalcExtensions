@@ -35,11 +35,17 @@ public static class NCalcExtensions
 			case ExtensionFunction.ChangeTimeZone:
 				ChangeTimeZone.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Concat:
+				Concat.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Contains:
 				Contains.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Convert:
 				ConvertFunction.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Count:
+				Count.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.DateTime:
 				DateTimeMethods.Evaluate(functionArgs);
@@ -123,6 +129,9 @@ public static class NCalcExtensions
 			case ExtensionFunction.Replace:
 				Replace.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Skip:
+				Skip.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Split:
 				Split.Evaluate(functionArgs);
 				return;
@@ -134,6 +143,9 @@ public static class NCalcExtensions
 				return;
 			case ExtensionFunction.Switch:
 				Switch.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Take:
+				Take.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Throw:
 				throw Throw.Evaluate(functionArgs);
