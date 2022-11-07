@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class NCalcTest
+public abstract class NCalcTest
 {
 	protected static object Test(string expressionText)
 	{
