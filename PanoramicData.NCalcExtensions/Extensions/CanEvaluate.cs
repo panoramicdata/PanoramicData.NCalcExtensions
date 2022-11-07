@@ -8,7 +8,7 @@ internal static class CanEvaluate
 		{
 			foreach (var parameter in functionArgs.Parameters)
 			{
-				var outputObject = parameter.Evaluate();
+				parameter.Evaluate();
 			}
 
 			functionArgs.Result = true;

@@ -26,13 +26,5 @@ internal static class Try
 				functionArgs.Result = null;
 			}
 		}
-		// TODO - figure out how finally should/could be used.
-		//finally
-		//{
-		//	if (functionArgs.Parameters.Length == 3)
-		//	{
-		//		functionArgs.Result = functionArgs.Parameters[2].Evaluate();
-		//	}
-		//}
 	}
 }

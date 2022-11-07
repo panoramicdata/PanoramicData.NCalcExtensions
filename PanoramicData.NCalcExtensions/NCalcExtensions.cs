@@ -15,13 +15,6 @@ public static class NCalcExtensions
 			// For example: any(value == 1, 1, 2, 3) : true
 			// For example: all(value == 1, 1, 2, 3) : false
 
-			//case ExtensionFunction.Any:
-			//	Any.Evaluate(functionArgs);
-			//	return;
-			//case ExtensionFunction.All:
-			//	All.Evaluate(functionArgs);
-			//	return;
-
 			case ExtensionFunction.CanEvaluate:
 				CanEvaluate.Evaluate(functionArgs);
 				return;

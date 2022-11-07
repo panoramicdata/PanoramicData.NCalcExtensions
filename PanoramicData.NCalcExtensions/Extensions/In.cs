@@ -14,7 +14,6 @@ internal static class In
 			var item = functionArgs.Parameters[0].Evaluate();
 			var list = functionArgs.Parameters.Skip(1).Select(p => p.Evaluate()).ToList();
 			functionArgs.Result = list.Contains(item);
-			return;
 		}
 		catch (NCalcExtensionsException)
 		{

@@ -18,7 +18,5 @@ internal static class ToUpper
 		{
 			throw new FormatException($"{ExtensionFunction.ToUpper} function -  requires one string parameter.");
 		}
-
-		return;
 	}
 }
