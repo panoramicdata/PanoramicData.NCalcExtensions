@@ -17,7 +17,6 @@ internal static class IsInfinite
 					double.IsPositiveInfinity(x)
 					|| double.IsNegativeInfinity(x)
 				);
-			return;
 		}
 		catch (NCalcExtensionsException)
 		{

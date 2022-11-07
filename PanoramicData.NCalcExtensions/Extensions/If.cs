@@ -43,7 +43,6 @@ internal static class If
 		try
 		{
 			functionArgs.Result = functionArgs.Parameters[2].Evaluate();
-			return;
 		}
 		catch (NCalcExtensionsException)
 		{

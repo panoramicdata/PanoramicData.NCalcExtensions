@@ -171,6 +171,8 @@ public static class NCalcExtensions
 			case ExtensionFunction.TypeOf:
 				TypeOf.Evaluate(functionArgs);
 				return;
+			default:
+				return;
 		}
 	}
 

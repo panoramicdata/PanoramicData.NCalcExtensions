@@ -13,8 +13,8 @@ internal static class StartsWith
 
 		try
 		{
-			param1 = (string)functionArgs.Parameters[0].Evaluate() as string;
-			param2 = (string)functionArgs.Parameters[1].Evaluate() as string;
+			param1 = (string)functionArgs.Parameters[0].Evaluate();
+			param2 = (string)functionArgs.Parameters[1].Evaluate();
 		}
 		catch (NCalcExtensionsException)
 		{
