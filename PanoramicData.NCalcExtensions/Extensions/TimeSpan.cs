@@ -11,12 +11,12 @@ internal static class TimeSpan
 
 		string fromString;
 		string toString;
-		string timeUnitString;
+		string timeFormat;
 		try
 		{
 			fromString = functionArgs.Parameters[0].Evaluate().ToString();
 			toString = functionArgs.Parameters[1].Evaluate().ToString();
-			timeUnitString = functionArgs.Parameters[2].Evaluate().ToString();
+			timeFormat = functionArgs.Parameters[2].Evaluate().ToString();
 		}
 		catch (NCalcExtensionsException)
 		{
@@ -37,17 +37,15 @@ internal static class TimeSpan
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{toString}' to DateTime");
 		}
 
-		if (!Enum.TryParse(timeUnitString, true, out TimeUnit timeUnit))
-		{
-			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{timeUnitString}' to a supported time unit");
-		}
-
 		// Determine the timespan
 		var timeSpan = toDateTime - fromDateTime;
-		functionArgs.Result = GetUnits(timeSpan, timeUnit);
+
+		functionArgs.Result = Enum.TryParse(timeFormat, true, out TimeUnit timeUnit)
+			? GetUnits(timeSpan, timeUnit)
+			: timeSpan.ToString(timeFormat);
 	}
 
-	private static double GetUnits(System.TimeSpan timeSpan, TimeUnit timeUnit)
+	private static object GetUnits(System.TimeSpan timeSpan, TimeUnit timeUnit)
 		=> timeUnit switch
 		{
 			TimeUnit.Milliseconds => timeSpan.TotalMilliseconds,
