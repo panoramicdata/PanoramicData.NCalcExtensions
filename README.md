@@ -724,6 +724,15 @@ Throws an NCalcExtensionsException.   Useful in an if().
 ### Purpose
 
 Determines the amount of time between two DateTimes.
+The following units are supported:
+  * Years
+  * Weeks
+  * Days
+  * Hours
+  * Minutes
+  * Seconds
+  * Milliseconds
+  * Any other string is handled with TimeSpan.ToString(timeUnit). See https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-timespan-format-strings
 
 ### Parameters
   * startDateTime
