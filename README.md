@@ -684,7 +684,7 @@ true
   * value
 
 ### Examples
-  * retrieve('thing', 1) : true
+  * store('thing', 1) : true
 
 ---
 ## substring()
