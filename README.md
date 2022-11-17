@@ -56,7 +56,9 @@ General functions:
   * [nullCoalesce()](#nullCoalesce)
   * [regexGroup()](#regexGroup)
   * [regexIsMatch()](#regexIsMatch)
+  * [retrieve()](#retrieve)
   * [skip()](#skip)
+  * [store()](#store)
   * [switch()](#switch)
   * [take()](#take)
   * [throw()](#throw)
@@ -652,6 +654,37 @@ Replace a string with another string
 ### Examples
   * replace('abcdefg', 'cde', 'CDE') : 'abCDEfg'
   * replace('abcdefg', 'cde', '') : 'abfg'
+
+---
+## retrieve()
+
+### Purpose
+
+Retrieves a value from storage
+
+### Parameters
+  * key
+
+### Examples
+  * retrieve('thing')
+
+---
+## store()
+
+### Purpose
+
+Stores a value for use later in the pipeline
+
+### Returns
+
+true
+
+### Parameters
+  * key
+  * value
+
+### Examples
+  * retrieve('thing', 1) : true
 
 ---
 ## substring()

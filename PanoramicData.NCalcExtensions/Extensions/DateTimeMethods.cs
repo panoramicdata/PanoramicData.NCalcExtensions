@@ -22,7 +22,7 @@ internal static class DateTimeMethods
 		// Format
 		var format = functionArgs.Parameters.Length > 1
 			? functionArgs.Parameters[1].Evaluate() as string
-			: "YYYY-MM-dd HH:mm:ss";
+			: "yyyy-MM-dd HH:mm:ss";
 		// Format has been determined
 
 		// Days to add

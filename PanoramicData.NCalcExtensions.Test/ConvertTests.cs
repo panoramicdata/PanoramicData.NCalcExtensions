@@ -9,6 +9,7 @@ public class ConvertTests
 	[InlineData("null", "value", null)]
 	[InlineData("1", "value", 1)]
 	[InlineData("1 + 1", "value", 2)]
+	[InlineData("store('x', 1)", "retrieve('x')", 1)]
 	public void Convert_Succeeds(
 		string firstParameter,
 		string secondParameter,

@@ -1,10 +1,16 @@
-﻿namespace PanoramicData.NCalcExtensions;
+﻿using System.Collections.Generic;
+
+namespace PanoramicData.NCalcExtensions;
 
 public class ExtendedExpression : Expression
 {
+	private static readonly Dictionary<string, object?> _storageDictionary = new();
+	internal const string StorageDictionaryParameterName = "__storageDictionary";
+
 	public ExtendedExpression(string expression) : base(expression)
 	{
-		EvaluateFunction += NCalcExtensions.Extend;
+		Parameters[StorageDictionaryParameterName] = _storageDictionary;
+		EvaluateFunction += Extend;
 		CacheEnabled = false;
 		if (Parameters.ContainsKey("null"))
 		{
@@ -40,6 +46,182 @@ public class ExtendedExpression : Expression
 		if (maxPropertyCount is not null && functionArgs.Parameters.Length > maxPropertyCount)
 		{
 			throw new FormatException($"{functionName}: No more than {maxPropertyCount} parameter{(maxPropertyCount == 1 ? "" : "s")} permitted.");
+		}
+	}
+
+	internal static void Extend(string functionName, FunctionArgs functionArgs)
+	{
+		if (functionArgs == null)
+		{
+			throw new ArgumentNullException(nameof(functionArgs));
+		}
+
+		switch (functionName)
+		{
+			// These should works with predicates (and don't yet)
+			// For example: any(value == 1, 1, 2, 3) : true
+			// For example: all(value == 1, 1, 2, 3) : false
+
+			case ExtensionFunction.CanEvaluate:
+				CanEvaluate.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Capitalise:
+			case ExtensionFunction.Capitalize:
+				Capitalize.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Cast:
+				Cast.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.ChangeTimeZone:
+				ChangeTimeZone.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Concat:
+				Concat.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Contains:
+				Contains.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Convert:
+				ConvertFunction.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Count:
+				Count.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.DateTime:
+				DateTimeMethods.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.DateTimeAsEpochMs:
+				DateTimeAsEpochMs.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.EndsWith:
+				EndsWith.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Format:
+				Format.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.GetProperty:
+				GetProperty.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Humanise:
+			case ExtensionFunction.Humanize:
+				Humanize.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.In:
+				In.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.IndexOf:
+				IndexOf.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.If:
+				If.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.IsInfinite:
+				IsInfinite.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.IsNaN:
+				IsNaN.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.IsNull:
+				IsNull.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.IsNullOrEmpty:
+				IsNullOrEmpty.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.IsNullOrWhiteSpace:
+				IsNullOrWhiteSpace.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.IsSet:
+				IsSet.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.ItemAtIndex:
+				ItemAtIndex.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Join:
+				Join.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.JPath:
+				JPath.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.LastIndexOf:
+				LastIndexOf.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Length:
+				Length.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.List:
+				List.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.NullCoalesce:
+				NullCoalesce.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.PadLeft:
+				PadLeft.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Parse:
+				Parse.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.ParseInt:
+				ParseInt.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.RegexGroup:
+				RegexGroup.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.RegexIsMatch:
+				RegexIsMatch.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Replace:
+				Replace.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Retrieve:
+				Retrieve.Evaluate(functionArgs, _storageDictionary);
+				return;
+			case ExtensionFunction.Skip:
+				Skip.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Split:
+				Split.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.StartsWith:
+				StartsWith.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Store:
+				Store.Evaluate(functionArgs, _storageDictionary);
+				return;
+			case ExtensionFunction.Substring:
+				Substring.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Switch:
+				Switch.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Take:
+				Take.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Throw:
+				throw Throw.Evaluate(functionArgs);
+			case ExtensionFunction.TimeSpan:
+			case ExtensionFunction.TimeSpanCamel:
+				Extensions.TimeSpan.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.ToDateTime:
+				ToDateTime.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.ToLower:
+				ToLower.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.ToString:
+				Extensions.ToString.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.ToUpper:
+				ToUpper.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Try:
+				Try.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.TypeOf:
+				TypeOf.Evaluate(functionArgs);
+				return;
+			default:
+				return;
 		}
 	}
 }

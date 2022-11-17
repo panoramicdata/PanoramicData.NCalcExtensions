@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using PanoramicData.NCalcExtensions.Helpers;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
 
 internal static class Humanize
 {
