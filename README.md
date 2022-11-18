@@ -1,6 +1,6 @@
 # PanoramicData.NCalcExtensions
 
-Extension functions for NCalc, documentation for which can be found [here](https://github.com/sklose/NCalc2).
+Extension functions for NCalc, documentation for which can be found [here (source code)](https://github.com/sklose/NCalc2) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
 
 [![Nuget](https://img.shields.io/nuget/v/PanoramicData.NCalcExtensions)](https://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
 [![Nuget](https://img.shields.io/nuget/dt/PanoramicData.NCalcExtensions)](https://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
