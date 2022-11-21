@@ -9,6 +9,7 @@
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>Icon.png</PackageIcon>
