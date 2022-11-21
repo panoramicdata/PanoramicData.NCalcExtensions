@@ -15,7 +15,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Added store(), retrieve() and getProperty().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added where().</PackageReleaseNotes>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>

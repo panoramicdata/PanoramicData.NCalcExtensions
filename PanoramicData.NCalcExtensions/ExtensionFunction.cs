@@ -57,4 +57,5 @@ public static class ExtensionFunction
 	public const string ToUpper = "toUpper";
 	public const string Try = "try";
 	public const string TypeOf = "typeOf";
+	public const string Where = "where";
 }

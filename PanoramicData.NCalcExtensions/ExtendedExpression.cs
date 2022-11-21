@@ -220,6 +220,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.TypeOf:
 				TypeOf.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Where:
+				Where.Evaluate(functionArgs);
+				return;
 			default:
 				return;
 		}

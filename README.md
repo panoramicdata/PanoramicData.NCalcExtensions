@@ -66,6 +66,7 @@ General functions:
   * [toDateTime()](#toDateTime)
   * [try()](#try)
   * [typeOf()](#typeOf)
+  * [where()](#where)
 
 String functions:
   * [capitalize()](#capitalize)
@@ -874,6 +875,22 @@ Determines the C# type of the object.
   * typeOf(1) : 'Int32'
   * typeOf(1.1) : 'Double'
   * typeOf(null) : null
+
+---
+## where()
+
+### Purpose
+
+Filters an IEnumerable to bring back only those items that match a condition.
+
+### Parameters
+  * list - the original list
+  * predicate - a string to represent the value to be evaluated
+  * nCalcString - the string to evaluate
+
+### Examples
+  * where(list(1, 2, 3, 4, 5), 'n', 'n < 3') : list(1, 2)
+  * where(list(1, 2, 3, 4, 5), 'n', 'n < 3 || n > 4') : list(1, 2, 5)
 
 ---
 ## capitalize()
