@@ -77,7 +77,7 @@ public class JPathTests : NCalcTest
 		var theArray = result as object?[];
 		theArray.Should().NotBeNull();
 		theArray.Should().HaveCount(2);
-		theArray[0].Should().Be(1);
+		theArray![0].Should().Be(1);
 		theArray[1].Should().Be(2);
 	}
 }

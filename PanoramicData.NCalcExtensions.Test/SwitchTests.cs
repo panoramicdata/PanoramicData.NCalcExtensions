@@ -60,13 +60,17 @@ public class SwitchTests : NCalcTest
 	{
 		const string expression = "if(incident_exists, switch(incident_Priority, 4, 4, 1, 1, 21), 9)";
 		var e = new ExtendedExpression(expression);
-		JObject jobject = new JObject();
-		jobject["incident_exists"] = true;
-		jobject["incident_Priority"] = 4;
+		var jobject = new JObject
+		{
+			["incident_exists"] = true,
+			["incident_Priority"] = 4
+		};
+
 		foreach (var property in jobject.Properties())
 		{
 			e.Parameters[property.Name] = GetValue(property);
 		}
+
 		var result = e.Evaluate();
 		result.Should().Be(4);
 	}

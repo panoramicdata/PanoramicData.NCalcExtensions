@@ -8,6 +8,8 @@
 		<Authors>Panoramic Data Limited</Authors>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisMode>All</AnalysisMode>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
