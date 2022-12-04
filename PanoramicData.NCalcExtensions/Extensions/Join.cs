@@ -22,7 +22,8 @@ internal static class Join
 			else
 			{
 				input = (List<string>)firstParam;
-			}				
+			}
+
 			joinString = (string)functionArgs.Parameters[1].Evaluate();
 		}
 		catch (NCalcExtensionsException)

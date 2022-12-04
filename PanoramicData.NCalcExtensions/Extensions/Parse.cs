@@ -52,7 +52,7 @@ internal static class Parse
 		{
 			return JObject.Parse(text);
 		}
-		catch (JsonReaderException e)
+		catch (JsonReaderException)
 		{
 			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JObject)}'.");
 		}
@@ -64,7 +64,7 @@ internal static class Parse
 		{
 			return JArray.Parse(text);
 		}
-		catch (JsonReaderException e)
+		catch (JsonReaderException)
 		{
 			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JArray)}'.");
 		}

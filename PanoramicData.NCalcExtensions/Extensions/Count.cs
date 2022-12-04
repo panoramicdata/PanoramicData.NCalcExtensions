@@ -6,8 +6,8 @@ internal static class Count
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		var value = functionArgs.Parameters[0].Evaluate() as IList
-			?? throw new FormatException($"{ExtensionFunction.Length}() requires IList parameter.");
-		functionArgs.Result = value.Count;
+		var value = functionArgs.Parameters[0].Evaluate() as IEnumerable
+			?? throw new FormatException($"{ExtensionFunction.Count}() requires IList parameter.");
+		functionArgs.Result = value.Cast<object>().Count();
 	}
 }
