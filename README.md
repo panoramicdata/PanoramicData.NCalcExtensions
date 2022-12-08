@@ -16,10 +16,9 @@ using PanoramicData.NCalcExtensions;
 
 ...
 var calculation = "lastIndexOf('abcdefg', 'def')";
-var nCalcExpression = new Expression(calculation);
 
-// Add the extension functions
-nCalcExpression.EvaluateFunction += NCalcExtensions.NCalcExtensions.Extend;
+// Instead of extending the NCalc functions we now just create an ExtendedExpression
+var nCalcExpression = new ExtendedExpression(calculation);
 
 if (nCalcExpression.HasErrors())
 {
