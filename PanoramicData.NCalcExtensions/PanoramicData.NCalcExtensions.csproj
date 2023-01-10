@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<ApplicationIcon>PanoramicData.ico</ApplicationIcon>
+		<ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Copyright>Panoramic Data Limited 2019-2022</Copyright>
 		<Authors>Panoramic Data Limited</Authors>
@@ -22,6 +22,10 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="Panoramic Data.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="Panoramic Data.png" Pack="True" PackagePath="\" />
