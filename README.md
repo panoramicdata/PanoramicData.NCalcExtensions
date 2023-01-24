@@ -504,6 +504,20 @@ Determines whether a string ends with another string.
   * endsWith('abcdefg', 'fgh') : false
 
 ---
+## getProperty()
+
+### Purpose
+
+Gets an object's property.
+
+### Parameters
+  * sourceObject
+  * propertyName
+
+### Examples
+  * getProperty(toDateTime('2019-01-01', 'yyyy-MM-dd'), 'Year') : 2019 (int)
+
+---
 
 ## jPath()
 
