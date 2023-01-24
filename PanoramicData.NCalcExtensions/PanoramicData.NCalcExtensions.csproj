@@ -18,9 +18,11 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageReleaseNotes>Improved count().</PackageReleaseNotes>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+		<PackageReleaseNotes>Added getProperty(), including JObject support.</PackageReleaseNotes>
+
 	</PropertyGroup>
 
 	<ItemGroup>
