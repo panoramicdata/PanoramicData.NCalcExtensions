@@ -21,7 +21,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
-		<PackageReleaseNotes>Added getProperty(), including JObject support.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added jObject() for creating new JObjects.</PackageReleaseNotes>
 
 	</PropertyGroup>
 

@@ -154,6 +154,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.NullCoalesce:
 				NullCoalesce.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.NewJObject:
+				NewJObject.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.PadLeft:
 				PadLeft.Evaluate(functionArgs);
 				return;

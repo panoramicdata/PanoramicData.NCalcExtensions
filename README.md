@@ -49,6 +49,7 @@ General functions:
   * [isNullOrWhiteSpace()](#isnullOrWhiteSpace)
   * [isSet()](#isset)
   * [itemAtIndex()](#itemAtIndex)
+  * [jObject()](#jObject)
   * [join()](#join)
   * [jPath()](#jPath)
   * [length()](#length)
@@ -384,6 +385,25 @@ Determines the item at the given index.  The first index is 0.
 
 ### Examples
   * itemAtIndex(split('a b c', ' '), 1) : 'b'
+
+---
+## jObject()
+
+### Purpose
+
+Creates a JObject from key/value pairs.
+
+### Parameters
+  * key1 (string)
+  * value1
+  * key2 (string)
+  * value2
+  * ...
+  * keyN
+  * valueN
+
+### Examples
+  * jObject('a', 1, 'b', null) : JObject{ "a": 1, "b": null}
 
 
 ---
