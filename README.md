@@ -859,6 +859,8 @@ Converts any object to a string
 
 ### Examples
   * toString(1) : '1'
+  * toString(1000, 'N2') : '1,000.00'
+  * toString(DateTimeOffset, 'yyyy-MM-dd') : '2023-02-17'
 
 ---
 ## toUpper()
