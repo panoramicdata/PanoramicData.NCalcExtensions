@@ -856,6 +856,7 @@ Converts any object to a string
 
 ### Parameters
   * object
+  * format (optional)
 
 ### Examples
   * toString(1) : '1'
