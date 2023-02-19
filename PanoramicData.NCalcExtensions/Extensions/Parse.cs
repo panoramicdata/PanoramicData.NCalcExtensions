@@ -18,6 +18,8 @@ internal static class Parse
 
 		functionArgs.Result = typeString switch
 		{
+			"bool" => bool.TryParse(text, out var result) ? result
+				 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
 			"sbyte" => sbyte.TryParse(text, out var result) ? result
 				 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
 			"byte" => byte.TryParse(text, out var result) ? result

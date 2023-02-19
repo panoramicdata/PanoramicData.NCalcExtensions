@@ -37,6 +37,18 @@ public class ParseTests
 	}
 
 	[Theory]
+	[InlineData("true")]
+	[InlineData("True")]
+	[InlineData("false")]
+	[InlineData("False")]
+	public void Parse_Bool_Succeeds(string text)
+	{
+		var expression = new ExtendedExpression($"parse('bool', '{text}')");
+		var result = expression.Evaluate();
+		result.Should().Be(bool.Parse(text));
+	}
+
+	[Theory]
 	[InlineData("1")]
 	[InlineData("-1")]
 	[InlineData("-0")]

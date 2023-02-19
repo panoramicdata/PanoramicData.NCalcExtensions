@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Copyright>Panoramic Data Limited 2019-2022</Copyright>
+		<Copyright>Panoramic Data Limited 2019-2023</Copyright>
 		<Authors>Panoramic Data Limited</Authors>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
@@ -21,7 +21,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
-		<PackageReleaseNotes>Added optional second formatting parameter for toString().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added parse('bool', [string]) support.</PackageReleaseNotes>
 
 	</PropertyGroup>
 
@@ -45,7 +45,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-		<PackageReference Include="TimeZoneConverter" Version="6.0.1" />
+		<PackageReference Include="TimeZoneConverter" Version="6.1.0" />
 
 	</ItemGroup>
 
