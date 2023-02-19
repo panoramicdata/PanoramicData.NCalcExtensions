@@ -608,6 +608,7 @@ Pad the left of a string with a character to a desired string length.
 ### Purpose
 
 Returns the conversion of a string to a numeric type.  Supported types are:
+  * bool
   * sbyte
   * byte
   * short
@@ -623,9 +624,11 @@ Returns the conversion of a string to a numeric type.  Supported types are:
 ### Parameters
   * type (see above)
   * text
+  * valueIfParseFails (optional)
 
 ### Examples
   * parse('int', '1') : 1
+  * parse('bool', 'x', null) : null
 ---
 
 ## parseInt()

@@ -21,7 +21,7 @@
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
-		<PackageReleaseNotes>Added parse('bool', [string]) support.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added parse([typeString], [inputString], [defaultObject]) support.</PackageReleaseNotes>
 
 	</PropertyGroup>
 
