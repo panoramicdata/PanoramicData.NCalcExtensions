@@ -66,14 +66,7 @@ internal static class JPath
 		functionArgs.Result = result switch
 		{
 			JValue jValue => jValue.Value,
-			JArray jArray => jArray
-				.Values()
-				.Select(jToken => jToken switch
-					{
-						JValue jValue => jValue.Value,
-						_ => JObject.FromObject(jToken)
-					})
-				.ToArray(),
+			JArray jArray => jArray,
 			_ => JObject.FromObject(result)
 		};
 	}

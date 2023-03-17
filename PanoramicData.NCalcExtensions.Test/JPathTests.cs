@@ -45,6 +45,15 @@ public class JPathTests : NCalcTest
 	}
 
 	[Fact]
+	public void JPath_AccessArray_Succeeds()
+	{
+		var expression = new ExtendedExpression("jPath(source, 'kvps')");
+		expression.Parameters["source"] = TestJObject;
+		var result = expression.Evaluate();
+		result.Should().BeOfType<JArray>();
+	}
+
+	[Fact]
 	public void JPath_PathNotPresent_PathError()
 	{
 		var expression = new ExtendedExpression("jPath(source, 'size')");
