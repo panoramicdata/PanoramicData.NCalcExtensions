@@ -32,3 +32,44 @@ internal static class NewJObject
 		functionArgs.Result = jObject;
 	}
 }
+
+internal static class SetProperties
+{
+	internal static void Evaluate(FunctionArgs functionArgs)
+	{
+		if (functionArgs.Parameters.Length % 2 != 1)
+		{
+			throw new FormatException($"{ExtensionFunction.NewJObject}() requires an odd number of parameters.");
+		}
+
+		var parameterIndex = 0;
+
+		var original = functionArgs.Parameters[parameterIndex++].Evaluate();
+		var originalAsJObject = original
+		 switch
+		{
+			JObject jObject => jObject,
+			_ => JObject.FromObject(original)
+		};
+
+		// Create an empty JObject
+		while (parameterIndex < functionArgs.Parameters.Length)
+		{
+			if (functionArgs.Parameters[parameterIndex++].Evaluate() is not string key)
+			{
+				throw new FormatException($"{ExtensionFunction.NewJObject}() requires a string key.");
+			}
+
+			if (originalAsJObject.ContainsKey(key))
+			{
+				throw new FormatException($"{ExtensionFunction.NewJObject}() can only define property {key} once.");
+			}
+
+			var value = functionArgs.Parameters[parameterIndex++].Evaluate();
+			originalAsJObject.Add(key, value is null ? JValue.CreateNull() : JToken.FromObject(value));
+		}
+
+		functionArgs.Result = originalAsJObject;
+	}
+}
+

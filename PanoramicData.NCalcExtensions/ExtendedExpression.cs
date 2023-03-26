@@ -192,6 +192,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.SelectDistinct:
 				SelectDistinct.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.SetProperties:
+				SetProperties.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Skip:
 				Skip.Evaluate(functionArgs);
 				return;

@@ -826,6 +826,22 @@ Converts an IEnumerable using a lambda and removes duplicates.
   * select(list(1, 2, 3, 3, 3), 'n', 'n + 1') : list(2, 3, 4)
 
 ---
+## setProperties()
+
+### Purpose
+
+Sets properties on an existing object.
+
+### Parameters
+  * object - the original object
+  * property1 - the first new property name
+  * value1 - the first new property value
+  * propertyN (optional) - the nth new property name
+  * valueN (optional) - the nth new property value
+### Examples
+  * setProperties(jObject('a', 1, 'b', null), 'c', 'X') : jObject('a', 1, 'b', null, 'c', 'X')
+  * setProperties(jObject('a', 1, 'b', null), 'c', 'X', 'd', 'Y') : jObject('a', 1, 'b', null, 'c', 'X', 'd', 'Y')
+---
 ## sort()
 
 ### Purpose

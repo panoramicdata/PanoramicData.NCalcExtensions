@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added sum().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added setProperties().</PackageReleaseNotes>
 
 	</PropertyGroup>
 
