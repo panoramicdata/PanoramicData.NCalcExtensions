@@ -13,7 +13,7 @@ internal static class IsNullOrWhiteSpace
 		{
 			var outputObject = functionArgs.Parameters[0].Evaluate();
 			functionArgs.Result = outputObject is null ||
-				(outputObject as JToken)?.Type == JTokenType.Null ||
+				outputObject is JToken { Type: JTokenType.Null } ||
 				(outputObject is string outputString && string.IsNullOrWhiteSpace(outputString));
 		}
 		catch (NCalcExtensionsException)

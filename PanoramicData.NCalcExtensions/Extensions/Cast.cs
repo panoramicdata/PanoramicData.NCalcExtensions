@@ -16,11 +16,8 @@ internal static class Cast
 			throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a string.");
 		}
 
-		var castType = Type.GetType(castTypeString);
-		if (castType == null)
-		{
-			throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a valid .NET type e.g. System.Decimal.");
-		}
+		var castType = Type.GetType(castTypeString)
+			?? throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a valid .NET type e.g. System.Decimal.");
 
 		var result = Convert.ChangeType(inputObject, castType, CultureInfo.InvariantCulture);
 		functionArgs.Result = result;
