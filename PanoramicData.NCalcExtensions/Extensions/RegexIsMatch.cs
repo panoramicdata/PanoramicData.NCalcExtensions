@@ -4,20 +4,19 @@ internal static class RegexIsMatch
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		try
+		var input = functionArgs.Parameters[0].Evaluate();
+		var regexExpression = functionArgs.Parameters[1].Evaluate();
+		if (input is not string inputString)
 		{
-			var input = (string)functionArgs.Parameters[0].Evaluate();
-			var regexExpression = (string)functionArgs.Parameters[1].Evaluate();
-			var regex = new Regex(regexExpression);
-			functionArgs.Result = regex.IsMatch(input);
+			throw new FormatException($"{ExtensionFunction.RegexIsMatch} function - first parameter should be a string.");
 		}
-		catch (NCalcExtensionsException)
+
+		if (regexExpression is not string regexExpressionString)
 		{
-			throw;
+			throw new FormatException($"{ExtensionFunction.RegexIsMatch} function - second parameter should be a string.");
 		}
-		catch (Exception)
-		{
-			throw new FormatException($"{ExtensionFunction.RegexIsMatch}() requires two string parameters.");
-		}
+
+		var regex = new Regex(regexExpressionString);
+		functionArgs.Result = regex.IsMatch(inputString);
 	}
 }

@@ -15,4 +15,11 @@ public class RegexIsMatchTests : NCalcTest
 		var result = Test("regexIsMatch('YYYYYYYYYYY', '^XXXXXXXX$')");
 		Assert.False((bool)result);
 	}
+
+	[Fact]
+	public void RegexIsMatch_JObject_Succeeds()
+	{
+		var result = Test("regexIsMatch(jPath(jObject('name', 'UK123'), 'name'), '^UK')");
+		Assert.True((bool)result);
+	}
 }
