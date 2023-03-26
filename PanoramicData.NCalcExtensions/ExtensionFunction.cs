@@ -15,6 +15,7 @@ public static class ExtensionFunction
 	public const string Count = "count";
 	public const string DateTime = "dateTime";
 	public const string DateTimeAsEpochMs = "dateTimeAsEpochMs";
+	public const string Distinct = "distinct";
 	public const string EndsWith = "endsWith";
 	public const string Format = "format";
 	public const string GetProperty = "getProperty";
@@ -45,6 +46,7 @@ public static class ExtensionFunction
 	public const string Replace = "replace";
 	public const string Retrieve = "retrieve";
 	public const string Select = "select";
+	public const string SelectDistinct = "selectDistinct";
 	public const string Skip = "skip";
 	public const string Split = "split";
 	public const string StartsWith = "startsWith";

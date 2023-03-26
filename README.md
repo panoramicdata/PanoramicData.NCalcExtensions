@@ -41,6 +41,7 @@ General functions:
   * [changeTimeZone()](#changeTimeZone)
   * [dateTime()](#dateTime)
   * [dateTimeAsEpochMs()](#dateTimeAsEpochMs)
+  * [distinct()](#distinct)
   * [format()](#format)
   * [if()](#if)
   * [in()](#in)
@@ -61,6 +62,7 @@ General functions:
   * [regexIsMatch()](#regexIsMatch)
   * [retrieve()](#retrieve)
   * [select()](#select)
+  * [selectDistinct()](#selectDistinct)
   * [skip()](#skip)
   * [store()](#store)
   * [switch()](#switch)
@@ -249,6 +251,19 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1st Jan 1
 
 ### Examples
   * dateTimeAsEpochMs('20190702T000000', 'yyyyMMddTHHmmssK') : 1562025600000
+
+---
+## distinct()
+
+### Purpose
+
+Returns only distinct items from the input.
+
+### Parameters
+  * list - the original list
+
+### Examples
+  * distinct(list(1, 2, 3, 3, 3)) : list(1, 2, 3)
 
 ---
 ## format()
@@ -772,6 +787,21 @@ Converts an IEnumerable using a lambda.
 
 ### Examples
   * select(list(1, 2, 3, 4, 5), 'n', 'n + 1') : list(2, 3, 4, 5, 6)
+
+---
+## selectDistinct()
+
+### Purpose
+
+Converts an IEnumerable using a lambda and removes duplicates.
+
+### Parameters
+  * list - the original list
+  * predicate - a string to represent the value to be evaluated
+  * nCalcString - the value to evaluate to for each item in the list
+
+### Examples
+  * select(list(1, 2, 3, 3, 3), 'n', 'n + 1') : list(2, 3, 4)
 
 ---
 ## store()

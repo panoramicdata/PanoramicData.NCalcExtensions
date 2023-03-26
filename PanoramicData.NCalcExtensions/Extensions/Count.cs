@@ -16,10 +16,10 @@ internal static class Count
 		}
 
 		var predicate = functionArgs.Parameters[1].Evaluate() as string
-			?? throw new FormatException("Second {ExtensionFunction.Where} parameter must be a string.");
+			?? throw new FormatException($"Second {ExtensionFunction.Count} parameter must be a string.");
 
 		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
-			?? throw new FormatException("Second {ExtensionFunction.Where} parameter must be a string.");
+			?? throw new FormatException($"Third {ExtensionFunction.Where} parameter must be a string.");
 
 		var lambda = new Lambda(predicate, lambdaString, new());
 

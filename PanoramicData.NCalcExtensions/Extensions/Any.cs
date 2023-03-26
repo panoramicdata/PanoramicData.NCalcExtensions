@@ -7,13 +7,13 @@ internal static class Any
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		var list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
-			?? throw new FormatException($"First {ExtensionFunction.Where} parameter must be an IEnumerable.");
+			?? throw new FormatException($"First {ExtensionFunction.Any} parameter must be an IEnumerable.");
 
 		var predicate = functionArgs.Parameters[1].Evaluate() as string
-			?? throw new FormatException("Second {ExtensionFunction.Where} parameter must be a string.");
+			?? throw new FormatException($"Second {ExtensionFunction.Any} parameter must be a string.");
 
 		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
-			?? throw new FormatException("Second {ExtensionFunction.Where} parameter must be a string.");
+			?? throw new FormatException($"Third {ExtensionFunction.Any} parameter must be a string.");
 
 		var lambda = new Lambda(predicate, lambdaString, new());
 

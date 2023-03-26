@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added any(), all() and the ability to use a lambda in count().</PackageReleaseNotes>
+		<PackageReleaseNotes>Fixed error messages for any(), all(), where() and select().  Added selectDistinct() and distinct().</PackageReleaseNotes>
 
 	</PropertyGroup>
 
