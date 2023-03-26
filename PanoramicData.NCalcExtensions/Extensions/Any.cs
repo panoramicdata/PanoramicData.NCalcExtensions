@@ -6,13 +6,22 @@ internal static class Any
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		var value = functionArgs.Parameters.Select(p => p.Evaluate()).ToList<object?>().Collapse() ?? new List<object?>();
+		var list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
+			?? throw new FormatException($"First {ExtensionFunction.Where} parameter must be an IEnumerable.");
 
-		if (value.Any(v => v as bool? is null))
-		{
-			throw new NCalcExtensionsException("All parameters to the any() function must be bools");
-		}
+		var predicate = functionArgs.Parameters[1].Evaluate() as string
+			?? throw new FormatException("Second {ExtensionFunction.Where} parameter must be a string.");
 
-		functionArgs.Result = value.Any(v => v as bool? == true);
+		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
+			?? throw new FormatException("Second {ExtensionFunction.Where} parameter must be a string.");
+
+		var lambda = new Lambda(predicate, lambdaString, new());
+
+		functionArgs.Result = list
+			.Any(value =>
+			{
+				var result = lambda.Evaluate(value) as bool?;
+				return result == true;
+			});
 	}
 }

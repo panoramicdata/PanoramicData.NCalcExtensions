@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added select().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added any(), all() and the ability to use a lambda in count().</PackageReleaseNotes>
 
 	</PropertyGroup>
 

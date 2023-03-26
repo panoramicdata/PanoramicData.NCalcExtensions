@@ -31,6 +31,8 @@ return nCalcExpression.Evaluate();
 
 General functions:
 
+  * [all()](#all)
+  * [any()](#any)
   * [canEvaluate()](#canEvaluate)
   * [cast()](#cast)
   * [concat()](#concat)
@@ -90,6 +92,39 @@ String functions:
   * [toString()](#tostring)
 
 Supported functions:
+
+
+---
+## all()
+
+### Purpose
+
+Returns true if all values match the lambda expression, otherwise false.
+
+### Parameters
+  * list - the original list
+  * predicate - a string to represent the value to be evaluated
+  * nCalcString - the string to evaluate
+
+### Examples
+  * all(list(1, 2, 3, 4, 5), 'n', 'n < 3') : false
+  * all(list(1, 2, 3, 4, 5), 'n', 'n > 0 && n < 10') : true
+
+---
+## any()
+
+### Purpose
+
+Returns true if any values match the lambda expression, otherwise false.
+
+### Parameters
+  * list - the original list
+  * predicate - a string to represent the value to be evaluated
+  * nCalcString - the string to evaluate
+
+### Examples
+  * any(list(1, 2, 3, 4, 5), 'n', 'n < 3') : true
+  * any(list(1, 2, 3, 4, 5), 'n', 'n > 11') : false
 
 ---
 ## canEvaluate()
@@ -167,6 +202,22 @@ The result of parameter 1 is available as the variable "value".
 ### Examples
   * convert(anyFunction(), 'XYZ'): 'XYZ'
   * convert(1 + 1, value + 1): 3
+
+---
+## count()
+
+### Purpose
+
+Counts the number of items.  Optionally, only count those that match a lambda.
+
+### Parameters
+  * list - the original list
+  * predicate (optional) - a string to represent the value to be evaluated
+  * nCalcString (optional) - the string to evaluate
+
+### Examples
+  * count(list(1, 2, 3, 4, 5)) : 5
+  * count(list(1, 2, 3, 4, 5), 'n', 'n > 3') : 2
 
 ---
 ## dateTime()

@@ -2,6 +2,8 @@
 
 public static class ExtensionFunction
 {
+	public const string All = "all";
+	public const string Any = "any";
 	public const string CanEvaluate = "canEvaluate";
 	public const string Capitalise = "capitalise";
 	public const string Capitalize = "capitalize";
