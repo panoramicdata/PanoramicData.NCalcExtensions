@@ -25,7 +25,7 @@ internal static class OrderBy
 				return result;
 			});
 
-		var parameterCount = functionArgs.Parameters.Count();
+		var parameterCount = functionArgs.Parameters.Length;
 
 		while (parameterIndex < parameterCount)
 		{
