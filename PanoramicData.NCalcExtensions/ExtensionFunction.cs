@@ -42,6 +42,7 @@ public static class ExtensionFunction
 	public const string RegexIsMatch = "regexIsMatch";
 	public const string Replace = "replace";
 	public const string Retrieve = "retrieve";
+	public const string Select = "select";
 	public const string Skip = "skip";
 	public const string Split = "split";
 	public const string StartsWith = "startsWith";

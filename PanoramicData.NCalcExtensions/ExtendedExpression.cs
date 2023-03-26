@@ -178,6 +178,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.Retrieve:
 				Retrieve.Evaluate(functionArgs, _storageDictionary);
 				return;
+			case ExtensionFunction.Select:
+				Select.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Skip:
 				Skip.Evaluate(functionArgs);
 				return;

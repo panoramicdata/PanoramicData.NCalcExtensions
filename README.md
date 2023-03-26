@@ -58,6 +58,7 @@ General functions:
   * [regexGroup()](#regexGroup)
   * [regexIsMatch()](#regexIsMatch)
   * [retrieve()](#retrieve)
+  * [select()](#select)
   * [skip()](#skip)
   * [store()](#store)
   * [switch()](#switch)
@@ -705,6 +706,21 @@ Retrieves a value from storage
 
 ### Examples
   * retrieve('thing')
+
+---
+## select()
+
+### Purpose
+
+Converts an IEnumerable using a lambda.
+
+### Parameters
+  * list - the original list
+  * predicate - a string to represent the value to be evaluated
+  * nCalcString - the value to evaluate to for each item in the list
+
+### Examples
+  * select(list(1, 2, 3, 4, 5), 'n', 'n + 1') : list(2, 3, 4, 5, 6)
 
 ---
 ## store()

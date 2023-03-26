@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Fixed incorrect regexIsMatch() error message.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added select().</PackageReleaseNotes>
 
 	</PropertyGroup>
 
