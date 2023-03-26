@@ -17,7 +17,7 @@ internal static class RegexIsMatch
 		}
 		catch (Exception)
 		{
-			throw new FormatException($"{ExtensionFunction.Replace}() requires three string parameters.");
+			throw new FormatException($"{ExtensionFunction.RegexIsMatch}() requires two string parameters.");
 		}
 	}
 }

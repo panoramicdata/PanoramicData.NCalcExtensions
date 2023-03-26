@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Test;
+﻿using Meraki.Api.Data;
+
+namespace PanoramicData.NCalcExtensions.Test;
 
 public class JPathTests : NCalcTest
 {
@@ -51,6 +53,16 @@ public class JPathTests : NCalcTest
 		expression.Parameters["source"] = TestJObject;
 		var result = expression.Evaluate();
 		result.Should().BeOfType<JArray>();
+	}
+
+	[Fact]
+	public void JPath_StringCompare_Succeeds()
+	{
+		var expression = new ExtendedExpression("jPath(source, 'Name') == 'bob'");
+		expression.Parameters["source"] = JObject.FromObject(new Organization { Name = "bob" });
+		var result = expression.Evaluate();
+		result.Should().BeOfType<bool>();
+		result.Should().Be(true);
 	}
 
 	[Fact]

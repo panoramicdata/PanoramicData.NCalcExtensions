@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Fixed jPath for JArrays.  Embedded symbols.</PackageReleaseNotes>
+		<PackageReleaseNotes>Fixed incorrect regexIsMatch() error message.</PackageReleaseNotes>
 
 	</PropertyGroup>
 
