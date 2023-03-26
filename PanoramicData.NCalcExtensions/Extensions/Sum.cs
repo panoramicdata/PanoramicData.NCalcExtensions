@@ -1,0 +1,47 @@
+﻿using System.Collections.Generic;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+internal static class Sum
+{
+	internal static void Evaluate(FunctionArgs functionArgs)
+	{
+		var list = functionArgs.Parameters[0].Evaluate();
+
+		if (functionArgs.Parameters.Length == 1)
+		{
+			functionArgs.Result = list switch
+			{
+				IEnumerable<byte> byteList => byteList.Cast<int>().Sum(),
+				IEnumerable<short> shortList => shortList.Cast<int>().Sum(),
+				IEnumerable<int> intList => intList.Sum(),
+				IEnumerable<long> longList => longList.Sum(),
+				IEnumerable<float> floatList => floatList.Sum(),
+				IEnumerable<double> doubleList => doubleList.Sum(),
+				IEnumerable<decimal> decimalList => decimalList.Sum(),
+				_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.")
+			};
+			return;
+		}
+
+		var predicate = functionArgs.Parameters[1].Evaluate() as string
+			?? throw new FormatException($"Second {ExtensionFunction.Sum} parameter must be a string.");
+
+		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
+			?? throw new FormatException($"Third {ExtensionFunction.Sum} parameter must be a string.");
+
+		var lambda = new Lambda(predicate, lambdaString, new());
+
+		functionArgs.Result = list switch
+		{
+			IEnumerable<byte> byteList => byteList.Cast<int>().Sum(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<short> shortList => shortList.Cast<int>().Sum(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<int> intList => intList.Sum(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<long> longList => longList.Sum(value => (long?)lambda.Evaluate(value)),
+			IEnumerable<float> floatList => floatList.Sum(value => (float?)lambda.Evaluate(value)),
+			IEnumerable<double> doubleList => doubleList.Sum(value => (double?)lambda.Evaluate(value)),
+			IEnumerable<decimal> decimalList => decimalList.Sum(value => (decimal?)lambda.Evaluate(value)),
+			_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.")
+		};
+	}
+}

@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added sort().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added sum().</PackageReleaseNotes>
 
 	</PropertyGroup>
 

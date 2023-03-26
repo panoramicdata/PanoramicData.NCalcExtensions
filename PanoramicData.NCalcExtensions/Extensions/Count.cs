@@ -7,7 +7,7 @@ internal static class Count
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		var list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
-			?? throw new FormatException($"{ExtensionFunction.Count}() requires IList parameter.");
+			?? throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
 
 		if (functionArgs.Parameters.Length == 1)
 		{
@@ -19,7 +19,7 @@ internal static class Count
 			?? throw new FormatException($"Second {ExtensionFunction.Count} parameter must be a string.");
 
 		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
-			?? throw new FormatException($"Third {ExtensionFunction.Where} parameter must be a string.");
+			?? throw new FormatException($"Third {ExtensionFunction.Count} parameter must be a string.");
 
 		var lambda = new Lambda(predicate, lambdaString, new());
 

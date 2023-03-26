@@ -210,6 +210,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.Substring:
 				Substring.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Sum:
+				Sum.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Switch:
 				Switch.Evaluate(functionArgs);
 				return;

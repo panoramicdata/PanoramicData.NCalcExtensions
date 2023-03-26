@@ -54,6 +54,7 @@ public static class ExtensionFunction
 	public const string StartsWith = "startsWith";
 	public const string Store = "store";
 	public const string Substring = "substring";
+	public const string Sum = "sum";
 	public const string Switch = "switch";
 	public const string Take = "take";
 	public const string Throw = "throw";

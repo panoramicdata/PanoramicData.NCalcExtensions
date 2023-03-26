@@ -879,6 +879,22 @@ Retrieves part of a string.  If more characters are requested than available at 
   * substring('haystack', 0, 0) : ''
 
 ---
+## sum()
+
+### Purpose
+
+Sums numeric items.  Optionally, perform a lambda on each one first.
+
+### Parameters
+  * list - the original list
+  * predicate (optional) - a string to represent the value to be evaluated
+  * nCalcString (optional) - the string to evaluate
+
+### Examples
+  * sum(list(1, 2, 3)) : 6
+  * sum(list(1, 2, 3), 'n', 'n * n') : 14
+
+---
 ## switch()
 
 ### Purpose
