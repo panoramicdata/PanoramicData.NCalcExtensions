@@ -38,6 +38,7 @@ public static class ExtensionFunction
 	public const string List = "list";
 	public const string NewJObject = "jObject";
 	public const string NullCoalesce = "nullCoalesce";
+	public const string OrderBy = "orderBy";
 	public const string PadLeft = "padLeft";
 	public const string Parse = "parse";
 	public const string ParseInt = "parseInt";

@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Fixed error messages for any(), all(), where() and select().  Added selectDistinct() and distinct().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added orderBy().</PackageReleaseNotes>
 
 	</PropertyGroup>
 

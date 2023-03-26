@@ -58,6 +58,7 @@ General functions:
   * [length()](#length)
   * [list()](#list)
   * [nullCoalesce()](#nullCoalesce)
+  * [orderBy()](#orderBy)
   * [regexGroup()](#regexGroup)
   * [regexIsMatch()](#regexIsMatch)
   * [retrieve()](#retrieve)
@@ -531,6 +532,26 @@ Returns the first parameter that is not null, otherwise: null.
   * nullCoalesce(null, 1, 2, 3) : 1
   * nullCoalesce(null, null, null) : null
   * nullCoalesce(null, null, 'xxx', 3) : 'xxx'
+
+---
+## orderBy()
+
+### Purpose
+
+Orders an IEnumerable by one or more lambda expressions.
+
+### Parameters
+  * list - the original list
+  * predicate - a string to represent the value to be evaluated
+  * nCalcString1 - the first orderBy lambda expression
+  * nCalcString2 (optional) - the next orderBy lambda expression
+  * nCalcString... (optional) - the next orderBy lambda expression
+
+### Examples
+  * orderBy(list(34, 33, 2, 1), 'n', 'n') : list(1, 2, 33, 34)
+  * orderBy(list(34, 33, 2, 1), 'n', '-n') : list(34, 33, 2, 1)
+  * orderBy(list(34, 33, 2, 1), 'n % 32', 'n % 2') : list(34, 33, 1, 2)
+  * orderBy(list(34, 33, 2, 1), 'n % 2', 'n % 32') : list(33, 1, 34, 2)
 
 ---
 ## skip()

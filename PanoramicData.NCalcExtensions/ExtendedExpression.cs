@@ -162,6 +162,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.NewJObject:
 				NewJObject.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.OrderBy:
+				OrderBy.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.PadLeft:
 				PadLeft.Evaluate(functionArgs);
 				return;
