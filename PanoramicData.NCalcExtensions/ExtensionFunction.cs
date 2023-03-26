@@ -49,6 +49,7 @@ public static class ExtensionFunction
 	public const string Select = "select";
 	public const string SelectDistinct = "selectDistinct";
 	public const string Skip = "skip";
+	public const string Sort = "sort";
 	public const string Split = "split";
 	public const string StartsWith = "startsWith";
 	public const string Store = "store";

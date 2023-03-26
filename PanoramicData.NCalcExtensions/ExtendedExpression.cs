@@ -195,6 +195,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.Skip:
 				Skip.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Sort:
+				Sort.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Split:
 				Split.Evaluate(functionArgs);
 				return;

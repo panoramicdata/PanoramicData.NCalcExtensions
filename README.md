@@ -65,6 +65,7 @@ General functions:
   * [select()](#select)
   * [selectDistinct()](#selectDistinct)
   * [skip()](#skip)
+  * [sort()](#sort)
   * [store()](#store)
   * [switch()](#switch)
   * [take()](#take)
@@ -823,6 +824,22 @@ Converts an IEnumerable using a lambda and removes duplicates.
 
 ### Examples
   * select(list(1, 2, 3, 3, 3), 'n', 'n + 1') : list(2, 3, 4)
+
+---
+## sort()
+
+### Purpose
+
+Sorts an IComparable ascending or descending.
+
+### Parameters
+  * list - the original list
+  * direction (optional) - 'asc' is the default, 'desc' is the other option
+### Examples
+  * sort(list(2, 1, 3)) : list(1, 2, 3)
+  * sort(list(2, 1, 3), 'asc') : list(1, 2, 3)
+  * sort(list(2, 1, 3), 'desc') : list(3, 2, 1)
+  * sort(list('b', 'a', 'c'))) : list('a', 'b', 'c')
 
 ---
 ## store()

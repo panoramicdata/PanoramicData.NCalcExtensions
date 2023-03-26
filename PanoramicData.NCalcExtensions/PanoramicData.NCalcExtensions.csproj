@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added orderBy().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added sort().</PackageReleaseNotes>
 
 	</PropertyGroup>
 

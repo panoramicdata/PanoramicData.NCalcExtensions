@@ -8,13 +8,13 @@ internal static class OrderBy
 	{
 		var parameterIndex = 0;
 		var list = functionArgs.Parameters[parameterIndex++].Evaluate() as IEnumerable<object?>
-			?? throw new FormatException($"First {ExtensionFunction.Where} parameter must be an IEnumerable.");
+			?? throw new FormatException($"First {ExtensionFunction.OrderBy} parameter must be an IEnumerable.");
 
 		var predicate = functionArgs.Parameters[parameterIndex++].Evaluate() as string
-			?? throw new FormatException($"Second {ExtensionFunction.Where} parameter must be a string.");
+			?? throw new FormatException($"Second {ExtensionFunction.OrderBy} parameter must be a string.");
 
 		var lambdaString = functionArgs.Parameters[parameterIndex++].Evaluate() as string
-			?? throw new FormatException($"Third {ExtensionFunction.Where} parameter must be a string.");
+			?? throw new FormatException($"Third {ExtensionFunction.OrderBy} parameter must be a string.");
 
 		var lambda = new Lambda(predicate, lambdaString, new());
 
@@ -30,7 +30,7 @@ internal static class OrderBy
 		while (parameterIndex < parameterCount)
 		{
 			lambdaString = functionArgs.Parameters[parameterIndex++].Evaluate() as string
-				?? throw new FormatException($"Third {ExtensionFunction.Where} parameter must be a string.");
+				?? throw new FormatException($"{ExtensionFunction.OrderBy} parameter {parameterIndex + 1} must be a string.");
 			lambda = new Lambda(predicate, lambdaString, new());
 			orderable = orderable
 						.ThenBy(value =>
