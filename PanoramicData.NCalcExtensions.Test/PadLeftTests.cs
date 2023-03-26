@@ -34,7 +34,7 @@ public class PadLeftTests
 	public void Padleft_DesiredStringLengthTooLow_FailsAsExpected()
 	{
 		var expression = new ExtendedExpression("padLeft('12345', 0, '0')");
-		var exception = Assert.Throws<NCalcExtensionsException>(() => expression.Evaluate());
+		var exception = Assert.Throws<NCalcExtensionsException>(expression.Evaluate);
 		exception.Message.Should().Be("padLeft() requires a DesiredStringLength for parameter 2 that is >= 1.");
 	}
 
@@ -42,7 +42,7 @@ public class PadLeftTests
 	public void Padleft_PaddingStringTooLong_FailsAsExpected()
 	{
 		var expression = new ExtendedExpression("padLeft('12345', 5, '00')");
-		var exception = Assert.Throws<NCalcExtensionsException>(() => expression.Evaluate());
+		var exception = Assert.Throws<NCalcExtensionsException>(expression.Evaluate);
 		exception.Message.Should().Be("padLeft() requires a single character string for parameter 3.");
 	}
 
@@ -50,7 +50,7 @@ public class PadLeftTests
 	public void Padleft_PaddingStringEmpty_FailsAsExpected()
 	{
 		var expression = new ExtendedExpression("padLeft('12345', 5, '')");
-		var exception = Assert.Throws<NCalcExtensionsException>(() => expression.Evaluate());
+		var exception = Assert.Throws<NCalcExtensionsException>(expression.Evaluate);
 		exception.Message.Should().Be("padLeft() requires a single character string for parameter 3.");
 	}
 }

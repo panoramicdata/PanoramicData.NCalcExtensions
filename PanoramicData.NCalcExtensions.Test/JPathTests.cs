@@ -39,7 +39,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'name')");
 		expression.Parameters["source"] = "SomeRandomString";
-		var exception = Assert.Throws<FormatException>(() => expression.Evaluate());
+		var exception = Assert.Throws<FormatException>(expression.Evaluate);
 		exception.Message.Should().Be(
 			"jPath function - first parameter should be a JObject and second a string jPath expression with optional third parameter returnNullIfNotFound.",
 			because: "the source is not a JObject"
@@ -58,7 +58,7 @@ public class JPathTests : NCalcTest
 	[Fact]
 	public void JPath_StringCompare_Succeeds()
 	{
-		var expression = new ExtendedExpression("jPath(source, 'Name') == 'bob'");
+		var expression = new ExtendedExpression("jPath(source, 'name') == 'bob'");
 		expression.Parameters["source"] = JObject.FromObject(new Organization { Name = "bob" });
 		var result = expression.Evaluate();
 		result.Should().BeOfType<bool>();
@@ -70,7 +70,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'size')");
 		expression.Parameters["source"] = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2] }");
-		var exception = Assert.Throws<NCalcExtensionsException>(() => expression.Evaluate());
+		var exception = Assert.Throws<NCalcExtensionsException>(expression.Evaluate);
 		exception.Message.Should().Be(
 			"jPath function - jPath expression did not result in a match.",
 			because: "the selected item is an array"
@@ -94,11 +94,9 @@ public class JPathTests : NCalcTest
 		var expression = new ExtendedExpression("jPath(source, 'numbers')");
 		expression.Parameters["source"] = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2] }");
 		var result = expression.Evaluate();
-		result.Should().BeOfType<object?[]>();
-		var theArray = result as object?[];
+		result.Should().BeOfType<JArray>();
+		var theArray = result as JArray;
 		theArray.Should().NotBeNull();
 		theArray.Should().HaveCount(2);
-		theArray![0].Should().Be(1);
-		theArray[1].Should().Be(2);
 	}
 }

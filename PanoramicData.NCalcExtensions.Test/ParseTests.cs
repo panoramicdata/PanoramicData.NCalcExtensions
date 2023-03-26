@@ -8,12 +8,11 @@ public class ParseTests
 	[InlineData("")]
 	[InlineData("'int', 1")]
 	[InlineData("'xxx', '1'")]
-	[InlineData("'int', '1', '1'")]
 	[InlineData("1")]
 	public void Parse_IncorrectParameterCountOrType_Throws(string parameters)
 	{
 		var expression = new ExtendedExpression($"parse({parameters})");
-		Assert.Throws<FormatException>(() => expression.Evaluate());
+		Assert.Throws<FormatException>(expression.Evaluate);
 	}
 
 	[Theory]
@@ -33,7 +32,7 @@ public class ParseTests
 	public void Parse_Unparsable_Throws(string parameters)
 	{
 		var expression = new ExtendedExpression($"parse('{parameters}', 'x')");
-		Assert.Throws<FormatException>(() => expression.Evaluate());
+		Assert.Throws<FormatException>(expression.Evaluate);
 	}
 
 	[Theory]

@@ -6,7 +6,7 @@ public class FormatTests
 	public void Format_InvalidFormat_Fails()
 	{
 		var expression = new ExtendedExpression("format(1, 1)");
-		var exception = Assert.Throws<ArgumentException>(() => expression.Evaluate());
+		var exception = Assert.Throws<ArgumentException>(expression.Evaluate);
 		exception.Message.Should().Be("format function - expected second argument to be a format string");
 	}
 
@@ -16,7 +16,7 @@ public class FormatTests
 	public void Format_NotTwoParameters_Fails(string inputText)
 	{
 		var expression = new ExtendedExpression(inputText);
-		var exception = Assert.Throws<ArgumentException>(() => expression.Evaluate());
+		var exception = Assert.Throws<ArgumentException>(expression.Evaluate);
 		exception.Message.Should().Be("format function - expected between 2 and 3 arguments");
 	}
 
@@ -25,7 +25,7 @@ public class FormatTests
 	public void Format_ThreeParametersForInt_Fails(string inputText)
 	{
 		var expression = new ExtendedExpression(inputText);
-		var exception = Assert.Throws<ArgumentException>(() => expression.Evaluate());
+		var exception = Assert.Throws<ArgumentException>(expression.Evaluate);
 		exception.Message.Should().Be("format function - expected second argument to be a format string");
 	}
 
@@ -143,7 +143,7 @@ public class FormatTests
 	public void Format_InvalidStringFormat_Succeeds()
 	{
 		var expression = new ExtendedExpression("format('XXX', 'yyyy-MM-dd')");
-		var exception = Assert.Throws<FormatException>(() => expression.Evaluate());
+		var exception = Assert.Throws<FormatException>(expression.Evaluate);
 		exception.Message.Should().Be("Could not parse 'XXX' as a number or date.");
 	}
 
