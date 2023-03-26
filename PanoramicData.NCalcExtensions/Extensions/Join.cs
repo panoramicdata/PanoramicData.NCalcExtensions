@@ -21,7 +21,7 @@ internal static class Join
 			}
 			else
 			{
-				input = (List<string>)firstParam;
+				input = (firstParam as IEnumerable<string>).ToList();
 			}
 
 			joinString = (string)functionArgs.Parameters[1].Evaluate();
