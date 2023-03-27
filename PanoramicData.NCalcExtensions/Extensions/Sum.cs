@@ -19,6 +19,7 @@ internal static class Sum
 				IEnumerable<float> floatList => floatList.Sum(),
 				IEnumerable<double> doubleList => doubleList.Sum(),
 				IEnumerable<decimal> decimalList => decimalList.Sum(),
+				IEnumerable<object?> objectList => GetSum(objectList),
 				_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.")
 			};
 			return;
@@ -43,5 +44,27 @@ internal static class Sum
 			IEnumerable<decimal> decimalList => decimalList.Sum(value => (decimal?)lambda.Evaluate(value)),
 			_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.")
 		};
+	}
+
+	private static double GetSum(IEnumerable<object?> objectList)
+	{
+		double sum = 0;
+		foreach (var item in objectList)
+		{
+			sum += item switch
+			{
+				byte byteValue => byteValue,
+				short shortValue => shortValue,
+				int intValue => intValue,
+				long longValue => longValue,
+				float floatValue => floatValue,
+				double doubleValue => doubleValue,
+				decimal decimalValue => (double)decimalValue,
+				null => 0,
+				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing sum.")
+			};
+		}
+
+		return sum;
 	}
 }
