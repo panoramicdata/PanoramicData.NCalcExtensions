@@ -12,6 +12,16 @@ public class TakeTests
 	}
 
 	[Fact]
+	public void Array_OfInts_ReturnsExpectedType()
+	{
+		var expression = new ExtendedExpression($"take(theArray, 1)");
+		expression.Parameters["theArray"] = new int[] { 1, 2, 3 };
+		var result = expression.Evaluate();
+		result.Should().BeOfType<List<object?>>();
+		result.Should().BeEquivalentTo(new[] { 1 });
+	}
+
+	[Fact]
 	public void List_OfInts_ReturnsExpected()
 	{
 		var expression = new ExtendedExpression($"take(list('a', 2, 3), 1)");
