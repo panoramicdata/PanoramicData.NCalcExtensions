@@ -39,10 +39,15 @@ public class JPathTests : NCalcTest
 		var expression = new ExtendedExpression("jPath(source, 'name')");
 		expression.Parameters["source"] = "SomeRandomString";
 		var exception = Assert.Throws<FormatException>(expression.Evaluate);
-		exception.Message.Should().Be(
-			"jPath function - first parameter should be a JObject and second a string jPath expression with optional third parameter returnNullIfNotFound.",
-			because: "the source is not a JObject"
-		);
+	}
+
+	[Fact]
+	public void JPath_SourceObjectIsAPoco_Succeeds()
+	{
+		var expression = new ExtendedExpression("jPath(source, 'name')");
+		expression.Parameters["source"] = new Organization { Name = "woo" };
+		var result = expression.Evaluate();
+		result.Should().Be("woo");
 	}
 
 	[Fact]

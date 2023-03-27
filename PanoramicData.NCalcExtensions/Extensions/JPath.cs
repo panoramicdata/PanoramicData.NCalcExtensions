@@ -4,11 +4,11 @@ internal static class JPath
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		JObject jPathSourceObject;
+		JObject jObject;
 		string jPathExpression;
 		var returnNullIfNotFound = false; // False default
 
-		const string SyntaxMessage = ExtensionFunction.JPath + " function - first parameter should be a JObject and second a string jPath expression with optional third parameter " + nameof(returnNullIfNotFound) + ".";
+		const string SyntaxMessage = ExtensionFunction.JPath + " function - first parameter should be an object capable of being converted to a JObject and second a string jPath expression with optional third parameter " + nameof(returnNullIfNotFound) + ".";
 
 		if (functionArgs.Parameters.Length > 3)
 		{
@@ -17,16 +17,28 @@ internal static class JPath
 
 		try
 		{
-			jPathSourceObject = (JObject)functionArgs.Parameters[0].Evaluate();
+			var jPathSourceObject = functionArgs.Parameters[0].Evaluate();
+
+			if (jPathSourceObject is null)
+			{
+				throw new NCalcExtensionsException($"{ExtensionFunction.JPath} function - parameter 1 should not be null.");
+			}
+
+			jObject = jPathSourceObject switch
+			{
+				JObject jObject2 => jObject2,
+				_ => JObject.FromObject(jPathSourceObject)
+			};
+
 			jPathExpression = (string)functionArgs.Parameters[1].Evaluate();
 		}
 		catch (NCalcExtensionsException)
 		{
 			throw;
 		}
-		catch (Exception)
+		catch (Exception e)
 		{
-			throw new FormatException(SyntaxMessage);
+			throw new FormatException(SyntaxMessage + " ... " + e.Message);
 		}
 
 		if (functionArgs.Parameters.Length >= 3)
@@ -44,7 +56,7 @@ internal static class JPath
 		JToken? result;
 		try
 		{
-			result = jPathSourceObject.SelectToken(jPathExpression);
+			result = jObject.SelectToken(jPathExpression);
 		}
 		catch (Exception ex)
 		{
