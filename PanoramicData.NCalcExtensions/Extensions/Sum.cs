@@ -60,6 +60,12 @@ internal static class Sum
 				float floatValue => floatValue,
 				double doubleValue => doubleValue,
 				decimal decimalValue => (double)decimalValue,
+				JValue jValue => jValue.Type switch
+				{
+					JTokenType.Float => jValue.Value<float>(),
+					JTokenType.Integer => jValue.Value<int>(),
+					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing sum.")
+				},
 				null => 0,
 				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing sum.")
 			};
