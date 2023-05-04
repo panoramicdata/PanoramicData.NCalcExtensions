@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added setProperties().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added listOf(), min() and max().</PackageReleaseNotes>
 
 	</PropertyGroup>
 
