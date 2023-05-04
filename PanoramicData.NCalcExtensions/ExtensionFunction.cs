@@ -36,6 +36,9 @@ public static class ExtensionFunction
 	public const string LastIndexOf = "lastIndexOf";
 	public const string Length = "length";
 	public const string List = "list";
+	public const string ListOf = "listOf";
+	public const string Max = "max";
+	public const string Min = "min";
 	public const string NewJObject = "jObject";
 	public const string NullCoalesce = "nullCoalesce";
 	public const string OrderBy = "orderBy";

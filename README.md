@@ -57,6 +57,9 @@ General functions:
   * [jPath()](#jPath)
   * [length()](#length)
   * [list()](#list)
+  * [listOf()](#listOf)
+  * [max()](#list)
+  * [min()](#list)
   * [nullCoalesce()](#nullCoalesce)
   * [orderBy()](#orderBy)
   * [regexGroup()](#regexGroup)
@@ -670,6 +673,51 @@ Emits a List<object?> and collapses down lists of lists to a single list.
   * list('', 1, '0')
   * list(null, 1, '0')
   * list(list(null, 1, '0'), 1, '0')
+---
+
+## listOf()
+
+### Purpose
+
+Emits a List&lt;T&gt;.
+
+### Parameters
+  * the type
+  * the parameters
+
+### Examples
+  * listOf('object?', '', 1, '0')
+  * listOf('object?', null, 1, '0')
+  * listOf('int?', 1, null, 3)
+  * listOf('string', '1', '2', 3) : throws an exception
+---
+
+## max()
+
+### Purpose
+
+Emits the maximum value, ignoring nulls.
+
+### Parameters
+  * the list
+
+### Examples
+  * max(listOf('int?', 1, null, 3)) : 3
+  * max(listOf('string', '1', '2', '3') : '3'
+---
+
+## min()
+
+### Purpose
+
+Emits the minimum value, ignoring nulls.
+
+### Parameters
+  * the list
+
+### Examples
+  * min(listOf('int?', 1, null, 3)) : 1
+  * min(listOf('string', '1', '2', '3') : '1'
 
 ---
 

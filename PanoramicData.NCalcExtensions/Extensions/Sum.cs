@@ -6,21 +6,21 @@ internal static class Sum
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		var list = functionArgs.Parameters[0].Evaluate();
+		var originalList = functionArgs.Parameters[0].Evaluate();
 
 		if (functionArgs.Parameters.Length == 1)
 		{
-			functionArgs.Result = list switch
+			functionArgs.Result = originalList switch
 			{
-				IEnumerable<byte> byteList => byteList.Cast<int>().Sum(),
-				IEnumerable<short> shortList => shortList.Cast<int>().Sum(),
-				IEnumerable<int> intList => intList.Sum(),
-				IEnumerable<long> longList => longList.Sum(),
-				IEnumerable<float> floatList => floatList.Sum(),
-				IEnumerable<double> doubleList => doubleList.Sum(),
-				IEnumerable<decimal> decimalList => decimalList.Sum(),
-				IEnumerable<object?> objectList => GetSum(objectList),
-				_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.")
+				IEnumerable<byte> list => list.Cast<int>().Sum(),
+				IEnumerable<short> list => list.Cast<int>().Sum(),
+				IEnumerable<int> list => list.Sum(),
+				IEnumerable<long> list => list.Sum(),
+				IEnumerable<float> list => list.Sum(),
+				IEnumerable<double> list => list.Sum(),
+				IEnumerable<decimal> list => list.Sum(),
+				IEnumerable<object?> list => GetSum(list),
+				_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type if only on parameter is present.")
 			};
 			return;
 		}
@@ -33,7 +33,7 @@ internal static class Sum
 
 		var lambda = new Lambda(predicate, lambdaString, new());
 
-		functionArgs.Result = list switch
+		functionArgs.Result = originalList switch
 		{
 			IEnumerable<byte> byteList => byteList.Cast<int>().Sum(value => (int?)lambda.Evaluate(value)),
 			IEnumerable<short> shortList => shortList.Cast<int>().Sum(value => (int?)lambda.Evaluate(value)),

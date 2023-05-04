@@ -156,6 +156,15 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.List:
 				List.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.ListOf:
+				ListOf.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Max:
+				Max.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Min:
+				Min.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.NullCoalesce:
 				NullCoalesce.Evaluate(functionArgs);
 				return;
