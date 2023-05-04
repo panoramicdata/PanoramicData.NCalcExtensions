@@ -57,9 +57,23 @@ public class MaxTests
 
 
 	[Fact]
-	public void Min_OfEmptyList_ReturnsNull()
+	public void Max_OfEmptyList_ReturnsNull()
 	{
-		var expression = new ExtendedExpression($"min(list())");
+		var expression = new ExtendedExpression($"max(list())");
 		expression.Evaluate().Should().BeNull();
+	}
+
+	[Fact]
+	public void Max_UsingLambdaForInt_ReturnsExpected()
+	{
+		var expression = new ExtendedExpression($"max(listOf('int', 1, 2, 3), 'x', 'x + 1')");
+		expression.Evaluate().Should().Be(4);
+	}
+
+	[Fact]
+	public void Max_UsingLambdaForString_ReturnsExpected()
+	{
+		var expression = new ExtendedExpression("max(listOf('string', '1', '2', '3'), 'x', 'x + x')");
+		expression.Evaluate().Should().Be("33");
 	}
 }

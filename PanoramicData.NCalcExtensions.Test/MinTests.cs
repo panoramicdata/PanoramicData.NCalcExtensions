@@ -61,4 +61,18 @@ public class MinTests
 		var expression = new ExtendedExpression($"min(list())");
 		expression.Evaluate().Should().BeNull();
 	}
+
+	[Fact]
+	public void Max_UsingLambdaForInt_ReturnsExpected()
+	{
+		var expression = new ExtendedExpression($"min(listOf('int', 1, 2, 3), 'x', 'x + 1')");
+		expression.Evaluate().Should().Be(2);
+	}
+
+	[Fact]
+	public void Max_UsingLambdaForString_ReturnsExpected()
+	{
+		var expression = new ExtendedExpression("min(listOf('string', '1', '2', '3'), 'x', 'x + x')");
+		expression.Evaluate().Should().Be("11");
+	}
 }

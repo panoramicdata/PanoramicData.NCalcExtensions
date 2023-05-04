@@ -700,10 +700,13 @@ Emits the maximum value, ignoring nulls.
 
 ### Parameters
   * the list
+  * optionally, a pair of parameters providing a lambda expression to be evaluated.
 
 ### Examples
   * max(listOf('int?', 1, null, 3)) : 3
-  * max(listOf('string', '1', '2', '3') : '3'
+  * max(listOf('int', 1, 2, 3), 'x', 'x + 1') : 4
+  * max(listOf('string', '1', '2', '3')) : '3'
+  * max(listOf('string', '1', '2', '3'), 'x', 'x + x') : '33'
 ---
 
 ## min()
@@ -714,10 +717,13 @@ Emits the minimum value, ignoring nulls.
 
 ### Parameters
   * the list
+  * optionally, a pair of parameters providing a lambda expression to be evaluated.
 
 ### Examples
   * min(listOf('int?', 1, null, 3)) : 1
-  * min(listOf('string', '1', '2', '3') : '1'
+  * min(listOf('int', 1, 2, 3), 'x', 'x + 1') : 2
+  * min(listOf('string', '1', '2', '3')) : '1'
+  * min(listOf('string', '1', '2', '3'), 'x', 'x + x') : '11'
 
 ---
 
