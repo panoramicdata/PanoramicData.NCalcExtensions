@@ -54,4 +54,11 @@ public class MinTests
 		var expression = new ExtendedExpression($"min(null)");
 		expression.Evaluate().Should().BeNull();
 	}
+
+	[Fact]
+	public void Min_OfEmptyList_ReturnsNull()
+	{
+		var expression = new ExtendedExpression($"min(list())");
+		expression.Evaluate().Should().BeNull();
+	}
 }
