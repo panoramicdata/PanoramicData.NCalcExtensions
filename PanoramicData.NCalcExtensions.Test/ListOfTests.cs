@@ -19,6 +19,27 @@ public class ListOfTests
 	}
 
 	[Fact]
+	public void List_OfLongs_IsForgivingToInts()
+	{
+		var expression = new ExtendedExpression($"listOf('long', 1, 2, 3)");
+		expression.Evaluate().Should().BeEquivalentTo(new List<long> { 1, 2, 3 }, options => options.WithStrictOrdering());
+	}
+
+	[Fact]
+	public void List_OfInts_IsForgivingToDoubles()
+	{
+		var expression = new ExtendedExpression($"listOf('int', 1.0, 2.0, 3.1)");
+		expression.Evaluate().Should().BeEquivalentTo(new List<int> { 1, 2, 3 }, options => options.WithStrictOrdering());
+	}
+
+	[Fact]
+	public void List_OfDoubles_IsForgivingToInts()
+	{
+		var expression = new ExtendedExpression($"listOf('double', 1, 2, 3)");
+		expression.Evaluate().Should().BeEquivalentTo(new List<double> { 1, 2, 3 }, options => options.WithStrictOrdering());
+	}
+
+	[Fact]
 	public void List_OfExpressions_ReturnsExpected()
 	{
 		var expression = new ExtendedExpression($"listOf('int', 2 - 1, 2 + 0, 5 - 2)");

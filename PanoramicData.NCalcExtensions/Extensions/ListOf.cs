@@ -100,9 +100,12 @@ internal static class ListOf
 			{
 				list.Add(tValue);
 			}
+			else if (Convert.ChangeType(value, typeof(T)) is T convertedValue)
+			{
+				list.Add(convertedValue);
+			}
 			else
 			{
-
 				throw new FormatException($"Parameter must be of type {TypeHelper.AsHumanString<T>()}.");
 			}
 		}
