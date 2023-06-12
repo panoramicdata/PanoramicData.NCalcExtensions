@@ -35,10 +35,6 @@ internal static class JPath
 
 			jPathExpression = (string)functionArgs.Parameters[1].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception e)
 		{
 			throw new FormatException(SyntaxMessage + " ... " + e.Message);

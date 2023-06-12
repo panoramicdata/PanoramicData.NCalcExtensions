@@ -14,10 +14,6 @@ internal static class Switch
 		{
 			valueParam = functionArgs.Parameters[0].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");

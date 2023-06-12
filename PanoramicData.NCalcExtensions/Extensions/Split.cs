@@ -11,10 +11,6 @@ internal static class Split
 			input = (string)functionArgs.Parameters[0].Evaluate();
 			splitString = (string)functionArgs.Parameters[1].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.Split}() requires two string parameters.");

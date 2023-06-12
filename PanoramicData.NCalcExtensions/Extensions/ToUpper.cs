@@ -10,10 +10,6 @@ internal static class ToUpper
 			param1 = (string)functionArgs.Parameters[0].Evaluate();
 			functionArgs.Result = param1.ToUpperInvariant();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.ToUpper} function -  requires one string parameter.");

@@ -17,10 +17,6 @@ internal static class ItemAtIndex
 				throw new Exception();
 			}
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.ItemAtIndex}() requires two parameters.  The first should be an IList and the second should be a non-negative integer.");

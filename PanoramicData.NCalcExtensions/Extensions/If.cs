@@ -14,10 +14,6 @@ internal static class If
 		{
 			boolParam1 = (bool)functionArgs.Parameters[0].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
@@ -30,10 +26,6 @@ internal static class If
 				functionArgs.Result = functionArgs.Parameters[1].Evaluate();
 				return;
 			}
-			catch (NCalcExtensionsException)
-			{
-				throw;
-			}
 			catch (Exception e)
 			{
 				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 2 '{functionArgs.Parameters[1].ParsedExpression}' due to {e.Message}.", e);
@@ -43,10 +35,6 @@ internal static class If
 		try
 		{
 			functionArgs.Result = functionArgs.Parameters[2].Evaluate();
-		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
 		}
 		catch (Exception e)
 		{
