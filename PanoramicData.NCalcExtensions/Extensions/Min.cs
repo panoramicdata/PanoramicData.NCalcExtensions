@@ -12,7 +12,6 @@ internal static class Min
 		{
 			functionArgs.Result = originalList switch
 			{
-				null => null,
 				IEnumerable<byte> list => list.Cast<int>().Min(),
 				IEnumerable<byte?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<short> list => list.Cast<int>().Min(),
@@ -30,16 +29,16 @@ internal static class Min
 				IEnumerable<string?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<object?> list when list.All(x => x is string or null) => list.DefaultIfEmpty(null).Min(x => x as string),
 				IEnumerable<object?> list => GetMin(list),
-				_ => throw new FormatException($"First {ExtensionFunction.Min} parameter must be an IEnumerable of a numeric or string type if only on parameter is present.")
+				_ => throw new FormatException($"First {ExtensionFunction.Min} parameter must be an IEnumerable of a numeric or string type if only one parameter is present.")
 			};
 			return;
 		}
 
 		var predicate = functionArgs.Parameters[1].Evaluate() as string
-			?? throw new FormatException($"Second {ExtensionFunction.Min} parameter must be a string.");
+			 ?? throw new FormatException($"Second {ExtensionFunction.Min} parameter must be a string.");
 
 		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
-			?? throw new FormatException($"Third {ExtensionFunction.Min} parameter must be a string.");
+			 ?? throw new FormatException($"Third {ExtensionFunction.Min} parameter must be a string.");
 
 		var lambda = new Lambda(predicate, lambdaString, new());
 
@@ -59,9 +58,10 @@ internal static class Min
 			IEnumerable<double?> list => list.Min(value => (double?)lambda.Evaluate(value)),
 			IEnumerable<decimal> list => list.Min(value => (decimal?)lambda.Evaluate(value)),
 			IEnumerable<decimal?> list => list.Min(value => (decimal?)lambda.Evaluate(value)),
-			IEnumerable<string?> list => list.Min(value => (string)lambda.Evaluate(value)),
+			IEnumerable<string?> list => list.Min(value => (string?)lambda.Evaluate(value)),
 			_ => throw new FormatException($"First {ExtensionFunction.Min} parameter must be an IEnumerable of a numeric type.")
 		};
+
 	}
 
 	private static double GetMin(IEnumerable<object?> objectList)

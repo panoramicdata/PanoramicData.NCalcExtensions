@@ -8,40 +8,44 @@ internal static class ToDateTime
 		var argument2 = functionArgs.Parameters.Length >= 2 ? functionArgs.Parameters[1]?.Evaluate() : null;
 		var argument3 = functionArgs.Parameters.Length >= 3 ? functionArgs.Parameters[2]?.Evaluate() : null;
 
-		functionArgs.Result = (argument1, argument2, argument3) switch
+		if (argument1 == null)
 		{
-			// Only one argument
-			(_, null, null) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected between 2 and 3 arguments"),
+			functionArgs.Result = null;
+		}
+		else
+		{
+			functionArgs.Result = (argument1, argument2, argument3) switch
+			{
+				// Only one argument
+				(_, null, null) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected between 2 and 3 arguments"),
 
-			// String and format, no timezone
-			(string dateTimeString, string format, null) => DateTime.TryParseExact(dateTimeString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime)
-				? parsedDateTime
-				: throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format."),
+				// String and format, no timezone
+				(string dateTimeString, string format, null) => DateTime.TryParseExact(dateTimeString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime)
+					 ? parsedDateTime
+					 : throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format."),
 
-			// String, format and timezone
-			(string dateTimeString, string format, string timeZoneName) => GetFromString(dateTimeString, format, timeZoneName),
+				// String, format and timezone
+				(string dateTimeString, string format, string timeZoneName) => GetFromString(dateTimeString, format, timeZoneName),
 
-			// long, format and timezone
-			// Format can be:
-			// - 's' (meaning seconds since the epoch)
-			// - 'ms' (meaning milliseconds since the epoch)
-			// - 'us' (meaning microseconds since the epoch)
-			(long countSinceEpoch, string format, string timeZoneName) => GetFromDouble(countSinceEpoch, format, timeZoneName),
-			(int countSinceEpoch, string format, string timeZoneName) => GetFromDouble(countSinceEpoch, format, timeZoneName),
-			(double countSinceEpoch, string format, string timeZoneName) => GetFromDouble(countSinceEpoch, format, timeZoneName),
+				// long, format and timezone
+				// Format can be:
+				// - 's' (meaning seconds since the epoch)
+				// - 'ms' (meaning milliseconds since the epoch)
+				// - 'us' (meaning microseconds since the epoch)
+				(long countSinceEpoch, string format, string timeZoneName) => GetFromDouble(countSinceEpoch, format, timeZoneName),
+				(int countSinceEpoch, string format, string timeZoneName) => GetFromDouble(countSinceEpoch, format, timeZoneName),
+				(double countSinceEpoch, string format, string timeZoneName) => GetFromDouble(countSinceEpoch, format, timeZoneName),
 
-			// DateTime, and timezone, no third argument
-			(DateTime dateTime, string timeZoneName, null) => GetFromDateTime(dateTime, timeZoneName),
+				// DateTime, and timezone, no third argument
+				(DateTime dateTime, string timeZoneName, null) => GetFromDateTime(dateTime, timeZoneName),
 
-			// Null first parameter should return null
-			(null, _, _) => null,
+				// Non-string format
+				(string _, _, _) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected second argument to be a string."),
+				(DateTime _, _, _) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected second argument to be a string."),
 
-			// Non-string format
-			(string _, _, _) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected second argument to be a string."),
-			(DateTime _, _, _) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected second argument to be a string."),
-
-			_ => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected first argument to be a long, int, double, string or DateTime.")
-		};
+				_ => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected first argument to be a long, int, double, string or DateTime.")
+			};
+		}
 	}
 
 	private static object GetFromDateTime(DateTime dateTime, string timeZoneName)
