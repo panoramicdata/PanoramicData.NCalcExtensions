@@ -20,8 +20,5 @@ internal static class ConvertFunction
 		{
 			throw;
 		}
-		catch (Exception)
-		{
-		}
 	}
 }
