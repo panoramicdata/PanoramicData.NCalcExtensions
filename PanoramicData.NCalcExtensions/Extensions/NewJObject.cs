@@ -45,16 +45,12 @@ internal static class SetProperties
 		var parameterIndex = 0;
 
 		var original = functionArgs.Parameters[parameterIndex++].Evaluate();
-		JObject originalAsJObject;
-
-		if (original is JObject jObject)
+		var originalAsJObject = original
+		 switch
 		{
-			originalAsJObject = jObject;
-		}
-		else
-		{
-			originalAsJObject = JObject.FromObject(original);
-		}
+			JObject jObject => jObject,
+			_ => JObject.FromObject(original)
+		};
 
 		// Create an empty JObject
 		while (parameterIndex < functionArgs.Parameters.Length)
