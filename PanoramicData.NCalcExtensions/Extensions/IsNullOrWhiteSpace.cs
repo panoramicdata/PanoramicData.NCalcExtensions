@@ -16,10 +16,6 @@ internal static class IsNullOrWhiteSpace
 				outputObject is JToken { Type: JTokenType.Null } ||
 				(outputObject is string outputString && string.IsNullOrWhiteSpace(outputString));
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (FormatException)
 		{
 			throw;

@@ -19,10 +19,6 @@ internal static class Length
 				functionArgs.Result = GetLength(value);
 			}
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.Length}() requires one string or IList parameter.");

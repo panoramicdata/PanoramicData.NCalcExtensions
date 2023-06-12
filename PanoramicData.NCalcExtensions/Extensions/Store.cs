@@ -13,10 +13,6 @@ internal static class Store
 			key = (string)functionArgs.Parameters[0].Evaluate();
 			value = functionArgs.Parameters[1].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.Store}() requires two parameters.");

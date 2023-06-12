@@ -10,10 +10,6 @@ internal static class EndsWith
 			var param2 = (string)functionArgs.Parameters[1].Evaluate();
 			functionArgs.Result = param1.EndsWith(param2, StringComparison.InvariantCulture);
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.EndsWith} function requires two string parameters.");

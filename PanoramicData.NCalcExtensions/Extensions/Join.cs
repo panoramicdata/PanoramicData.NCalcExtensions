@@ -26,10 +26,6 @@ internal static class Join
 
 			joinString = (string)functionArgs.Parameters[1].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.Join}() requires two string parameters.");

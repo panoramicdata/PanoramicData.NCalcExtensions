@@ -18,10 +18,6 @@ internal static class IsInfinite
 					|| double.IsNegativeInfinity(x)
 				);
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (FormatException)
 		{
 			throw;

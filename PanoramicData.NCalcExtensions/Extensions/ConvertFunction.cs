@@ -16,8 +16,9 @@ internal static class ConvertFunction
 			functionArgs.Parameters[1].Parameters["value"] = param1;
 			functionArgs.Result = functionArgs.Parameters[1].Evaluate();
 		}
-		catch (NCalcExtensionsException)
+		catch (NCalcExtensionsException e)
 		{
+			Console.WriteLine(e.Message);
 			throw;
 		}
 	}

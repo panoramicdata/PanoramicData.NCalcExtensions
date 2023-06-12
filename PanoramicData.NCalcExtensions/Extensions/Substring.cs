@@ -11,10 +11,6 @@ internal static class Substring
 			input = (string)functionArgs.Parameters[0].Evaluate();
 			startIndex = (int)functionArgs.Parameters[1].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");

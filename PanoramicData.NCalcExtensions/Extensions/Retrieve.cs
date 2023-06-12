@@ -11,10 +11,6 @@ internal static class Retrieve
 		{
 			key = (string)functionArgs.Parameters[0].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.Retrieve}() requires one string parameter.");

@@ -16,10 +16,6 @@ internal static class StartsWith
 			param1 = (string)functionArgs.Parameters[0].Evaluate();
 			param2 = (string)functionArgs.Parameters[1].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception e)
 		{
 			throw new FormatException($"Unexpected exception in {ExtensionFunction.StartsWith}(): {e.Message}", e);

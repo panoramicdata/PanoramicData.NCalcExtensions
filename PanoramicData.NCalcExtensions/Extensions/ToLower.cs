@@ -10,10 +10,6 @@ internal static class ToLower
 			param1 = (string)functionArgs.Parameters[0].Evaluate();
 			functionArgs.Result = param1.ToLowerInvariant();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception)
 		{
 			throw new FormatException($"{ExtensionFunction.ToLower} function -  requires one string parameter.");
