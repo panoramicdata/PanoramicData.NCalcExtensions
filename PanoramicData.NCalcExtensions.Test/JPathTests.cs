@@ -38,7 +38,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'name')");
 		expression.Parameters["source"] = "SomeRandomString";
-		var exception = Assert.Throws<FormatException>(expression.Evaluate);
+		_ = Assert.Throws<FormatException>(expression.Evaluate);
 	}
 
 	[Fact]
