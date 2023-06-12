@@ -9,11 +9,15 @@ internal static class Length
 		try
 		{
 			var value = functionArgs.Parameters[0].Evaluate();
-			functionArgs.Result = value switch
+
+			if (value is string a)
 			{
-				string a => a.Length,
-				_ => GetLength(value)
-			};
+				functionArgs.Result = a.Length;
+			}
+			else
+			{
+				functionArgs.Result = GetLength(value);
+			}
 		}
 		catch (NCalcExtensionsException)
 		{
