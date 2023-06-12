@@ -1,5 +1,5 @@
 ﻿namespace PanoramicData.NCalcExtensions.Extensions;
-//Demo comment
+
 internal static class PadLeft
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
