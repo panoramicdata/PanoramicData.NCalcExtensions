@@ -877,7 +877,7 @@ Converts an IEnumerable using a lambda and removes duplicates.
   * nCalcString - the value to evaluate to for each item in the list
 
 ### Examples
-  * select(list(1, 2, 3, 3, 3), 'n', 'n + 1') : list(2, 3, 4)
+  * selectDistinct(list(1, 2, 3, 3, 3), 'n', 'n + 1') : list(2, 3, 4)
 
 ---
 ## setProperties()
