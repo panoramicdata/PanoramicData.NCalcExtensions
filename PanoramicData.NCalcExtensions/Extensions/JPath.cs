@@ -24,11 +24,14 @@ internal static class JPath
 				throw new NCalcExtensionsException($"{ExtensionFunction.JPath} function - parameter 1 should not be null.");
 			}
 
-			jObject = jPathSourceObject switch
+			if (jPathSourceObject is JObject jObject2)
 			{
-				JObject jObject2 => jObject2,
-				_ => JObject.FromObject(jPathSourceObject)
-			};
+				jObject = jObject2;
+			}
+			else
+			{
+				jObject = JObject.FromObject(jPathSourceObject);
+			}
 
 			jPathExpression = (string)functionArgs.Parameters[1].Evaluate();
 		}
