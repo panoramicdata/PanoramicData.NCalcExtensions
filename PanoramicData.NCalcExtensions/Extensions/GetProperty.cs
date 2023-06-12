@@ -11,10 +11,6 @@ internal static class GetProperty
 			value = functionArgs.Parameters[0].Evaluate();
 			property = (string)functionArgs.Parameters[1].Evaluate();
 		}
-		catch (NCalcExtensionsException)
-		{
-			throw;
-		}
 		catch (Exception e)
 		{
 			throw new FormatException($"{ExtensionFunction.GetProperty}() requires two parameters.", e);
