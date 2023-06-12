@@ -27,7 +27,7 @@ internal static class GetProperty
 
 				functionArgs.Result = (jToken?.Type) switch
 				{
-					null or JTokenType.None or JTokenType.Null or JTokenType.Undefined => null,
+					null or JTokenType.Null or JTokenType.Undefined => null,
 					JTokenType.Object => jToken.ToObject<JObject>(),
 					JTokenType.Array => jToken.ToObject<JArray>(),
 					JTokenType.Constructor => jToken.ToObject<JConstructor>(),
