@@ -11,7 +11,7 @@ internal static class Sort
 			?? throw new FormatException($"First {ExtensionFunction.Sort} parameter must be an IEnumerable.");
 
 		var direction = functionArgs.Parameters.Length > 1
-			? functionArgs.Parameters[parameterIndex++].Evaluate() as string ?? throw new FormatException($"Second {ExtensionFunction.Where} parameter must be a string.")
+			? functionArgs.Parameters[parameterIndex].Evaluate() as string ?? throw new FormatException($"Second {ExtensionFunction.Where} parameter must be a string.")
 			: "asc";
 
 		functionArgs.Result = direction.ToUpperInvariant() switch
