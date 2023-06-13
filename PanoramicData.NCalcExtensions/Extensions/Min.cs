@@ -12,6 +12,7 @@ internal static class Min
 		{
 			functionArgs.Result = originalList switch
 			{
+				null => null,
 				IEnumerable<byte> list => list.Cast<int>().Min(),
 				IEnumerable<byte?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<short> list => list.Cast<int>().Min(),

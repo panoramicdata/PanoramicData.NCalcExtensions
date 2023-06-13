@@ -18,7 +18,7 @@ internal static class IsInfinite
 					|| double.IsNegativeInfinity(x)
 				);
 		}
-		catch (Exception e)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException(e.Message);
 		}

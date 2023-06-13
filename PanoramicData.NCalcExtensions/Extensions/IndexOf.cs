@@ -10,7 +10,7 @@ internal static class IndexOf
 			var param2 = (string)functionArgs.Parameters[1].Evaluate();
 			functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture);
 		}
-		catch (Exception)
+		catch (Exception e) when (e is not NCalcExtensionsException)
 		{
 			throw new FormatException($"{ExtensionFunction.IndexOf}() requires two string parameters.");
 		}

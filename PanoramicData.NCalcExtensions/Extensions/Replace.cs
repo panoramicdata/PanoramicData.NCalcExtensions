@@ -11,7 +11,7 @@ internal static class Replace
 			var newNeedle = (string)functionArgs.Parameters[2].Evaluate();
 			functionArgs.Result = haystack.Replace(needle, newNeedle);
 		}
-		catch (Exception)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException($"{ExtensionFunction.Replace}() requires three string parameters.");
 		}

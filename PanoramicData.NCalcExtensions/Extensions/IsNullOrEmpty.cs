@@ -16,7 +16,7 @@ internal static class IsNullOrEmpty
 				outputObject is JToken { Type: JTokenType.Null } ||
 				(outputObject is string outputString && outputString == string.Empty);
 		}
-		catch (Exception e)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException(e.Message);
 		}

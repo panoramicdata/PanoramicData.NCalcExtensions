@@ -9,17 +9,9 @@ internal static class ConvertFunction
 			throw new FormatException($"{ExtensionFunction.Convert}() requires two parameters.");
 		}
 
-		try
-		{
-			// Feed the result of the first parameter into the variables available to the second parameter
-			var param1 = functionArgs.Parameters[0].Evaluate();
-			functionArgs.Parameters[1].Parameters["value"] = param1;
-			functionArgs.Result = functionArgs.Parameters[1].Evaluate();
-		}
-		catch (NCalcExtensionsException e)
-		{
-			Console.WriteLine(e.Message);
-			throw;
-		}
+		// Feed the result of the first parameter into the variables available to the second parameter
+		var param1 = functionArgs.Parameters[0].Evaluate();
+		functionArgs.Parameters[1].Parameters["value"] = param1;
+		functionArgs.Result = functionArgs.Parameters[1].Evaluate();
 	}
 }

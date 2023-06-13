@@ -20,7 +20,7 @@ internal static class Humanize
 				throw new Exception();
 			}
 		}
-		catch (Exception)
+		catch (Exception e) when (e is not NCalcExtensionsException)
 		{
 			throw new FormatException($"{ExtensionFunction.Humanize} function - The first number should be a valid floating-point number and the second should be a time unit ({string.Join(", ", Enum.GetNames(typeof(TimeUnit)))}).");
 		}

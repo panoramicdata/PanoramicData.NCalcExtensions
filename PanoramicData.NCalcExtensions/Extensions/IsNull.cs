@@ -14,7 +14,7 @@ internal static class IsNull
 			var outputObject = functionArgs.Parameters[0].Evaluate();
 			functionArgs.Result = outputObject is null || outputObject is JToken { Type: JTokenType.Null };
 		}
-		catch (Exception e)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException(e.Message);
 		}

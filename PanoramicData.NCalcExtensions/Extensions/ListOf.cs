@@ -10,7 +10,6 @@ internal static class ListOf
 		var typeString = functionArgs.Parameters[0].Evaluate() as string
 			?? throw new FormatException($"First {ExtensionFunction.ListOf} parameter must be a string.");
 
-
 		var remainingParameters = functionArgs.Parameters.Skip(1).ToArray();
 		switch (typeString)
 		{

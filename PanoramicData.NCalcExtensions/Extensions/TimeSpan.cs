@@ -18,7 +18,7 @@ internal static class TimeSpan
 			toString = functionArgs.Parameters[1].Evaluate().ToString();
 			timeFormat = functionArgs.Parameters[2].Evaluate().ToString();
 		}
-		catch (Exception e)
+		catch (Exception e) when (e is not NCalcExtensionsException)
 		{
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not extract three parameters into strings: {e.Message}");
 		}

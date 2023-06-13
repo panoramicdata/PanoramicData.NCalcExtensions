@@ -10,7 +10,7 @@ internal static class LastIndexOf
 			var param2 = (string)functionArgs.Parameters[1].Evaluate();
 			functionArgs.Result = param1.LastIndexOf(param2, StringComparison.InvariantCulture);
 		}
-		catch (Exception)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException($"{ExtensionFunction.LastIndexOf}() requires two string parameters.");
 		}

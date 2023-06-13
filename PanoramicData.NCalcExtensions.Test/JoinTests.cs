@@ -13,6 +13,15 @@ public class JoinTests : NCalcTest
 	}
 
 	[Fact]
+	public void Join_ContainingNulls_Succeeds()
+	{
+		var expression = new ExtendedExpression("join(list('a', null, 'c'), ',')");
+		var result = expression.Evaluate();
+		result.Should().BeOfType<string>();
+		result.Should().Be("a,,c");
+	}
+
+	[Fact]
 	public void Join_Array_Succeeds()
 	{
 		var expression = new ExtendedExpression("join(array, ', ')");

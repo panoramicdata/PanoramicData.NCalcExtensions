@@ -13,7 +13,7 @@ internal static class LambdaFunction
 			predicate = (string)functionArgs.Parameters[0].Evaluate();
 			nCalcString = (string)functionArgs.Parameters[1].Evaluate();
 		}
-		catch (Exception)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException($"{ExtensionFunction.Store}() requires two parameters.");
 		}

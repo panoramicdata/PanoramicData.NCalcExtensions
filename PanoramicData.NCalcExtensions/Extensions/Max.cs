@@ -10,7 +10,29 @@ internal static class Max
 
 		if (functionArgs.Parameters.Length == 1)
 		{
-			functionArgs.Result = originalList;
+			functionArgs.Result = originalList switch
+			{
+				null => null,
+				IEnumerable<byte> list => list.Cast<int>().Max(),
+				IEnumerable<byte?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<short> list => list.Cast<int>().Max(),
+				IEnumerable<short?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<int> list => list.Max(),
+				IEnumerable<int?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<long> list => list.Max(),
+				IEnumerable<long?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<float> list => list.Max(),
+				IEnumerable<float?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<double> list => list.Max(),
+				IEnumerable<double?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<decimal> list => list.Max(),
+				IEnumerable<decimal?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<string?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<object?> list when list.All(x => x is string or null) => list.DefaultIfEmpty(null).Max(x => x as string),
+				IEnumerable<object?> list => GetMax(list),
+				_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a numeric or string type if only on parameter is present.")
+			};
+
 			return;
 		}
 

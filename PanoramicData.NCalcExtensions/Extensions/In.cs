@@ -15,7 +15,7 @@ internal static class In
 			var list = functionArgs.Parameters.Skip(1).Select(p => p.Evaluate()).ToList();
 			functionArgs.Result = list.Contains(item);
 		}
-		catch (Exception)
+		catch (Exception e) when (e is not NCalcExtensionsException)
 		{
 			throw new FormatException($"{ExtensionFunction.In}() parameters malformed.");
 		}

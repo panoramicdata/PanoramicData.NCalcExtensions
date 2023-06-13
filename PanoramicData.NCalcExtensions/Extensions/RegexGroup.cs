@@ -26,7 +26,7 @@ internal static class RegexGroup
 					: group.Captures[regexCaptureIndex].Value;
 			}
 		}
-		catch (Exception)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException($"{ExtensionFunction.Replace}() requires three string parameters.");
 		}

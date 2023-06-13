@@ -15,7 +15,7 @@ internal static class IsNaN
 			functionArgs.Result = outputObject is not double || double.IsNaN((double)outputObject);
 			return;
 		}
-		catch (Exception e)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException(e.Message);
 		}

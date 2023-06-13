@@ -10,7 +10,7 @@ internal static class Contains
 			var param2 = (string)functionArgs.Parameters[1].Evaluate();
 			functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture) >= 0;
 		}
-		catch (Exception)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException($"{ExtensionFunction.Contains}() requires two string parameters.");
 		}
