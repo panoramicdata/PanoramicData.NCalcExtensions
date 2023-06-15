@@ -120,6 +120,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.If:
 				If.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.IsGuid:
+				IsGuid.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.IsInfinite:
 				IsInfinite.Evaluate(functionArgs);
 				return;

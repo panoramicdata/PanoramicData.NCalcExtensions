@@ -24,6 +24,7 @@ public static class ExtensionFunction
 	public const string If = "if";
 	public const string In = "in";
 	public const string IndexOf = "indexOf";
+	public const string IsGuid = "isGuid";
 	public const string IsInfinite = "isInfinite";
 	public const string IsNaN = "isNaN";
 	public const string IsNull = "isNull";

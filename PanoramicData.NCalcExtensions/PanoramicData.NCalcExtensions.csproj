@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added listOf(), min() and max().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added isGuid().</PackageReleaseNotes>
 
 	</PropertyGroup>
 

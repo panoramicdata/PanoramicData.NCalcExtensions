@@ -45,6 +45,7 @@ General functions:
   * [format()](#format)
   * [if()](#if)
   * [in()](#in)
+  * [isGuid()](#isGuid)
   * [isInfinite()](#isinfinite)
   * [isNaN()](#isnan)
   * [isNull()](#isnull)
@@ -343,6 +344,21 @@ Determines the first position of a string within another string.  Returns -1 if 
 ### Examples
   * indexOf('#abcabc#', 'abc') : 1
   * indexOf('#abcabc#', 'abcd') : -1
+
+---
+## isGuid()
+
+### Purpose
+
+Determines whether a value is a GUID, or is a string that can be converted to a GUID
+
+### Parameters
+  * value
+
+### Examples
+  * isGuid('9384EF0Z-38AD-4E8E-A24E-0ACD3273A401') : true
+  * isGuid('{9384EF0Z-38AD-4E8E-A24E-0ACD3273A401}') : true
+  * isGuid('abc') : false
 
 ---
 ## isInfinite()
