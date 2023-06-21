@@ -39,7 +39,7 @@ internal static class SetProperties
 	{
 		if (functionArgs.Parameters.Length % 2 != 1)
 		{
-			throw new FormatException($"{ExtensionFunction.NewJObject}() requires an odd number of parameters.");
+			throw new FormatException($"{ExtensionFunction.SetProperties}() requires an odd number of parameters.");
 		}
 
 		var parameterIndex = 0;
@@ -61,12 +61,12 @@ internal static class SetProperties
 		{
 			if (functionArgs.Parameters[parameterIndex++].Evaluate() is not string key)
 			{
-				throw new FormatException($"{ExtensionFunction.NewJObject}() requires a string key.");
+				throw new FormatException($"{ExtensionFunction.SetProperties}() requires a string key.");
 			}
 
 			if (originalAsJObject.ContainsKey(key))
 			{
-				throw new FormatException($"{ExtensionFunction.NewJObject}() can only define property {key} once.");
+				throw new FormatException($"{ExtensionFunction.SetProperties}() can only define property {key} once.");
 			}
 
 			var value = functionArgs.Parameters[parameterIndex++].Evaluate();
