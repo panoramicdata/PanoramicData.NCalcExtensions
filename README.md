@@ -28,8 +28,16 @@ if (nCalcExpression.HasErrors())
 
 return nCalcExpression.Evaluate();
 ````
+## Namespace safety
 
-General functions:
+Note that we regularly extend this library to add new functions.
+For those that *further* extend the functions, it is important to avoid future potential namespace conflicts.
+For this reason, we guarantee that we will never use the underscore character in any future function name and we recommend that any functions that you add DO include an underscore.  For example, if you had a project called "My Project", we suggest that you name your functions as follows:
+
+* mp_myFunction1()
+* mp_myFunction2()
+
+## General functions:
 
   * [all()](#all)
   * [any()](#any)
