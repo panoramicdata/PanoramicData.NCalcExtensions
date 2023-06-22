@@ -1,13 +1,15 @@
 # PanoramicData.NCalcExtensions
 
-Extension functions for NCalc, documentation for which can be found [here (source code)](https://github.com/sklose/NCalc2) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
-
 [![Nuget](https://img.shields.io/nuget/v/PanoramicData.NCalcExtensions)](https://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
 [![Nuget](https://img.shields.io/nuget/dt/PanoramicData.NCalcExtensions)](https://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
 ![License](https://img.shields.io/github/license/panoramicdata/PanoramicData.NCalcExtensions)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5b0ad600b19d42e2b735e4199b795fa2)](https://www.codacy.com/gh/panoramicdata/PanoramicData.NCalcExtensions/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=panoramicdata/PanoramicData.NCalcExtensions&amp;utm_campaign=Badge_Grade)
 
-Please submit your requests for new functions in the form of pull requests.
+## Introduction
+
+This nuget package provides extension functions for NCalc.
+
+The NCalc documentation can be found [here (source code)](https://github.com/sklose/NCalc2) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
 
 ## Functions
 
@@ -104,6 +106,11 @@ For this reason, we guarantee that we will never use the underscore character in
 
 * mp_myFunction1()
 * mp_myFunction2()
+
+## Contributing
+
+Pull requests are welcome!
+Please submit your requests for new functions in the form of pull requests.
 
 ## Function documentation
 
