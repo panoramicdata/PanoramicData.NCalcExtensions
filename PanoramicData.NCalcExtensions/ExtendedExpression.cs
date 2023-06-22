@@ -255,6 +255,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.Try:
 				Try.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.TryParse:
+				TryParse.Evaluate(functionArgs, _storageDictionary);
+				return;
 			case ExtensionFunction.TypeOf:
 				TypeOf.Evaluate(functionArgs);
 				return;

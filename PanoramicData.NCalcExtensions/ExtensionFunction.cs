@@ -70,6 +70,7 @@ public static class ExtensionFunction
 	public new const string ToString = "toString";
 	public const string ToUpper = "toUpper";
 	public const string Try = "try";
+	public const string TryParse = "tryParse";
 	public const string TypeOf = "typeOf";
 	public const string Where = "where";
 }
