@@ -119,7 +119,7 @@ Please submit your requests for new functions in the form of pull requests.
 ### all()
 
 #### Purpose
-{{ all }}
+Returns true if all values match the lambda expression, otherwise false.
 
 #### Parameters
   * list - the original list
