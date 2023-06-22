@@ -9,7 +9,75 @@ Extension functions for NCalc, documentation for which can be found [here (sourc
 
 Please submit your requests for new functions in the form of pull requests.
 
-To use:
+## Functions
+
+| Function | Purpose |
+| -------- | ------- |
+| [all()](#all) | {% capture all %}Returns true if all values match the lambda expression, otherwise false.{% endcapture %} |
+| [any()](#any) | Returns true if any values match the lambda expression, otherwise false. |
+| [canEvaluate()](#canEvaluate) | Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set. |
+| [capitalize()](#capitalize) | Capitalizes a string. |
+| [cast()](#cast) | Cast an object to another (e.g. float to decimal). |
+| [changeTimeZone()](#changeTimeZone) | Change a DateTime's time zone. |
+| [concat()](#concat) | Concatenates lists and objects. |
+| [contains()](#contains) | Determines whether one string contains another. |
+| [convert()](#convert) | Converts the output of parameter 1 into the result of parameter 2. |
+| [count()](#count) | Counts the number of items.  Optionally, only count those that match a lambda. |
+| [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
+| [dateTimeAsEpochMs()](#dateTimeAsEpochMs) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
+| [distinct()](#distinct) | - |
+| [endsWith()](#endswith) | - |
+| [format()](#format) | - |
+| [if()](#if) | - |
+| [in()](#in) | - |
+| [indexOf()](#indexof) | - |
+| [isGuid()](#isGuid) | - |
+| [isInfinite()](#isinfinite) | - |
+| [isNaN()](#isnan) | - |
+| [isNull()](#isnull) | - |
+| [isNullOrEmpty()](#isnullOrEmpty) | - |
+| [isNullOrWhiteSpace()](#isnullOrWhiteSpace) | - |
+| [isSet()](#isset) | - |
+| [itemAtIndex()](#itemAtIndex) | - |
+| [jObject()](#jObject) | - |
+| [join()](#join) | - |
+| [jPath()](#jPath) | - |
+| [lastIndexOf()](#lastindexof) | - |
+| [length()](#length) | - |
+| [list()](#list) | - |
+| [listOf()](#listOf) | - |
+| [max()](#list) | - |
+| [min()](#list) | - |
+| [nullCoalesce()](#nullCoalesce) | - |
+| [orderBy()](#orderBy) | - |
+| [padLeft()](#padLeft) | - |
+| [parse()](#parse) | - |
+| [parseInt()](#parseInt) (deprecated - use "parse()" instead) | - |
+| [regexGroup()](#regexGroup) | - |
+| [regexIsMatch()](#regexIsMatch) | - |
+| [replace()](#replace) | - |
+| [retrieve()](#retrieve) | - |
+| [select()](#select) | - |
+| [selectDistinct()](#selectDistinct) | - |
+| [skip()](#skip) | - |
+| [sort()](#sort) | - |
+| [split()](#split) | - |
+| [startsWith()](#startswith) | - |
+| [store()](#store) | - |
+| [substring()](#substring) | - |
+| [switch()](#switch) | - |
+| [take()](#take) | - |
+| [throw()](#throw) | - |
+| [timeSpan()](#timespan) | - |
+| [toDateTime()](#toDateTime) | - |
+| [toLower()](#tolower) | - |
+| [toString()](#tostring) | - |
+| [toUpper()](#toupper) | - |
+| [try()](#try) | - |
+| [typeOf()](#typeOf) | - |
+| [where()](#where) | - |
+
+## Usage
 
 ````C#
 using PanoramicData.NCalcExtensions;
@@ -37,165 +105,126 @@ For this reason, we guarantee that we will never use the underscore character in
 * mp_myFunction1()
 * mp_myFunction2()
 
-## General functions:
+## Function documentation
 
-  * [all()](#all)
-  * [any()](#any)
-  * [canEvaluate()](#canEvaluate)
-  * [cast()](#cast)
-  * [concat()](#concat)
-  * [convert()](#convert)
-  * [count()](#count)
-  * [changeTimeZone()](#changeTimeZone)
-  * [dateTime()](#dateTime)
-  * [dateTimeAsEpochMs()](#dateTimeAsEpochMs)
-  * [distinct()](#distinct)
-  * [format()](#format)
-  * [if()](#if)
-  * [in()](#in)
-  * [isGuid()](#isGuid)
-  * [isInfinite()](#isinfinite)
-  * [isNaN()](#isnan)
-  * [isNull()](#isnull)
-  * [isNullOrEmpty()](#isnullOrEmpty)
-  * [isNullOrWhiteSpace()](#isnullOrWhiteSpace)
-  * [isSet()](#isset)
-  * [itemAtIndex()](#itemAtIndex)
-  * [jObject()](#jObject)
-  * [join()](#join)
-  * [jPath()](#jPath)
-  * [length()](#length)
-  * [list()](#list)
-  * [listOf()](#listOf)
-  * [max()](#list)
-  * [min()](#list)
-  * [nullCoalesce()](#nullCoalesce)
-  * [orderBy()](#orderBy)
-  * [regexGroup()](#regexGroup)
-  * [regexIsMatch()](#regexIsMatch)
-  * [retrieve()](#retrieve)
-  * [select()](#select)
-  * [selectDistinct()](#selectDistinct)
-  * [skip()](#skip)
-  * [sort()](#sort)
-  * [store()](#store)
-  * [switch()](#switch)
-  * [take()](#take)
-  * [throw()](#throw)
-  * [timeSpan()](#timespan)
-  * [toDateTime()](#toDateTime)
-  * [try()](#try)
-  * [typeOf()](#typeOf)
-  * [where()](#where)
+### all()
 
-String functions:
-  * [capitalize()](#capitalize)
-  * [contains()](#contains)
-  * [endsWith()](#endswith)
-  * [indexOf()](#indexof)
-  * [join()](#join)
-  * [lastIndexOf()](#lastindexof)
-  * [length()](#length)
-  * [padLeft()](#padLeft)
-  * [parse()](#parse)
-  * [parseInt()](#parseInt) (deprecated - use "parse()" instead)
-  * [replace()](#replace)
-  * [split()](#split)
-  * [startsWith()](#startswith)
-  * [substring()](#substring)
-  * [toLower()](#tolower)
-  * [toUpper()](#toupper)
-  * [toString()](#tostring)
+#### Purpose
+{{ all }}
 
-Supported functions:
-
-
----
-## all()
-
-### Purpose
-
-Returns true if all values match the lambda expression, otherwise false.
-
-### Parameters
+#### Parameters
   * list - the original list
   * predicate - a string to represent the value to be evaluated
   * nCalcString - the string to evaluate
 
-### Examples
+#### Examples
   * all(list(1, 2, 3, 4, 5), 'n', 'n < 3') : false
   * all(list(1, 2, 3, 4, 5), 'n', 'n > 0 && n < 10') : true
 
 ---
-## any()
+### any()
 
-### Purpose
+#### Purpose
 
 Returns true if any values match the lambda expression, otherwise false.
 
-### Parameters
+#### Parameters
   * list - the original list
   * predicate - a string to represent the value to be evaluated
   * nCalcString - the string to evaluate
 
-### Examples
+#### Examples
   * any(list(1, 2, 3, 4, 5), 'n', 'n < 3') : true
   * any(list(1, 2, 3, 4, 5), 'n', 'n > 11') : false
 
 ---
-## canEvaluate()
+### canEvaluate()
 
-### Purpose
+#### Purpose
 Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set.
 
-### Parameters
+#### Parameters
   * parameter1, parameter2, ...
 
-### Examples
+#### Examples
   * canEvaluate(nonExistent) : false
   * canEvaluate(1) : true
 
 ---
-## cast()
+### capitalize()
 
-### Purpose
+#### Purpose
+
+Capitalizes a string.
+
+#### Parameters
+  * string
+
+#### Examples
+  * capitalize('new year') : 'New Year'
+
+---
+### cast()
+
+#### Purpose
 Cast an object to another (e.g. float to decimal).
+
+#### Notes
+
 The method requires that conversion of value to target type be supported.
 
-### Parameters
+#### Parameters
   * inputObject
   * typeString
 
-### Examples
+#### Examples
   * cast(0.3, 'System.Decimal')
 
 ---
-## changeTimeZone()
+### changeTimeZone()
 
-### Purpose
+#### Purpose
 Change a DateTime's time zone.
+
+#### Notes
 For a list of supported TimeZone names, see https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
 
-### Parameters
+#### Parameters
   * source DateTime
   * source TimeZone name
   * destination TimeZone name
 
-### Examples
+#### Examples
   * changeTimeZone(theDateTime, 'UTC', 'Eastern Standard Time')
   * changeTimeZone(theDateTime, 'Eastern Standard Time', 'UTC')
 
 ---
-## concat()
+### contains()
 
-### Purpose
+#### Purpose
+Determines whether one string contains another.
+
+#### Parameters
+  * string searched-in text
+  * string searched-for text
+
+#### Examples
+  * contains('haystack containing needle', 'needle') : true
+  * contains('haystack containing only hay', 'needle') : false
+
+---
+### concat()
+
+#### Purpose
 Concatenates lists and objects.
+
+#### Notes
 The examples all result in a List<object?> containing 4 integers: 1, 2, 3 and 4.
 
-### Parameters
+#### Parameters
   * the lists or objects to concatenate
 
-### Examples
+#### Examples
   * concat(list(1, 2), list(3, 4))
   * concat(list(1, 2, 3, 4))
   * concat(1, 2, 3, 4)
@@ -203,45 +232,46 @@ The examples all result in a List<object?> containing 4 integers: 1, 2, 3 and 4.
   * concat(1, list(2, 3, 4))
 
 ---
-## convert()
+### convert()
 
-### Purpose
+#### Purpose
 Converts the output of parameter 1 into the result of parameter 2.
+
+#### Notes
 Can be used to return an empty string instead of the result of parameter 1,
 which can be useful when the return value is not useful.
 The result of parameter 1 is available as the variable "value".
 
-### Parameters
+#### Parameters
   * the value to calculate
   * destination TimeZone name
 
-### Examples
+#### Examples
   * convert(anyFunction(), 'XYZ'): 'XYZ'
   * convert(1 + 1, value + 1): 3
 
 ---
-## count()
+### count()
 
-### Purpose
-
+#### Purpose
 Counts the number of items.  Optionally, only count those that match a lambda.
 
-### Parameters
+#### Parameters
   * list - the original list
   * predicate (optional) - a string to represent the value to be evaluated
   * nCalcString (optional) - the string to evaluate
 
-### Examples
+#### Examples
   * count(list(1, 2, 3, 4, 5)) : 5
   * count(list(1, 2, 3, 4, 5), 'n', 'n > 3') : 2
 
 ---
-## dateTime()
+### dateTime()
 
-### Purpose
+#### Purpose
 Return the DateTime in the specified format as a string, with an optional offset.
 
-### Parameters
+#### Parameters
   * timeZone (only 'UTC' currently supported)
   * format
   * day offset
@@ -249,43 +279,43 @@ Return the DateTime in the specified format as a string, with an optional offset
   * minute offset
   * second offset
 
-### Examples
+#### Examples
   * dateTime('UTC', 'yyyy-MM-dd HH:mm:ss', -90, 0, 0, 0) : 90 days ago (e.g. '2019-03-14 05:09')
   * dateTime('UTC', 'yyyy-MM-dd HH:mm:ss') : now (e.g. '2019-03-14 05:09')
 
 ---
-## dateTimeAsEpochMs()
+### dateTimeAsEpochMs()
 
-### Purpose
-Parses the input DateTime and outputs as milliseconds since the Epoch (1st Jan 1970).
+#### Purpose
+Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z).
 
-### Parameters
+#### Parameters
   * input date string
   * format
 
-### Examples
+#### Examples
   * dateTimeAsEpochMs('20190702T000000', 'yyyyMMddTHHmmssK') : 1562025600000
 
 ---
-## distinct()
+### distinct()
 
-### Purpose
+#### Purpose
 
 Returns only distinct items from the input.
 
-### Parameters
+#### Parameters
   * list - the original list
 
-### Examples
+#### Examples
   * distinct(list(1, 2, 3, 3, 3)) : list(1, 2, 3)
 
 ---
-## format()
+### format()
 
-### Purpose
+#### Purpose
 Formats strings and numbers as output strings with the specified format
 
-### Parameters
+#### Parameters
   * object (number or text)
   * format: the format to use
   - see C# number and date/time formatting
@@ -295,7 +325,7 @@ Formats strings and numbers as output strings with the specified format
   - weekDayOfMonthText is the same as weekDayOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'
   * timeZone [optional] - see https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
 
-### Examples
+#### Examples
   * format(1, '00') : '01'
   * format(1.0, '00') : '01'
   * format('2021-11-29', 'dayOfYear') : '333'
@@ -309,125 +339,139 @@ Formats strings and numbers as output strings with the specified format
   * format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') [where theDateTime is a .NET DateTime, set to DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture)] : '2020-03-13 12:00'
 
 ---
-## if()
+### humanize()
 
-### Purpose
+#### Purpose
+
+Humanizes the value text.
+
+#### Parameters
+  * value
+  * timeUnit
+
+#### Examples
+  * humanize(3600, 'seconds') : '1 hour'
+
+---
+### if()
+
+#### Purpose
 Return one of two values, depending on the input function.
 
-### Parameters
+#### Parameters
   * condition
   * output if true
   * output if false
 
-### Examples
+#### Examples
   * if(1 == 1, 'yes', 'no') : 'yes'
   * if(1 == 2, 3, 4) : 4
 
 ---
-## in()
+### in()
 
-### Purpose
+#### Purpose
 
 Determines whether a value is in a set of other values.
 
-### Parameters
+#### Parameters
   * list
   * item
 
-### Examples
+#### Examples
   * in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
   * in('needle', 'haystack', 'with', 'only', 'hay') : false
 
 ---
-## indexOf()
+### indexOf()
 
-### Purpose
+#### Purpose
 
 Determines the first position of a string within another string.  Returns -1 if not present.
 
-### Parameters
+#### Parameters
   * longString
   * shortString
 
-### Examples
+#### Examples
   * indexOf('#abcabc#', 'abc') : 1
   * indexOf('#abcabc#', 'abcd') : -1
 
 ---
-## isGuid()
+### isGuid()
 
-### Purpose
+#### Purpose
 
 Determines whether a value is a GUID, or is a string that can be converted to a GUID
 
-### Parameters
+#### Parameters
   * value
 
-### Examples
+#### Examples
   * isGuid('9384EF0Z-38AD-4E8E-A24E-0ACD3273A401') : true
   * isGuid('{9384EF0Z-38AD-4E8E-A24E-0ACD3273A401}') : true
   * isGuid('abc') : false
 
 ---
-## isInfinite()
+### isInfinite()
 
-### Purpose
+#### Purpose
 
 Determines whether a value is infinite
 
-### Parameters
+#### Parameters
   * value
 
-### Examples
+#### Examples
   * isInfinite(1/0) : true
   * isInfinite(0/1) : false
 
 ---
-## isNaN()
+### isNaN()
 
-### Purpose
+#### Purpose
 
 Determines whether a value is not a number.
 
-### Parameters
+#### Parameters
   * value
 
-### Examples
+#### Examples
   * isNaN(null) : true
   * isNaN(1) : false
 ---
 
-## isNull()
+### isNull()
 
-### Purpose
+#### Purpose
 
 Determines whether a value is either:
   * null; or
   * it's a JObject and it's type is JTokenType.Null.
 
-### Parameters
+#### Parameters
   * value
 
-### Examples
+#### Examples
   * isNull(1) : false
   * isNull('text') : false
   * isNull(bob) : true if bob is null
   * isNull(null) : true
 ---
 
-## isNullOrEmpty()
+### isNullOrEmpty()
 
-### Purpose
+#### Purpose
 
 Determines whether a value is either:
   * null; or
   * it's a JObject and it's type is JTokenType.Null or;
   * it's a string and it's empty.
 
-### Parameters
+#### Parameters
   * value
 
-### Examples
+#### Examples
   * isNullOrEmpty(null) : true
   * isNullOrEmpty('') : true
   * isNullOrEmpty(' ') : false
@@ -436,19 +480,19 @@ Determines whether a value is either:
   * isNullOrEmpty('text') : false
 ---
 
-## isNullOrWhiteSpace()
+### isNullOrWhiteSpace()
 
-### Purpose
+#### Purpose
 
 Determines whether a value is either:
   * null; or
   * it's a JObject and it's type is JTokenType.Null or;
   * it's a string and it's empty or only contains whitespace characters (\r, \n, \t, or ' ').
 
-### Parameters
+#### Parameters
   * value
 
-### Examples
+#### Examples
   * isNullOrWhiteSpace(null) : true
   * isNullOrWhiteSpace('') : true
   * isNullOrWhiteSpace(' ') : true
@@ -457,39 +501,39 @@ Determines whether a value is either:
   * isNullOrWhiteSpace('text') : false
 ---
 
-## isSet()
+### isSet()
 
-### Purpose
+#### Purpose
 
 Determines whether a parameter is set:
 
-### Parameters
+#### Parameters
   * parameter name
 
-### Examples
+#### Examples
   * isSet('a') : true/false depending on whether a is an available variable
 
 ---
-## itemAtIndex()
+### itemAtIndex()
 
-### Purpose
+#### Purpose
 
 Determines the item at the given index.  The first index is 0.
 
-### Parameters
+#### Parameters
   * parameter name
 
-### Examples
+#### Examples
   * itemAtIndex(split('a b c', ' '), 1) : 'b'
 
 ---
-## jObject()
+### jObject()
 
-### Purpose
+#### Purpose
 
 Creates a JObject from key/value pairs.
 
-### Parameters
+#### Parameters
   * key1 (string)
   * value1
   * key2 (string)
@@ -498,63 +542,63 @@ Creates a JObject from key/value pairs.
   * keyN
   * valueN
 
-### Examples
+#### Examples
   * jObject('a', 1, 'b', null) : JObject{ "a": 1, "b": null}
 
 
 ---
-## join()
+### join()
 
-### Purpose
+#### Purpose
 
 Joins a list of strings into a single string.
 
-### Parameters
+#### Parameters
   * parameter name
 
-### Examples
+#### Examples
   * join(split('a b c', ' '), ', ') : 'a, b, c'
 
 ---
-## lastIndexOf()
+### lastIndexOf()
 
-### Purpose
+#### Purpose
 
 Determines the last position of a string within another string.  Returns -1 if not present.
 
-### Parameters
+#### Parameters
   * longString
   * shortString
 
-### Examples
+#### Examples
   * lastIndexOf('#abcabc#', 'abc') : 4
   * lastIndexOf('#abcabc#', 'abcd') : -1
 
 ---
-## length()
+### length()
 
-### Purpose
+#### Purpose
 
 Determines length of a string or IList.
 
-### Parameters
+#### Parameters
   * string or IList
 
-### Examples
+#### Examples
   * length('a piece of string') : 17
   * length(split('a piece of string', ' ')) : 4
 
 ---
-## nullCoalesce()
+### nullCoalesce()
 
-### Purpose
+#### Purpose
 
 Returns the first parameter that is not null, otherwise: null.
 
-### Parameters
+#### Parameters
   * any number of objects
 
-### Examples
+#### Examples
   * nullCoalesce() : null
   * nullCoalesce(1, null) : 1
   * nullCoalesce(null, 1, 2, 3) : 1
@@ -562,110 +606,110 @@ Returns the first parameter that is not null, otherwise: null.
   * nullCoalesce(null, null, 'xxx', 3) : 'xxx'
 
 ---
-## orderBy()
+### orderBy()
 
-### Purpose
+#### Purpose
 
 Orders an IEnumerable by one or more lambda expressions.
 
-### Parameters
+#### Parameters
   * list - the original list
   * predicate - a string to represent the value to be evaluated
   * nCalcString1 - the first orderBy lambda expression
   * nCalcString2 (optional) - the next orderBy lambda expression
   * nCalcString... (optional) - the next orderBy lambda expression
 
-### Examples
+#### Examples
   * orderBy(list(34, 33, 2, 1), 'n', 'n') : list(1, 2, 33, 34)
   * orderBy(list(34, 33, 2, 1), 'n', '-n') : list(34, 33, 2, 1)
   * orderBy(list(34, 33, 2, 1), 'n % 32', 'n % 2') : list(34, 33, 1, 2)
   * orderBy(list(34, 33, 2, 1), 'n % 2', 'n % 32') : list(33, 1, 34, 2)
 
 ---
-## skip()
+### skip()
 
-### Purpose
+#### Purpose
 Skips a number of items in a list.
 If the number of items to skip is greater than the number of items in the list, an empty list is returned.
 
-### Parameters
+#### Parameters
   * the list to skip from
   * the number of items to skip
 
-### Examples
+#### Examples
   * skip(list(1, 2, 3), 1): list(2, 3)
 
 ---
-## split()
+### split()
 
-### Purpose
+#### Purpose
 
 Splits a string on a given character into a list of strings.
 
-### Parameters
+#### Parameters
   * longString
   * character
 
-### Examples
+#### Examples
   * split('a bc d', ' ') : list('a', 'bc', 'd')
 
 ---
-## startsWith()
+### startsWith()
 
-### Purpose
+#### Purpose
 
 Determines whether a string starts with another string.
 
-### Parameters
+#### Parameters
   * longString
   * shortString
 
-### Examples
+#### Examples
   * startsWith('abcdefg', 'ab') : true
   * startsWith('abcdefg', 'cd') : false
 
 ---
-## endsWith()
+### endsWith()
 
-### Purpose
+#### Purpose
 
 Determines whether a string ends with another string.
 
-### Parameters
+#### Parameters
   * longString
   * shortString
 
-### Examples
+#### Examples
   * endsWith('abcdefg', 'fg') : true
   * endsWith('abcdefg', 'fgh') : false
 
 ---
-## getProperty()
+### getProperty()
 
-### Purpose
+#### Purpose
 
 Gets an object's property.
 
-### Parameters
+#### Parameters
   * sourceObject
   * propertyName
 
-### Examples
+#### Examples
   * getProperty(toDateTime('2019-01-01', 'yyyy-MM-dd'), 'Year') : 2019 (int)
 
 ---
 
-## jPath()
+### jPath()
 
-### Purpose
+#### Purpose
 
 Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression
 
-### Parameters
+#### Parameters
   * input JObject
   * JPath string expression
 
-### Examples
+#### Examples
 sourceJObject JSON:
 ```
 {
@@ -684,66 +728,66 @@ sourceJObject JSON:
   * jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]') : "value1"
 ---
 
-## list()
+### list()
 
-### Purpose
+#### Purpose
 
 Emits a List<object?> and collapses down lists of lists to a single list.
 
-### Parameters
+#### Parameters
   * the parameters
 
-### Examples
+#### Examples
   * list('', 1, '0')
   * list(null, 1, '0')
   * list(list(null, 1, '0'), 1, '0')
 ---
 
-## listOf()
+### listOf()
 
-### Purpose
+#### Purpose
 
 Emits a List&lt;T&gt;.
 
-### Parameters
+#### Parameters
   * the type
   * the parameters
 
-### Examples
+#### Examples
   * listOf('object?', '', 1, '0')
   * listOf('object?', null, 1, '0')
   * listOf('int?', 1, null, 3)
   * listOf('string', '1', '2', 3) : throws an exception
 ---
 
-## max()
+### max()
 
-### Purpose
+#### Purpose
 
 Emits the maximum value, ignoring nulls.
 
-### Parameters
+#### Parameters
   * the list
   * optionally, a pair of parameters providing a lambda expression to be evaluated.
 
-### Examples
+#### Examples
   * max(listOf('int?', 1, null, 3)) : 3
   * max(listOf('int', 1, 2, 3), 'x', 'x + 1') : 4
   * max(listOf('string', '1', '2', '3')) : '3'
   * max(listOf('string', '1', '2', '3'), 'x', 'x + x') : '33'
 ---
 
-## min()
+### min()
 
-### Purpose
+#### Purpose
 
 Emits the minimum value, ignoring nulls.
 
-### Parameters
+#### Parameters
   * the list
   * optionally, a pair of parameters providing a lambda expression to be evaluated.
 
-### Examples
+#### Examples
   * min(listOf('int?', 1, null, 3)) : 1
   * min(listOf('int', 1, 2, 3), 'x', 'x + 1') : 2
   * min(listOf('string', '1', '2', '3')) : '1'
@@ -751,18 +795,18 @@ Emits the minimum value, ignoring nulls.
 
 ---
 
-## padLeft()
+### padLeft()
 
-### Purpose
+#### Purpose
 
 Pad the left of a string with a character to a desired string length.
 
-### Parameters
+#### Parameters
   * stringToPad
   * desiredStringLength (must be >=1)
   * paddingCharacter
 
-### Examples
+#### Examples
   * padLeft('', 1, '0') : '0'
   * padLeft('12', 5, '0') : '00012'
   * padLeft('12345', 5, '0') : '12345'
@@ -770,9 +814,9 @@ Pad the left of a string with a character to a desired string length.
 
 ---
 
-## parse()
+### parse()
 
-### Purpose
+#### Purpose
 
 Returns the conversion of a string to a numeric type.  Supported types are:
   * bool
@@ -791,43 +835,43 @@ Returns the conversion of a string to a numeric type.  Supported types are:
   * JObject (jObject also supported for backaward compatibility)
   * Guid
 
-### Parameters
+#### Parameters
   * type (see above)
   * text
   * valueIfParseFails (optional)
 
-### Examples
+#### Examples
   * parse('int', '1') : 1
   * parse('bool', 'x', null) : null
   * parse('jObject', '{ "a" : 1 }', null) : null
   * parse('jArray', '[ { "a" : 1 } ]', null) : null
 ---
 
-## parseInt()
+### parseInt()
 
-### Purpose
+#### Purpose
 
 Returns an integer version of a string.
 
-### Parameters
+#### Parameters
   * integerAsString
 
-### Examples
+#### Examples
   * parseInt('1') : 1
 
 ---
-## regexGroup()
+### regexGroup()
 
-### Purpose
+#### Purpose
 
 Selects a regex group capture
 
-### Parameters
+#### Parameters
   * input
   * regex
   * zero-based capture index (default: 0)
 
-### Examples
+#### Examples
   * regexGroup('abcdef', '^ab(.+?)f$') : 'cde'
   * regexGroup('abcdef', '^ab(.)+f$') : 'c'
   * regexGroup('abcdef', '^ab(.)+f$', 1) : 'd'
@@ -835,115 +879,115 @@ Selects a regex group capture
   * regexGroup('abcdef', '^ab(.)+f$', 10) : null
 
 ---
-## regexIsMatch()
+### regexIsMatch()
 
-### Purpose
+#### Purpose
 
 Determine whether a string matches a regex
 
-### Parameters
+#### Parameters
   * input
   * regex
 
-### Examples
+#### Examples
   * regexIsMatch('abcdef', '^ab.+') : true
   * regexIsMatch('Zbcdef', '^ab.+') : false
 
 ---
-## replace()
+### replace()
 
-### Purpose
+#### Purpose
 
 Replace a string with another string
 
-### Parameters
+#### Parameters
   * haystackString
   * needleString
   * betterNeedleString
 
-### Examples
+#### Examples
   * replace('abcdefg', 'cde', 'CDE') : 'abCDEfg'
   * replace('abcdefg', 'cde', '') : 'abfg'
 
 ---
-## retrieve()
+### retrieve()
 
-### Purpose
+#### Purpose
 
 Retrieves a value from storage
 
-### Parameters
+#### Parameters
   * key
 
-### Examples
+#### Examples
   * retrieve('thing')
 
 ---
-## select()
+### select()
 
-### Purpose
+#### Purpose
 
 Converts an IEnumerable using a lambda.
 
-### Parameters
+#### Parameters
   * list - the original list
   * predicate - a string to represent the value to be evaluated
   * nCalcString - the value to evaluate to for each item in the list
 
-### Examples
+#### Examples
   * select(list(1, 2, 3, 4, 5), 'n', 'n + 1') : list(2, 3, 4, 5, 6)
 
 ---
-## selectDistinct()
+### selectDistinct()
 
-### Purpose
+#### Purpose
 
 Converts an IEnumerable using a lambda and removes duplicates.
 
-### Parameters
+#### Parameters
   * list - the original list
   * predicate - a string to represent the value to be evaluated
   * nCalcString - the value to evaluate to for each item in the list
 
-### Examples
+#### Examples
   * selectDistinct(list(1, 2, 3, 3, 3), 'n', 'n + 1') : list(2, 3, 4)
 
 ---
-## setProperties()
+### setProperties()
 
-### Purpose
+#### Purpose
 
 Sets properties on an existing object.
 
-### Parameters
+#### Parameters
   * object - the original object
   * property1 - the first new property name
   * value1 - the first new property value
   * propertyN (optional) - the nth new property name
   * valueN (optional) - the nth new property value
-### Examples
+#### Examples
   * setProperties(jObject('a', 1, 'b', null), 'c', 'X') : jObject('a', 1, 'b', null, 'c', 'X')
   * setProperties(jObject('a', 1, 'b', null), 'c', 'X', 'd', 'Y') : jObject('a', 1, 'b', null, 'c', 'X', 'd', 'Y')
 ---
-## sort()
+### sort()
 
-### Purpose
+#### Purpose
 
 Sorts an IComparable ascending or descending.
 
-### Parameters
+#### Parameters
   * list - the original list
   * direction (optional) - 'asc' is the default, 'desc' is the other option
-### Examples
+#### Examples
   * sort(list(2, 1, 3)) : list(1, 2, 3)
   * sort(list(2, 1, 3), 'asc') : list(1, 2, 3)
   * sort(list(2, 1, 3), 'desc') : list(3, 2, 1)
   * sort(list('b', 'a', 'c'))) : list('a', 'b', 'c')
 
 ---
-## store()
+### store()
 
-### Purpose
+#### Purpose
 
 Stores a value for use later in the pipeline
 
@@ -951,26 +995,26 @@ Stores a value for use later in the pipeline
 
 true
 
-### Parameters
+#### Parameters
   * key
   * value
 
-### Examples
+#### Examples
   * store('thing', 1) : true
 
 ---
-## substring()
+### substring()
 
-### Purpose
+#### Purpose
 
 Retrieves part of a string.  If more characters are requested than available at the end of the string, just the available characters are returned.
 
-### Parameters
+#### Parameters
   * inputString
   * startIndex
   * length (optional)
 
-### Examples
+#### Examples
   * substring('haystack', 3) : 'stack'
   * substring('haystack', 0, 3) : 'hay'
   * substring('haystack', 3, 100) : 'stack'
@@ -978,71 +1022,71 @@ Retrieves part of a string.  If more characters are requested than available at 
   * substring('haystack', 0, 0) : ''
 
 ---
-## sum()
+### sum()
 
-### Purpose
+#### Purpose
 
 Sums numeric items.  Optionally, perform a lambda on each one first.
 
-### Parameters
+#### Parameters
   * list - the original list
   * predicate (optional) - a string to represent the value to be evaluated
   * nCalcString (optional) - the string to evaluate
 
-### Examples
+#### Examples
   * sum(list(1, 2, 3)) : 6
   * sum(list(1, 2, 3), 'n', 'n * n') : 14
 
 ---
-## switch()
+### switch()
 
-### Purpose
+#### Purpose
 Return one of a number of values, depending on the input function.
 
-### Parameters
+#### Parameters
   * switched value
   * a set of pairs: case_n, output_n
   * if present, a final value can be used as a default.  If the default WOULD have been returned, but no default is present, an exception is thrown.
 
-### Examples
+#### Examples
   * switch('yes', 'yes', 1, 'no', 2) : 1
   * switch('blah', 'yes', 1, 'no', 2) : throws exception
   * switch('blah', 'yes', 1, 'no', 2, 3) : 3
 
 ---
-## take()
+### take()
 
-### Purpose
+#### Purpose
 Takes a number of items from a list.
 If a number is provided that is longer than the list, the full list is returned.
 
-### Parameters
+#### Parameters
   * the list to take from
   * the number of items to take
 
-### Examples
+#### Examples
   * take(list(1, 2, 3), 2): list(1, 2)
   * take(list(1, 2, 3), 10): list(1, 2, 3)
 
 ---
-## throw()
+### throw()
 
-### Purpose
+#### Purpose
 
 Throws an NCalcExtensionsException.   Useful in an if().
 
-### Parameters
+#### Parameters
   * message (optional)
 
-### Examples
+#### Examples
   * throw()
   * throw('This is a message')
   * if(problem, throw('There is a problem'), 5)
 
 ---
-## timeSpan()
+### timeSpan()
 
-### Purpose
+#### Purpose
 
 Determines the amount of time between two DateTimes.
 The following units are supported:
@@ -1055,18 +1099,18 @@ The following units are supported:
   * Milliseconds
   * Any other string is handled with TimeSpan.ToString(timeUnit). See https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-timespan-format-strings
 
-### Parameters
+#### Parameters
   * startDateTime
   * endDateTime
   * timeUnit
 
-### Examples
+#### Examples
   * timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 3600
 
 ---
-## toDateTime()
+### toDateTime()
 
-### Purpose
+#### Purpose
 
 Converts a string to a UTC DateTime.  May take an optional inputTimeZone.
 
@@ -1074,12 +1118,12 @@ Note that when using numbers as the first input parameter, provide it as a decim
 to avoid hitting an NCalc bug relating to longs being interpreted as floats.
 
 
-### Parameters
+#### Parameters
   * inputString
   * stringFormat
   * inputTimeZone (optional) See https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
 
-### Examples
+#### Examples
   * toDateTime('2019-01-01', 'yyyy-MM-dd') : A date time representing 2019-01-01
   * toDateTime('2020-02-29 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-02-29 17:00:00 UTC
   * toDateTime('2020-03-13 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') : A date time representing 2020-03-13 16:00:00 UTC
@@ -1088,59 +1132,59 @@ to avoid hitting an NCalc bug relating to longs being interpreted as floats.
   * toDateTime(156816000000000.0, 'us', 'UTC') : A date time representing 1974-12-21 00:00:00 UTC
 
 ---
-## toLower()
+### toLower()
 
-### Purpose
+#### Purpose
 
 Converts a string to lower case.
 
-### Parameters
+#### Parameters
   * string
 
-### Examples
+#### Examples
   * toLower('PaNToMIMe') : 'pantomime'
 
 ---
-## toString()
+### toString()
 
-### Purpose
+#### Purpose
 
 Converts any object to a string
 
-### Parameters
+#### Parameters
   * object
   * format (optional)
 
-### Examples
+#### Examples
   * toString(1) : '1'
   * toString(1000, 'N2') : '1,000.00'
   * toString(DateTimeOffset, 'yyyy-MM-dd') : '2023-02-17'
 
 ---
-## toUpper()
+### toUpper()
 
-### Purpose
+#### Purpose
 
 Converts a string to upper case.
 
-### Parameters
+#### Parameters
   * string
 
-### Examples
+#### Examples
   * toUpper('PaNToMIMe') : 'PANTOMIME'
 
 ---
-## try()
+### try()
 
-### Purpose
+#### Purpose
 
 If a function throws an exception, return an alternate value.
 
-### Parameters
+#### Parameters
   * function to attempt
   * result to return if an exception is thrown (null is returned if this parameter is omitted and an exception is thrown)
 
-### Examples
+#### Examples
   * try(1, 'Failed') : 1
   * try(throw('Woo')) : null
   * try(throw('Woo'), 'Failed') : 'Failed'
@@ -1151,76 +1195,33 @@ If a function throws an exception, return an alternate value.
   * try(throw('Woo'), exception) : The Exception object thrown by the throw function.
 
 ---
-## typeOf()
+### typeOf()
 
-### Purpose
+#### Purpose
 
 Determines the C# type of the object.
 
-### Parameters
+#### Parameters
   * parameter
 
-### Examples
+#### Examples
   * typeOf('text') : 'String'
   * typeOf(1) : 'Int32'
   * typeOf(1.1) : 'Double'
   * typeOf(null) : null
 
 ---
-## where()
+### where()
 
-### Purpose
+#### Purpose
 
 Filters an IEnumerable to bring back only those items that match a condition.
 
-### Parameters
+#### Parameters
   * list - the original list
   * predicate - a string to represent the value to be evaluated
   * nCalcString - the string to evaluate
 
-### Examples
+#### Examples
   * where(list(1, 2, 3, 4, 5), 'n', 'n < 3') : list(1, 2)
   * where(list(1, 2, 3, 4, 5), 'n', 'n < 3 || n > 4') : list(1, 2, 5)
-
----
-## capitalize()
-
-### Purpose
-
-Capitalizes a string.
-
-### Parameters
-  * string
-
-### Examples
-  * capitalize('new year') : 'New Year'
-
----
-## contains()
-
-### Purpose
-
-Determines whether one string contains another.
-
-### Parameters
-  * string searched-in text
-  * string searched-for text
-
-### Examples
-  * contains('haystack containing needle', 'needle') : true
-  * contains('haystack containing only hay', 'needle') : false
-
----
-## humanize()
-
-### Purpose
-
-Humanizes the value text.
-
-### Parameters
-  * value
-  * timeUnit
-
-### Examples
-  * humanize(3600, 'seconds') : '1 hour'
-
