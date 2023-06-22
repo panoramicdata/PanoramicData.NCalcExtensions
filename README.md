@@ -39,45 +39,47 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [isNull()](#isnull) | Determines whether a value is null. |
 | [isNullOrEmpty()](#isnullOrEmpty) | Determines whether a value is null or empty. |
 | [isNullOrWhiteSpace()](#isnullOrWhiteSpace) | Determines whether a value is null, empty or white space. |
-| [isSet()](#isset) | - |
-| [itemAtIndex()](#itemAtIndex) | - |
-| [jObject()](#jObject) | - |
-| [join()](#join) | - |
-| [jPath()](#jPath) | - |
-| [lastIndexOf()](#lastindexof) | - |
-| [length()](#length) | - |
-| [list()](#list) | - |
-| [listOf()](#listOf) | - |
-| [max()](#list) | - |
-| [min()](#list) | - |
+| [isSet()](#isset) | Determines whether a parameter is set. |
+| [itemAtIndex()](#itemAtIndex) | Determines the item at the given index. |
+| [jObject()](#jObject) | Creates a JObject from key/value pairs. |
+| [join()](#join) | Joins a list of strings into a single string. |
+| [jPath()](#jPath) | Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression |
+| [lastIndexOf()](#lastindexof) | Determines the last position of a string within another string. |
+| [length()](#length) | Determines length of a string or IList. |
+| [list()](#list) | Emits a List<object?> and collapses down lists of lists to a single list. |
+| [listOf()](#listOf) | Emits a List&lt;T&gt;. |
+| [max()](#list) | Emits the maximum value, ignoring nulls. |
+| [min()](#list) | Emits the minimum value, ignoring nulls. |
 | [nullCoalesce()](#nullCoalesce) | - |
-| [orderBy()](#orderBy) | - |
-| [padLeft()](#padLeft) | - |
-| [parse()](#parse) | - |
-| [parseInt()](#parseInt) | - | Deprecated - use parse() or tryParse() instead) |
-| [regexGroup()](#regexGroup) | - |
-| [regexIsMatch()](#regexIsMatch) | - |
-| [replace()](#replace) | - |
-| [retrieve()](#retrieve) | - |
-| [select()](#select) | - |
-| [selectDistinct()](#selectDistinct) | - |
-| [skip()](#skip) | - |
-| [sort()](#sort) | - |
+| [orderBy()](#orderBy) | Orders an IEnumerable by one or more lambda expressions. |
+| [padLeft()](#padLeft) | Pad the left of a string with a character to a desired string length. |
+| [parse()](#parse) | Returns the conversion of a string to a new type. |
+| [parseInt()](#parseInt) | Returns an integer version of a string. | Deprecated - use parse() or tryParse() instead) |
+| [regexGroup()](#regexGroup) | Selects a regex group capture. |
+| [regexIsMatch()](#regexIsMatch) | Determine whether a string matches a regex. |
+| [replace()](#replace) | Replace a string with another string. |
+| [retrieve()](#retrieve) | Retrieves a value from storage. |
+| [select()](#select) | Converts an IEnumerable using a lambda. |
+| [selectDistinct()](#selectDistinct) | Converts an IEnumerable using a lambda and removes duplicates. |
+| [setProperties()](#setProperties) | Sets properties on an existing object. |
+| [skip()](#skip) | Skips a number of items in a list. |
+| [sort()](#sort) | Sorts an IComparable ascending or descending. |
 | [split()](#split) | - |
-| [startsWith()](#startswith) | - |
-| [store()](#store) | - |
-| [substring()](#substring) | - |
-| [switch()](#switch) | - |
-| [take()](#take) | - |
-| [throw()](#throw) | - |
-| [timeSpan()](#timespan) | - |
-| [toDateTime()](#toDateTime) | - |
-| [toLower()](#tolower) | - |
-| [toString()](#tostring) | - |
-| [toUpper()](#toupper) | - |
-| [try()](#try) | - |
-| [typeOf()](#typeOf) | - |
-| [where()](#where) | - |
+| [startsWith()](#startswith) | Determines whether a string starts with another string. |
+| [store()](#store) | Stores a value for use later in the pipeline. |
+| [substring()](#substring) | Retrieves part of a string. |
+| [sum()](#sum) | Sums numeric items. |
+| [switch()](#switch) | Return one of a number of values, depending on the input function. |
+| [take()](#take) | Takes a number of items from a list. |
+| [throw()](#throw) | Throws an NCalcExtensionsException. |
+| [timeSpan()](#timespan) | Determines the amount of time between two DateTimes. |
+| [toDateTime()](#toDateTime) | Converts a string to a UTC DateTime.  May take an optional inputTimeZone. |
+| [toLower()](#tolower) | Converts a string to lower case. |
+| [toString()](#tostring) | Converts any object to a string. |
+| [toUpper()](#toupper) | Converts a string to upper case. |
+| [try()](#try) | If a function throws an exception, return an alternate value. |
+| [typeOf()](#typeOf) | Determines the C# type of the object. |
+| [where()](#where) | Filters an IEnumerable to bring back only those items that match a condition. |
 
 ## Usage
 
