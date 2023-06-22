@@ -34,9 +34,9 @@ Please submit your requests for new functions in the form of pull requests.
 | [isGuid()](#isGuid) | Determines whether a value is a GUID, or is a string that can be converted to a GUID. |
 | [isInfinite()](#isinfinite) | Determines whether a value is infinite. |
 | [isNaN()](#isnan) | Determines whether a value is not a number. |
-| [isNull()](#isnull) | - |
-| [isNullOrEmpty()](#isnullOrEmpty) | - |
-| [isNullOrWhiteSpace()](#isnullOrWhiteSpace) | - |
+| [isNull()](#isnull) | Determines whether a value is null. |
+| [isNullOrEmpty()](#isnullOrEmpty) | Determines whether a value is null or empty. |
+| [isNullOrWhiteSpace()](#isnullOrWhiteSpace) | Determines whether a value is null, empty or white space. |
 | [isSet()](#isset) | - |
 | [itemAtIndex()](#itemAtIndex) | - |
 | [jObject()](#jObject) | - |
@@ -52,7 +52,7 @@ Please submit your requests for new functions in the form of pull requests.
 | [orderBy()](#orderBy) | - |
 | [padLeft()](#padLeft) | - |
 | [parse()](#parse) | - |
-| [parseInt()](#parseInt) (deprecated - use "parse()" instead) | - |
+| [parseInt()](#parseInt) | - | Deprecated - use parse() or tryParse() instead) |
 | [regexGroup()](#regexGroup) | - |
 | [regexIsMatch()](#regexIsMatch) | - |
 | [replace()](#replace) | - |
@@ -442,8 +442,10 @@ Determines whether a value is not a number.
 ### isNull()
 
 #### Purpose
+Determines whether a value is null.
 
-Determines whether a value is either:
+#### Notes
+Returns true if the value is:
   * null; or
   * it's a JObject and it's type is JTokenType.Null.
 
@@ -460,8 +462,10 @@ Determines whether a value is either:
 ### isNullOrEmpty()
 
 #### Purpose
+Determines whether a value is null or empty.
 
-Determines whether a value is either:
+#### Notes
+True if:
   * null; or
   * it's a JObject and it's type is JTokenType.Null or;
   * it's a string and it's empty.
@@ -481,8 +485,10 @@ Determines whether a value is either:
 ### isNullOrWhiteSpace()
 
 #### Purpose
+Determines whether a value is null, empty or whitespace.
 
-Determines whether a value is either:
+#### Notes
+Returns true is the value is:
   * null; or
   * it's a JObject and it's type is JTokenType.Null or;
   * it's a string and it's empty or only contains whitespace characters (\r, \n, \t, or ' ').
@@ -502,8 +508,7 @@ Determines whether a value is either:
 ### isSet()
 
 #### Purpose
-
-Determines whether a parameter is set:
+Determines whether a parameter is set.
 
 #### Parameters
   * parameter name
@@ -515,7 +520,6 @@ Determines whether a parameter is set:
 ### itemAtIndex()
 
 #### Purpose
-
 Determines the item at the given index.  The first index is 0.
 
 #### Parameters
@@ -528,7 +532,6 @@ Determines the item at the given index.  The first index is 0.
 ### jObject()
 
 #### Purpose
-
 Creates a JObject from key/value pairs.
 
 #### Parameters
@@ -543,12 +546,10 @@ Creates a JObject from key/value pairs.
 #### Examples
   * jObject('a', 1, 'b', null) : JObject{ "a": 1, "b": null}
 
-
 ---
 ### join()
 
 #### Purpose
-
 Joins a list of strings into a single string.
 
 #### Parameters
@@ -561,7 +562,6 @@ Joins a list of strings into a single string.
 ### lastIndexOf()
 
 #### Purpose
-
 Determines the last position of a string within another string.  Returns -1 if not present.
 
 #### Parameters
@@ -576,7 +576,6 @@ Determines the last position of a string within another string.  Returns -1 if n
 ### length()
 
 #### Purpose
-
 Determines length of a string or IList.
 
 #### Parameters
@@ -590,7 +589,6 @@ Determines length of a string or IList.
 ### nullCoalesce()
 
 #### Purpose
-
 Returns the first parameter that is not null, otherwise: null.
 
 #### Parameters
@@ -607,7 +605,6 @@ Returns the first parameter that is not null, otherwise: null.
 ### orderBy()
 
 #### Purpose
-
 Orders an IEnumerable by one or more lambda expressions.
 
 #### Parameters
@@ -628,6 +625,8 @@ Orders an IEnumerable by one or more lambda expressions.
 
 #### Purpose
 Skips a number of items in a list.
+
+#### Notes
 If the number of items to skip is greater than the number of items in the list, an empty list is returned.
 
 #### Parameters
@@ -641,7 +640,6 @@ If the number of items to skip is greater than the number of items in the list, 
 ### split()
 
 #### Purpose
-
 Splits a string on a given character into a list of strings.
 
 #### Parameters
@@ -655,7 +653,6 @@ Splits a string on a given character into a list of strings.
 ### startsWith()
 
 #### Purpose
-
 Determines whether a string starts with another string.
 
 #### Parameters
@@ -684,7 +681,6 @@ Determines whether a string ends with another string.
 ### getProperty()
 
 #### Purpose
-
 Gets an object's property.
 
 #### Parameters
@@ -699,7 +695,6 @@ Gets an object's property.
 ### jPath()
 
 #### Purpose
-
 Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression
 
 #### Parameters
@@ -728,7 +723,6 @@ sourceJObject JSON:
 ### list()
 
 #### Purpose
-
 Emits a List<object?> and collapses down lists of lists to a single list.
 
 #### Parameters
@@ -743,7 +737,6 @@ Emits a List<object?> and collapses down lists of lists to a single list.
 ### listOf()
 
 #### Purpose
-
 Emits a List&lt;T&gt;.
 
 #### Parameters
@@ -760,7 +753,6 @@ Emits a List&lt;T&gt;.
 ### max()
 
 #### Purpose
-
 Emits the maximum value, ignoring nulls.
 
 #### Parameters
@@ -777,7 +769,6 @@ Emits the maximum value, ignoring nulls.
 ### min()
 
 #### Purpose
-
 Emits the minimum value, ignoring nulls.
 
 #### Parameters
@@ -795,7 +786,6 @@ Emits the minimum value, ignoring nulls.
 ### padLeft()
 
 #### Purpose
-
 Pad the left of a string with a character to a desired string length.
 
 #### Parameters
@@ -814,7 +804,6 @@ Pad the left of a string with a character to a desired string length.
 ### parse()
 
 #### Purpose
-
 Returns the conversion of a string to a numeric type.  Supported types are:
   * bool
   * sbyte
@@ -847,7 +836,6 @@ Returns the conversion of a string to a numeric type.  Supported types are:
 ### parseInt()
 
 #### Purpose
-
 Returns an integer version of a string.
 
 #### Parameters
@@ -860,7 +848,6 @@ Returns an integer version of a string.
 ### regexGroup()
 
 #### Purpose
-
 Selects a regex group capture
 
 #### Parameters
@@ -879,7 +866,6 @@ Selects a regex group capture
 ### regexIsMatch()
 
 #### Purpose
-
 Determine whether a string matches a regex
 
 #### Parameters
@@ -894,7 +880,6 @@ Determine whether a string matches a regex
 ### replace()
 
 #### Purpose
-
 Replace a string with another string
 
 #### Parameters
@@ -910,7 +895,6 @@ Replace a string with another string
 ### retrieve()
 
 #### Purpose
-
 Retrieves a value from storage
 
 #### Parameters
@@ -923,7 +907,6 @@ Retrieves a value from storage
 ### select()
 
 #### Purpose
-
 Converts an IEnumerable using a lambda.
 
 #### Parameters
@@ -938,7 +921,6 @@ Converts an IEnumerable using a lambda.
 ### selectDistinct()
 
 #### Purpose
-
 Converts an IEnumerable using a lambda and removes duplicates.
 
 #### Parameters
@@ -953,7 +935,6 @@ Converts an IEnumerable using a lambda and removes duplicates.
 ### setProperties()
 
 #### Purpose
-
 Sets properties on an existing object.
 
 #### Parameters
@@ -969,7 +950,6 @@ Sets properties on an existing object.
 ### sort()
 
 #### Purpose
-
 Sorts an IComparable ascending or descending.
 
 #### Parameters
@@ -985,7 +965,6 @@ Sorts an IComparable ascending or descending.
 ### store()
 
 #### Purpose
-
 Stores a value for use later in the pipeline
 
 ### Returns
@@ -1003,7 +982,6 @@ true
 ### substring()
 
 #### Purpose
-
 Retrieves part of a string.  If more characters are requested than available at the end of the string, just the available characters are returned.
 
 #### Parameters
@@ -1022,7 +1000,6 @@ Retrieves part of a string.  If more characters are requested than available at 
 ### sum()
 
 #### Purpose
-
 Sums numeric items.  Optionally, perform a lambda on each one first.
 
 #### Parameters
@@ -1055,6 +1032,8 @@ Return one of a number of values, depending on the input function.
 
 #### Purpose
 Takes a number of items from a list.
+
+#### Notes
 If a number is provided that is longer than the list, the full list is returned.
 
 #### Parameters
@@ -1069,7 +1048,6 @@ If a number is provided that is longer than the list, the full list is returned.
 ### throw()
 
 #### Purpose
-
 Throws an NCalcExtensionsException.   Useful in an if().
 
 #### Parameters
@@ -1084,7 +1062,6 @@ Throws an NCalcExtensionsException.   Useful in an if().
 ### timeSpan()
 
 #### Purpose
-
 Determines the amount of time between two DateTimes.
 The following units are supported:
   * Years
@@ -1108,12 +1085,11 @@ The following units are supported:
 ### toDateTime()
 
 #### Purpose
-
 Converts a string to a UTC DateTime.  May take an optional inputTimeZone.
 
-Note that when using numbers as the first input parameter, provide it as a decimal (see examples, below)
+#### Notes
+When using numbers as the first input parameter, provide it as a decimal (see examples, below)
 to avoid hitting an NCalc bug relating to longs being interpreted as floats.
-
 
 #### Parameters
   * inputString
@@ -1132,7 +1108,6 @@ to avoid hitting an NCalc bug relating to longs being interpreted as floats.
 ### toLower()
 
 #### Purpose
-
 Converts a string to lower case.
 
 #### Parameters
@@ -1145,7 +1120,6 @@ Converts a string to lower case.
 ### toString()
 
 #### Purpose
-
 Converts any object to a string
 
 #### Parameters
@@ -1161,7 +1135,6 @@ Converts any object to a string
 ### toUpper()
 
 #### Purpose
-
 Converts a string to upper case.
 
 #### Parameters
@@ -1174,7 +1147,6 @@ Converts a string to upper case.
 ### try()
 
 #### Purpose
-
 If a function throws an exception, return an alternate value.
 
 #### Parameters
@@ -1195,7 +1167,6 @@ If a function throws an exception, return an alternate value.
 ### typeOf()
 
 #### Purpose
-
 Determines the C# type of the object.
 
 #### Parameters
@@ -1211,7 +1182,6 @@ Determines the C# type of the object.
 ### where()
 
 #### Purpose
-
 Filters an IEnumerable to bring back only those items that match a condition.
 
 #### Parameters
