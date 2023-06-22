@@ -4,7 +4,7 @@ namespace PanoramicData.NCalcExtensions;
 
 public class ExtendedExpression : Expression
 {
-	private static readonly Dictionary<string, object?> _storageDictionary = new();
+	private readonly Dictionary<string, object?> _storageDictionary = new();
 	internal const string StorageDictionaryParameterName = "__storageDictionary";
 
 	public ExtendedExpression(string expression) : base(expression)
@@ -49,7 +49,7 @@ public class ExtendedExpression : Expression
 		}
 	}
 
-	internal static void Extend(string functionName, FunctionArgs functionArgs)
+	internal void Extend(string functionName, FunctionArgs functionArgs)
 	{
 		if (functionArgs == null)
 		{
