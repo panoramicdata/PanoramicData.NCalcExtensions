@@ -44,8 +44,10 @@ internal static class Parse
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
 				"decimal" => decimal.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"jObject" => ParseJObject(text),
-				"jArray" => ParseJArray(text),
+				"Guid" => Guid.TryParse(text, out var result) ? result
+					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
+				"JObject" or "jObject" => ParseJObject(text),
+				"JArray" or "jArray" => ParseJArray(text),
 				_ => throw new FormatException($"type '{typeString}' not supported.")
 			};
 		}

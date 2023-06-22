@@ -787,6 +787,9 @@ Returns the conversion of a string to a numeric type.  Supported types are:
   * double
   * float
   * decimal
+  * JArray (jArray also supported for backaward compatibility)
+  * JObject (jObject also supported for backaward compatibility)
+  * Guid
 
 ### Parameters
   * type (see above)
@@ -796,6 +799,8 @@ Returns the conversion of a string to a numeric type.  Supported types are:
 ### Examples
   * parse('int', '1') : 1
   * parse('bool', 'x', null) : null
+  * parse('jObject', '{ "a" : 1 }', null) : null
+  * parse('jArray', '[ { "a" : 1 } ]', null) : null
 ---
 
 ## parseInt()

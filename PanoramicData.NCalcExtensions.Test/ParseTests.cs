@@ -8,6 +8,7 @@ public class ParseTests
 	[InlineData("")]
 	[InlineData("'int', 1")]
 	[InlineData("'xxx', '1'")]
+	[InlineData("'Guid', '1'")]
 	[InlineData("1")]
 	public void Parse_IncorrectParameterCountOrType_Throws(string parameters)
 	{
@@ -29,6 +30,7 @@ public class ParseTests
 	[InlineData("decimal")]
 	[InlineData("jObject")]
 	[InlineData("jArray")]
+	[InlineData("Guid")]
 	public void Parse_Unparsable_Throws(string parameters)
 	{
 		var expression = new ExtendedExpression($"parse('{parameters}', 'x')");
@@ -70,6 +72,20 @@ public class ParseTests
 		var expression = new ExtendedExpression($"parse('int', '{text}')");
 		var result = expression.Evaluate();
 		result.Should().Be(int.Parse(text));
+	}
+
+	[Theory]
+	[InlineData("BC2BF06D-1B6A-4D2F-A7D2-9D160EB2AE12")] // Upper case
+	[InlineData("{D72C2BAF-0F89-44E0-8083-4A8102425429}")] // Upper case with curlies
+	[InlineData("fa2e60e8-dd1e-4cbb-b53c-e69c63f14866")] // Lower case
+	[InlineData("{fa2e60e8-dd1e-4cbb-b53c-e69c63f14866}")] // Lower case with curlies
+	[InlineData("fa2e60e8-dd1e-AAAA-b53c-e69c63f14866")] // Mixed case
+	[InlineData("{fa2e60e8-dd1e-AAAA-b53c-e69c63f14866}")] // Mixed case with curlies
+	public void Parse_Guid_Succeeds(string text)
+	{
+		var expression = new ExtendedExpression($"parse('Guid', '{text}')");
+		var result = expression.Evaluate();
+		result.Should().Be(Guid.Parse(text));
 	}
 
 	[Theory]
@@ -200,6 +216,26 @@ public class ParseTests
 	public void Parse_JArray_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"parse('jArray', '{text}')");
+		var result = expression.Evaluate();
+		JsonConvert.SerializeObject(result).Should().Be(text);
+	}
+
+	[Theory]
+	[InlineData("{}")]
+	[InlineData("{\"a\":1}")]
+	public void Parse_CapitalJ_JObject_Succeeds(string text)
+	{
+		var expression = new ExtendedExpression($"parse('JObject', '{text}')");
+		var result = expression.Evaluate();
+		JsonConvert.SerializeObject(result).Should().Be(text);
+	}
+
+	[Theory]
+	[InlineData("[]")]
+	[InlineData("[\"a\",1]")]
+	public void Parse_CapitalJ_JArray_Succeeds(string text)
+	{
+		var expression = new ExtendedExpression($"parse('JArray', '{text}')");
 		var result = expression.Evaluate();
 		JsonConvert.SerializeObject(result).Should().Be(text);
 	}
