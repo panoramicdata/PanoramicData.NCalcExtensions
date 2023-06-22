@@ -11,9 +11,9 @@ Please submit your requests for new functions in the form of pull requests.
 
 ## Functions
 
-| Function | Purpose |
-| -------- | ------- |
-| [all()](#all) | {% capture all %}Returns true if all values match the lambda expression, otherwise false.{% endcapture %} |
+| Function | Purpose | Notes |
+| -------- | ------- | ----- |
+| [all()](#all) | Returns true if all values match the lambda expression, otherwise false. |
 | [any()](#any) | Returns true if any values match the lambda expression, otherwise false. |
 | [canEvaluate()](#canEvaluate) | Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set. |
 | [capitalize()](#capitalize) | Capitalizes a string. |
@@ -25,15 +25,15 @@ Please submit your requests for new functions in the form of pull requests.
 | [count()](#count) | Counts the number of items.  Optionally, only count those that match a lambda. |
 | [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
 | [dateTimeAsEpochMs()](#dateTimeAsEpochMs) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
-| [distinct()](#distinct) | - |
-| [endsWith()](#endswith) | - |
-| [format()](#format) | - |
-| [if()](#if) | - |
-| [in()](#in) | - |
-| [indexOf()](#indexof) | - |
-| [isGuid()](#isGuid) | - |
-| [isInfinite()](#isinfinite) | - |
-| [isNaN()](#isnan) | - |
+| [distinct()](#distinct) | Returns only distinct items from the input. |
+| [endsWith()](#endswith) | Determines whether a string ends with another string. |
+| [format()](#format) | Formats strings and numbers as output strings with the specified format. |
+| [if()](#if) | Return one of two values, depending on the input function. |
+| [in()](#in) | Determines whether a value is in a set of other values. |
+| [indexOf()](#indexof) | Determines the first position of a string within another string. |
+| [isGuid()](#isGuid) | Determines whether a value is a GUID, or is a string that can be converted to a GUID. |
+| [isInfinite()](#isinfinite) | Determines whether a value is infinite. |
+| [isNaN()](#isnan) | Determines whether a value is not a number. |
 | [isNull()](#isnull) | - |
 | [isNullOrEmpty()](#isnullOrEmpty) | - |
 | [isNullOrWhiteSpace()](#isnullOrWhiteSpace) | - |
@@ -300,7 +300,6 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-0
 ### distinct()
 
 #### Purpose
-
 Returns only distinct items from the input.
 
 #### Parameters
@@ -313,7 +312,7 @@ Returns only distinct items from the input.
 ### format()
 
 #### Purpose
-Formats strings and numbers as output strings with the specified format
+Formats strings and numbers as output strings with the specified format.
 
 #### Parameters
   * object (number or text)
@@ -371,7 +370,6 @@ Return one of two values, depending on the input function.
 ### in()
 
 #### Purpose
-
 Determines whether a value is in a set of other values.
 
 #### Parameters
@@ -386,8 +384,10 @@ Determines whether a value is in a set of other values.
 ### indexOf()
 
 #### Purpose
+Determines the first position of a string within another string.
 
-Determines the first position of a string within another string.  Returns -1 if not present.
+#### Notes
+The first character is position 0.  Returns -1 if not present.
 
 #### Parameters
   * longString
@@ -401,8 +401,7 @@ Determines the first position of a string within another string.  Returns -1 if 
 ### isGuid()
 
 #### Purpose
-
-Determines whether a value is a GUID, or is a string that can be converted to a GUID
+Determines whether a value is a GUID, or is a string that can be converted to a GUID.
 
 #### Parameters
   * value
@@ -416,8 +415,7 @@ Determines whether a value is a GUID, or is a string that can be converted to a 
 ### isInfinite()
 
 #### Purpose
-
-Determines whether a value is infinite
+Determines whether a value is infinite.
 
 #### Parameters
   * value
@@ -430,7 +428,6 @@ Determines whether a value is infinite
 ### isNaN()
 
 #### Purpose
-
 Determines whether a value is not a number.
 
 #### Parameters
@@ -438,6 +435,7 @@ Determines whether a value is not a number.
 
 #### Examples
   * isNaN(null) : true
+  * isNaN('abc') : true
   * isNaN(1) : false
 ---
 
@@ -672,7 +670,6 @@ Determines whether a string starts with another string.
 ### endsWith()
 
 #### Purpose
-
 Determines whether a string ends with another string.
 
 #### Parameters
