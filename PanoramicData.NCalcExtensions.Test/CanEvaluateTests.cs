@@ -15,4 +15,11 @@ public class CanEvaluateTests
 		var expression = new ExtendedExpression("canEvaluate(1)");
 		(expression.Evaluate() as bool?).Should().BeTrue();
 	}
+
+	[Fact]
+	public void CanEvaluate_Example3_Succeeds()
+	{
+		var expression = new ExtendedExpression("canEvaluate(3xampl3)");
+		(expression.Evaluate() as bool?).Should().BeFalse();
+	}
 }
