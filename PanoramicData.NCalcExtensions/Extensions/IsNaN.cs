@@ -12,7 +12,13 @@ internal static class IsNaN
 		try
 		{
 			var outputObject = functionArgs.Parameters[0].Evaluate();
-			functionArgs.Result = outputObject is not double || double.IsNaN((double)outputObject);
+			functionArgs.Result = outputObject switch
+			{
+				double d => double.IsNaN(d),
+				float f => float.IsNaN(f),
+				int or long or short or byte or sbyte or uint or ulong or ushort or decimal => false,
+				_ => true
+			};
 			return;
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)

@@ -6,9 +6,9 @@ internal static class Contains
 	{
 		try
 		{
-			var param1 = (string)functionArgs.Parameters[0].Evaluate();
-			var param2 = (string)functionArgs.Parameters[1].Evaluate();
-			functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture) >= 0;
+			var haystack = (string)functionArgs.Parameters[0].Evaluate();
+			var needle = (string)functionArgs.Parameters[1].Evaluate();
+			functionArgs.Result = haystack.IndexOf(needle, StringComparison.InvariantCulture) >= 0;
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
