@@ -19,7 +19,7 @@ public class CanEvaluateTests
 	[Fact]
 	public void CanEvaluate_Example3_Succeeds()
 	{
-		var expression = new ExtendedExpression("canEvaluate(3xampl3)");
+		var expression = new ExtendedExpression("canEvaluate(ex4mple3)");
 		(expression.Evaluate() as bool?).Should().BeFalse();
 	}
 }
