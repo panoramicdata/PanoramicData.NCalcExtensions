@@ -42,6 +42,8 @@ public class MinTests
 
 	public void Min_OfStringsAsVariable_ReturnsExpectedValue(string values, string expectedOutput)
 	{
+		ArgumentException.ThrowIfNullOrEmpty(values, nameof(values));
+
 		var expression = new ExtendedExpression($"min(valuesList)");
 		expression.Parameters["valuesList"] = values.Split(',').Select(x => x == "null" ? null : x).ToList();
 		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);

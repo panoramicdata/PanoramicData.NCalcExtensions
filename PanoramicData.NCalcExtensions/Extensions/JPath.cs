@@ -17,12 +17,8 @@ internal static class JPath
 
 		try
 		{
-			var jPathSourceObject = functionArgs.Parameters[0].Evaluate();
-
-			if (jPathSourceObject is null)
-			{
-				throw new NCalcExtensionsException($"{ExtensionFunction.JPath} function - parameter 1 should not be null.");
-			}
+			var jPathSourceObject = functionArgs.Parameters[0].Evaluate()
+				?? throw new NCalcExtensionsException($"{ExtensionFunction.JPath} function - parameter 1 should not be null.");
 
 			if (jPathSourceObject is JObject jObject2)
 			{

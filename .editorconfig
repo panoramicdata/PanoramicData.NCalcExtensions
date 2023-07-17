@@ -92,6 +92,10 @@ csharp_style_expression_bodied_accessors = true:silent
 csharp_style_expression_bodied_lambdas = true:silent
 csharp_style_expression_bodied_local_functions = false:silent
 
+# VSSPELL: Spell checker settings from PanoramicData.NCalcExtensions.sln.vsspell
+vsspell_section_id = 719e6076590949aea9496f656ed09ee3
+vsspell_ignored_words_719e6076590949aea9496f656ed09ee3 = File:PanoramicData.NCalcExtensions.sln.vsspell.dic
+
 [*.{cs,vb}]
 #### Naming styles ####
 

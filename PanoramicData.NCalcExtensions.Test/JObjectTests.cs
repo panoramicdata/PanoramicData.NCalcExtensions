@@ -10,9 +10,9 @@ public class JObjectTests
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);
-		result["a"].Should().BeOfType<JValue>();
-		result["a"].Should().BeEquivalentTo(JToken.FromObject(1));
-		result["b"].Should().BeOfType<JValue>();
-		result["b"].Should().BeEquivalentTo(JValue.CreateNull());
+		result!["a"].Should().BeOfType<JValue>();
+		result!["a"].Should().BeEquivalentTo(JToken.FromObject(1));
+		result!["b"].Should().BeOfType<JValue>();
+		result!["b"].Should().BeEquivalentTo(JValue.CreateNull());
 	}
 }

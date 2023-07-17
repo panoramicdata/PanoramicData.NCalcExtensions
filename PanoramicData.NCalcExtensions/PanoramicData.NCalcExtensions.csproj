@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added isGuid().</PackageReleaseNotes>
+		<PackageReleaseNotes>Fixed an issue with isNaN() whereby non-double numbers would incorrectly evaluate as not being numbers.</PackageReleaseNotes>
 
 	</PropertyGroup>
 

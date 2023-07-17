@@ -31,7 +31,7 @@ public class ParseTests
 	[InlineData("jObject")]
 	[InlineData("jArray")]
 	[InlineData("Guid")]
-	public void Parse_Unparsable_Throws(string parameters)
+	public void Parse_DoesNotParse_Throws(string parameters)
 	{
 		var expression = new ExtendedExpression($"parse('{parameters}', 'x')");
 		Assert.Throws<FormatException>(expression.Evaluate);
@@ -71,7 +71,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('int', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(int.Parse(text));
+		result.Should().Be(int.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -97,7 +97,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('long', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(long.Parse(text));
+		result.Should().Be(long.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -107,7 +107,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('ulong', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(ulong.Parse(text));
+		result.Should().Be(ulong.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -117,7 +117,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('uint', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(uint.Parse(text));
+		result.Should().Be(uint.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -129,7 +129,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('double', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(double.Parse(text));
+		result.Should().Be(double.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -141,7 +141,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('float', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(float.Parse(text));
+		result.Should().Be(float.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -153,7 +153,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('decimal', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(decimal.Parse(text));
+		result.Should().Be(decimal.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -165,7 +165,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('sbyte', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(sbyte.Parse(text));
+		result.Should().Be(sbyte.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -175,7 +175,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('byte', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(byte.Parse(text));
+		result.Should().Be(byte.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -187,7 +187,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('short', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(short.Parse(text));
+		result.Should().Be(short.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]
@@ -197,7 +197,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('ushort', '{text}')");
 		var result = expression.Evaluate();
-		result.Should().Be(ushort.Parse(text));
+		result.Should().Be(ushort.Parse(text, CultureInfo.InvariantCulture));
 	}
 
 	[Theory]

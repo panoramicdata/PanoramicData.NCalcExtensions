@@ -34,7 +34,7 @@ public class IsNullTests
 	[Fact]
 	public void IsNull_JObjectWithJTokenTypeOfNull_ReturnsTrue()
 	{
-		var theObject = new Exception(null);
+		var theObject = new FormatException(null);
 		var jObject = JObject.FromObject(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
 		expression.Parameters.Add(nameof(jObject), jObject["Message"]);
@@ -44,7 +44,7 @@ public class IsNullTests
 	[Fact]
 	public void IsNull_JObjectWithJTokenTypeOfString_ReturnsFalse()
 	{
-		var theObject = new Exception("A message");
+		var theObject = new FormatException("A message");
 		var jObject = JObject.FromObject(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
 		expression.Parameters.Add(nameof(jObject), jObject["Message"]);

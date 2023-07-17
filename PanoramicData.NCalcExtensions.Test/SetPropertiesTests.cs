@@ -10,11 +10,11 @@ public class SetPropertiesTests
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
-		result["a"].Should().BeOfType<JValue>();
-		result["a"].Should().BeEquivalentTo(JToken.FromObject(1));
-		result["b"].Should().BeOfType<JValue>();
-		result["b"].Should().BeEquivalentTo(JValue.CreateNull());
-		result["c"].Should().BeEquivalentTo(JToken.FromObject("X"));
+		result!["a"].Should().BeOfType<JValue>();
+		result!["a"].Should().BeEquivalentTo(JToken.FromObject(1));
+		result!["b"].Should().BeOfType<JValue>();
+		result!["b"].Should().BeEquivalentTo(JValue.CreateNull());
+		result!["c"].Should().BeEquivalentTo(JToken.FromObject("X"));
 	}
 
 	[Fact]
@@ -26,10 +26,10 @@ public class SetPropertiesTests
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
-		result["a"].Should().BeOfType<JValue>();
-		result["a"].Should().BeEquivalentTo(JToken.FromObject(1));
-		result["b"].Should().BeOfType<JValue>();
-		result["b"].Should().BeEquivalentTo(JValue.CreateNull());
-		result["c"].Should().BeEquivalentTo(JToken.FromObject("X"));
+		result!["a"].Should().BeOfType<JValue>();
+		result!["a"].Should().BeEquivalentTo(JToken.FromObject(1));
+		result!["b"].Should().BeOfType<JValue>();
+		result!["b"].Should().BeEquivalentTo(JValue.CreateNull());
+		result!["c"].Should().BeEquivalentTo(JToken.FromObject("X"));
 	}
 }

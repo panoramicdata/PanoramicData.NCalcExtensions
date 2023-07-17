@@ -11,9 +11,11 @@ bc
 bool
 bools
 buildtransitive
+Calc
 capitalise
 cd
 cde
+Concat
 config
 contentfiles
 dd
@@ -26,6 +28,7 @@ humanise
 indexof
 inline
 Installshield
+Ints
 isinfinite
 isnan
 isnull
@@ -36,6 +39,7 @@ namespace
 ncalc
 netstandard
 nuget
+Poco
 regex
 sbyte
 sdf
@@ -49,6 +53,7 @@ typeof
 uint
 ulong
 ushort
+Utc
 xxx
 yyyy
 Zbcdef

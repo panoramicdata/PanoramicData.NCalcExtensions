@@ -36,7 +36,7 @@ public class WeekDayOfMonthTests : NCalcTest
 	[InlineData("2021-11-30", 5)]
 	[InlineData("2022-02-09", 2)]
 	public void WeekDayOfMonthTests_Succeed(string startDateTime, int expectedWeekOfMonth)
-	=> DateTime.Parse(startDateTime)
+	=> DateTime.Parse(startDateTime, CultureInfo.InvariantCulture)
 	.WeekDayOfMonth()
 	.Should()
 	.Be(expectedWeekOfMonth);

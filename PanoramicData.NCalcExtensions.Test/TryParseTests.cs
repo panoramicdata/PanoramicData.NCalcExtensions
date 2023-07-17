@@ -30,7 +30,7 @@ public class TryParseTests
 	[InlineData("jObject")]
 	[InlineData("jArray")]
 	[InlineData("Guid")]
-	public void TryParse_Unparsable_ReturnsFalse(string parameters)
+	public void TryParse_DoesNotParse_ReturnsFalse(string parameters)
 	{
 		var expression = new ExtendedExpression($"tryParse('{parameters}', 'x', 'outputVariable')");
 		expression.Evaluate().Should().Be(false);
