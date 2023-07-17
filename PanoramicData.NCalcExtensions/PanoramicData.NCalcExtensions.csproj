@@ -26,6 +26,8 @@
 
 		<PackageReleaseNotes>Fixed an issue with isNaN() whereby non-double numbers would incorrectly evaluate as not being numbers.</PackageReleaseNotes>
 
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
