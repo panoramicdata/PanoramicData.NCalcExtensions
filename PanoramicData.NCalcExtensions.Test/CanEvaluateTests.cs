@@ -2,24 +2,17 @@
 
 public class CanEvaluateTests
 {
-	[Fact]
-	public void CanEvaluate_Example1_Succeeds()
+	[Theory]
+	[InlineData("nonExistent", false)]
+	[InlineData("1", true)]
+	[InlineData("ex4mple3", false)]
+	public void CanEvaluate_UsingInlineData_MatchesExpectedResult(string value, bool expected)
 	{
-		var expression = new ExtendedExpression("canEvaluate(nonExistent)");
-		(expression.Evaluate() as bool?).Should().BeFalse();
+		var expression = new ExtendedExpression($"canEvaluate({value})");
+
+		var result = expression.Evaluate();
+
+		Assert.Equal(expected, result);
 	}
 
-	[Fact]
-	public void CanEvaluate_Example2_Succeeds()
-	{
-		var expression = new ExtendedExpression("canEvaluate(1)");
-		(expression.Evaluate() as bool?).Should().BeTrue();
-	}
-
-	[Fact]
-	public void CanEvaluate_Example3_Succeeds()
-	{
-		var expression = new ExtendedExpression("canEvaluate(ex4mple3)");
-		(expression.Evaluate() as bool?).Should().BeFalse();
-	}
 }

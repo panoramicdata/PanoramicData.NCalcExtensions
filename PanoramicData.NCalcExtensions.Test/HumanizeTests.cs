@@ -8,7 +8,7 @@ public class HumanizeTests
 	[InlineData("1", "Hours", "1 hour")]
 	[InlineData("1", "Days", "1 day")]
 	[InlineData("1", "Weeks", "7 days")]
-	public void Humanize_Succeeds(string expressionText,string datatype, string expected)
+	public void Humanize_UsingInlineData_MatchesExpectedValue(string expressionText, string datatype, string expected)
 	{
 		var expression = new ExtendedExpression($"humanize({expressionText},'{datatype}')");
 		var result = expression.Evaluate();
