@@ -6,9 +6,10 @@ public class ToUpperTests
 	[InlineData("pantomime", "PANTOMIME")]
 	[InlineData("tEsT", "TEST")]
 
-	public void ToUpper_Succeeds(string input, string expected)
+	public void ToUpper_UsingInlineData_ResultMatchExpectedValue(string input, string expected)
 	{
 		var expression = new ExtendedExpression($"toUpper('{input}')");
-		expression.Evaluate().Should().Be(expected);
+		var result = expression.Evaluate();
+		Assert.Equal(expected, result);
 	}
 }

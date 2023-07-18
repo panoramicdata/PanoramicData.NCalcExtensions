@@ -5,7 +5,7 @@ public class IfTests
 	[InlineData("1 == 1", "yes", "no", "yes")]
 	[InlineData("1 == 2", "yes", "no", "no")]
 
-	public void If_UsingInlineData_ResultMatchesExpectation(string expressionText, string trueValue, string falseValue, object expected)
+	public void If_InlineData_ResultsMatchExpectation(string expressionText, string trueValue, string falseValue, object expected)
 	{
 		var expression = new ExtendedExpression($"if({expressionText},'{trueValue}','{falseValue}')");
 		var result = expression.Evaluate();
