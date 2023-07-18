@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Test;
+﻿using FluentAssertions;
+
+namespace PanoramicData.NCalcExtensions.Test;
 public class CastTests
 {
 	[Theory]
@@ -9,8 +11,10 @@ public class CastTests
 	[InlineData("1", "System.String", "1")]
 	[InlineData("1", "System.Boolean", true)]
 	public void Cast_UsingInlineData_MatchesExpectedValue(string input, string type, object expected)
-		=> new ExtendedExpression($"cast({input},'{type}')")
-		.Evaluate()
-		.Should()
-		.Be(expected);
+	{
+		var expression = new ExtendedExpression($"cast({input},'{type}')");
+		var actual = expression.Evaluate();
+
+		actual.Should().Be(expected);
+	}
 }
