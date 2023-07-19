@@ -30,6 +30,8 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [distinct()](#distinct) | Returns only distinct items from the input. |
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
 | [format()](#format) | Formats strings and numbers as output strings with the specified format. |
+| [getProperty()](#getProperty) | Returns the value of a given property. |
+| [humanize()](#humanize) | Converts a value to a more readable format. |
 | [if()](#if) | Return one of two values, depending on the input function. |
 | [in()](#in) | Determines whether a value is in a set of other values. |
 | [indexOf()](#indexof) | Determines the first position of a string within another string. |
@@ -78,6 +80,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [toString()](#tostring) | Converts any object to a string. |
 | [toUpper()](#toupper) | Converts a string to upper case. |
 | [try()](#try) | If a function throws an exception, return an alternate value. |
+| [tryParse()](#tryParse) | Returns a boolean result of an attempted cast |
 | [typeOf()](#typeOf) | Determines the C# type of the object. |
 | [where()](#where) | Filters an IEnumerable to bring back only those items that match a condition. |
 
@@ -717,8 +720,8 @@ sourceJObject JSON:
   "name": "bob",
   "numbers": [ 1, 2 ]
   "arrayList": [ 
-    { "key": "key1", "value": "value1" },
-    { "key": "key2", "value": "value2" } 
+	 { "key": "key1", "value": "value1" },
+	 { "key": "key2", "value": "value2" } 
   ]
 }
 ```
@@ -1171,6 +1174,22 @@ If a function throws an exception, return an alternate value.
   * try(throw('Woo'), exception_typeFullName) : 'PanoramicData.NCalcExtensions.Exceptions.NCalcExtensionsException'
   * try(throw('Woo'), exception_typeName) : 'NCalcExtensionsException'
   * try(throw('Woo'), exception) : The Exception object thrown by the throw function.
+
+---
+
+### tryParse()
+
+#### Purpose
+Returns a boolean result of an attempted cast.
+
+#### Parameters
+  * type
+  * value
+  * key - for use with the retrieve() function
+
+#### Examples
+  * tryParse('int', '1', 'outputVariable') : true
+  * tryParse('int', 'string', 'outputVariable') : false
 
 ---
 ### typeOf()
