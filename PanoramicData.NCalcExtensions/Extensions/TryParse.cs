@@ -18,7 +18,7 @@ internal static class TryParse
 		var text = functionArgs.Parameters[parameterIndex++].Evaluate() as string
 			?? throw new FormatException($"{ExtensionFunction.Parse} function - second parameter should be a string.");
 		var outputVariableName = functionArgs.Parameters[parameterIndex++].Evaluate() as string
-			?? throw new FormatException($"{ExtensionFunction.Parse} function - second parameter should be a string.");
+			?? throw new FormatException($"{ExtensionFunction.Parse} function - third parameter should be a string.");
 		try
 		{
 			// Assume false until proven otherwise
