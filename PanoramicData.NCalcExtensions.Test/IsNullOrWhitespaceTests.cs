@@ -7,14 +7,14 @@ public class IsNullOrWhiteSpaceTests
 	[InlineData("' '", true)]
 	[InlineData("null", true)]
 	[InlineData("''", true)]
-	public void IsNullOrWhiteSpace_Succeeds(string parameter, bool expectedValue)
+	public void IsNullOrWhiteSpace_UsingInlineData_ResultMatchesExpected(string parameter, bool expectedValue)
 		=> new ExtendedExpression($"isNullOrWhiteSpace({parameter})").Evaluate().Should().Be(expectedValue);
 
 	[Theory]
 	[InlineData("'a', 'a'")]
 	[InlineData("")]
 	[InlineData("'a', null, null")]
-	public void IsNullOrWhiteSpace_Fails(string parameter)
+	public void IsNullOrWhiteSpace_UsingAnIncorrectAmountOfParameters_ThrowsException(string parameter)
 		=> new ExtendedExpression($"isNullOrWhiteSpace({parameter})")
 		.Invoking(x => x.Evaluate())
 		.Should()
@@ -27,14 +27,14 @@ public class IsNullOrEmptyTests
 	[InlineData("' '", false)]
 	[InlineData("null", true)]
 	[InlineData("''", true)]
-	public void IsNullOrWhiteSpace_Succeeds(string parameter, bool expectedValue)
+	public void IsNullOrWhiteSpace_UsingInlineData_ResultMatchesExpected(string parameter, bool expectedValue)
 		=> new ExtendedExpression($"isNullOrEmpty({parameter})").Evaluate().Should().Be(expectedValue);
 
 	[Theory]
 	[InlineData("'a', 'a'")]
 	[InlineData("")]
 	[InlineData("'a', null, null")]
-	public void IsNullOrWhiteSpace_Fails(string parameter)
+	public void IsNullOrWhiteSpace_UsingAnIncorrectAmountOfParameters_ThrowsException(string parameter)
 		=> new ExtendedExpression($"isNullOrEmpty({parameter})")
 		.Invoking(x => x.Evaluate())
 		.Should()
