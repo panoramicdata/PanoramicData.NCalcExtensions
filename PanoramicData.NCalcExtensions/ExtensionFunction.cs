@@ -15,6 +15,7 @@ public static class ExtensionFunction
 	public const string Count = "count";
 	public const string DateTime = "dateTime";
 	public const string DateTimeAsEpochMs = "dateTimeAsEpochMs";
+	public const string Dictionary = "dictionary";
 	public const string Distinct = "distinct";
 	public const string EndsWith = "endsWith";
 	public const string Format = "format";

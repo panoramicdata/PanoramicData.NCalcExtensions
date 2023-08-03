@@ -27,6 +27,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [count()](#count) | Counts the number of items.  Optionally, only count those that match a lambda. |
 | [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
 | [dateTimeAsEpochMs()](#dateTimeAsEpochMs) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
+| [dictionary()](#dictionary) | Builds a Dictionary<string, object?> from the parameters provided. |
 | [distinct()](#distinct) | Returns only distinct items from the input. |
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
 | [format()](#format) | Formats strings and numbers as output strings with the specified format. |
@@ -307,6 +308,19 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-0
 
 #### Examples
   * dateTimeAsEpochMs('20190702T000000', 'yyyyMMddTHHmmssK') : 1562025600000
+
+---
+### dictionary()
+
+#### Purpose
+Emits a Dictionary<string, object?>.
+
+#### Parameters
+  * interlaced keys and values. You must provide an even number of parameters, and keys must evaluate to strings.
+
+#### Examples
+  * dictionary('KEY1', 'Hello', 'KEY2', 'Goodbye') : a dictionary containing 2 values with keys KEY1 and KEY2, and string values
+  * dictionary('TRUE', true, 'FALSE', false) : a dictionary containing 2 values with keys TRUE and FALSE, and boolean values
 
 ---
 ### distinct()

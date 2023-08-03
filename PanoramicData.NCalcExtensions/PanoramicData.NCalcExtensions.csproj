@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Fixed an issue with isNaN() whereby non-double numbers would incorrectly evaluate as not being numbers.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added the dictionary function to create a Dictionary&lt;string, object?&gt; using the parameters provided.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
