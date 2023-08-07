@@ -51,9 +51,9 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [length()](#length) | Determines length of a string or IList. |
 | [list()](#list) | Emits a List<object?> and collapses down lists of lists to a single list. |
 | [listOf()](#listOf) | Emits a List&lt;T&gt;. |
-| [max()](#list) | Emits the maximum value, ignoring nulls. |
-| [min()](#list) | Emits the minimum value, ignoring nulls. |
-| [nullCoalesce()](#nullCoalesce) | - |
+| [max()](#max) | Emits the maximum value, ignoring nulls. |
+| [min()](#min) | Emits the minimum value, ignoring nulls. |
+| [nullCoalesce()](#nullCoalesce) | Returns the first parameter that is not null, otherwise: null. |
 | [orderBy()](#orderBy) | Orders an IEnumerable by one or more lambda expressions. |
 | [padLeft()](#padLeft) | Pad the left of a string with a character to a desired string length. |
 | [parse()](#parse) | Returns the conversion of a string to a new type. |
@@ -67,7 +67,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [setProperties()](#setProperties) | Sets properties on an existing object. |
 | [skip()](#skip) | Skips a number of items in a list. |
 | [sort()](#sort) | Sorts an IComparable ascending or descending. |
-| [split()](#split) | - |
+| [split()](#split) | Splits a string on a given character into a list of strings. |
 | [startsWith()](#startswith) | Determines whether a string starts with another string. |
 | [store()](#store) | Stores a value for use later in the pipeline. |
 | [substring()](#substring) | Retrieves part of a string. |
