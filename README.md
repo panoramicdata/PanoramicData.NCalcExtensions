@@ -17,54 +17,54 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | -------- | ------- | ----- |
 | [all()](#all) | Returns true if all values match the lambda expression, otherwise false. |
 | [any()](#any) | Returns true if any values match the lambda expression, otherwise false. |
-| [canEvaluate()](#canEvaluate) | Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set. |
+| [canEvaluate()](#canevaluate) | Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set. |
 | [capitalize()](#capitalize) | Capitalizes a string. |
 | [cast()](#cast) | Cast an object to another (e.g. float to decimal). |
-| [changeTimeZone()](#changeTimeZone) | Change a DateTime's time zone. |
+| [changeTimeZone()](#changetimezone) | Change a DateTime's time zone. |
 | [concat()](#concat) | Concatenates lists and objects. |
 | [contains()](#contains) | Determines whether one string contains another. |
 | [convert()](#convert) | Converts the output of parameter 1 into the result of parameter 2. |
 | [count()](#count) | Counts the number of items.  Optionally, only count those that match a lambda. |
 | [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
-| [dateTimeAsEpochMs()](#dateTimeAsEpochMs) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
+| [dateTimeAsEpochMs()](#datetimeasepochms) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
 | [dictionary()](#dictionary) | Builds a Dictionary<string, object?> from the parameters provided. |
 | [distinct()](#distinct) | Returns only distinct items from the input. |
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
 | [format()](#format) | Formats strings and numbers as output strings with the specified format. |
-| [getProperty()](#getProperty) | Returns the value of a given property. |
+| [getProperty()](#getproperty) | Returns the value of a given property. |
 | [humanize()](#humanize) | Converts a value to a more readable format. |
 | [if()](#if) | Return one of two values, depending on the input function. |
 | [in()](#in) | Determines whether a value is in a set of other values. |
 | [indexOf()](#indexof) | Determines the first position of a string within another string. |
-| [isGuid()](#isGuid) | Determines whether a value is a GUID, or is a string that can be converted to a GUID. |
+| [isGuid()](#isguid) | Determines whether a value is a GUID, or is a string that can be converted to a GUID. |
 | [isInfinite()](#isinfinite) | Determines whether a value is infinite. |
 | [isNaN()](#isnan) | Determines whether a value is not a number. |
 | [isNull()](#isnull) | Determines whether a value is null. |
-| [isNullOrEmpty()](#isnullOrEmpty) | Determines whether a value is null or empty. |
-| [isNullOrWhiteSpace()](#isnullOrWhiteSpace) | Determines whether a value is null, empty or white space. |
+| [isNullOrEmpty()](#isnullorempty) | Determines whether a value is null or empty. |
+| [isNullOrWhiteSpace()](#isnullorwhitespace) | Determines whether a value is null, empty or white space. |
 | [isSet()](#isset) | Determines whether a parameter is set. |
-| [itemAtIndex()](#itemAtIndex) | Determines the item at the given index. |
-| [jObject()](#jObject) | Creates a JObject from key/value pairs. |
+| [itemAtIndex()](#itematindex) | Determines the item at the given index. |
+| [jObject()](#jobject) | Creates a JObject from key/value pairs. |
 | [join()](#join) | Joins a list of strings into a single string. |
-| [jPath()](#jPath) | Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression |
+| [jPath()](#jpath) | Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression |
 | [lastIndexOf()](#lastindexof) | Determines the last position of a string within another string. |
 | [length()](#length) | Determines length of a string or IList. |
 | [list()](#list) | Emits a List<object?> and collapses down lists of lists to a single list. |
-| [listOf()](#listOf) | Emits a List&lt;T&gt;. |
+| [listOf()](#listof) | Emits a List&lt;T&gt;. |
 | [max()](#max) | Emits the maximum value, ignoring nulls. |
 | [min()](#min) | Emits the minimum value, ignoring nulls. |
-| [nullCoalesce()](#nullCoalesce) | Returns the first parameter that is not null, otherwise: null. |
-| [orderBy()](#orderBy) | Orders an IEnumerable by one or more lambda expressions. |
-| [padLeft()](#padLeft) | Pad the left of a string with a character to a desired string length. |
+| [nullCoalesce()](#nullcoalesce) | Returns the first parameter that is not null, otherwise: null. |
+| [orderBy()](#orderby) | Orders an IEnumerable by one or more lambda expressions. |
+| [padLeft()](#padleft) | Pad the left of a string with a character to a desired string length. |
 | [parse()](#parse) | Returns the conversion of a string to a new type. |
-| [parseInt()](#parseInt) | Returns an integer version of a string. | Deprecated - use parse() or tryParse() instead) |
-| [regexGroup()](#regexGroup) | Selects a regex group capture. |
-| [regexIsMatch()](#regexIsMatch) | Determine whether a string matches a regex. |
+| [parseInt()](#parseint) | Returns an integer version of a string. | Deprecated - use parse() or tryParse() instead) |
+| [regexGroup()](#regexgroup) | Selects a regex group capture. |
+| [regexIsMatch()](#regexismatch) | Determine whether a string matches a regex. |
 | [replace()](#replace) | Replace a string with another string. |
 | [retrieve()](#retrieve) | Retrieves a value from storage. |
 | [select()](#select) | Converts an IEnumerable using a lambda. |
-| [selectDistinct()](#selectDistinct) | Converts an IEnumerable using a lambda and removes duplicates. |
-| [setProperties()](#setProperties) | Sets properties on an existing object. |
+| [selectDistinct()](#selectdistinct) | Converts an IEnumerable using a lambda and removes duplicates. |
+| [setProperties()](#setproperties) | Sets properties on an existing object. |
 | [skip()](#skip) | Skips a number of items in a list. |
 | [sort()](#sort) | Sorts an IComparable ascending or descending. |
 | [split()](#split) | Splits a string on a given character into a list of strings. |
@@ -76,13 +76,13 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [take()](#take) | Takes a number of items from a list. |
 | [throw()](#throw) | Throws an NCalcExtensionsException. |
 | [timeSpan()](#timespan) | Determines the amount of time between two DateTimes. |
-| [toDateTime()](#toDateTime) | Converts a string to a UTC DateTime.  May take an optional inputTimeZone. |
+| [toDateTime()](#todatetime) | Converts a string to a UTC DateTime.  May take an optional inputTimeZone. |
 | [toLower()](#tolower) | Converts a string to lower case. |
 | [toString()](#tostring) | Converts any object to a string. |
 | [toUpper()](#toupper) | Converts a string to upper case. |
 | [try()](#try) | If a function throws an exception, return an alternate value. |
-| [tryParse()](#tryParse) | Returns a boolean result of an attempted cast |
-| [typeOf()](#typeOf) | Determines the C# type of the object. |
+| [tryParse()](#tryparse) | Returns a boolean result of an attempted cast |
+| [typeOf()](#typeof) | Determines the C# type of the object. |
 | [where()](#where) | Filters an IEnumerable to bring back only those items that match a condition. |
 
 ## Usage
