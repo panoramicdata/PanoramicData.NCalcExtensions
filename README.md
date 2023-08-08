@@ -638,6 +638,34 @@ Joins a list of strings into a single string.
 
 ---
 
+### jPath()
+
+#### Purpose
+Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression
+
+#### Parameters
+  * input JObject
+  * JPath string expression
+
+#### Examples
+sourceJObject JSON:
+```
+{
+  "name": "bob",
+  "numbers": [ 1, 2 ]
+  "arrayList": [ 
+	 { "key": "key1", "value": "value1" },
+	 { "key": "key2", "value": "value2" } 
+  ]
+}
+```
+  * jPath(sourceJObject, 'name') : 'bob'
+  * jPath(sourceJObject, 'size') : an exception is thrown
+  * jPath(sourceJObject, 'size', True) : null is returned
+  * jPath(sourceJObject, 'numbers[0]') : 1
+  * jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]') : "value1"
+---
+
 ### lastIndexOf()
 
 #### Purpose
@@ -665,117 +693,6 @@ Determines length of a string or IList.
   * length('a piece of string') : 17
   * length(split('a piece of string', ' ')) : 4
 
----
-
-### nullCoalesce()
-
-#### Purpose
-Returns the first parameter that is not null, otherwise: null.
-
-#### Parameters
-  * any number of objects
-
-#### Examples
-  * nullCoalesce() : null
-  * nullCoalesce(1, null) : 1
-  * nullCoalesce(null, 1, 2, 3) : 1
-  * nullCoalesce(null, null, null) : null
-  * nullCoalesce(null, null, 'xxx', 3) : 'xxx'
-
----
-
-### orderBy()
-
-#### Purpose
-Orders an IEnumerable by one or more lambda expressions.
-
-#### Parameters
-  * list - the original list
-  * predicate - a string to represent the value to be evaluated
-  * nCalcString1 - the first orderBy lambda expression
-  * nCalcString2 (optional) - the next orderBy lambda expression
-  * nCalcString... (optional) - the next orderBy lambda expression
-
-#### Examples
-  * orderBy(list(34, 33, 2, 1), 'n', 'n') : list(1, 2, 33, 34)
-  * orderBy(list(34, 33, 2, 1), 'n', '-n') : list(34, 33, 2, 1)
-  * orderBy(list(34, 33, 2, 1), 'n % 32', 'n % 2') : list(34, 33, 1, 2)
-  * orderBy(list(34, 33, 2, 1), 'n % 2', 'n % 32') : list(33, 1, 34, 2)
-
----
-
-### skip()
-
-#### Purpose
-Skips a number of items in a list.
-
-#### Notes
-If the number of items to skip is greater than the number of items in the list, an empty list is returned.
-
-#### Parameters
-  * the list to skip from
-  * the number of items to skip
-
-#### Examples
-  * skip(list(1, 2, 3), 1): list(2, 3)
-
----
-
-### split()
-
-#### Purpose
-Splits a string on a given character into a list of strings.
-
-#### Parameters
-  * longString
-  * character
-
-#### Examples
-  * split('a bc d', ' ') : list('a', 'bc', 'd')
-
----
-
-### startsWith()
-
-#### Purpose
-Determines whether a string starts with another string.
-
-#### Parameters
-  * longString
-  * shortString
-
-#### Examples
-  * startsWith('abcdefg', 'ab') : true
-  * startsWith('abcdefg', 'cd') : false
-
----
-
-### jPath()
-
-#### Purpose
-Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression
-
-#### Parameters
-  * input JObject
-  * JPath string expression
-
-#### Examples
-sourceJObject JSON:
-```
-{
-  "name": "bob",
-  "numbers": [ 1, 2 ]
-  "arrayList": [ 
-	 { "key": "key1", "value": "value1" },
-	 { "key": "key2", "value": "value2" } 
-  ]
-}
-```
-  * jPath(sourceJObject, 'name') : 'bob'
-  * jPath(sourceJObject, 'size') : an exception is thrown
-  * jPath(sourceJObject, 'size', True) : null is returned
-  * jPath(sourceJObject, 'numbers[0]') : 1
-  * jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]') : "value1"
 ---
 
 ### list()
@@ -838,6 +755,43 @@ Emits the minimum value, ignoring nulls.
   * min(listOf('int', 1, 2, 3), 'x', 'x + 1') : 2
   * min(listOf('string', '1', '2', '3')) : '1'
   * min(listOf('string', '1', '2', '3'), 'x', 'x + x') : '11'
+
+---
+
+### nullCoalesce()
+
+#### Purpose
+Returns the first parameter that is not null, otherwise: null.
+
+#### Parameters
+  * any number of objects
+
+#### Examples
+  * nullCoalesce() : null
+  * nullCoalesce(1, null) : 1
+  * nullCoalesce(null, 1, 2, 3) : 1
+  * nullCoalesce(null, null, null) : null
+  * nullCoalesce(null, null, 'xxx', 3) : 'xxx'
+
+---
+
+### orderBy()
+
+#### Purpose
+Orders an IEnumerable by one or more lambda expressions.
+
+#### Parameters
+  * list - the original list
+  * predicate - a string to represent the value to be evaluated
+  * nCalcString1 - the first orderBy lambda expression
+  * nCalcString2 (optional) - the next orderBy lambda expression
+  * nCalcString... (optional) - the next orderBy lambda expression
+
+#### Examples
+  * orderBy(list(34, 33, 2, 1), 'n', 'n') : list(1, 2, 33, 34)
+  * orderBy(list(34, 33, 2, 1), 'n', '-n') : list(34, 33, 2, 1)
+  * orderBy(list(34, 33, 2, 1), 'n % 32', 'n % 2') : list(34, 33, 1, 2)
+  * orderBy(list(34, 33, 2, 1), 'n % 2', 'n % 32') : list(33, 1, 34, 2)
 
 ---
 
@@ -1013,6 +967,23 @@ Sets properties on an existing object.
   * setProperties(jObject('a', 1, 'b', null), 'c', 'X', 'd', 'Y') : jObject('a', 1, 'b', null, 'c', 'X', 'd', 'Y')
 ---
 
+### skip()
+
+#### Purpose
+Skips a number of items in a list.
+
+#### Notes
+If the number of items to skip is greater than the number of items in the list, an empty list is returned.
+
+#### Parameters
+  * the list to skip from
+  * the number of items to skip
+
+#### Examples
+  * skip(list(1, 2, 3), 1): list(2, 3)
+
+---
+
 ### sort()
 
 #### Purpose
@@ -1029,12 +1000,41 @@ Sorts an IComparable ascending or descending.
 
 ---
 
+### split()
+
+#### Purpose
+Splits a string on a given character into a list of strings.
+
+#### Parameters
+  * longString
+  * character
+
+#### Examples
+  * split('a bc d', ' ') : list('a', 'bc', 'd')
+
+---
+
+### startsWith()
+
+#### Purpose
+Determines whether a string starts with another string.
+
+#### Parameters
+  * longString
+  * shortString
+
+#### Examples
+  * startsWith('abcdefg', 'ab') : true
+  * startsWith('abcdefg', 'cd') : false
+
+---
+
 ### store()
 
 #### Purpose
 Stores a value for use later in the pipeline
 
-### Returns
+#### Returns
 
 true
 
