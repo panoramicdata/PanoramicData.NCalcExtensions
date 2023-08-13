@@ -95,6 +95,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.DateTimeAsEpochMs:
 				DateTimeAsEpochMs.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Dictionary:
+				Dictionary.Evaluate(functionArgs);
+				break;
 			case ExtensionFunction.Distinct:
 				Distinct.Evaluate(functionArgs);
 				return;
