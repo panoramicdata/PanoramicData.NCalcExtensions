@@ -38,7 +38,7 @@ internal static class Select
 				var jResult = new List<JObject?>();
 				foreach (var value in enumerable)
 				{
-					var jObject = value switch
+					var jObject = lambda.Evaluate(value) switch
 					{
 						null => null,
 						JObject valueAsJObject => valueAsJObject,
