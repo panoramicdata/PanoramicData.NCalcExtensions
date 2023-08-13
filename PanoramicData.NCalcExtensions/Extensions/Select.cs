@@ -16,7 +16,7 @@ internal static class Select
 		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
 			?? throw new FormatException($"Third {ExtensionFunction.Select} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, new());
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
 
 		var result = new List<object?>();
 		foreach (var value in enumerable)
