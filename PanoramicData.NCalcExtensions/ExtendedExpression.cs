@@ -107,6 +107,12 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.Extend:
 				ExtendObject.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.First:
+				First.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.FirstOrDefault:
+				FirstOrDefault.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Format:
 				Format.Evaluate(functionArgs);
 				return;

@@ -31,6 +31,8 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [distinct()](#distinct) | Returns only distinct items from the input. |
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
 | [extend()](#extend) | Extends an existing object into a JObject with both the original and additional properties. |
+| [first()](#first) | Returns the first item in a list that matches a lambda or throws a FormatException if no items match. |
+| [firstOrDefault()](#firstOrDefault) | Returns the first item in a list that matches a lambda or null if no items match. |
 | [format()](#format) | Formats strings and numbers as output strings with the specified format. |
 | [getProperty()](#getproperty) | Returns the value of a given property. |
 | [humanize()](#humanize) | Converts a value to a more readable format. |
@@ -374,6 +376,36 @@ Extends an existing object into a JObject with both the original and additional 
 
 #### Examples
   * extend(jObject('a', 1, 'b', null), list('c', 5)) : JObject with a=1, b=null and c=5
+
+---
+### first()
+
+#### Purpose
+Returns the first item in a list that matches a lambda or throws a FormatException if no items match.
+
+#### Parameters
+  * list
+  * predicate
+  * lambda expression as a string
+
+#### Examples
+  * first(list(1, 5, 2, 3), 'n', 'n % 2 == 0') : 2
+  * first(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : FormatException thrown
+
+---
+### firstOrDefault()
+
+#### Purpose
+Returns the first item in a list that matches a lambda or null if no items match.
+
+#### Parameters
+  * list
+  * predicate
+  * lambda expression as a string
+
+#### Examples
+  * firstOrDefault(list(1, 5, 2, 3), 'n', 'n % 2 == 0') : 2
+  * firstOrDefault(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : null
 
 ---
 ### format()

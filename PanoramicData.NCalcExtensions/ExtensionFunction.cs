@@ -19,6 +19,8 @@ public static class ExtensionFunction
 	public const string Distinct = "distinct";
 	public const string EndsWith = "endsWith";
 	public const string Extend = "extend";
+	public const string First = "first";
+	public const string FirstOrDefault = "firstOrDefault";
 	public const string Format = "format";
 	public const string GetProperty = "getProperty";
 	public const string Humanise = "humanise";
