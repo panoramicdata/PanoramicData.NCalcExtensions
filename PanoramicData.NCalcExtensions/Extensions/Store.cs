@@ -4,7 +4,7 @@ namespace PanoramicData.NCalcExtensions.Extensions;
 
 internal static class Store
 {
-	internal static void Evaluate(FunctionArgs functionArgs, Dictionary<string, object?> storageDictionary)
+	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		string key;
 		object? value;
@@ -17,6 +17,9 @@ internal static class Store
 		{
 			throw new FormatException($"{ExtensionFunction.Store}() requires two parameters.");
 		}
+
+		var storageDictionary = functionArgs.Parameters[0].Parameters[ExtendedExpression.StorageDictionaryParameterName] as Dictionary<string, object?>
+			?? throw new FormatException($"{ExtensionFunction.Retrieve}() requires a storage dictionary.");
 
 		storageDictionary[key] = value;
 

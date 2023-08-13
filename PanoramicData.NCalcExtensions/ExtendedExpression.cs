@@ -208,7 +208,7 @@ public class ExtendedExpression : Expression
 				Replace.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Retrieve:
-				Retrieve.Evaluate(functionArgs, _storageDictionary);
+				Retrieve.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Select:
 				Select.Evaluate(functionArgs);
@@ -232,7 +232,7 @@ public class ExtendedExpression : Expression
 				StartsWith.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Store:
-				Store.Evaluate(functionArgs, _storageDictionary);
+				Store.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Substring:
 				Substring.Evaluate(functionArgs);
