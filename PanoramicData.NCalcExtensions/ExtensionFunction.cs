@@ -17,6 +17,7 @@ public static class ExtensionFunction
 	public const string DateTimeAsEpochMs = "dateTimeAsEpochMs";
 	public const string Distinct = "distinct";
 	public const string EndsWith = "endsWith";
+	public const string Extend = "extend";
 	public const string Format = "format";
 	public const string GetProperty = "getProperty";
 	public const string Humanise = "humanise";

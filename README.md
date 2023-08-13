@@ -29,6 +29,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [dateTimeAsEpochMs()](#dateTimeAsEpochMs) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
 | [distinct()](#distinct) | Returns only distinct items from the input. |
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
+| [extend()](#extend) | Extends an existing object into a JObject with both the original and additional properties. |
 | [format()](#format) | Formats strings and numbers as output strings with the specified format. |
 | [if()](#if) | Return one of two values, depending on the input function. |
 | [in()](#in) | Determines whether a value is in a set of other values. |
@@ -316,6 +317,33 @@ Returns only distinct items from the input.
 
 #### Examples
   * distinct(list(1, 2, 3, 3, 3)) : list(1, 2, 3)
+
+---
+### endsWith()
+
+#### Purpose
+Determines whether a string ends with another string.
+
+#### Parameters
+  * longString
+  * shortString
+
+#### Examples
+  * endsWith('abcdefg', 'fg') : true
+  * endsWith('abcdefg', 'fgh') : false
+
+---
+### extend()
+
+#### Purpose
+Extends an existing object into a JObject with both the original and additional properties.
+
+#### Parameters
+  * originalObject
+  * listOfAdditionalProperties
+
+#### Examples
+  * extend(jObject('a', 1, 'b', null), list('c', 5)) : JObject with a=1, b=null and c=5
 
 ---
 ### format()
@@ -671,20 +699,6 @@ Determines whether a string starts with another string.
 #### Examples
   * startsWith('abcdefg', 'ab') : true
   * startsWith('abcdefg', 'cd') : false
-
----
-### endsWith()
-
-#### Purpose
-Determines whether a string ends with another string.
-
-#### Parameters
-  * longString
-  * shortString
-
-#### Examples
-  * endsWith('abcdefg', 'fg') : true
-  * endsWith('abcdefg', 'fgh') : false
 
 ---
 ### getProperty()

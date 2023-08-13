@@ -101,6 +101,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.EndsWith:
 				EndsWith.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Extend:
+				ExtendObject.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Format:
 				Format.Evaluate(functionArgs);
 				return;
