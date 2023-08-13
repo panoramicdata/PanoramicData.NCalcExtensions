@@ -975,9 +975,11 @@ Converts an IEnumerable using a lambda.
   * list - the original list
   * predicate - a string to represent the value to be evaluated
   * nCalcString - the value to evaluate to for each item in the list
+  * output list type - outputs a list of the specified type (optional)
 
 #### Examples
   * select(list(1, 2, 3, 4, 5), 'n', 'n + 1') : list(2, 3, 4, 5, 6)
+  * select(list(jObject('a', 1, 'b', '2'), jObject('a', 3, 'b', '4')), 'n', 'n', 'JObject') : list of JObjects
 
 ---
 

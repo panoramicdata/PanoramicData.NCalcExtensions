@@ -18,7 +18,7 @@ public class SelectTests : NCalcTest
 	[Fact]
 	public void Select_IntoJObjects_Succeeds()
 	{
-		var result = new ExtendedExpression($"select(list(jObject('a', 1, 'b', '2')), 'n', 'n', 'JObject')")
+		var result = new ExtendedExpression($"select(list(jObject('a', 1, 'b', '2'), jObject('a', 3, 'b', '4')), 'n', 'n', 'JObject')")
 			.Evaluate();
 
 		result.Should().NotBeNull();
