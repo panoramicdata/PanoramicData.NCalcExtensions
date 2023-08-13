@@ -7,7 +7,10 @@ public class Lambda
 	private readonly string nCalcString;
 	private readonly Dictionary<string, object?> parameters;
 
-	public Lambda(string predicate, string nCalcString, Dictionary<string, object?> parameters)
+	public Lambda(
+		string predicate,
+		string nCalcString,
+		Dictionary<string, object?> parameters)
 	{
 		this.predicate = predicate;
 		this.nCalcString = nCalcString;
