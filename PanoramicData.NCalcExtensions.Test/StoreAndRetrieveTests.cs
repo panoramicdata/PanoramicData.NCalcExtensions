@@ -23,6 +23,26 @@ public class StoreAndRetrieveTests
 	}
 
 	[Theory]
+	[InlineData("null")]
+	[InlineData(1)]
+	[InlineData("a")]
+	[InlineData(1.0)]
+	public void StoreAndRetrieve_Succeeds(
+		object? value
+	)
+	{
+		var insertedString =
+			value is string ? $"'{value}'"
+			: value is null ? "null"
+			: value;
+		var expression = $"store('x', {insertedString}) && retrieve('x') == {insertedString}";
+		var result = new ExtendedExpression(expression)
+			.Evaluate();
+
+		result.Should().Be(true);
+	}
+
+	[Theory]
 	[InlineData("")]
 	[InlineData("1")]
 	[InlineData("1, 1, 1")]
