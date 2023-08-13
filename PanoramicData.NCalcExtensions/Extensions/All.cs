@@ -15,7 +15,7 @@ internal static class All
 		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
 			?? throw new FormatException($"Third {ExtensionFunction.All} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, new());
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
 
 		functionArgs.Result = list
 			.All(value =>

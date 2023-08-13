@@ -31,7 +31,7 @@ internal static class Sum
 		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
 			?? throw new FormatException($"Third {ExtensionFunction.Sum} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, new());
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
 
 		functionArgs.Result = originalList switch
 		{
