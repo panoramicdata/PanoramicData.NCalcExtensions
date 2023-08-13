@@ -14,4 +14,14 @@ public class SelectTests : NCalcTest
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new List<int> { 2, 3, 4, 5, 6 });
 	}
+
+	[Fact]
+	public void Select_IntoJObjects_Succeeds()
+	{
+		var result = new ExtendedExpression($"select(list(jObject('a', 1, 'b', '2')), 'n', 'n', 'JObject')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeOfType<List<JObject>>();
+	}
 }
