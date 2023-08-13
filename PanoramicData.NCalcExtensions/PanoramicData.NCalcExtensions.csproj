@@ -28,6 +28,10 @@
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
+		<Title>Panoramic Data NCalc Extensions</Title>
+
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
