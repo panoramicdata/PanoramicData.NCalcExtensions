@@ -30,6 +30,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [dictionary()](#dictionary) | Builds a Dictionary<string, object?> from the parameters provided. |
 | [distinct()](#distinct) | Returns only distinct items from the input. |
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
+| [extend()](#extend) | Extends an existing object into a JObject with both the original and additional properties. |
 | [format()](#format) | Formats strings and numbers as output strings with the specified format. |
 | [getProperty()](#getproperty) | Returns the value of a given property. |
 | [humanize()](#humanize) | Converts a value to a more readable format. |
@@ -362,7 +363,19 @@ Determines whether a string ends with another string.
   * endsWith('abcdefg', 'fgh') : false
 
 ---
+### extend()
 
+#### Purpose
+Extends an existing object into a JObject with both the original and additional properties.
+
+#### Parameters
+  * originalObject
+  * listOfAdditionalProperties
+
+#### Examples
+  * extend(jObject('a', 1, 'b', null), list('c', 5)) : JObject with a=1, b=null and c=5
+
+---
 ### format()
 
 #### Purpose
