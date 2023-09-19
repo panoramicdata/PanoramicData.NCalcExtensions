@@ -24,7 +24,7 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added extend().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added support for count(String x).</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 

@@ -286,6 +286,7 @@ Counts the number of items.  Optionally, only count those that match a lambda.
   * nCalcString (optional) - the string to evaluate
 
 #### Examples
+  * count('a piece of string') : 17
   * count(list(1, 2, 3, 4, 5)) : 5
   * count(list(1, 2, 3, 4, 5), 'n', 'n > 3') : 2
 

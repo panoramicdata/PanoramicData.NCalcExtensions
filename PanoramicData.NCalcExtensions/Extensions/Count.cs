@@ -6,13 +6,29 @@ internal static class Count
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		var list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
-			?? throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
+		var listObject = functionArgs.Parameters[0].Evaluate();
+		var listEnumerable = listObject as IEnumerable<object?>;
 
 		if (functionArgs.Parameters.Length == 1)
 		{
-			functionArgs.Result = list.Count();
+			if (listObject is string text)
+			{
+				functionArgs.Result = text.Length;
+				return;
+			}
+
+			if (listEnumerable is null)
+			{
+				throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
+			}
+
+			functionArgs.Result = listEnumerable.Count();
 			return;
+		}
+
+		if (listEnumerable is null)
+		{
+			throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
 		}
 
 		var predicate = functionArgs.Parameters[1].Evaluate() as string
@@ -23,7 +39,7 @@ internal static class Count
 
 		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
 
-		functionArgs.Result = list
+		functionArgs.Result = listEnumerable
 			.Count(value =>
 			{
 				var result = lambda.Evaluate(value) as bool?;

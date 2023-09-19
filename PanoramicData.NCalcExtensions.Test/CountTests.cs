@@ -25,6 +25,14 @@ public class CountTests
 	}
 
 	[Fact]
+	public void Count_WithString_ReturnsExpectedResult()
+	{
+		var expression = new ExtendedExpression($"count('a piece of string')");
+		var result = expression.Evaluate();
+		result.Should().Be(17);
+	}
+
+	[Fact]
 	public void Count_WithLambda_ReturnsExpectedResult()
 	{
 		var expression = new ExtendedExpression($"count(list(1,2,3), 'n', 'n < 3')");
