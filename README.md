@@ -27,7 +27,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [count()](#count) | Counts the number of items.  Optionally, only count those that match a lambda. |
 | [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
 | [dateTimeAsEpochMs()](#datetimeasepochms) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
-| [dictionary()](#dictionary) | Builds a Dictionary<string, object?> from the parameters provided. |
+| [dictionary()](#dictionary) | Builds a Dictionary\<string, object?\> from the parameters provided. |
 | [distinct()](#distinct) | Returns only distinct items from the input. |
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
 | [extend()](#extend) | Extends an existing object into a JObject with both the original and additional properties. |
@@ -52,8 +52,8 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [jPath()](#jpath) | Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression |
 | [lastIndexOf()](#lastindexof) | Determines the last position of a string within another string. |
 | [length()](#length) | Determines length of a string or IList. |
-| [list()](#list) | Emits a List<object?> and collapses down lists of lists to a single list. |
-| [listOf()](#listof) | Emits a List&lt;T&gt;. |
+| [list()](#list) | Emits a List\<object?\> and collapses down lists of lists to a single list. |
+| [listOf()](#listof) | Emits a List\<T\>. |
 | [max()](#max) | Emits the maximum value, ignoring nulls. |
 | [min()](#min) | Emits the minimum value, ignoring nulls. |
 | [nullCoalesce()](#nullcoalesce) | Returns the first parameter that is not null, otherwise: null. |
@@ -743,7 +743,7 @@ Determines length of a string or IList.
 ### list()
 
 #### Purpose
-Emits a List<object?> and collapses down lists of lists to a single list.
+Emits a List\<object?\> and collapses down lists of lists to a single list.
 
 #### Parameters
   * the parameters
@@ -757,7 +757,7 @@ Emits a List<object?> and collapses down lists of lists to a single list.
 ### listOf()
 
 #### Purpose
-Emits a List&lt;T&gt;.
+Emits a List\<T\>.
 
 #### Parameters
   * the type
