@@ -177,8 +177,14 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.Max:
 				Max.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.MaxValue:
+				MaxValue.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Min:
 				Min.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.MinValue:
+				MinValue.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.NullCoalesce:
 				NullCoalesce.Evaluate(functionArgs);
