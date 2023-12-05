@@ -89,8 +89,14 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.Count:
 				Count.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.DateAdd:
+				DateAddMethods.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.DateTime:
 				DateTimeMethods.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.DateTimeAsEpoch:
+				DateTimeAsEpoch.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.DateTimeAsEpochMs:
 				DateTimeAsEpochMs.Evaluate(functionArgs);

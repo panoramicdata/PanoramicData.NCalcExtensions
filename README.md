@@ -25,7 +25,9 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [contains()](#contains) | Determines whether one string contains another. |
 | [convert()](#convert) | Converts the output of parameter 1 into the result of parameter 2. |
 | [count()](#count) | Counts the number of items.  Optionally, only count those that match a lambda. |
+| [dateAdd()](#dateAdd) | Add a specified interval to a DateTime. |
 | [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
+| [dateTimeAsEpoch()](#datetimeasepoch) | Parses the input DateTime and outputs as seconds since the Epoch (1970-01-01T00:00Z). |
 | [dateTimeAsEpochMs()](#datetimeasepochms) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
 | [dictionary()](#dictionary) | Builds a Dictionary\<string, object?\> from the parameters provided. |
 | [distinct()](#distinct) | Returns only distinct items from the input. |
@@ -294,6 +296,30 @@ Counts the number of items.  Optionally, only count those that match a lambda.
 
 ---
 
+### dateAdd()
+
+#### Purpose
+Add a specified period to a DateTime.
+The following units are supported:
+   * Years
+   * Months
+   * Days
+   * Hours
+   * Minutes
+   * Seconds
+   * Milliseconds
+
+#### Parameters
+  * intialDateTime - A DateTime to which to add the period specified
+  * quantity - The integer number of the units to be added
+  * units - A string representing the units used to specify the period to be added
+
+#### Examples
+  * dateAdd(toDateTime('2019-03-05 05:09', 'yyyy-MM-dd HH:mm'), -90, 'days') : 90 days before (2018-12-05 05:09:00)
+  * dateAdd(toDateTime('2019-03-05 01:03:05', 'yyyy-MM-dd HH:mm:ss'), 2, 'hours') : 2 hours later (2019-03-05 03:03:05)
+
+---
+
 ### dateTime()
 
 #### Purpose
@@ -310,6 +336,20 @@ Return the DateTime in the specified format as a string, with an optional offset
 #### Examples
   * dateTime('UTC', 'yyyy-MM-dd HH:mm:ss', -90, 0, 0, 0) : 90 days ago (e.g. '2019-03-14 05:09')
   * dateTime('UTC', 'yyyy-MM-dd HH:mm:ss') : now (e.g. '2019-03-14 05:09')
+
+---
+
+### dateTimeAsEpoch()
+
+#### Purpose
+Parses the input DateTime and outputs as seconds since the Epoch (1970-01-01T00:00Z).
+
+#### Parameters
+  * input date string
+  * format
+
+#### Examples
+  * dateTimeAsEpoch('20190702T000000', 'yyyyMMddTHHmmssK') : 1562025600
 
 ---
 
