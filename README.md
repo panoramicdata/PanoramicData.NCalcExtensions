@@ -740,7 +740,11 @@ sourceJObject JSON:
 ```
 {
   "name": "bob",
-  "numbers": [ 1, 2 ]
+  "details": {
+    "this.thing": "woo",
+    "that.thing": "yay",
+  },
+  "numbers": [ 1, 2 ],
   "arrayList": [ 
 	 { "key": "key1", "value": "value1" },
 	 { "key": "key2", "value": "value2" } 
@@ -748,6 +752,7 @@ sourceJObject JSON:
 }
 ```
   * jPath(sourceJObject, 'name') : 'bob'
+  * jPath(sourceJObject, 'details.[\'this.thing\']') : 'woo'
   * jPath(sourceJObject, 'size') : an exception is thrown
   * jPath(sourceJObject, 'size', True) : null is returned
   * jPath(sourceJObject, 'numbers[0]') : 1
