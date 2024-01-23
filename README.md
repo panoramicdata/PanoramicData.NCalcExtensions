@@ -1144,10 +1144,11 @@ Emits a List\<T\>.
 
 #### Parameters
    * longString
-   * character
+   * string to split on
 
 #### Examples
    * split('a bc d', ' ') : list('a', 'bc', 'd')
+   * split('aXXbcXXd', 'XX') : list('a', 'bc', 'd')
 
    ---
 

@@ -16,11 +16,11 @@ internal static class Split
 			throw new FormatException($"{ExtensionFunction.Split}() requires two string parameters.");
 		}
 
-		if (splitString.Length != 1)
+		functionArgs.Result = splitString.Length switch
 		{
-			throw new FormatException($"{ExtensionFunction.Split}()'s second parameter must be a single character.");
-		}
-
-		functionArgs.Result = input.Split(splitString[0]).ToList();
+			0 => throw new FormatException($"{ExtensionFunction.Split}() requires that the second parameter is not empty."),
+			1 => [.. input.Split(splitString[0])],
+			_ => input.Split(new[] { splitString }, StringSplitOptions.None).ToList()
+		};
 	}
 }
