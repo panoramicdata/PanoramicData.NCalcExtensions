@@ -13,7 +13,9 @@ public static class ExtensionFunction
 	public const string Contains = "contains";
 	public const string Convert = "convert";
 	public const string Count = "count";
+	public const string DateAdd = "dateAdd";
 	public const string DateTime = "dateTime";
+	public const string DateTimeAsEpoch = "dateTimeAsEpoch";
 	public const string DateTimeAsEpochMs = "dateTimeAsEpochMs";
 	public const string Dictionary = "dictionary";
 	public const string Distinct = "distinct";
