@@ -24,7 +24,8 @@
 		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added support for minValue() and maxValue().</PackageReleaseNotes>
+		<!-- Release Notes -->
+		<PackageReleaseNotes>Added getProperties() function.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 

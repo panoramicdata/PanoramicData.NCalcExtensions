@@ -119,6 +119,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.GetProperty:
 				GetProperty.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.GetProperties:
+				GetProperties.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Humanise:
 			case ExtensionFunction.Humanize:
 				Humanize.Evaluate(functionArgs);

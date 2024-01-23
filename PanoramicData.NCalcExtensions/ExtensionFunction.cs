@@ -23,6 +23,7 @@ public static class ExtensionFunction
 	public const string FirstOrDefault = "firstOrDefault";
 	public const string Format = "format";
 	public const string GetProperty = "getProperty";
+	public const string GetProperties = "getProperties";
 	public const string Humanise = "humanise";
 	public const string Humanize = "humanize";
 	public const string If = "if";
