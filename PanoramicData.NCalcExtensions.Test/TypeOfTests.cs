@@ -10,6 +10,6 @@ public class TypeOfTests
 	public void TypeOf_ReturnsExpected(string? expected, string input)
 	{
 		var expression = new ExtendedExpression($"typeOf({input})");
-		Assert.Equal(expected, expression.Evaluate());
+		expression.Evaluate().Should().Be(expected);
 	}
 }

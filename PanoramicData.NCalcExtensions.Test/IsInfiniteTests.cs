@@ -8,6 +8,6 @@ public class IsInfiniteTests
 	{
 		var expression = new ExtendedExpression($"isInfinite({expressionText})");
 		var result = expression.Evaluate();
-		Assert.Equal(expected, result);
+		result.Should().Be(expected);
 	}
 }

@@ -7,7 +7,7 @@ public class DateTimeAsEpochTests : NCalcTest
 	{
 		var result = Test("dateTimeAsEpoch('20190702T000000', 'yyyyMMddTHHmmssK')");
 		const long expectedDateTimeEpoch = 1562025600;
-		Assert.Equal(expectedDateTimeEpoch, result);
+		result.Should().Be(expectedDateTimeEpoch);
 	}
 
 	[Fact]
@@ -16,6 +16,6 @@ public class DateTimeAsEpochTests : NCalcTest
 		var expression = new ExtendedExpression("1 > dateTimeAsEpoch([connectMagic.systemItem.sys_updated_on], 'yyyy-MM-dd HH:mm:ss')");
 		expression.Parameters.Add("connectMagic.systemItem.sys_updated_on", "2018-01-01 01:01:01");
 		var result = expression.Evaluate();
-		Assert.Equal(false, result);
+		result.Should().Be(false);
 	}
 }

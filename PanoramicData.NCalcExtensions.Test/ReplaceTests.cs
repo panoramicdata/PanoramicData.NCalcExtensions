@@ -6,13 +6,13 @@ public class ReplaceTests
 	public void Replace_Example1_Succeeds()
 	{
 		var expression = new ExtendedExpression("replace('abcdefg', 'cde', 'CDE')");
-		Assert.Equal("abCDEfg", expression.Evaluate() as string);
+		(expression.Evaluate() as string).Should().Be("abCDEfg");
 	}
 
 	[Fact]
 	public void Replace_Example2_Succeeds()
 	{
 		var expression = new ExtendedExpression("replace('abcdefg', 'cde', '')");
-		Assert.Equal("abfg", expression.Evaluate() as string);
+		(expression.Evaluate() as string).Should().Be("abfg");
 	}
 }

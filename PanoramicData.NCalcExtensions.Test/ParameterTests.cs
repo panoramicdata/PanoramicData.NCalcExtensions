@@ -7,6 +7,6 @@ public class ParameterTests
 	{
 		var expression = new ExtendedExpression("[a.b]");
 		expression.Parameters["a.b"] = "AAAA";
-		Assert.Equal("AAAA", expression.Evaluate() as string);
+		(expression.Evaluate() as string).Should().Be("AAAA");
 	}
 }

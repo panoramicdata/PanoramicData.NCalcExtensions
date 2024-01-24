@@ -8,14 +8,13 @@ public class ItemAtIndexTests : NCalcTest
 	[InlineData("itemAtIndex('a b c', null)")]
 	[InlineData("itemAtIndex('a b c', 'xxx')")]
 	public void ItemAtIndex_InsufficientParameters_ThrowsException(string expression)
-		=> Assert.Throws<FormatException>(() =>
-		{
-			var e = new ExtendedExpression(expression);
-			e.Evaluate();
-		});
+		=> new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>();
 
 	[Theory]
 	[InlineData("itemAtIndex(split('a b c', ' '), 1)", "b")]
 	public void ItemAtIndex_ReturnsExpected(string expression, object? expectedOutput)
-		=> Assert.Equal(expectedOutput, new ExtendedExpression(expression).Evaluate());
+		=> new ExtendedExpression(expression).Evaluate().Should().Be(expectedOutput);
 }

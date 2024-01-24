@@ -12,6 +12,6 @@ public class HumanizeTests
 	{
 		var expression = new ExtendedExpression($"humanize({expressionText},'{datatype}')");
 		var result = expression.Evaluate();
-		Assert.Equal(expected, result);
+		result.Should().Be(expected);
 	}
 }

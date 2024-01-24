@@ -4,29 +4,32 @@ public class FormatTests
 {
 	[Fact]
 	public void Format_InvalidFormat_Fails()
-	{
-		var expression = new ExtendedExpression("format(1, 1)");
-		var exception = Assert.Throws<ArgumentException>(expression.Evaluate);
-		exception.Message.Should().Be("format function - expected second argument to be a format string");
-	}
+		=> new ExtendedExpression("format(1, 1)")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<ArgumentException>()
+			.WithMessage("format function - expected second argument to be a format string");
 
 	[Theory]
 	[InlineData("format()")]
 	[InlineData("format(1)")]
 	public void Format_NotTwoParameters_Fails(string inputText)
-	{
-		var expression = new ExtendedExpression(inputText);
-		var exception = Assert.Throws<ArgumentException>(expression.Evaluate);
-		exception.Message.Should().Be("format function - expected between 2 and 3 arguments");
-	}
+		=> new ExtendedExpression(inputText)
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<ArgumentException>()
+			.WithMessage("format function - expected between 2 and 3 arguments");
 
 	[Theory]
 	[InlineData("format(1, 2, 3)")]
 	public void Format_ThreeParametersForInt_Fails(string inputText)
 	{
 		var expression = new ExtendedExpression(inputText);
-		var exception = Assert.Throws<ArgumentException>(expression.Evaluate);
-		exception.Message.Should().Be("format function - expected second argument to be a format string");
+		var exception = expression
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<ArgumentException>()
+			.WithMessage("format function - expected second argument to be a format string");
 	}
 
 	[Fact]
@@ -141,11 +144,11 @@ public class FormatTests
 
 	[Fact]
 	public void Format_InvalidStringFormat_Succeeds()
-	{
-		var expression = new ExtendedExpression("format('XXX', 'yyyy-MM-dd')");
-		var exception = Assert.Throws<FormatException>(expression.Evaluate);
-		exception.Message.Should().Be("Could not parse 'XXX' as a number or date.");
-	}
+		=> new ExtendedExpression("format('XXX', 'yyyy-MM-dd')")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>()
+			.WithMessage("Could not parse 'XXX' as a number or date.");
 
 	[Fact]
 	public void Format_SingleH_Succeeds()

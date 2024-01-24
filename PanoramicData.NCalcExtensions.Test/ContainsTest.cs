@@ -12,6 +12,6 @@ public class ContainsTest
 
 		var result = expression.Evaluate();
 
-		Assert.Equal(expected, result);
+		result.Should().Be(expected);
 	}
 }

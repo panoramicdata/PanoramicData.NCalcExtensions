@@ -10,7 +10,7 @@ public class StartsWithTests
 	{
 		var expression = new ExtendedExpression($"startsWith('{parameter1}','{parameter2}')");
 		var result = expression.Evaluate();
-		Assert.Equal(expectedValue, result);
+		result.Should().Be(expectedValue);
 
 	}
 }

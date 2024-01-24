@@ -59,7 +59,7 @@ public class DictionaryTests
 
 		var result = expression.Evaluate();
 		var dictionary = (Dictionary<string, object>)result;
-		dictionary.Should().HaveCount(1);
+		dictionary.Should().ContainSingle();
 		dictionary["p1"].Should().BeNull();
 	}
 

@@ -9,7 +9,7 @@ public class ChangeTimeZonesTests : NCalcTest
 		var expression = new ExtendedExpression($"changeTimeZone({parameterName}, 'UTC', 'Eastern Standard Time')");
 		expression.Parameters[parameterName] = new DateTime(2020, 03, 13, 16, 00, 00);
 		var result = expression.Evaluate();
-		Assert.Equal(new DateTime(2020, 03, 13, 12, 00, 00), result);
+		result.Should().Be(new DateTime(2020, 03, 13, 12, 00, 00));
 	}
 
 	[Fact]
@@ -19,6 +19,6 @@ public class ChangeTimeZonesTests : NCalcTest
 		var expression = new ExtendedExpression($"changeTimeZone({parameterName}, 'Eastern Standard Time', 'UTC')");
 		expression.Parameters[parameterName] = new DateTime(2020, 03, 13, 12, 00, 00);
 		var result = expression.Evaluate();
-		Assert.Equal(new DateTime(2020, 03, 13, 16, 00, 00), result);
+		result.Should().Be(new DateTime(2020, 03, 13, 16, 00, 00));
 	}
 }

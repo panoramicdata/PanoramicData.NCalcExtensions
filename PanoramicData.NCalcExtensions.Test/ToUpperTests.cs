@@ -10,6 +10,6 @@ public class ToUpperTests
 	{
 		var expression = new ExtendedExpression($"toUpper('{input}')");
 		var result = expression.Evaluate();
-		Assert.Equal(expected, result);
+		result.Should().Be(expected);
 	}
 }

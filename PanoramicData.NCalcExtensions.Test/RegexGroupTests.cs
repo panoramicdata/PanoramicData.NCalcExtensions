@@ -6,28 +6,28 @@ public class RegexGroupTests : NCalcTest
 	public void RegexGroup_Simple_Succeeds()
 	{
 		var result = Test("regexGroup('abc:def:2019-01-01', '^.+?:.+?:(.+)$')");
-		Assert.Equal("2019-01-01", result);
+		result.Should().Be("2019-01-01");
 	}
 
 	[Fact]
 	public void RegexGroup_Succeeds()
 	{
 		var result = Test("regexGroup('abc:def:2019-01-01', '^.+?:.+?:(.+)$') < dateTime('UTC', 'yyyy-MM-dd', -30, 0, 0, 0)");
-		Assert.NotNull(result as bool?);
-		Assert.True((bool)result);
+		(result as bool?).Should().NotBeNull();
+		((bool)result).Should().BeTrue();
 	}
 
 	[Fact]
 	public void RegexGroupN_Succeeds()
 	{
 		var result = Test("regexGroup('abc:def:XYZ', '^.+?:.+?:(.)+$')");
-		Assert.Equal("X", result);
+		result.Should().Be("X");
 		result = Test("regexGroup('abc:def:XYZ', '^.+?:.+?:(.)+$', 1)");
-		Assert.Equal("Y", result);
+		result.Should().Be("Y");
 		result = Test("regexGroup('abc:def:XYZ', '^.+?:.+?:(.)+$', 2)");
-		Assert.Equal("Z", result);
+		result.Should().Be("Z");
 		result = Test("regexGroup('abc:def:XYZ', '^.+?:.+?:(.)+$', 3)");
-		Assert.Null(result);
+		result.Should().BeNull();
 	}
 
 	[Fact]
@@ -38,7 +38,7 @@ public class RegexGroupTests : NCalcTest
 		expression.Parameters["text"] = text;
 		var result = expression.Evaluate();
 
-		Assert.Equal("37407238", result);
+		result.Should().Be("37407238");
 	}
 
 }

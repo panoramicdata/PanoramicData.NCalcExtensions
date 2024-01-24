@@ -9,7 +9,7 @@ public class IfTests
 	{
 		var expression = new ExtendedExpression($"if({expressionText},'{trueValue}','{falseValue}')");
 		var result = expression.Evaluate();
-		Assert.Equal(expected, result);
+		result.Should().Be(expected);
 	}
 
 }

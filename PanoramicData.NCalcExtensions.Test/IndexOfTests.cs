@@ -10,6 +10,6 @@ public class IndexOfTests
 	{
 		var expr = new ExtendedExpression($"indexOf('{list}','{item}')");
 		var result = expr.Evaluate();
-		Assert.Equal(expected, result);
+		result.Should().Be(expected);
 	}
 }

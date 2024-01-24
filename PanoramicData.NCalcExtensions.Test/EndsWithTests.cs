@@ -11,6 +11,6 @@ public class EndsWithTests
 	{
 		var expression = new ExtendedExpression($"endsWith({expressionText})");
 		var result = expression.Evaluate();
-		Assert.Equal(expected, result);
+		result.Should().Be(expected);
 	}
 }

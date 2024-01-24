@@ -35,16 +35,15 @@ public class JoinTests : NCalcTest
 	[InlineData("join()")]
 	[InlineData("join(1)")]
 	public void Join_InsufficientParameters_ThrowsException(string expression)
-=> Assert.Throws<FormatException>(() =>
-{
-	var e = new ExtendedExpression(expression);
-	e.Evaluate();
-});
+		=> new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>();
 
 	[Theory]
 	[InlineData("join(split('a b c', ' '), ',')", "a,b,c")]
 	[InlineData("join(split('a b c', ' '), ', ')", "a, b, c")]
 	[InlineData("join(list('a', 'b', 'c'), ', ')", "a, b, c")]
 	public void Switch_ReturnsExpected(string expression, object? expectedOutput)
-		=> Assert.Equal(expectedOutput, new ExtendedExpression(expression).Evaluate());
+		=> new ExtendedExpression(expression).Evaluate().Should().Be(expectedOutput);
 }

@@ -38,7 +38,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'name')");
 		expression.Parameters["source"] = "SomeRandomString";
-		_ = Assert.Throws<FormatException>(expression.Evaluate);
+		_ = expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
 	}
 
 	[Fact]
@@ -74,11 +74,14 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'size')");
 		expression.Parameters["source"] = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2] }");
-		var exception = Assert.Throws<NCalcExtensionsException>(expression.Evaluate);
-		exception.Message.Should().Be(
-			"jPath function - jPath expression did not result in a match.",
-			because: "the selected item is an array"
-		);
+		expression
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<NCalcExtensionsException>()
+			.WithMessage(
+				"jPath function - jPath expression did not result in a match.",
+				because: "the selected item is an array"
+			);
 	}
 
 	[Fact]

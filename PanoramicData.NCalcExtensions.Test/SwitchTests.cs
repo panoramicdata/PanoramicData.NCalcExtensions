@@ -7,11 +7,10 @@ public class SwitchTests : NCalcTest
 	[InlineData("switch(1)")]
 	[InlineData("switch(1, 2)")]
 	public void Switch_InsufficientParameters_ThrowsException(string expression)
-		=> Assert.Throws<FormatException>(() =>
-		{
-			var e = new ExtendedExpression(expression);
-			e.Evaluate();
-		});
+		=> new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>();
 
 	[Theory]
 	[InlineData("switch('yes', 'yes', 1)", 1)]
@@ -23,16 +22,15 @@ public class SwitchTests : NCalcTest
 	[InlineData("switch('blah', 'yes', 1, 'no', 2, '3')", "3")]
 	[InlineData("switch(1, 1, 'one', 2, 'two')", "one")]
 	public void Switch_ReturnsExpected(string expression, object expectedOutput)
-		=> Assert.Equal(expectedOutput, new ExtendedExpression(expression).Evaluate());
+		=> new ExtendedExpression(expression).Evaluate().Should().Be(expectedOutput);
 
 	[Theory]
 	[InlineData("switch('blah', 'yes', 1, 'no', 2)")]
 	public void Switch_MissingDefault_ThrowsException(string expression)
-		=> Assert.Throws<FormatException>(() =>
-		{
-			var e = new ExtendedExpression(expression);
-			e.Evaluate();
-		});
+		=> new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>();
 
 	[Fact]
 	public void Switch_ComparingIntegers_Works()

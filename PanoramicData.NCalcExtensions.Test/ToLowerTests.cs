@@ -10,6 +10,6 @@ public class ToLowerTests
 	{
 		var expression = new ExtendedExpression($"toLower('{parameter}')");
 		var result = expression.Evaluate();
-		Assert.Equal(expectedValue, result);
+		result.Should().Be(expectedValue);
 	}
 }
