@@ -5,7 +5,7 @@ namespace PanoramicData.NCalcExtensions.Test;
 
 public class CountTests
 {
-	private readonly List<string> _stringList = new() { "a", "b", "c" };
+	private readonly List<string> _stringList = ["a", "b", "c"];
 
 	[Fact]
 	public void Count_OfList_ReturnsExpectedResult()

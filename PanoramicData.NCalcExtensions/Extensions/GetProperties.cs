@@ -14,14 +14,17 @@ internal static class GetProperties
 			throw new FormatException($"{ExtensionFunction.GetProperty}() requires one parameter.", e);
 		}
 
-		if (value is JObject jObject)
+		functionArgs.Result = value switch
 		{
-			functionArgs.Result = jObject.Properties().Select(p => p.Name).ToList();
-		}
-		else
-		{
-			var type = value.GetType();
-			functionArgs.Result = type.GetProperties().Select(p => p.Name).ToList();
-		}
+			JObject jObject => jObject
+				.Properties()
+				.Select(p => p.Name)
+				.ToList(),
+			_ => value
+				.GetType()
+				.GetProperties()
+				.Select(p => p.Name)
+				.ToList()
+		};
 	}
 }

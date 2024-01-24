@@ -10,7 +10,7 @@ internal static class ListHelpers
 		{
 			if (value.Count == 0)
 			{
-				return new List<object?>();
+				return [];
 			}
 
 			value = value.SelectMany(v => v as List<object?>).ToList();

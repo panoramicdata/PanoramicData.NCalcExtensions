@@ -13,7 +13,7 @@ internal static class Join
 			var firstParam = functionArgs.Parameters[0].Evaluate();
 			if (firstParam == null)
 			{
-				input = new List<string>();
+				input = [];
 			}
 			else if (firstParam is List<object> objList)
 			{

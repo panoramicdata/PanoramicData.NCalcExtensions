@@ -5,8 +5,8 @@ namespace PanoramicData.NCalcExtensions.Test;
 
 public class SumTests
 {
-	private readonly List<int> _intList = new() { 1, 2, 3 };
-	private readonly List<object?> _objectList = new() { 1f, 2d, 3, null };
+	private readonly List<int> _intList = [1, 2, 3];
+	private readonly List<object?> _objectList = [1f, 2d, 3, null];
 
 	[Fact]
 	public void Sum_WithLambda_ReturnsExpectedResult()
