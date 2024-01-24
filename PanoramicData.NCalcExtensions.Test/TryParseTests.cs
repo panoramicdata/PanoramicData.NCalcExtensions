@@ -10,10 +10,10 @@ public class TryParseTests
 	[InlineData("'Guid', '1', 'x', 'y'")]
 	[InlineData("1")]
 	public void TryParse_IncorrectParameterCountOrType_Throws(string parameters)
-	{
-		var expression = new ExtendedExpression($"tryParse({parameters})");
-		Assert.Throws<FormatException>(expression.Evaluate);
-	}
+		=> new ExtendedExpression($"tryParse({parameters})")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>();
 
 	[Theory]
 	[InlineData("short")]

@@ -8,21 +8,19 @@ public class SplitTests : NCalcTest
 	[InlineData("split()")]
 	[InlineData("split('a b c')")]
 	public void Split_InsufficientParameters_ThrowsException(string expression)
-		=> Assert.Throws<FormatException>(() =>
-		{
-			var e = new ExtendedExpression(expression);
-			e.Evaluate();
-		});
+		=> new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>();
 
 	[Theory]
 	[InlineData("split('a b c', '')")]
 	[InlineData("split('x x x', '')")]
 	public void Split_EmptySecondParameter_ThrowsException(string expression)
-		=> Assert.Throws<FormatException>(() =>
-		{
-			var e = new ExtendedExpression(expression);
-			e.Evaluate();
-		});
+		=> new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>();
 
 	[Theory]
 	[InlineData("split('a b c', ' ')")]

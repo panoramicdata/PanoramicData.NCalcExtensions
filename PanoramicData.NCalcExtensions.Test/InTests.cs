@@ -15,6 +15,6 @@ public class InTests
 
 		var result = expression.Evaluate();
 
-		Assert.Equal(expected, result);
+		result.Should().Be(expected);
 	}
 }

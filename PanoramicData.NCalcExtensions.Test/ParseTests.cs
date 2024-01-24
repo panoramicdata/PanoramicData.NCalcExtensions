@@ -11,10 +11,10 @@ public class ParseTests
 	[InlineData("'Guid', '1'")]
 	[InlineData("1")]
 	public void Parse_IncorrectParameterCountOrType_Throws(string parameters)
-	{
-		var expression = new ExtendedExpression($"parse({parameters})");
-		Assert.Throws<FormatException>(expression.Evaluate);
-	}
+		=> new ExtendedExpression($"parse({parameters})")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>();
 
 	[Theory]
 	[InlineData("short")]
@@ -32,10 +32,10 @@ public class ParseTests
 	[InlineData("jArray")]
 	[InlineData("Guid")]
 	public void Parse_DoesNotParse_Throws(string parameters)
-	{
-		var expression = new ExtendedExpression($"parse('{parameters}', 'x')");
-		Assert.Throws<FormatException>(expression.Evaluate);
-	}
+		=> new ExtendedExpression($"parse('{parameters}', 'x')")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>();
 
 	[Theory]
 	[InlineData("true")]
@@ -43,11 +43,9 @@ public class ParseTests
 	[InlineData("false")]
 	[InlineData("False")]
 	public void Parse_Bool_Succeeds(string text)
-	{
-		var expression = new ExtendedExpression($"parse('bool', '{text}')");
-		var result = expression.Evaluate();
-		result.Should().Be(bool.Parse(text));
-	}
+		=> new ExtendedExpression($"parse('bool', '{text}')")
+			.Evaluate()
+			.Should().Be(bool.Parse(text));
 
 	[Theory]
 	[InlineData("ttrue")]
