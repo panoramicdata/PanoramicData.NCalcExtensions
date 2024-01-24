@@ -6,42 +6,45 @@ public class ThrowTests
 	public void Throw_Example1_Succeeds()
 	{
 		var expression = new ExtendedExpression("throw()");
-		Assert.Throws<NCalcExtensionsException>(expression.Evaluate);
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<NCalcExtensionsException>();
 	}
 
 	[Fact]
 	public void Throw_Example2_Succeeds()
 	{
 		var expression = new ExtendedExpression("throw('This is a message')");
-		Assert.Throws<NCalcExtensionsException>(expression.Evaluate);
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<NCalcExtensionsException>();
 	}
 
 	[Fact]
 	public void Throw_Example3_Succeeds()
-	{
-		var expression = new ExtendedExpression("if(true, throw('There is a problem'), 5)");
-		Assert.Throws<NCalcExtensionsException>(expression.Evaluate);
-	}
+		=> new ExtendedExpression("if(true, throw('There is a problem'), 5)")
+		.Invoking(e => e.Evaluate())
+		.Should()
+		.ThrowExactly<NCalcExtensionsException>();
 
 	[Fact]
 	public void Throw_BadParameter_Fails()
-	{
-		var expression = new ExtendedExpression("throw(666)");
-		Assert.Throws<FormatException>(expression.Evaluate);
-	}
+		=> new ExtendedExpression("throw(666)")
+		.Invoking(e => e.Evaluate())
+		.Should()
+		.ThrowExactly<FormatException>();
 
 	[Fact]
 	public void Throw_TooManyParameters_Fails()
-	{
-		var expression = new ExtendedExpression("throw('a', 'b')");
-		Assert.Throws<FormatException>(expression.Evaluate);
-	}
+		=> new ExtendedExpression("throw('a', 'b')")
+		.Invoking(e => e.Evaluate())
+		.Should()
+		.ThrowExactly<FormatException>();
 
 	[Fact]
 	public void InnerThrow_Fails()
 	{
 		var expression = new ExtendedExpression("if(false, 1, throw('sdf' + a))");
 		expression.Parameters["a"] = "blah";
-		Assert.Throws<NCalcExtensionsException>(expression.Evaluate);
+		expression
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<NCalcExtensionsException>();
 	}
 }

@@ -12,6 +12,6 @@ public class AnyTests : NCalcTest
 
 		var result = expression.Evaluate();
 
-		Assert.Equal(expected, result);
+		result.Should().Be(expected);
 	}
 }

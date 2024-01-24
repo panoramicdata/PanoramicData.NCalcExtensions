@@ -28,7 +28,7 @@ internal static class Format
 		};
 	}
 
-	private static object GetThing(string inputString, string formatFormat)
+	private static string GetThing(string inputString, string formatFormat)
 	{
 		// Assume this is a number
 		if (long.TryParse(inputString, out var longValue))
