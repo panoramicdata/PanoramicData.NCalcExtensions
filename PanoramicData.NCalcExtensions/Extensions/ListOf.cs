@@ -91,7 +91,7 @@ internal static class ListOf
 				var underlyingType = Nullable.GetUnderlyingType(typeof(T));
 				if (underlyingType != null)
 				{
-					var convertedValue = Convert.ChangeType(value, underlyingType);
+					var convertedValue = Convert.ChangeType(value, underlyingType, CultureInfo.InvariantCulture);
 					list.Add((T)convertedValue);
 				}
 			}
@@ -99,7 +99,7 @@ internal static class ListOf
 			{
 				list.Add(tValue);
 			}
-			else if (Convert.ChangeType(value, typeof(T)) is T convertedValue)
+			else if (Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture) is T convertedValue)
 			{
 				list.Add(convertedValue);
 			}

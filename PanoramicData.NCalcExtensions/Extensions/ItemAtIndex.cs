@@ -14,7 +14,7 @@ internal static class ItemAtIndex
 			index = (int)functionArgs.Parameters[1].Evaluate();
 			if (index < 0)
 			{
-				throw new Exception();
+				throw new FormatException($"{ExtensionFunction.ItemAtIndex}() requires two parameters.  The first should be an IList and the second should be a non-negative integer.");
 			}
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)

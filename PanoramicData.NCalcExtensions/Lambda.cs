@@ -1,22 +1,11 @@
 ﻿using System.Collections.Generic;
 
 namespace PanoramicData.NCalcExtensions;
-public class Lambda
+public class Lambda(
+	string predicate,
+	string nCalcString,
+	Dictionary<string, object?> parameters)
 {
-	private readonly string predicate;
-	private readonly string nCalcString;
-	private readonly Dictionary<string, object?> parameters;
-
-	public Lambda(
-		string predicate,
-		string nCalcString,
-		Dictionary<string, object?> parameters)
-	{
-		this.predicate = predicate;
-		this.nCalcString = nCalcString;
-		this.parameters = parameters;
-	}
-
 	public object? Evaluate<T>(T value)
 	{
 		parameters.Remove(predicate);

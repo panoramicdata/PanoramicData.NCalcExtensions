@@ -16,7 +16,7 @@ internal static class Sort
 
 		functionArgs.Result = direction.ToUpperInvariant() switch
 		{
-			"ASC" => list.OrderBy(u => u).ToList(),
+			"ASC" => [.. list.OrderBy(u => u)],
 			"DESC" => list.OrderByDescending(u => u).ToList(),
 			_ => throw new FormatException($"If provided, the second {ExtensionFunction.Sort} parameter must be either 'asc' or 'desc'.")
 		};

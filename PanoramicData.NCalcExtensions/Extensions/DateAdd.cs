@@ -29,6 +29,7 @@ internal static class DateAddMethods
 		{
 			throw new FormatException($"{ExtensionFunction.DateAdd} function - The third argument should be a string, e.g. 'days'");
 		}
+
 		if (!Enum.TryParse(unitsString, true, out DateTimeUnit units))
 		{
 			throw new FormatException($"{ExtensionFunction.DateAdd} function - The third argument is not a recognised unit, e.g. 'days'");

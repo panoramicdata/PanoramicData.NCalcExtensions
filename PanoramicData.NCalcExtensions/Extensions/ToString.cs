@@ -22,17 +22,17 @@ internal static class ToString
 				functionArgs.Result = parameter1a switch
 				{
 					null => null,
-					byte value => value.ToString(parameter2),
-					int value => value.ToString(parameter2),
-					uint value => value.ToString(parameter2),
-					long value => value.ToString(parameter2),
-					ulong value => value.ToString(parameter2),
-					short value => value.ToString(parameter2),
-					ushort value => value.ToString(parameter2),
-					float value => value.ToString(parameter2),
-					double value => value.ToString(parameter2),
-					DateTime value => value.ToString(parameter2),
-					DateTimeOffset value => value.ToString(parameter2),
+					byte value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					int value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					uint value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					long value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					ulong value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					short value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					ushort value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					float value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					double value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					DateTime value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					DateTimeOffset value => value.ToString(parameter2, CultureInfo.InvariantCulture),
 					object @object => @object.ToString()
 				};
 				break;

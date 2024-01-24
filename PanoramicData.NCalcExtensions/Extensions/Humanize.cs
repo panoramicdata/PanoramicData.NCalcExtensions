@@ -17,7 +17,7 @@ internal static class Humanize
 			}
 			else
 			{
-				throw new Exception();
+				throw new FormatException($"{ExtensionFunction.Humanize}() first parameter must be a number.");
 			}
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException)
