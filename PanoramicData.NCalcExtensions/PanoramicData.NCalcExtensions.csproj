@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>It is now possible to split a string on a string with length greater than one e.g. split(aXXbXXc, 'XX').</PackageReleaseNotes>
+		<PackageReleaseNotes>Added any(list()) and improved any() error handling.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
