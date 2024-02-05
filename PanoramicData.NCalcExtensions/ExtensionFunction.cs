@@ -41,7 +41,9 @@ public static class ExtensionFunction
 	public const string ItemAtIndex = "itemAtIndex";
 	public const string Join = "join";
 	public const string JPath = "jPath";
+	public const string Last = "last";
 	public const string LastIndexOf = "lastIndexOf";
+	public const string LastOrDefault = "lastOrDefault";
 	public const string Length = "length";
 	public const string List = "list";
 	public const string ListOf = "listOf";
@@ -59,6 +61,7 @@ public static class ExtensionFunction
 	public const string RegexIsMatch = "regexIsMatch";
 	public const string Replace = "replace";
 	public const string Retrieve = "retrieve";
+	public const string Reverse = "reverse";
 	public const string Select = "select";
 	public const string SelectDistinct = "selectDistinct";
 	public const string SetProperties = "setProperties";

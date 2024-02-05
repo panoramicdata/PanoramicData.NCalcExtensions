@@ -53,7 +53,9 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [jObject()](#jobject) | Creates a JObject from key/value pairs. |
 | [join()](#join) | Joins a list of strings into a single string. |
 | [jPath()](#jpath) | Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression |
+| [last()](#last) | Determines the last value in an IEnumerable. Throws an Exception if no item matches. |
 | [lastIndexOf()](#lastindexof) | Determines the last position of a string within another string. |
+| [lastOrDefault()](#lastOrDefault) | Determines the last value in an IEnumerable. Returns null if no item matches. |
 | [length()](#length) | Determines length of a string or IList. |
 | [list()](#list) | Emits a List\<object?\> and collapses down lists of lists to a single list. |
 | [listOf()](#listof) | Emits a List\<T\>. |
@@ -70,6 +72,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [regexIsMatch()](#regexismatch) | Determine whether a string matches a regex. |
 | [replace()](#replace) | Replace a string with another string. |
 | [retrieve()](#retrieve) | Retrieves a value from storage. |
+| [reverse()](#reverse) | Reverses an IEnumerable and emits a List<object?>. |
 | [select()](#select) | Converts an IEnumerable using a lambda. |
 | [selectDistinct()](#selectdistinct) | Converts an IEnumerable using a lambda and removes duplicates. |
 | [setProperties()](#setproperties) | Sets properties on an existing object. |
@@ -371,440 +374,472 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-0
 ### dictionary()
 
 #### Purpose
-Emits a Dictionary<string, object?>
-	.
+Emits a Dictionary<string, object?>.
 
-	#### Parameters
-	* interlaced keys and values. You must provide an even number of parameters, and keys must evaluate to strings.
+#### Parameters
+* interlaced keys and values. You must provide an even number of parameters, and keys must evaluate to strings.
 
-	#### Examples
-	* dictionary('KEY1', 'Hello', 'KEY2', 'Goodbye') : a dictionary containing 2 values with keys KEY1 and KEY2, and string values
-	* dictionary('TRUE', true, 'FALSE', false) : a dictionary containing 2 values with keys TRUE and FALSE, and boolean values
+#### Examples
+* dictionary('KEY1', 'Hello', 'KEY2', 'Goodbye') : a dictionary containing 2 values with keys KEY1 and KEY2, and string values
+* dictionary('TRUE', true, 'FALSE', false) : a dictionary containing 2 values with keys TRUE and FALSE, and boolean values
 
-	---
+---
 
-	### distinct()
+### distinct()
 
-	#### Purpose
-	Returns only distinct items from the input.
+#### Purpose
+Returns only distinct items from the input.
 
-	#### Parameters
-	* list - the original list
+#### Parameters
+* list - the original list
 
-	#### Examples
-	* distinct(list(1, 2, 3, 3, 3)) : list(1, 2, 3)
+#### Examples
+* distinct(list(1, 2, 3, 3, 3)) : list(1, 2, 3)
 
-	---
+---
 
-	### endsWith()
+### endsWith()
 
-	#### Purpose
-	Determines whether a string ends with another string.
+#### Purpose
+Determines whether a string ends with another string.
 
-	#### Parameters
-	* longString
-	* shortString
+#### Parameters
+* longString
+* shortString
 
-	#### Examples
-	* endsWith('abcdefg', 'fg') : true
-	* endsWith('abcdefg', 'fgh') : false
+#### Examples
+* endsWith('abcdefg', 'fg') : true
+* endsWith('abcdefg', 'fgh') : false
 
-	---
-	### extend()
+---
+### extend()
 
-	#### Purpose
-	Extends an existing object into a JObject with both the original and additional properties.
+#### Purpose
+Extends an existing object into a JObject with both the original and additional properties.
 
-	#### Parameters
-	* originalObject
-	* listOfAdditionalProperties
+#### Parameters
+* originalObject
+* listOfAdditionalProperties
 
-	#### Examples
-	* extend(jObject('a', 1, 'b', null), list('c', 5)) : JObject with a=1, b=null and c=5
+#### Examples
+* extend(jObject('a', 1, 'b', null), list('c', 5)) : JObject with a=1, b=null and c=5
 
-	---
-	### first()
+---
+### first()
 
-	#### Purpose
-	Returns the first item in a list that matches a lambda or throws a FormatException if no items match.
+#### Purpose
+Returns the first item in a list that matches a lambda or throws a FormatException if no items match.
 
-	#### Parameters
-	* list
-	* predicate
-	* lambda expression as a string
+#### Parameters
+* list
+* predicate
+* lambda expression as a string
 
-	#### Examples
-	* first(list(1, 5, 2, 3), 'n', 'n % 2 == 0') : 2
-	* first(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : FormatException thrown
+#### Examples
+* first(list(1, 5, 2, 3), 'n', 'n % 2 == 0') : 2
+* first(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : FormatException thrown
 
-	---
-	### firstOrDefault()
+---
+### firstOrDefault()
 
-	#### Purpose
-	Returns the first item in a list that matches a lambda or null if no items match.
+#### Purpose
+Returns the first item in a list that matches a lambda or null if no items match.
 
-	#### Parameters
-	* list
-	* predicate
-	* lambda expression as a string
+#### Parameters
+* list
+* predicate
+* lambda expression as a string
 
-	#### Examples
-	* firstOrDefault(list(1, 5, 2, 3), 'n', 'n % 2 == 0') : 2
-	* firstOrDefault(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : null
+#### Examples
+* firstOrDefault(list(1, 5, 2, 3), 'n', 'n % 2 == 0') : 2
+* firstOrDefault(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : null
 
-	---
-	### format()
+---
+### format()
 
-	#### Purpose
-	Formats strings and numbers as output strings with the specified format.
+#### Purpose
+Formats strings and numbers as output strings with the specified format.
 
-	#### Parameters
-	* object (number or text)
-	* format: the format to use
-	- see C# number and date/time formatting
-	- weekOfMonth is the numeric week of month as would be shown on a calendar with one row per week with weeks starting on a Sunday
-	- weekOfMonthText is the same as weekOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'
-	- weekDayOfMonth is the number of times this weekday has occurred within the month so far, including this one
-	- weekDayOfMonthText is the same as weekDayOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'
-	* timeZone [optional] - see https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
+#### Parameters
+* object (number or text)
+* format: the format to use
+- see C# number and date/time formatting
+- weekOfMonth is the numeric week of month as would be shown on a calendar with one row per week with weeks starting on a Sunday
+- weekOfMonthText is the same as weekOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'
+- weekDayOfMonth is the number of times this weekday has occurred within the month so far, including this one
+- weekDayOfMonthText is the same as weekDayOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'
+* timeZone [optional] - see https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
 
-	#### Examples
-	* format(1, '00') : '01'
-	* format(1.0, '00') : '01'
-	* format('2021-11-29', 'dayOfYear') : '333'
-	* format('2021-11-01', 'weekOfMonth') : 1
-	* format('2021-11-01', 'weekOfMonthText') : 'first'
-	* format('2021-11-28', 'weekOfMonth') : 5
-	* format('2021-11-28', 'weekOfMonthText') : 'last'
-	* format('2021-11-28', 'weekDayOfMonth') : 4
-	* format('2021-11-28', 'weekDayOfMonthText') : 'forth'
-	* format('01/01/2019', 'yyyy-MM-dd') : '2019-01-01'
-	* format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') [where theDateTime is a .NET DateTime, set to DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture)] : '2020-03-13 12:00'
+#### Examples
+* format(1, '00') : '01'
+* format(1.0, '00') : '01'
+* format('2021-11-29', 'dayOfYear') : '333'
+* format('2021-11-01', 'weekOfMonth') : 1
+* format('2021-11-01', 'weekOfMonthText') : 'first'
+* format('2021-11-28', 'weekOfMonth') : 5
+* format('2021-11-28', 'weekOfMonthText') : 'last'
+* format('2021-11-28', 'weekDayOfMonth') : 4
+* format('2021-11-28', 'weekDayOfMonthText') : 'forth'
+* format('01/01/2019', 'yyyy-MM-dd') : '2019-01-01'
+* format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') [where theDateTime is a .NET DateTime, set to DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture)] : '2020-03-13 12:00'
 
-	---
+---
 
-	### getProperties()
+### getProperties()
 
-	#### Purpose
-	Gets a list of an object's properties.
+#### Purpose
+Gets a list of an object's properties.
 
-	#### Parameters
-	* sourceObject
+#### Parameters
+* sourceObject
 
-	#### Examples
-	* getProperties(parse('jObject', '{ "A": 1, "B": 2 }')) : [ 'A', 'B' ]
-	* getProperties(toDateTime('2019-01-01', 'yyyy-MM-dd')) : [ 'Date', 'Day', 'DayOfWeek', 'DayOfYear', 'Hour', 'Kind', 'Millisecond', 'Microsecond', 'Nanosecond', 'Minute', 'Month', 'Now', 'Second', 'Ticks', 'TimeOfDay', 'Today', 'Year', 'UtcNow' ]
+#### Examples
+* getProperties(parse('jObject', '{ "A": 1, "B": 2 }')) : [ 'A', 'B' ]
+* getProperties(toDateTime('2019-01-01', 'yyyy-MM-dd')) : [ 'Date', 'Day', 'DayOfWeek', 'DayOfYear', 'Hour', 'Kind', 'Millisecond', 'Microsecond', 'Nanosecond', 'Minute', 'Month', 'Now', 'Second', 'Ticks', 'TimeOfDay', 'Today', 'Year', 'UtcNow' ]
 
-	---
+---
 
-	### getProperty()
+### getProperty()
 
-	#### Purpose
-	Gets an object's property.
+#### Purpose
+Gets an object's property.
 
-	#### Parameters
-	* sourceObject
-	* propertyName
+#### Parameters
+* sourceObject
+* propertyName
 
-	#### Examples
-	* getProperty(toDateTime('2019-01-01', 'yyyy-MM-dd'), 'Year') : 2019 (int)
+#### Examples
+* getProperty(toDateTime('2019-01-01', 'yyyy-MM-dd'), 'Year') : 2019 (int)
 
-	---
+---
 
-	### humanize()
+### humanize()
 
-	#### Purpose
+#### Purpose
 
-	Humanizes the value text.
+Humanizes the value text.
 
-	#### Parameters
-	* value
-	* timeUnit
+#### Parameters
+* value
+* timeUnit
 
-	#### Examples
-	* humanize(3600, 'seconds') : '1 hour'
+#### Examples
+* humanize(3600, 'seconds') : '1 hour'
 
-	---
+---
 
-	### if()
+### if()
 
-	#### Purpose
-	Return one of two values, depending on the input function.
+#### Purpose
+Return one of two values, depending on the input function.
 
-	#### Parameters
-	* condition
-	* output if true
-	* output if false
+#### Parameters
+* condition
+* output if true
+* output if false
 
-	#### Examples
-	* if(1 == 1, 'yes', 'no') : 'yes'
-	* if(1 == 2, 3, 4) : 4
+#### Examples
+* if(1 == 1, 'yes', 'no') : 'yes'
+* if(1 == 2, 3, 4) : 4
 
-	---
+---
 
-	### in()
+### in()
 
-	#### Purpose
-	Determines whether a value is in a set of other values.
+#### Purpose
+Determines whether a value is in a set of other values.
 
-	#### Parameters
-	* list
-	* item
+#### Parameters
+* list
+* item
 
-	#### Examples
-	* in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
-	* in('needle', 'haystack', 'with', 'only', 'hay') : false
+#### Examples
+* in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
+* in('needle', 'haystack', 'with', 'only', 'hay') : false
 
-	---
+---
 
-	### indexOf()
+### indexOf()
 
-	#### Purpose
-	Determines the first position of a string within another string.
+#### Purpose
+Determines the first position of a string within another string.
 
-	#### Notes
-	The first character is position 0.  Returns -1 if not present.
+#### Notes
+The first character is position 0.  Returns -1 if not present.
 
-	#### Parameters
-	* longString
-	* shortString
+#### Parameters
+* longString
+* shortString
 
-	#### Examples
-	* indexOf('#abcabc#', 'abc') : 1
-	* indexOf('#abcabc#', 'abcd') : -1
+#### Examples
+* indexOf('#abcabc#', 'abc') : 1
+* indexOf('#abcabc#', 'abcd') : -1
 
-	---
+---
 
-	### isGuid()
+### isGuid()
 
-	#### Purpose
-	Determines whether a value is a GUID, or is a string that can be converted to a GUID.
+#### Purpose
+Determines whether a value is a GUID, or is a string that can be converted to a GUID.
 
-	#### Parameters
-	* value
+#### Parameters
+* value
 
-	#### Examples
-	* isGuid('9384EF0Z-38AD-4E8E-A24E-0ACD3273A401') : true
-	* isGuid('{9384EF0Z-38AD-4E8E-A24E-0ACD3273A401}') : true
-	* isGuid('abc') : false
+#### Examples
+* isGuid('9384EF0Z-38AD-4E8E-A24E-0ACD3273A401') : true
+* isGuid('{9384EF0Z-38AD-4E8E-A24E-0ACD3273A401}') : true
+* isGuid('abc') : false
 
-	---
+---
 
-	### isInfinite()
+### isInfinite()
 
-	#### Purpose
-	Determines whether a value is infinite.
+#### Purpose
+Determines whether a value is infinite.
 
-	#### Parameters
-	* value
+#### Parameters
+* value
 
-	#### Examples
-	* isInfinite(1/0) : true
-	* isInfinite(0/1) : false
+#### Examples
+* isInfinite(1/0) : true
+* isInfinite(0/1) : false
 
-	---
+---
 
-	### isNaN()
+### isNaN()
 
-	#### Purpose
-	Determines whether a value is not a number.
+#### Purpose
+Determines whether a value is not a number.
 
-	#### Parameters
-	* value
+#### Parameters
+* value
 
-	#### Examples
-	* isNaN(null) : true
-	* isNaN('abc') : true
-	* isNaN(1) : false
-	---
+#### Examples
+* isNaN(null) : true
+* isNaN('abc') : true
+* isNaN(1) : false
+---
 
-	### isNull()
+### isNull()
 
-	#### Purpose
-	Determines whether a value is null.
+#### Purpose
+Determines whether a value is null.
 
-	#### Notes
-	Returns true if the value is:
-	* null; or
-	* it's a JObject and it's type is JTokenType.Null.
+#### Notes
+Returns true if the value is:
+* null; or
+* it's a JObject and it's type is JTokenType.Null.
 
-	#### Parameters
-	* value
+#### Parameters
+* value
 
-	#### Examples
-	* isNull(1) : false
-	* isNull('text') : false
-	* isNull(bob) : true if bob is null
-	* isNull(null) : true
-	---
+#### Examples
+* isNull(1) : false
+* isNull('text') : false
+* isNull(bob) : true if bob is null
+* isNull(null) : true
+---
 
-	### isNullOrEmpty()
+### isNullOrEmpty()
 
-	#### Purpose
-	Determines whether a value is null or empty.
+#### Purpose
+Determines whether a value is null or empty.
 
-	#### Notes
-	True if:
-	* null; or
-	* it's a JObject and it's type is JTokenType.Null or;
-	* it's a string and it's empty.
+#### Notes
+True if:
+* null; or
+* it's a JObject and it's type is JTokenType.Null or;
+* it's a string and it's empty.
 
-	#### Parameters
-	* value
+#### Parameters
+* value
 
-	#### Examples
-	* isNullOrEmpty(null) : true
-	* isNullOrEmpty('') : true
-	* isNullOrEmpty(' ') : false
-	* isNullOrEmpty(bob) : true if bob is null or whitespace
-	* isNullOrEmpty(1) : false
-	* isNullOrEmpty('text') : false
-	---
+#### Examples
+* isNullOrEmpty(null) : true
+* isNullOrEmpty('') : true
+* isNullOrEmpty(' ') : false
+* isNullOrEmpty(bob) : true if bob is null or whitespace
+* isNullOrEmpty(1) : false
+* isNullOrEmpty('text') : false
+---
 
-	### isNullOrWhiteSpace()
+### isNullOrWhiteSpace()
 
-	#### Purpose
-	Determines whether a value is null, empty or whitespace.
+#### Purpose
+Determines whether a value is null, empty or whitespace.
 
-	#### Notes
-	Returns true is the value is:
-	* null; or
-	* it's a JObject and it's type is JTokenType.Null or;
-	* it's a string and it's empty or only contains whitespace characters (\r, \n, \t, or ' ').
+#### Notes
+Returns true is the value is:
+* null; or
+* it's a JObject and it's type is JTokenType.Null or;
+* it's a string and it's empty or only contains whitespace characters (\r, \n, \t, or ' ').
 
-	#### Parameters
-	* value
+#### Parameters
+* value
 
-	#### Examples
-	* isNullOrWhiteSpace(null) : true
-	* isNullOrWhiteSpace('') : true
-	* isNullOrWhiteSpace(' ') : true
-	* isNullOrWhiteSpace(bob) : true if bob is null or whitespace
-	* isNullOrWhiteSpace(1) : false
-	* isNullOrWhiteSpace('text') : false
-	---
+#### Examples
+* isNullOrWhiteSpace(null) : true
+* isNullOrWhiteSpace('') : true
+* isNullOrWhiteSpace(' ') : true
+* isNullOrWhiteSpace(bob) : true if bob is null or whitespace
+* isNullOrWhiteSpace(1) : false
+* isNullOrWhiteSpace('text') : false
+---
 
-	### isSet()
+### isSet()
 
-	#### Purpose
-	Determines whether a parameter is set.
+#### Purpose
+Determines whether a parameter is set.
 
-	#### Parameters
-	* parameter name
+#### Parameters
+* parameter name
 
-	#### Examples
-	* isSet('a') : true/false depending on whether a is an available variable
+#### Examples
+* isSet('a') : true/false depending on whether a is an available variable
 
-	---
+---
 
-	### itemAtIndex()
+### itemAtIndex()
 
-	#### Purpose
-	Determines the item at the given index.  The first index is 0.
+#### Purpose
+Determines the item at the given index.  The first index is 0.
 
-	#### Parameters
-	* parameter name
+#### Parameters
+* parameter name
 
-	#### Examples
-	* itemAtIndex(split('a b c', ' '), 1) : 'b'
+#### Examples
+* itemAtIndex(split('a b c', ' '), 1) : 'b'
 
-	---
+---
 
-	### jObject()
+### jObject()
 
-	#### Purpose
-	Creates a JObject from key/value pairs.
+#### Purpose
+Creates a JObject from key/value pairs.
 
-	#### Parameters
-	* key1 (string)
-	* value1
-	* key2 (string)
-	* value2
-	* ...
-	* keyN
-	* valueN
+#### Parameters
+* key1 (string)
+* value1
+* key2 (string)
+* value2
+* ...
+* keyN
+* valueN
 
-	#### Examples
-	* jObject('a', 1, 'b', null) : JObject{ "a": 1, "b": null}
+#### Examples
+* jObject('a', 1, 'b', null) : JObject{ "a": 1, "b": null}
 
-	---
+---
 
-	### join()
+### join()
 
-	#### Purpose
-	Joins a list of strings into a single string.
+#### Purpose
+Joins a list of strings into a single string.
 
-	#### Parameters
-	* parameter name
+#### Parameters
+* parameter name
 
-	#### Examples
-	* join(split('a b c', ' '), ', ') : 'a, b, c'
+#### Examples
+* join(split('a b c', ' '), ', ') : 'a, b, c'
 
-	---
+---
 
-	### jPath()
+### jPath()
 
-	#### Purpose
-	Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression
+#### Purpose
+Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression
 
-	#### Parameters
-	* input JObject
-	* JPath string expression
+#### Parameters
+* input JObject
+* JPath string expression
 
 #### Examples
 sourceJObject JSON:
 ```
 {
-  "name": "bob",
-  "details": {
-    "this.thing": "woo",
-    "that.thing": "yay",
-  },
-  "numbers": [ 1, 2 ],
-  "arrayList": [ 
-	 { "key": "key1", "value": "value1" },
-	 { "key": "key2", "value": "value2" } 
-  ]
+"name": "bob",
+"details": {
+   "this.thing": "woo",
+   "that.thing": "yay",
+},
+"numbers": [ 1, 2 ],
+"arrayList": [ 
+	{ "key": "key1", "value": "value1" },
+	{ "key": "key2", "value": "value2" } 
+]
 }
 ```
-  * jPath(sourceJObject, 'name') : 'bob'
-  * jPath(sourceJObject, 'details.[\'this.thing\']') : 'woo'
-  * jPath(sourceJObject, 'size') : an exception is thrown
-  * jPath(sourceJObject, 'size', True) : null is returned
-  * jPath(sourceJObject, 'numbers[0]') : 1
-  * jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]') : "value1"
+* jPath(sourceJObject, 'name') : 'bob'
+* jPath(sourceJObject, 'details.[\'this.thing\']') : 'woo'
+* jPath(sourceJObject, 'size') : an exception is thrown
+* jPath(sourceJObject, 'size', True) : null is returned
+* jPath(sourceJObject, 'numbers[0]') : 1
+* jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]') : "value1"
 ---
 
-	### lastIndexOf()
 
-	#### Purpose
-	Determines the last position of a string within another string.  Returns -1 if not present.
+#### Purpose
+Returns the last item in a list that matches a lambda or throws a FormatException if no items match.
+Note that items are processed in reverse order.
 
-	#### Parameters
-	* longString
-	* shortString
+#### Parameters
+* list
+* predicate
+* lambda expression as a string
 
-	#### Examples
-	* lastIndexOf('#abcabc#', 'abc') : 4
-	* lastIndexOf('#abcabc#', 'abcd') : -1
+#### Examples
+* first(list(1, 5, 2, 3, 4, 1), 'n', 'n % 2 == 0') : 4
+* first(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : FormatException thrown
 
-	---
+---
 
-	### length()
+### lastIndexOf()
 
-	#### Purpose
-	Determines length of a string or IList.
+#### Purpose
+Determines the last position of a string within another string.  Returns -1 if not present.
 
-	#### Parameters
-	* string or IList
+#### Parameters
+* longString
+* shortString
 
-	#### Examples
-	* length('a piece of string') : 17
-	* length(split('a piece of string', ' ')) : 4
+#### Examples
+* lastIndexOf('#abcabc#', 'abc') : 4
+* lastIndexOf('#abcabc#', 'abcd') : -1
 
-	---
+---
 
-	### list()
+### lastOrDefault()
+
+#### Purpose
+Returns the last item in a list that matches a lambda or null if no items match.
+Note that items are processed in reverse order.
+
+#### Parameters
+* list
+* predicate
+* lambda expression as a string
+
+#### Examples
+* lastOrDefault(list(1, 5, 2, 3, 4, 1), 'n', 'n % 2 == 0') : 4
+* lastOrDefault(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : null
+
+---
+
+### length()
+
+#### Purpose
+Determines length of a string or IList.
+
+#### Parameters
+* string or IList
+
+#### Examples
+* length('a piece of string') : 17
+* length(split('a piece of string', ' ')) : 4
+
+---
+
+### list()
 
 #### Purpose
 Emits a List\<object?\> and collapses down lists of lists to a single list.
@@ -832,7 +867,7 @@ Emits a List\<T\>.
    * listOf('object?', null, 1, '0')
    * listOf('int?', 1, null, 3)
    * listOf('string', '1', '2', 3) : throws an exception
-   ---
+---
 
 ### max()
 
@@ -848,7 +883,7 @@ Emits a List\<T\>.
    * max(listOf('int', 1, 2, 3), 'x', 'x + 1') : 4
    * max(listOf('string', '1', '2', '3')) : '3'
    * max(listOf('string', '1', '2', '3'), 'x', 'x + x') : '33'
-   ---
+---
 
 ### maxValue()
 
@@ -861,7 +896,7 @@ Emits a List\<T\>.
 #### Examples
    * maxValue('byte') : (byte)255
    * maxValue('ushort') : (ushort)65535
-   ---
+---
 
 ### min()
 
@@ -877,7 +912,7 @@ Emits a List\<T\>.
    * min(listOf('int', 1, 2, 3), 'x', 'x + 1') : 2
    * min(listOf('string', '1', '2', '3')) : '1'
    * min(listOf('string', '1', '2', '3'), 'x', 'x + x') : '11'
-   ---
+---
 
 ### minValue()
 
@@ -891,7 +926,7 @@ Emits a List\<T\>.
    * minValue('byte') : (byte)0
    * minValue('ushort') : (ushort)0
 
-   ---
+---
 
 ### nullCoalesce()
 
@@ -908,7 +943,7 @@ Emits a List\<T\>.
    * nullCoalesce(null, null, null) : null
    * nullCoalesce(null, null, 'xxx', 3) : 'xxx'
 
-   ---
+---
 
 ### orderBy()
 
@@ -928,7 +963,7 @@ Emits a List\<T\>.
    * orderBy(list(34, 33, 2, 1), 'n % 32', 'n % 2') : list(34, 33, 1, 2)
    * orderBy(list(34, 33, 2, 1), 'n % 2', 'n % 32') : list(33, 1, 34, 2)
 
-   ---
+---
 
 ### padLeft()
 
@@ -946,7 +981,7 @@ Emits a List\<T\>.
    * padLeft('12345', 5, '0') : '12345'
    * padLeft('12345', 3, '0') : '12345'
 
-   ---
+---
 
 ### parse()
 
@@ -978,7 +1013,8 @@ Emits a List\<T\>.
    * parse('bool', 'x', null) : null
    * parse('jObject', '{ "a" : 1 }', null) : null
    * parse('jArray', '[ { "a" : 1 } ]', null) : null
-   ---
+
+---
 
 ### parseInt()
 
@@ -991,7 +1027,7 @@ Emits a List\<T\>.
 #### Examples
    * parseInt('1') : 1
 
-   ---
+---
 
 ### regexGroup()
 
@@ -1010,7 +1046,7 @@ Emits a List\<T\>.
    * regexGroup('abcdef', '^ab(.)+f$', 2) : 'e'
    * regexGroup('abcdef', '^ab(.)+f$', 10) : null
 
-   ---
+---
 
 ### regexIsMatch()
 
@@ -1025,7 +1061,7 @@ Emits a List\<T\>.
    * regexIsMatch('abcdef', '^ab.+') : true
    * regexIsMatch('Zbcdef', '^ab.+') : false
 
-   ---
+---
 
 ### replace()
 
@@ -1041,7 +1077,7 @@ Emits a List\<T\>.
    * replace('abcdefg', 'cde', 'CDE') : 'abCDEfg'
    * replace('abcdefg', 'cde', '') : 'abfg'
 
-   ---
+---
 
 ### retrieve()
 
@@ -1054,7 +1090,20 @@ Emits a List\<T\>.
 #### Examples
    * retrieve('thing')
 
-   ---
+---
+
+### reverse()
+
+#### Purpose
+   Reverses an IEnumerable.
+
+#### Parameters
+   * list
+
+#### Examples
+   * reverse(list(1, 2, 3, 4, 5, 5) : 5, 5, 4, 3, 2, 1
+
+---
 
 ### select()
 
@@ -1071,7 +1120,7 @@ Emits a List\<T\>.
    * select(list(1, 2, 3, 4, 5), 'n', 'n + 1') : list(2, 3, 4, 5, 6)
    * select(list(jObject('a', 1, 'b', '2'), jObject('a', 3, 'b', '4')), 'n', 'n', 'JObject') : list of JObjects
 
-   ---
+---
 
 ### selectDistinct()
 
@@ -1086,7 +1135,7 @@ Emits a List\<T\>.
 #### Examples
    * selectDistinct(list(1, 2, 3, 3, 3), 'n', 'n + 1') : list(2, 3, 4)
 
-   ---
+---
 
 ### setProperties()
 
@@ -1102,7 +1151,7 @@ Emits a List\<T\>.
 #### Examples
    * setProperties(jObject('a', 1, 'b', null), 'c', 'X') : jObject('a', 1, 'b', null, 'c', 'X')
    * setProperties(jObject('a', 1, 'b', null), 'c', 'X', 'd', 'Y') : jObject('a', 1, 'b', null, 'c', 'X', 'd', 'Y')
-   ---
+---
 
 ### skip()
 
@@ -1119,7 +1168,7 @@ Emits a List\<T\>.
 #### Examples
    * skip(list(1, 2, 3), 1): list(2, 3)
 
-   ---
+---
 
 ### sort()
 
@@ -1135,7 +1184,7 @@ Emits a List\<T\>.
    * sort(list(2, 1, 3), 'desc') : list(3, 2, 1)
    * sort(list('b', 'a', 'c'))) : list('a', 'b', 'c')
 
-   ---
+---
 
 ### split()
 
@@ -1150,7 +1199,7 @@ Emits a List\<T\>.
    * split('a bc d', ' ') : list('a', 'bc', 'd')
    * split('aXXbcXXd', 'XX') : list('a', 'bc', 'd')
 
-   ---
+---
 
 ### startsWith()
 
@@ -1165,7 +1214,7 @@ Emits a List\<T\>.
    * startsWith('abcdefg', 'ab') : true
    * startsWith('abcdefg', 'cd') : false
 
-   ---
+---
 
 ### store()
 
@@ -1183,7 +1232,7 @@ Emits a List\<T\>.
 #### Examples
    * store('thing', 1) : true
 
-   ---
+---
 
 ### substring()
 
@@ -1202,7 +1251,7 @@ Emits a List\<T\>.
    * substring('haystack', 0, 100) : 'haystack'
    * substring('haystack', 0, 0) : ''
 
-   ---
+---
 
 ### sum()
 
@@ -1218,7 +1267,7 @@ Emits a List\<T\>.
    * sum(list(1, 2, 3)) : 6
    * sum(list(1, 2, 3), 'n', 'n * n') : 14
 
-   ---
+---
 
 ### switch()
 
@@ -1235,7 +1284,7 @@ Emits a List\<T\>.
    * switch('blah', 'yes', 1, 'no', 2) : throws exception
    * switch('blah', 'yes', 1, 'no', 2, 3) : 3
 
-   ---
+---
 
 ### take()
 
@@ -1253,7 +1302,7 @@ Emits a List\<T\>.
    * take(list(1, 2, 3), 2): list(1, 2)
    * take(list(1, 2, 3), 10): list(1, 2, 3)
 
-   ---
+---
 
 ### throw()
 
@@ -1268,7 +1317,7 @@ Emits a List\<T\>.
    * throw('This is a message')
    * if(problem, throw('There is a problem'), 5)
 
-   ---
+---
 
 ### timeSpan()
 
@@ -1292,7 +1341,7 @@ Emits a List\<T\>.
 #### Examples
    * timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 3600
 
-   ---
+---
 
 ### toDateTime()
 
@@ -1316,7 +1365,7 @@ Emits a List\<T\>.
    * toDateTime(156816000000.0, 'ms', 'UTC') : A date time representing 1974-12-21 00:00:00 UTC
    * toDateTime(156816000000000.0, 'us', 'UTC') : A date time representing 1974-12-21 00:00:00 UTC
 
-   ---
+---
 
 ### toLower()
 
@@ -1329,7 +1378,7 @@ Emits a List\<T\>.
 #### Examples
    * toLower('PaNToMIMe') : 'pantomime'
 
-   ---
+---
 
 ### toString()
 
@@ -1345,7 +1394,7 @@ Emits a List\<T\>.
    * toString(1000, 'N2') : '1,000.00'
    * toString(DateTimeOffset, 'yyyy-MM-dd') : '2023-02-17'
 
-   ---
+---
 
 ### toUpper()
 
@@ -1358,7 +1407,7 @@ Emits a List\<T\>.
 #### Examples
    * toUpper('PaNToMIMe') : 'PANTOMIME'
 
-   ---
+---
 
 ### try()
 
@@ -1379,7 +1428,7 @@ Emits a List\<T\>.
    * try(throw('Woo'), exception_typeName) : 'NCalcExtensionsException'
    * try(throw('Woo'), exception) : The Exception object thrown by the throw function.
 
-   ---
+---
 
 ### tryParse()
 
@@ -1395,7 +1444,7 @@ Emits a List\<T\>.
    * tryParse('int', '1', 'outputVariable') : true
    * tryParse('int', 'string', 'outputVariable') : false
 
-   ---
+---
 
 ### typeOf()
 
@@ -1411,7 +1460,7 @@ Emits a List\<T\>.
    * typeOf(1.1) : 'Double'
    * typeOf(null) : null
 
-   ---
+---
 
 ### where()
 

@@ -5,7 +5,7 @@ public class FirstTests
 	[Fact]
 	public void First_Succeeds()
 	{
-		var expression = new ExtendedExpression("first(list(1, 5, 2, 3), 'n', 'n % 2 == 0')");
+		var expression = new ExtendedExpression("first(list(1, 5, 2, 3, 4, 1), 'n', 'n % 2 == 0')");
 		var result = expression.Evaluate() as int?;
 
 		result.Should().Be(2);

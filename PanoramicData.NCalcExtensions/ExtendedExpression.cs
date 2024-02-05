@@ -171,8 +171,14 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.JPath:
 				JPath.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Last:
+				Last.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.LastIndexOf:
 				LastIndexOf.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.LastOrDefault:
+				LastOrDefault.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Length:
 				Length.Evaluate(functionArgs);
@@ -224,6 +230,9 @@ public class ExtendedExpression : Expression
 				return;
 			case ExtensionFunction.Retrieve:
 				Retrieve.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Reverse:
+				Reverse.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Select:
 				Select.Evaluate(functionArgs);
