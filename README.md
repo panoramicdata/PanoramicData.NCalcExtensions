@@ -25,6 +25,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [contains()](#contains) | Determines whether one string contains another. |
 | [convert()](#convert) | Converts the output of parameter 1 into the result of parameter 2. |
 | [count()](#count) | Counts the number of items.  Optionally, only count those that match a lambda. |
+| [countBy()](#count) | Counts the number of items by a calculated term. |
 | [dateAdd()](#dateAdd) | Add a specified interval to a DateTime. |
 | [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
 | [dateTimeAsEpoch()](#datetimeasepoch) | Parses the input DateTime and outputs as seconds since the Epoch (1970-01-01T00:00Z). |
@@ -297,6 +298,23 @@ Counts the number of items.  Optionally, only count those that match a lambda.
   * count('a piece of string') : 17
   * count(list(1, 2, 3, 4, 5)) : 5
   * count(list(1, 2, 3, 4, 5), 'n', 'n > 3') : 2
+
+
+---
+
+### countBy()
+
+#### Purpose
+Counts the number of items, grouped by a calculation.
+
+#### Parameters
+  * list - the original list
+  * predicate - a string to represent the value to be evaluated
+  * nCalcString - the string to evaluate.  Must emit a string containing one or more characters: A-Z, a-z, 0-9 or _.
+
+#### Examples
+  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toLower(toString(n > 1))') : { 'false': 1, 'true': 6 }
+  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)') : { '1': 1, '2': 2, '3', 3, '4', '1 }
 
 ---
 

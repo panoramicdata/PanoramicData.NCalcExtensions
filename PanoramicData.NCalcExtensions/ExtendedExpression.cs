@@ -89,6 +89,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.Count:
 				Count.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.CountBy:
+				CountBy.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.DateAdd:
 				DateAddMethods.Evaluate(functionArgs);
 				return;

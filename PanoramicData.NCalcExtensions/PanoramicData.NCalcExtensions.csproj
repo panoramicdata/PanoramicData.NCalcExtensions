@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>Added last(), lastOrDefault() and reverse().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added countBy().</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
