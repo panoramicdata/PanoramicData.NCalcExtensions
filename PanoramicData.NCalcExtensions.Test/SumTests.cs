@@ -17,6 +17,16 @@ public class SumTests
 		result.Should().Be(_intList.Sum(n => n * n));
 	}
 
+
+	[Fact]
+	public void Sum_OfIntegetrs_WithLambda_ReturnsExpectedResult()
+	{
+		var expression = new ExtendedExpression($"sum(list(100, 100, 100), 'n', 'n')");
+		expression.Parameters.Add("x", _intList);
+		var result = expression.Evaluate();
+		result.Should().Be(300);
+	}
+
 	[Fact]
 	public void Sum_OfEnumerableOfInt_ReturnsExpectedResult()
 	{

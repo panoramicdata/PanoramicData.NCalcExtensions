@@ -20,7 +20,7 @@ internal static class Sum
 				IEnumerable<double> list => list.Sum(),
 				IEnumerable<decimal> list => list.Sum(),
 				IEnumerable<object?> list => GetSum(list),
-				_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type if only on parameter is present.")
+				_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type if only one parameter is present. Received a {originalList.GetType().Name}.")
 			};
 			return;
 		}
@@ -42,7 +42,8 @@ internal static class Sum
 			IEnumerable<float> floatList => floatList.Sum(value => (float?)lambda.Evaluate(value)),
 			IEnumerable<double> doubleList => doubleList.Sum(value => (double?)lambda.Evaluate(value)),
 			IEnumerable<decimal> decimalList => decimalList.Sum(value => (decimal?)lambda.Evaluate(value)),
-			_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.")
+			IEnumerable<object?> list => GetSum(list),
+			_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.   Received a {originalList.GetType().Name}<{string.Join(", ", originalList.GetType().GetGenericArguments().Select(t => t.Name))}>.")
 		};
 	}
 
