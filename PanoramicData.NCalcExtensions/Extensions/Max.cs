@@ -89,7 +89,7 @@ internal static class Max
 				null => 0,
 				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing sum.")
 			};
-			if (thisOne < max)
+			if (thisOne > max)
 			{
 				max = thisOne;
 			}
