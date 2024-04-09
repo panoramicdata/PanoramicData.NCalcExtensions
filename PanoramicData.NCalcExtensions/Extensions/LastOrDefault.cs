@@ -9,6 +9,13 @@ internal static class LastOrDefault
 		var enumerable = functionArgs.Parameters[0].Evaluate() as IList
 			?? throw new FormatException($"First {ExtensionFunction.LastOrDefault} parameter must be an IEnumerable.");
 
+		// If there is only 1 parameter, return the last element of the enumerable
+		if (functionArgs.Parameters.Length == 1)
+		{
+			functionArgs.Result = enumerable.Count == 0 ? null : enumerable[enumerable.Count - 1];
+			return;
+		}
+
 		var predicate = functionArgs.Parameters[1].Evaluate() as string
 			?? throw new FormatException($"Second {ExtensionFunction.LastOrDefault} parameter must be a string.");
 

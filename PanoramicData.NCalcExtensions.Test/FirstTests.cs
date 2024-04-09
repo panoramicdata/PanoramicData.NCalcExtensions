@@ -12,6 +12,15 @@ public class FirstTests
 	}
 
 	[Fact]
+	public void First_SplittingString_Succeeds()
+	{
+		var expression = new ExtendedExpression("first(split('a b c', ' '))");
+		var result = expression.Evaluate() as string;
+
+		result.Should().Be("a");
+	}
+
+	[Fact]
 	public void FirstFromStored_Succeeds()
 	{
 		var expression = new ExtendedExpression("store('x', list(1, 5, 2, 3)) && first(retrieve('x'), 'n', 'n % 2 == 0') == 2");

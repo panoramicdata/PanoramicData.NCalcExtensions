@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>Fixed an issue with sum(List&lt;object&gt;) when using a lambda.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added first(), last(), firstOrDefault() and lastOrDefault() support when not using a lambda.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 

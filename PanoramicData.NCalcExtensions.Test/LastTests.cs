@@ -14,6 +14,15 @@ public class LastTests
 	}
 
 	[Fact]
+	public void Last_SplittingString_Succeeds()
+	{
+		var expression = new ExtendedExpression("last(split('a b c', ' '))");
+		var result = expression.Evaluate() as string;
+
+		result.Should().Be("c");
+	}
+
+	[Fact]
 	public void LastFromStored_Succeeds()
 	{
 		var expression = new ExtendedExpression("store('x', list(1, 5, 2, 3, 4, 1)) && last(retrieve('x'), 'n', 'n % 2 == 0') == 4");
