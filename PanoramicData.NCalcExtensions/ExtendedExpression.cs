@@ -237,6 +237,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.Reverse:
 				Reverse.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Sanitize:
+				Sanitize.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Select:
 				Select.Evaluate(functionArgs);
 				return;

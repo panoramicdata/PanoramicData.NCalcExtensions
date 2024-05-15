@@ -63,6 +63,7 @@ public static class ExtensionFunction
 	public const string Replace = "replace";
 	public const string Retrieve = "retrieve";
 	public const string Reverse = "reverse";
+	public const string Sanitize = "sanitize";
 	public const string Select = "select";
 	public const string SelectDistinct = "selectDistinct";
 	public const string SetProperties = "setProperties";
