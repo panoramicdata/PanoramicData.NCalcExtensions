@@ -104,10 +104,7 @@ using PanoramicData.NCalcExtensions;
 
 ...
 var calculation = "lastIndexOf('abcdefg', 'def')";
-var nCalcExpression = new Expression(calculation);
-
-// Add the extension functions
-nCalcExpression.EvaluateFunction += NCalcExtensions.NCalcExtensions.Extend;
+var nCalcExpression = new ExtendedExpression(calculation);
 
 if (nCalcExpression.HasErrors())
 {
