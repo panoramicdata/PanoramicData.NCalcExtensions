@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Copyright>Panoramic Data Limited 2019-2023</Copyright>
+		<Copyright>Panoramic Data Limited 2019-2024</Copyright>
 		<Authors>Panoramic Data Limited</Authors>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>Added first(), last(), firstOrDefault() and lastOrDefault() support when not using a lambda.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added sanitize() method.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 

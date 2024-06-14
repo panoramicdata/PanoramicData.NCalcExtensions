@@ -74,6 +74,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [replace()](#replace) | Replace a string with another string. |
 | [retrieve()](#retrieve) | Retrieves a value from storage. |
 | [reverse()](#reverse) | Reverses an IEnumerable and emits a List<object?>. |
+| [sanitize()](#sanitize) | Sanitizes a string, replacing any characters outside of the allowed set. |
 | [select()](#select) | Converts an IEnumerable using a lambda. |
 | [selectDistinct()](#selectdistinct) | Converts an IEnumerable using a lambda and removes duplicates. |
 | [setProperties()](#setproperties) | Sets properties on an existing object. |
@@ -1117,6 +1118,26 @@ Emits a List\<T\>.
 
 #### Examples
    * reverse(list(1, 2, 3, 4, 5, 5) : 5, 5, 4, 3, 2, 1
+
+---
+
+### sanitize()
+
+#### Purpose
+   Sanitize a string, replacing any characters outside of the allowed set.
+
+#### Parameters
+   * input - the string to be sanitized
+   * allowedCharacters - all of the characters that are allowed
+   * replacementCharacters (optional) - the characters to insert in place of any that are not allowed (defaults : empty string)
+
+#### Examples
+   * sanitize('ab cd', 'abcdefghi') : 'abcd'
+   * sanitize('ab cd./', 'abcdefghi.') : 'abcd.'
+   * sanitize('ab cd./', 'CBa') : 'a'
+   * sanitize('ab cd', 'abCD', '?') : 'ab???'
+   * sanitize('ab cd', 'ab', '?') : 'ab???'
+   * sanitize('ab cd', 'ab', '-') : 'ab---'
 
 ---
 
