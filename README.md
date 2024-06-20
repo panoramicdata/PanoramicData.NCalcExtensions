@@ -137,11 +137,12 @@ Returns true if all values match the lambda expression, otherwise false.
 
 #### Parameters
   * list - the original list
-  * predicate - a string to represent the value to be evaluated
-  * nCalcString - the string to evaluate
+  * predicate - (optional) a string to represent the value to be evaluated
+  * nCalcString - (optional, but must be provided if predicate is) the string to evaluate
 
 #### Examples
   * all() : true
+  * all(list(false, false, false)) : false
   * all(list(true, false, true)) : false
   * all(list(true, true, true)) : true
   * all(list(1, 2, 3, 4, 5), 'n', 'n < 3') : false
@@ -157,10 +158,12 @@ Returns true if any values match the lambda expression, otherwise false.
 
 #### Parameters
   * list - the original list
-  * predicate - a string to represent the value to be evaluated
-  * nCalcString - the string to evaluate
+  * predicate - (optional) a string to represent the value to be evaluated
+  * nCalcString - (optional, but must be provided if predicate is) the string to evaluate
 
 #### Examples
+  * any(list()) : false
+  * any(list(1, 2, 3)) : true
   * any(list(1, 2, 3, 4, 5), 'n', 'n < 3') : true
   * any(list(1, 2, 3, 4, 5), 'n', 'n > 11') : false
 
