@@ -141,6 +141,9 @@ Returns true if all values match the lambda expression, otherwise false.
   * nCalcString - the string to evaluate
 
 #### Examples
+  * all() : true
+  * all(list(true, false, true)) : false
+  * all(list(true, true, true)) : true
   * all(list(1, 2, 3, 4, 5), 'n', 'n < 3') : false
   * all(list(1, 2, 3, 4, 5), 'n', 'n > 0 && n < 10') : true
 

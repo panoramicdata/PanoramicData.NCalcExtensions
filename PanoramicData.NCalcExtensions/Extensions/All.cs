@@ -9,6 +9,12 @@ internal static class All
 		var list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
 			?? throw new FormatException($"First {ExtensionFunction.All} parameter must be an IEnumerable.");
 
+		if (functionArgs.Parameters.Length == 1)
+		{
+			functionArgs.Result = list.All(value => value as bool? == true);
+			return;
+		}
+
 		var predicate = functionArgs.Parameters[1].Evaluate() as string
 			?? throw new FormatException($"Second {ExtensionFunction.All} parameter must be a string.");
 

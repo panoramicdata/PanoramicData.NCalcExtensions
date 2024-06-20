@@ -11,4 +11,16 @@ public class AllTests : NCalcTest
 		.Evaluate()
 		.Should()
 		.Be(allLessThanFive);
+
+	[Theory]
+	[InlineData("true, true, true", true)]
+	[InlineData("true, true, false", false)]
+	[InlineData("true", true)]
+	[InlineData("false", false)]
+	[InlineData("", true)]
+	public void All_Bools_Succeeds(string stringList, bool expectedResult)
+		=> new ExtendedExpression($"all(list({stringList}))")
+		.Evaluate()
+		.Should()
+		.Be(expectedResult);
 }
