@@ -14,7 +14,7 @@ public class MaxTests
 	[InlineData("1.1, null, 2", 2)]
 	[InlineData("null, null, null", null)]
 
-	public void Max_OfNumbers_ReturnsExpectedValue(string values, object expectedOutput)
+	public void Max_OfNumbers_ReturnsExpectedValue(string values, object? expectedOutput)
 	{
 		var expression = new ExtendedExpression($"max(listOf('double?', {values}), 'x', 'x')");
 		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);

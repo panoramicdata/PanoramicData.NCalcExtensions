@@ -20,34 +20,34 @@ internal static class Parse
 		{
 			functionArgs.Result = typeString switch
 			{
-				"bool" => bool.TryParse(text, out var result) ? result
+				"bool" or "System.Boolean" => bool.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"sbyte" => sbyte.TryParse(text, out var result) ? result
+				"sbyte" or "System.SByte" => sbyte.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"byte" => byte.TryParse(text, out var result) ? result
+				"byte" or "System.Byte" => byte.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"short" => short.TryParse(text, out var result) ? result
+				"short" or "System.Int16" => short.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"ushort" => ushort.TryParse(text, out var result) ? result
+				"ushort" or "System.UInt16" => ushort.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"int" => int.TryParse(text, out var result) ? result
+				"int" or "System.Int32" => int.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"uint" => uint.TryParse(text, out var result) ? result
+				"uint" or "System.UInt32" => uint.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"long" => long.TryParse(text, out var result) ? result
+				"long" or "System.Int64" => long.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"ulong" => ulong.TryParse(text, out var result) ? result
+				"ulong" or "System.UInt64" => ulong.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"double" => double.TryParse(text, out var result) ? result
+				"double" or "System.Double" => double.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"float" => float.TryParse(text, out var result) ? result
+				"float" or "System.Single" => float.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"decimal" => decimal.TryParse(text, out var result) ? result
+				"decimal" or "System.Decimal" => decimal.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"Guid" => Guid.TryParse(text, out var result) ? result
+				"Guid" or "System.Guid" => Guid.TryParse(text, out var result) ? result
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"JObject" or "jObject" => ParseJObject(text),
-				"JArray" or "jArray" => ParseJArray(text),
+				"JObject" or "jObject" or "Newtonsoft.Json.Linq.JObject" => ParseJObject(text),
+				"JArray" or "jArray" or "Newtonsoft.Json.Linq.JArray" => ParseJArray(text),
 				_ => throw new FormatException($"type '{typeString}' not supported.")
 			};
 		}

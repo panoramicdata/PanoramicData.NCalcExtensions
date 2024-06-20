@@ -1009,20 +1009,20 @@ Emits a List\<T\>.
 
 #### Purpose
    Returns the conversion of a string to a numeric type.  Supported types are:
-   * bool
-   * sbyte
-   * byte
-   * short
-   * ushort
-   * int
-   * uint
-   * long
-   * ulong
-   * double
-   * float
-   * decimal
-   * JArray (jArray also supported for backaward compatibility)
-   * JObject (jObject also supported for backaward compatibility)
+   * bool or System.Boolean
+   * sbyte or System.SByte
+   * byte or System.Byte
+   * short or System.Int16
+   * ushort or System.UInt16
+   * int or System.Int32
+   * uint or System.UInt32
+   * long or System.Int64
+   * ulong or System.UInt64
+   * double or System.Double
+   * float or System.Single
+   * decimal or System.Decimal
+   * JArray or Newtonsoft.Json.Linq.JArray (jArray also supported for backaward compatibility)
+   * JObject or Newtonsoft.Json.Linq.JObject (jObject also supported for backaward compatibility)
    * Guid
 
 #### Parameters
@@ -1032,6 +1032,7 @@ Emits a List\<T\>.
 
 #### Examples
    * parse('int', '1') : 1
+   * parse('System.Int32', '1') : 1
    * parse('bool', 'x', null) : null
    * parse('jObject', '{ "a" : 1 }', null) : null
    * parse('jArray', '[ { "a" : 1 } ]', null) : null

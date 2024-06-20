@@ -43,9 +43,15 @@ public class ParseTests
 	[InlineData("false")]
 	[InlineData("False")]
 	public void Parse_Bool_Succeeds(string text)
-		=> new ExtendedExpression($"parse('bool', '{text}')")
+	{
+		new ExtendedExpression($"parse('bool', '{text}')")
+				.Evaluate()
+				.Should().Be(bool.Parse(text));
+
+		new ExtendedExpression($"parse('System.Boolean', '{text}')")
 			.Evaluate()
 			.Should().Be(bool.Parse(text));
+	}
 
 	[Theory]
 	[InlineData("ttrue")]
@@ -67,8 +73,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Int_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('int', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('int', '{text}')").Evaluate();
+		result.Should().Be(int.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.Int32', '{text}')").Evaluate();
 		result.Should().Be(int.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -81,8 +89,9 @@ public class ParseTests
 	[InlineData("{fa2e60e8-dd1e-AAAA-b53c-e69c63f14866}")] // Mixed case with curlies
 	public void Parse_Guid_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('Guid', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('Guid', '{text}')").Evaluate();
+		result.Should().Be(Guid.Parse(text));
+		result = new ExtendedExpression($"parse('System.Guid', '{text}')").Evaluate();
 		result.Should().Be(Guid.Parse(text));
 	}
 
@@ -93,8 +102,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Long_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('long', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('long', '{text}')").Evaluate();
+		result.Should().Be(long.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.Int64', '{text}')").Evaluate();
 		result.Should().Be(long.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -103,8 +114,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_ULong_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('ulong', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('ulong', '{text}')").Evaluate();
+		result.Should().Be(ulong.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.UInt64', '{text}')").Evaluate();
 		result.Should().Be(ulong.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -113,8 +126,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_UInt_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('uint', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('uint', '{text}')").Evaluate();
+		result.Should().Be(uint.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.UInt32', '{text}')").Evaluate();
 		result.Should().Be(uint.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -125,8 +140,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Double_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('double', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('double', '{text}')").Evaluate();
+		result.Should().Be(double.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.Double', '{text}')").Evaluate();
 		result.Should().Be(double.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -137,8 +154,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Float_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('float', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('float', '{text}')").Evaluate();
+		result.Should().Be(float.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.Single', '{text}')").Evaluate();
 		result.Should().Be(float.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -149,8 +168,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Decimal_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('decimal', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('decimal', '{text}')").Evaluate();
+		result.Should().Be(decimal.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.Decimal', '{text}')").Evaluate();
 		result.Should().Be(decimal.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -161,8 +182,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_SByte_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('sbyte', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('sbyte', '{text}')").Evaluate();
+		result.Should().Be(sbyte.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.SByte', '{text}')").Evaluate();
 		result.Should().Be(sbyte.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -171,8 +194,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Byte_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('byte', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('byte', '{text}')").Evaluate();
+		result.Should().Be(byte.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.Byte', '{text}')").Evaluate();
 		result.Should().Be(byte.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -183,8 +208,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Short_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('short', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('short', '{text}')").Evaluate();
+		result.Should().Be(short.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.Int16', '{text}')").Evaluate();
 		result.Should().Be(short.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -193,8 +220,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Ushort_Succeeds(string text)
 	{
-		var expression = new ExtendedExpression($"parse('ushort', '{text}')");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression($"parse('ushort', '{text}')").Evaluate();
+		result.Should().Be(ushort.Parse(text, CultureInfo.InvariantCulture));
+
+		result = new ExtendedExpression($"parse('System.UInt16', '{text}')").Evaluate();
 		result.Should().Be(ushort.Parse(text, CultureInfo.InvariantCulture));
 	}
 
