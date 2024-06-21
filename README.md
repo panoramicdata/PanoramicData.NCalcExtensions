@@ -1034,8 +1034,8 @@ Emits a List\<T\>.
    * parse('int', '1') : 1
    * parse('System.Int32', '1') : 1
    * parse('bool', 'x', null) : null
-   * parse('jObject', '{ "a" : 1 }', null) : null
-   * parse('jArray', '[ { "a" : 1 } ]', null) : null
+   * parse('jObject', '{ "a" : 1 }', null) : JObject { "a": 1 }
+   * parse('jArray', '[ { "a" : 1 } ]', null) : JArray [{ "a": 1 }]
 
 ---
 
