@@ -21,6 +21,32 @@ public class MinTests
 	}
 
 	[Theory]
+	[InlineData("1, 2, 3", 1)]
+	[InlineData("3, 2, 1", 1)]
+	[InlineData("1, 3, 2", 1)]
+	[InlineData("1, 1, 1", 1)]
+	[InlineData("1, 1, 2", 1)]
+
+	public void Min_OfListNumbers_WithLambda_ReturnsExpectedValue(string values, int expectedOutput)
+	{
+		var expression = new ExtendedExpression($"min(list({values}), 'x', 'x')");
+		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);
+	}
+
+	[Theory]
+	[InlineData("1, 2, 3", 1)]
+	[InlineData("3, 2, 1", 1)]
+	[InlineData("1, 3, 2", 1)]
+	[InlineData("1, 1, 1", 1)]
+	[InlineData("1, 1, 2", 1)]
+
+	public void Min_OfListNumbers_WithIEnumerable_ReturnsExpectedValue(string values, int expectedOutput)
+	{
+		var expression = new ExtendedExpression($"min(list({values}))");
+		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);
+	}
+
+	[Theory]
 	[InlineData("'1', '2', '3'", "1")]
 	[InlineData("'3', '2', '1'", "1")]
 	[InlineData("'1', '3', null", "1")]

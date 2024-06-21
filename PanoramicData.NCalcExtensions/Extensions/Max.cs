@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
 
@@ -6,16 +7,24 @@ internal static class Max
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		var originalList = functionArgs.Parameters[0].Evaluate();
+		var originalListUntyped = functionArgs.Parameters[0].Evaluate();
+
+		if (originalListUntyped is null)
+		{
+			functionArgs.Result = null;
+			return;
+		}
+
+		var originalList = originalListUntyped as IEnumerable ?? throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable.");
 
 		if (functionArgs.Parameters.Length == 1)
 		{
 			functionArgs.Result = originalList switch
 			{
 				null => null,
-				IEnumerable<byte> list => list.Cast<int>().Max(),
+				IEnumerable<byte> list => list.Max(),
 				IEnumerable<byte?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<short> list => list.Cast<int>().Max(),
+				IEnumerable<short> list => list.Max(),
 				IEnumerable<short?> list => list.DefaultIfEmpty(null).Max(),
 				IEnumerable<int> list => list.Max(),
 				IEnumerable<int?> list => list.DefaultIfEmpty(null).Max(),
@@ -30,7 +39,7 @@ internal static class Max
 				IEnumerable<string?> list => list.DefaultIfEmpty(null).Max(),
 				IEnumerable<object?> list when list.All(x => x is string or null) => list.DefaultIfEmpty(null).Max(x => x as string),
 				IEnumerable<object?> list => GetMax(list),
-				_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a numeric or string type if only on parameter is present.")
+				_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a numeric or string type if only one parameter is present.")
 			};
 
 			return;
@@ -46,10 +55,10 @@ internal static class Max
 
 		functionArgs.Result = originalList switch
 		{
-			IEnumerable<byte> list => list.Cast<int>().Max(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<byte?> list => list.Cast<int>().Max(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short> list => list.Cast<int>().Max(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short?> list => list.Cast<int>().Max(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<byte> list => list.Max(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<byte?> list => list.Max(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<short> list => list.Max(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<short?> list => list.Max(value => (int?)lambda.Evaluate(value)),
 			IEnumerable<int> list => list.Max(value => (int?)lambda.Evaluate(value)),
 			IEnumerable<int?> list => list.Max(value => (int?)lambda.Evaluate(value)),
 			IEnumerable<long> list => list.Max(value => (long?)lambda.Evaluate(value)),
@@ -61,14 +70,15 @@ internal static class Max
 			IEnumerable<decimal> list => list.Max(value => (decimal?)lambda.Evaluate(value)),
 			IEnumerable<decimal?> list => list.Max(value => (decimal?)lambda.Evaluate(value)),
 			IEnumerable<string?> list => list.Max(value => (string?)lambda.Evaluate(value)),
-			_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a numeric type.")
+			IEnumerable<object?> list => GetMax(list.Select(value => lambda.Evaluate(value))),
+			_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a string or numeric type when processing as a lambda.")
 		};
 
 	}
 
 	private static double GetMax(IEnumerable<object?> objectList)
 	{
-		double max = 0;
+		var max = double.NegativeInfinity;
 		foreach (var item in objectList)
 		{
 			var thisOne = item switch
@@ -84,12 +94,12 @@ internal static class Max
 				{
 					JTokenType.Float => jValue.Value<float>(),
 					JTokenType.Integer => jValue.Value<int>(),
-					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing sum.")
+					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing max.")
 				},
 				null => 0,
-				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing sum.")
+				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing max.")
 			};
-			if (thisOne < max)
+			if (thisOne > max)
 			{
 				max = thisOne;
 			}

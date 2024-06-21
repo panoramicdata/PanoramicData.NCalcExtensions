@@ -14,9 +14,35 @@ public class MaxTests
 	[InlineData("1.1, null, 2", 2)]
 	[InlineData("null, null, null", null)]
 
-	public void Max_OfNumbers_ReturnsExpectedValue(string values, object? expectedOutput)
+	public void Max_OfListOfNullableDoubles_ReturnsExpectedValue(string values, object? expectedOutput)
 	{
 		var expression = new ExtendedExpression($"max(listOf('double?', {values}), 'x', 'x')");
+		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);
+	}
+
+	[Theory]
+	[InlineData("1, 2, 3", 3)]
+	[InlineData("3, 2, 1", 3)]
+	[InlineData("1, 3, 2", 3)]
+	[InlineData("1, 1, 1", 1)]
+	[InlineData("1, 1, 2", 2)]
+
+	public void Max_OfListNumbers_WithLambda_ReturnsExpectedValue(string values, int expectedOutput)
+	{
+		var expression = new ExtendedExpression($"max(list({values}), 'x', 'x')");
+		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);
+	}
+
+	[Theory]
+	[InlineData("1, 2, 3", 3)]
+	[InlineData("3, 2, 1", 3)]
+	[InlineData("1, 3, 2", 3)]
+	[InlineData("1, 1, 1", 1)]
+	[InlineData("1, 1, 2", 2)]
+
+	public void Max_OfListNumbers_WithIEnumerable_ReturnsExpectedValue(string values, int expectedOutput)
+	{
+		var expression = new ExtendedExpression($"max(list({values}))");
 		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);
 	}
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
 
@@ -6,16 +7,24 @@ internal static class Min
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		var originalList = functionArgs.Parameters[0].Evaluate();
+		var originalListUntyped = functionArgs.Parameters[0].Evaluate();
+
+		if (originalListUntyped is null)
+		{
+			functionArgs.Result = null;
+			return;
+		}
+
+		var originalList = originalListUntyped as IEnumerable ?? throw new FormatException($"First {ExtensionFunction.Min} parameter must be an IEnumerable.");
 
 		if (functionArgs.Parameters.Length == 1)
 		{
 			functionArgs.Result = originalList switch
 			{
 				null => null,
-				IEnumerable<byte> list => list.Cast<int>().Min(),
+				IEnumerable<byte> list => list.Min(),
 				IEnumerable<byte?> list => list.DefaultIfEmpty(null).Min(),
-				IEnumerable<short> list => list.Cast<int>().Min(),
+				IEnumerable<short> list => list.Min(),
 				IEnumerable<short?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<int> list => list.Min(),
 				IEnumerable<int?> list => list.DefaultIfEmpty(null).Min(),
@@ -32,6 +41,7 @@ internal static class Min
 				IEnumerable<object?> list => GetMin(list),
 				_ => throw new FormatException($"First {ExtensionFunction.Min} parameter must be an IEnumerable of a numeric or string type if only one parameter is present.")
 			};
+
 			return;
 		}
 
@@ -45,10 +55,10 @@ internal static class Min
 
 		functionArgs.Result = originalList switch
 		{
-			IEnumerable<byte> list => list.Cast<int>().Min(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<byte?> list => list.Cast<int>().Min(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short> list => list.Cast<int>().Min(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short?> list => list.Cast<int>().Min(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<byte> list => list.Min(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<byte?> list => list.Min(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<short> list => list.Min(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<short?> list => list.Min(value => (int?)lambda.Evaluate(value)),
 			IEnumerable<int> list => list.Min(value => (int?)lambda.Evaluate(value)),
 			IEnumerable<int?> list => list.Min(value => (int?)lambda.Evaluate(value)),
 			IEnumerable<long> list => list.Min(value => (long?)lambda.Evaluate(value)),
@@ -60,14 +70,15 @@ internal static class Min
 			IEnumerable<decimal> list => list.Min(value => (decimal?)lambda.Evaluate(value)),
 			IEnumerable<decimal?> list => list.Min(value => (decimal?)lambda.Evaluate(value)),
 			IEnumerable<string?> list => list.Min(value => (string?)lambda.Evaluate(value)),
-			_ => throw new FormatException($"First {ExtensionFunction.Min} parameter must be an IEnumerable of a numeric type.")
+			IEnumerable<object?> list => GetMin(list.Select(value => lambda.Evaluate(value))),
+			_ => throw new FormatException($"First {ExtensionFunction.Min} parameter must be an IEnumerable of a string or numeric type when processing as a lambda.")
 		};
 
 	}
 
 	private static double GetMin(IEnumerable<object?> objectList)
 	{
-		double min = 0;
+		var min = double.PositiveInfinity;
 		foreach (var item in objectList)
 		{
 			var thisOne = item switch
@@ -83,10 +94,10 @@ internal static class Min
 				{
 					JTokenType.Float => jValue.Value<float>(),
 					JTokenType.Integer => jValue.Value<int>(),
-					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing sum.")
+					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing Min.")
 				},
 				null => 0,
-				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing sum.")
+				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing Min.")
 			};
 			if (thisOne < min)
 			{
