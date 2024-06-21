@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>Now uses CoreCLR-NCalc version 3.1.  Version updated accordingly.</PackageReleaseNotes>
+		<PackageReleaseNotes>Fixes to min() and max().  Added jArray().</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 

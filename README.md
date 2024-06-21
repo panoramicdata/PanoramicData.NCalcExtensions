@@ -734,6 +734,21 @@ Determines the item at the given index.  The first index is 0.
 
 ---
 
+### jArray()
+
+#### Purpose
+Creates a Newtonsoft JArray from input values.
+
+#### Parameters
+* items[]
+
+#### Examples
+* jArray(jObject('a', 1, 'b', null), jObject('a', 2, 'b', #2024-06-21#)) : JArray [ { "a": 1, "b": null}, { "a": 2, "b": "2024-06-21T00:00:00"} ]
+* jArray(1, null, 'woo') : JArray [ 1, null, "woo" ]
+
+
+---
+
 ### jObject()
 
 #### Purpose
