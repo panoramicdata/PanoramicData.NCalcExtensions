@@ -1,4 +1,23 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("changeTimeZone")]
+	[Description("Change a DateTime's time zone.")]
+	DateTime ChangeTimeZone(
+		[Description("The DateTime to change.")]
+		DateTime dateTime,
+		[Description("The source timezones name, example: 'UTC'")]
+		string sourceTz,
+		[Description("The target timezones name, example: 'Eastern Standard Time'")]
+		string targetTz
+	);
+}
 
 internal static class ChangeTimeZone
 {

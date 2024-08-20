@@ -1,6 +1,20 @@
 ﻿using PanoramicData.NCalcExtensions.Helpers;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("capitalize")]
+	[Description("Capitalizes a text string.")]
+	string Capitalize(
+		[Description("The text to capitalize.")]
+		string text
+	);
+}
 
 internal static class Capitalize
 {

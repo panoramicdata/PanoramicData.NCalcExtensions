@@ -1,4 +1,23 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("dateAdd")]
+	[Description("Add a specified period to a DateTime. The following units are supported: Years/Months/Days/Hours/Minutes/Seconds/Milliseconds")]
+	DateTime DateAddMethods(
+		[Description("A DateTime to which to add the period specified.")]
+		DateTime dateTime,
+		[Description("The integer number of the units to be added.")]
+		int quantity,
+		[Description("A string representing the units used to specify the period to be added, example: 'hours'")]
+		string units
+	);
+}
 
 /// <summary>
 /// Methods for dates and time maths

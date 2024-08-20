@@ -1,6 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("dictionary")]
+	[Description("Emits a Dictionary<string, object?>.\r\n\r\nExample: dictionary('TRUE', true, 'FALSE', false)")]
+	Dictionary<string, object?> Dictionary(
+		[Description("Interlaced keys and values. You must provide an even number of parameters, and keys must evaluate to strings.")]
+		params object[] parameters
+	);
+}
 
 internal static class Dictionary
 {
