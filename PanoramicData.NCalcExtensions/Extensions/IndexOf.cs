@@ -1,4 +1,21 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("indexOf")]
+	[Description("Determines the first position of a string within another string.")]
+	int IndexOf(
+		[Description("The main text to be searched.")]
+		string longString,
+		[Description("The shorter text to be looked for within the given main text.")]
+		string shortString
+	);
+}
 
 internal static class IndexOf
 {

@@ -1,4 +1,19 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("isSet")]
+	[Description("Determines whether a parameter is set.")]
+	bool IsSet(
+		[Description("The parameter to test for.")]
+		string parameterName
+	);
+}
 
 internal static class IsSet
 {

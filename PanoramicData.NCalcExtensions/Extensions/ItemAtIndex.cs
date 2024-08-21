@@ -1,6 +1,23 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("itemAtIndex")]
+	[Description("Determines the item at the given index. The first index is 0.")]
+	object ItemAtIndex(
+		[Description("The list of items to be searched.")]
+		IList input,
+		[Description("Index of item to be returned.")]
+		int index
+	);
+}
+
 
 internal static class ItemAtIndex
 {

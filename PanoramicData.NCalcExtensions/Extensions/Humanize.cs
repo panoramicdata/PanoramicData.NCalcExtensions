@@ -1,6 +1,22 @@
 ﻿using PanoramicData.NCalcExtensions.Helpers;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("humanize")]
+	[Description("Humanizes the value text.")]
+	string Humanize(
+		[Description("The value to be humanized - must be a floating-point number.")]
+		object value,
+		[Description("Time unit that the value represents, example: 'seconds'")]
+		string timeUnit
+	);
+}
 
 internal static class Humanize
 {

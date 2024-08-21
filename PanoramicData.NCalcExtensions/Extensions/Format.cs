@@ -1,4 +1,29 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("format")]
+	[Description("Formats strings and numbers as output strings with the specified format.")]
+	string Format(
+		[Description("The value to be formated (number or text).")]
+		object value,
+		[Description("The format to use:\r\n\r\n"
+			+ "- See C# number and date/time formatting\r\n"
+			+ "- 'weekOfMonth' is the numeric week of month as would be shown on a calendar with one row per week with weeks starting on a Sunday\r\n"
+			+ "- 'weekOfMonthText' is the same as weekOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'\r\n"
+			+ "- 'weekDayOfMonth' is the number of times this weekday has occurred within the month so far, including this one\r\n"
+			+ "- 'weekDayOfMonthText' is the same as weekDayOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'"
+		)]
+		string formatString,
+		[Description("(Optional) Timezone to use when formatting DateTimes.")]
+		string? timezone
+	);
+}
 
 internal static class Format
 {
