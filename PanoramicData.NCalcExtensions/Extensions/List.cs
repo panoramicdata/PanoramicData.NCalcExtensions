@@ -1,4 +1,20 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("list")]
+	[Description("Emits a List<object?> and collapses down lists of lists to a single list.")]
+	List<object> List(
+		[Description("The list parameters.")]
+		IEnumerable<object?> parameters
+	);
+}
 
 internal static class List
 {

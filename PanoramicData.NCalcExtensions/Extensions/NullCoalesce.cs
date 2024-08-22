@@ -1,4 +1,19 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("nullCoalesce")]
+	[Description("Returns the first parameter that is not null, otherwise: null.")]
+	object? NullCoalesce(
+		[Description("Any number of objects.")]
+		params object[] items
+	);
+}
 
 internal static class NullCoalesce
 {

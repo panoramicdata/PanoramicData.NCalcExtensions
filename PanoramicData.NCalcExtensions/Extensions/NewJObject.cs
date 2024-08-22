@@ -1,4 +1,19 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("newJObject")]
+	[Description("Creates and returns a new JObject instance with the given properties.")]
+	JArray NewJObject(
+		[Description("Interlaced keys and values. You must provide an even number of parameters, and names must evaluate to strings.")]
+		params object[] props
+	);
+}
 
 internal static class NewJObject
 {

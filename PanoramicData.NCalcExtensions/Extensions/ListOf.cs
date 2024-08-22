@@ -1,7 +1,23 @@
 ﻿using PanoramicData.NCalcExtensions.Helpers;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("listOf")]
+	[Description("Emits a List<T>.")]
+	List<object?> ListOf(
+		[Description("The name of the data type.")]
+		string typeName,
+		[Description("The list parameters.")]
+		IEnumerable<object?> parameters
+	);
+}
 
 internal static class ListOf
 {
