@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>Fixes to min() and max().  Added jArray().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added IFunctionPrototypes interface that defines all available functions.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
