@@ -1,4 +1,19 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("throw")]
+	[Description("Throws an NCalcExtensionsException. Useful in an if().")]
+	void Throw(
+		[Description("(Optional) the exception message.")]
+		string? message = null
+	);
+}
 
 internal static class Throw
 {

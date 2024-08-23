@@ -1,7 +1,25 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("tryParse")]
+	[Description("Returns a boolean result of an attempted cast.")]
+	object TryParse(
+		[Description("The name of the data type.")]
+		string type,
+		[Description("The text value to be parsed.")]
+		string text,
+		[Description("The name of the output variable where the result will be stored.")]
+		string key
+	);
+}
 
 internal static class TryParse
 {

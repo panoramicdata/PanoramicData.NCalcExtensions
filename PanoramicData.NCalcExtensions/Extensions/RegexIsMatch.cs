@@ -1,4 +1,21 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("regexIsMatch")]
+	[Description("Determine whether a string matches a regex.")]
+	bool RegexIsMatch(
+		[Description("The input string to be searched.")]
+		string input,
+		[Description("The regular expression to be matched.")]
+		string regex
+	);
+}
 
 internal static class RegexIsMatch
 {

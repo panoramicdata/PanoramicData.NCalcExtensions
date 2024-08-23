@@ -1,6 +1,40 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("parse")]
+	[Description("Returns the conversion of a string to a numeric type. Supported types are: \r\n\r\n"
+			+ "- bool or System.Boolean\r\n"
+			+ "- sbyte or System.SByte\r\n"
+			+ "- byte or System.Byte\r\n"
+			+ "- short or System.Int16\r\n"
+			+ "- ushort or System.UInt16\r\n"
+			+ "- int or System.Int32\r\n"
+			+ "- uint or System.UInt32\r\n"
+			+ "- long or System.Int64\r\n"
+			+ "- ulong or System.UInt64\r\n"
+			+ "- double or System.Double\r\n"
+			+ "- float or System.Single\r\n"
+			+ "- decimal or System.Decimal\r\n"
+			+ "- JArray or Newtonsoft.Json.Linq.JArray (jArray also supported for backward compatibility)\r\n"
+			+ "- JObject or Newtonsoft.Json.Linq.JObject (jObject also supported for backward compatibility)\r\n"
+			+ "- Guid"
+	)]
+	object? Parse(
+		[Description("The data type name to parse the value into (see function description for possible values).")]
+		string type,
+		[Description("The value to be parsed, given as a string.")]
+		string value,
+		[Description("(Optional) value to be returned if the parse operation fails.")]
+		object? valueIfParseFails = null
+	);
+}
 
 internal static class Parse
 {

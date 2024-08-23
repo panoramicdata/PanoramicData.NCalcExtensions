@@ -1,7 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("select")]
+	[Description("Converts an IEnumerable using a lambda.")]
+	List<object?> SelectFn(
+		[Description("The original list.")]
+		IList list,
+		[Description("A string to represent the value to be evaluated")]
+		string predicate,
+		[Description("The string to evaluate")]
+		string exprStr
+	);
+}
 
 internal static class Select
 {

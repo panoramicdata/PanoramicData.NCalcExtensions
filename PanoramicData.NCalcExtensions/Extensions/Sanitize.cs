@@ -1,6 +1,24 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("sanitize")]
+	[Description("Sanitize a string, replacing any characters outside of the allowed set.")]
+	string Sanitize(
+		[Description("The string to be sanitized.")]
+		string input,
+		[Description("All of the characters that are allowed.")]
+		string allowedChars,
+		[Description("(Optional) The characters to insert in place of any that are not allowed (defaults : empty string).")]
+		string replacementChars = ""
+	);
+}
 
 internal static class Sanitize
 {

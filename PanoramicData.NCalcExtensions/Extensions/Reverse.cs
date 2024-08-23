@@ -1,6 +1,21 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("reverse")]
+	[Description("Reverses an IEnumerable.")]
+	List<object?> Reverse(
+		[Description("The list of items to be reversed.")]
+		IList list
+	);
+}
 
 internal static class Reverse
 {

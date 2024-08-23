@@ -1,6 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("retrieve")]
+	[Description("Retrieves a value from storage.")]
+	object? Retrieve(
+		[Description("The key of the item to be retrieved.")]
+		string key
+	);
+}
 
 internal static class Retrieve
 {

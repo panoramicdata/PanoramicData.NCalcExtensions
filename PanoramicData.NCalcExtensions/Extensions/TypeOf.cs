@@ -1,4 +1,19 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("typeOf")]
+	[Description("Determines the C# type of the object.")]
+	string TypeOfFn(
+		[Description("The value whose dat atype is to be returned.")]
+		object value
+	);
+}
 
 internal static class TypeOf
 {

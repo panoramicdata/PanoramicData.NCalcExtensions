@@ -1,4 +1,23 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("substring")]
+	[Description("Retrieves part of a string. If more characters are requested than available at the end of the string, just the available characters are returned.")]
+	string Substring(
+		[Description("The original string.")]
+		string inputString,
+		[Description("The starting index (Zero based).")]
+		int startIndex,
+		[Description("(Optional) Number of charaters to returned.")]
+		int? length = null
+	);
+}
 
 internal static class Substring
 {

@@ -1,4 +1,23 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("regexGroup")]
+	[Description("Selects a regex group capture.")]
+	string RegexGroup(
+		[Description("The input string to be searched.")]
+		string input,
+		[Description("The regular expression to be matched.")]
+		string regex,
+		[Description("Zero-based index of the capture whose value will be returned (default: 0).")]
+		int captureIndex
+	);
+}
 
 internal static class RegexGroup
 {

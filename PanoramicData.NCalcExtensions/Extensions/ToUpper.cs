@@ -1,4 +1,19 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("toUpper")]
+	[Description("Converts a string to upper case.")]
+	string ToUpper(
+		[Description("The string value to be converted.")]
+		string value
+	);
+}
 
 internal static class ToUpper
 {

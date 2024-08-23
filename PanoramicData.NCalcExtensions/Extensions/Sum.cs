@@ -1,6 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("sum")]
+	[Description("Sums numeric items. Optionally, perform a lambda on each one first.")]
+	object? Sum(
+		[Description("The original list.")]
+		IList list,
+		[Description("(Optional) a string to represent the value to be evaluated")]
+		string? predicate = null,
+		[Description("(Optional, but must be provided if predicate is) the string to evaluate")]
+		string? exprStr = null
+	);
+}
 
 internal static class Sum
 {

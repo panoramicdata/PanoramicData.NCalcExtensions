@@ -1,4 +1,32 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("timeSpan")]
+	[Description("Determines the amount of time between two DateTimes. The following units are supported:\r\n\r\n"
+		+ "- Years"
+		+ "- Weeks"
+		+ "- Days"
+		+ "- Hours"
+		+ "- Minutes"
+		+ "- Seconds"
+		+ "- Milliseconds"
+		+ "- Any other string is handled with TimeSpan.ToString(timeUnit). See https://learn.microsoft.com/en-us/dotnet/standard/base-types/standard-timespan-format-strings"
+	)]
+	double TimeSpan(
+		[Description("The starting DateTime.")]
+		DateTime startDateTime,
+		[Description("The sending DateTime.")]
+		DateTime endDateTime,
+		[Description("The time unit to return the duration in.")]
+		string timeUnit
+	);
+}
 
 internal static class TimeSpan
 {

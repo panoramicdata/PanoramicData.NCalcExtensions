@@ -1,4 +1,26 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("toDateTime")]
+	[Description("Converts a string to a UTC DateTime. May take an optional inputTimeZone.\r\n\r\n"
+		+ "Note: When using numbers as the first input parameter, provide it as a decimal (see examples, below) to avoid"
+		+ " hitting an NCalc bug relating to longs being interpreted as floats."
+	)]
+	object ToDateTime(
+		[Description("Date and time represented as a string.")]
+		string inputString,
+		[Description("The format the date and time is represented.")]
+		string format,
+		[Description("(Optional) Time zone. See https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0")]
+		string inputTimeZone
+	);
+}
 
 internal static class ToDateTime
 {
