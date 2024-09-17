@@ -51,6 +51,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [isNullOrWhiteSpace()](#isnullorwhitespace) | Determines whether a value is null, empty or white space. |
 | [isSet()](#isset) | Determines whether a parameter is set. |
 | [itemAtIndex()](#itematindex) | Determines the item at the given index. |
+| [jArray()](#jarray) | Creates a Newtonsoft JArray from input values. |
 | [jObject()](#jobject) | Creates a JObject from key/value pairs. |
 | [join()](#join) | Joins a list of strings into a single string. |
 | [jPath()](#jpath) | Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression |
