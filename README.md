@@ -570,11 +570,11 @@ Return one of two values, depending on the input function.
 ### in()
 
 #### Purpose
-Determines whether a value is in a set of other values.
+Determines whether a value (the first parameter) is in a set of other values (the remaining parameters).
 
 #### Parameters
-* list
 * item
+* list
 
 #### Examples
 * in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
