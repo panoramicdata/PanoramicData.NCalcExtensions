@@ -65,6 +65,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [maxValue()](#maxValue) | Emits the maximum possible value for a given numeric type. |
 | [min()](#min) | Emits the minimum value, ignoring nulls. |
 | [minValue()](#minValue) | Emits the minimum possible value for a given numeric type. |
+| [now()](#now) | Returns the current date and time, with optional timezone correction. |
 | [nullCoalesce()](#nullcoalesce) | Returns the first parameter that is not null, otherwise: null. |
 | [orderBy()](#orderby) | Orders an IEnumerable by one or more lambda expressions. |
 | [padLeft()](#padleft) | Pad the left of a string with a character to a desired string length. |
@@ -391,6 +392,38 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-0
 
 #### Examples
   * dateTimeAsEpochMs('20190702T000000', 'yyyyMMddTHHmmssK') : 1562025600000
+
+---
+
+### dateTimeIsInFuture()
+
+#### Purpose
+   Returns whether a date and time is in the future, with optional timezone correction.
+
+#### Parameters
+   * The date and time under test
+	* optionally, the name of the timezone that the date and time represents
+
+#### Examples
+   * dateTimeIsInFuture(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : false
+   * dateTimeIsInFuture(toDateTime('2201-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : true
+   * dateTimeIsInFuture(now(), 'Africa/Luanda') : false; UTC is never ahead of West Africa Time
+
+---
+
+### dateTimeIsInPast()
+
+#### Purpose
+   Returns whether a date and time is in the past, with optional timezone correction.
+
+#### Parameters
+   * The date and time under test
+	* optionally, the name of the timezone that the date and time represents
+
+#### Examples
+   * dateTimeIsInPast(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : true
+   * dateTimeIsInPast(toDateTime('2201-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : false
+   * dateTimeIsInPast(now(), 'Africa/Luanda') : true; UTC is always behind West Africa Time
 
 ---
 
@@ -963,6 +996,21 @@ Emits a List\<T\>.
 #### Examples
    * minValue('byte') : (byte)0
    * minValue('ushort') : (ushort)0
+
+---
+
+### now()
+
+#### Purpose
+   Returns the current date and time, with optional timezone correction.
+
+#### Parameters
+   * optionally, the name of a timezone
+
+#### Examples
+   * now() : The current date and time in UTC
+   * now('UTC') : The current date and time in UTC
+   * now('Central European Standard Time') : The current date and time in Central Europe
 
 ---
 

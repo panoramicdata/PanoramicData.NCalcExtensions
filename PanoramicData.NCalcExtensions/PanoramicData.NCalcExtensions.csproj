@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>Added IFunctionPrototypes interface that defines all available functions.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added now(), dateTimeIsInPast() and DateTimeIsInFuture() functions.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 

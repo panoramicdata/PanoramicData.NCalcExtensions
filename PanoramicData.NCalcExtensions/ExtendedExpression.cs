@@ -104,6 +104,12 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.DateTimeAsEpochMs:
 				DateTimeAsEpochMs.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.DateTimeIsInPast:
+				DateTimeIsInPast.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.DateTimeIsInFuture:
+				DateTimeIsInFuture.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Dictionary:
 				Dictionary.Evaluate(functionArgs);
 				break;
@@ -203,6 +209,9 @@ public class ExtendedExpression : Expression
 				return;
 			case ExtensionFunction.MinValue:
 				MinValue.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Now:
+				Now.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.NullCoalesce:
 				NullCoalesce.Evaluate(functionArgs);
