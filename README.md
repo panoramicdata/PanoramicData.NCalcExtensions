@@ -30,6 +30,8 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
 | [dateTimeAsEpoch()](#datetimeasepoch) | Parses the input DateTime and outputs as seconds since the Epoch (1970-01-01T00:00Z). |
 | [dateTimeAsEpochMs()](#datetimeasepochms) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
+| [dateTimeIsInFuture()](#dateTimeIsInFuture) | Whether a DateTime is in the future, with an optional timezone correction. |
+| [dateTimeIsInPast()](#dateTimeIsInPast) | Whether a DateTime is in the past, with an optional timezone correction. |
 | [dictionary()](#dictionary) | Builds a Dictionary\<string, object?\> from the parameters provided. |
 | [distinct()](#distinct) | Returns only distinct items from the input. |
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
