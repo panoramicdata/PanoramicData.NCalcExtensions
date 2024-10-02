@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>Added now(), dateTimeIsInPast() and DateTimeIsInFuture() functions.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added now(), dateTimeIsInPast() and dateTimeIsInFuture() functions.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 
