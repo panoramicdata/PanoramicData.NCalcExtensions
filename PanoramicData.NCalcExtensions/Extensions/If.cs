@@ -1,4 +1,23 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("if")]
+	[Description("Return one of two values, depending on the input function.")]
+	object IfFn(
+		[Description("The condition to be evaluated.")]
+		object condition,
+		[Description("The value to return if the condition evaluates to true.")]
+		object trueOutput,
+		[Description("The value to return if the condition evaluates to false.")]
+		object falseOutput
+	);
+}
 
 internal static class If
 {

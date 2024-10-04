@@ -1,6 +1,20 @@
 ﻿using System.Collections;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("length")]
+	[Description("Determines length of a given string or IList.")]
+	int Length(
+		[Description("string or IList")]
+		object stringOrList
+	);
+}
 
 internal static class Length
 {

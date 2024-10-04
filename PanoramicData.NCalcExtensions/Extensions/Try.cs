@@ -1,4 +1,21 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("try")]
+	[Description("If a function throws an exception, return an alternate value.")]
+	object? TryFn(
+		[Description("The expression / function to attempt.")]
+		object expression,
+		[Description("(Optional) The result to return if an exception is thrown (null is returned if this parameter is omitted and an exception is thrown).")]
+		object? returnResult = null
+	);
+}
 
 internal static class Try
 {

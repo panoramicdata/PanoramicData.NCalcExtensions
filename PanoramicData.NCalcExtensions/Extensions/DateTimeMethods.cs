@@ -1,4 +1,29 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("dateTime")]
+	[Description("Return the DateTime in the specified format as a string, with an optional offset.")]
+	DateTime DateTimeMethods(
+		[Description("TimeZone (only 'UTC' currently supported).")]
+		string timeZone,
+		[Description("Format to be returned, example: 'yyyy-MM-dd HH:mm:ss'.")]
+		string format,
+		[Description("day offset")]
+		int dayOffset,
+		[Description("hour offset")]
+		int hourOffset,
+		[Description("minute offset")]
+		int minuteOffset,
+		[Description("second offset")]
+		int secondOffset
+	);
+}
 
 internal static class DateTimeMethods
 {

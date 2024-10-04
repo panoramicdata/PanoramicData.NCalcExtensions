@@ -1,4 +1,19 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("isInfinite")]
+	[Description("Determines whether a value is infinite.")]
+	bool IsInfinite(
+		[Description("The value to be tested.")]
+		object? value
+	);
+}
 
 internal static class IsInfinite
 {

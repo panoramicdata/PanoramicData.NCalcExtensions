@@ -1,4 +1,21 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("startsWith")]
+	[Description("Determines whether a string starts with another string.")]
+	bool StartsWith(
+		[Description("The string to be searched.")]
+		string longString,
+		[Description("The string to serarch for.")]
+		string shortString
+	);
+}
 
 internal static class StartsWith
 {

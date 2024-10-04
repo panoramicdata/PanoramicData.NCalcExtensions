@@ -1,6 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("join")]
+	[Description("Joins a list of strings into a single string.")]
+	string Join(
+		[Description("The list of strings.")]
+		IList<string> input
+	);
+}
 
 internal static class Join
 {

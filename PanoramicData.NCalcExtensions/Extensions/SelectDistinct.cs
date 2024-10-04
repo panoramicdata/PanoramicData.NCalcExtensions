@@ -1,6 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("selectDistinct")]
+	[Description("Converts an IEnumerable using a lambda and removes duplicates.")]
+	List<object?> SelectDistinct(
+		[Description("The original list.")]
+		IList list,
+		[Description("A string to represent the value to be evaluated")]
+		string predicate,
+		[Description("The string to evaluate")]
+		string exprStr
+	);
+}
 
 internal static class SelectDistinct
 {

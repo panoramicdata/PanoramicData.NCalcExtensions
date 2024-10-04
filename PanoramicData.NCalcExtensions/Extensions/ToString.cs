@@ -1,4 +1,21 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("toString")]
+	[Description("Converts any object to a string.")]
+	string ToString(
+		[Description("The string value to be converted.")]
+		object value,
+		[Description("(Optional) Format of the output.")]
+		string? format = null
+	);
+}
 
 internal static class ToString
 {

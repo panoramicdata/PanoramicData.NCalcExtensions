@@ -1,4 +1,21 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("jPath")]
+	[Description("Selects a single value from a JObject using a JPath expression.")]
+	object? JPath(
+		[Description("Input JObject.")]
+		JObject input,
+		[Description("JPath expression")]
+		string path
+	);
+}
 
 internal static class JPath
 {

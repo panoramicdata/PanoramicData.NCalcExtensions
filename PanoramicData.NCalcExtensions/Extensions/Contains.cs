@@ -1,4 +1,21 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("contains")]
+	[Description("Determines whether one string contains another.")]
+	bool Concat(
+		[Description("The text to be searched.")]
+		string text,
+		[Description("The text to be searched for.")]
+		string searchText
+	);
+}
 
 internal static class Contains
 {

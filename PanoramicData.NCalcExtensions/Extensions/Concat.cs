@@ -1,7 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("concat")]
+	[Description("Concatenates lists and objects.")]
+	object Concat(
+		[Description("The lists or objects to concatenate.")]
+		params object[] parameters
+	);
+}
 
 internal static class Concat
 {

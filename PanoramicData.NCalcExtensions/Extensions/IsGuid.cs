@@ -1,4 +1,19 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("isGuid")]
+	[Description("Determines whether a value is a GUID, or is a string that can be converted to a GUID.")]
+	bool IsGuid(
+		[Description("The value to be tested.")]
+		object? value
+	);
+}
 
 internal static class IsGuid
 {

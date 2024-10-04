@@ -1,6 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("orderBy")]
+	[Description("Orders an IEnumerable by one or more lambda expressions.")]
+	List<object?> OrderBy(
+		[Description("The original list")]
+		IEnumerable<object?> list,
+		[Description("A string to represent the value to be evaluated")]
+		string predicate,
+		[Description("The first orderBy lambda expression")]
+		string nCalcString1,
+		[Description("(Optional) A second orderBy lambda expression")]
+		string? nCalcString2 = null,
+		[Description("(Optional) A third orderBy lambda expression")]
+		string? nCalcString3 = null
+	);
+}
 
 internal static class OrderBy
 {

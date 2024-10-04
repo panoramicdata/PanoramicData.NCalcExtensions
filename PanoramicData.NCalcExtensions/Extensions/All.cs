@@ -1,6 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("all")]
+	[Description("Returns true if any values match the lambda expression, otherwise false.")]
+	bool All(
+		[Description("The original list")]
+		IEnumerable<object?> list,
+		[Description("(Optional) a string to represent the value to be evaluated")]
+		string? predicate = null,
+		[Description("(Optional, but must be provided if predicate is) the string to evaluate")]
+		string? exprStr = null
+	);
+}
 
 internal static class All
 {

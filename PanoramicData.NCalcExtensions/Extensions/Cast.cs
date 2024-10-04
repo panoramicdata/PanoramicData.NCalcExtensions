@@ -1,4 +1,21 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("cast")]
+	[Description("Cast an object to another (e.g. float to decimal).\r\n\r\nNote: The method requires that conversion of value to target type be supported.")]
+	object Cast(
+		[Description("The object to be cast.")]
+		object inputObject,
+		[Description("The full name of the data type to cast to, example: 'System.Decimal'")]
+		string typeName
+	);
+}
 
 internal static class Cast
 {

@@ -1,4 +1,22 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("split")]
+	[Description("Splits a string on a given character into a list of strings.")]
+	List<string> Split(
+		[Description("The original string to be split.")]
+		string longString,
+		[Description("The string to split on.")]
+		string splitOn
+	);
+}
 
 internal static class Split
 {

@@ -30,6 +30,8 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
 | [dateTimeAsEpoch()](#datetimeasepoch) | Parses the input DateTime and outputs as seconds since the Epoch (1970-01-01T00:00Z). |
 | [dateTimeAsEpochMs()](#datetimeasepochms) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
+| [dateTimeIsInFuture()](#dateTimeIsInFuture) | Whether a DateTime is in the future, with an optional timezone correction. |
+| [dateTimeIsInPast()](#dateTimeIsInPast) | Whether a DateTime is in the past, with an optional timezone correction. |
 | [dictionary()](#dictionary) | Builds a Dictionary\<string, object?\> from the parameters provided. |
 | [distinct()](#distinct) | Returns only distinct items from the input. |
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
@@ -51,6 +53,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [isNullOrWhiteSpace()](#isnullorwhitespace) | Determines whether a value is null, empty or white space. |
 | [isSet()](#isset) | Determines whether a parameter is set. |
 | [itemAtIndex()](#itematindex) | Determines the item at the given index. |
+| [jArray()](#jarray) | Creates a Newtonsoft JArray from input values. |
 | [jObject()](#jobject) | Creates a JObject from key/value pairs. |
 | [join()](#join) | Joins a list of strings into a single string. |
 | [jPath()](#jpath) | Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression |
@@ -64,6 +67,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [maxValue()](#maxValue) | Emits the maximum possible value for a given numeric type. |
 | [min()](#min) | Emits the minimum value, ignoring nulls. |
 | [minValue()](#minValue) | Emits the minimum possible value for a given numeric type. |
+| [now()](#now) | Returns the current date and time, with optional timezone correction. |
 | [nullCoalesce()](#nullcoalesce) | Returns the first parameter that is not null, otherwise: null. |
 | [orderBy()](#orderby) | Orders an IEnumerable by one or more lambda expressions. |
 | [padLeft()](#padleft) | Pad the left of a string with a character to a desired string length. |
@@ -394,6 +398,38 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-0
 
 ---
 
+### dateTimeIsInFuture()
+
+#### Purpose
+   Returns whether a date and time is in the future, with optional timezone correction.
+
+#### Parameters
+   * The date and time under test
+	* optionally, the name of the timezone that the date and time represents
+
+#### Examples
+   * dateTimeIsInFuture(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : false
+   * dateTimeIsInFuture(toDateTime('2201-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : true
+   * dateTimeIsInFuture(now(), 'Africa/Luanda') : false; UTC is never ahead of West Africa Time
+
+---
+
+### dateTimeIsInPast()
+
+#### Purpose
+   Returns whether a date and time is in the past, with optional timezone correction.
+
+#### Parameters
+   * The date and time under test
+	* optionally, the name of the timezone that the date and time represents
+
+#### Examples
+   * dateTimeIsInPast(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : true
+   * dateTimeIsInPast(toDateTime('2201-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : false
+   * dateTimeIsInPast(now(), 'Africa/Luanda') : true; UTC is always behind West Africa Time
+
+---
+
 ### dictionary()
 
 #### Purpose
@@ -570,11 +606,11 @@ Return one of two values, depending on the input function.
 ### in()
 
 #### Purpose
-Determines whether a value is in a set of other values.
+Determines whether a value (the first parameter) is in a set of other values (the remaining parameters).
 
 #### Parameters
-* list
 * item
+* list
 
 #### Examples
 * in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
@@ -963,6 +999,21 @@ Emits a List\<T\>.
 #### Examples
    * minValue('byte') : (byte)0
    * minValue('ushort') : (ushort)0
+
+---
+
+### now()
+
+#### Purpose
+   Returns the current date and time, with optional timezone correction.
+
+#### Parameters
+   * optionally, the name of a timezone
+
+#### Examples
+   * now() : The current date and time in UTC
+   * now('UTC') : The current date and time in UTC
+   * now('Central European Standard Time') : The current date and time in Central Europe
 
 ---
 

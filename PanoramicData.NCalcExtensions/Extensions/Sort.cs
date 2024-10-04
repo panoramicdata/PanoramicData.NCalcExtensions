@@ -1,6 +1,22 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("sort")]
+	[Description("Sorts an IComparable ascending or descending.")]
+	List<object?> Sort(
+		[Description("The original list.")]
+		IEnumerable<object?> list,
+		[Description("(Optional) - 'asc' is the default, 'desc' is the other option.")]
+		string direction = "asc"
+	);
+}
 
 internal static class Sort
 {

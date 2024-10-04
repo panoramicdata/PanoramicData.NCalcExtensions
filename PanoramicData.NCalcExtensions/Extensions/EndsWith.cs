@@ -1,4 +1,21 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("endsWith")]
+	[Description("Determines whether a string ends with another string.")]
+	bool EndsWith(
+		[Description("The main text being examined.")]
+		string longString,
+		[Description("The shorter text to look for at the end of the main text.")]
+		string shortString
+	);
+}
 
 internal static class EndsWith
 {

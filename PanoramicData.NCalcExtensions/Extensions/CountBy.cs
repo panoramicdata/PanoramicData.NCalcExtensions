@@ -1,6 +1,24 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("countBy")]
+	[Description("Counts the number of items, grouped by a calculation.")]
+	JObject CountBy(
+		[Description("The original list")]
+		IEnumerable<object?> list,
+		[Description("A string to represent the value to be evaluated")]
+		string? predicate = null,
+		[Description("The string to evaluate. Must emit a string containing one or more characters: A-Z, a-z, 0-9 or _.")]
+		string? exprStr = null
+	);
+}
 
 internal static class CountBy
 {

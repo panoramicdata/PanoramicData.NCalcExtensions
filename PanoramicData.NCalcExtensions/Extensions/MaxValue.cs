@@ -1,4 +1,19 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("maxValue")]
+	[Description("Emits the maximum possible value for a given numeric type.")]
+	object MaxValue(
+		[Description("Name of the data type.")]
+		string type
+	);
+}
 
 internal static class MaxValue
 {

@@ -1,4 +1,23 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("padLeft")]
+	[Description("Pad the left of a string with a character to a desired string length.")]
+	string PadLeft(
+		[Description("The string to pad.")]
+		string stringToPad,
+		[Description("The desired string length (must be >= 1).")]
+		int length,
+		[Description("The character used to pad.")]
+		string paddingCharacter
+	);
+}
 
 internal static class PadLeft
 {

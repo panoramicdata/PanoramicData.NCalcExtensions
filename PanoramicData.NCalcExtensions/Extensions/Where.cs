@@ -1,6 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("where")]
+	[Description("Filters an IEnumerable to bring back only those items that match a condition.")]
+	List<object?> Where(
+		[Description("The original list.")]
+		IList list,
+		[Description("A string to represent the value to be evaluated")]
+		string predicate,
+		[Description("The string to evaluate")]
+		string exprStr
+	);
+}
 
 internal static class Where
 {

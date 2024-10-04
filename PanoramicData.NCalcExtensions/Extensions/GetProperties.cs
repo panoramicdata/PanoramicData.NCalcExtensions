@@ -1,4 +1,20 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
+
+/// <summary>
+/// Used to provide IntelliSense in Monaco editor
+/// </summary>
+public partial interface IFunctionPrototypes
+{
+	[DisplayName("getProperties")]
+	[Description("Gets a list of an object's properties.")]
+	List<string> GetProperties(
+		[Description("The source object whose properties are to be returned.")]
+		object sourceObject
+	);
+}
 
 internal static class GetProperties
 {
