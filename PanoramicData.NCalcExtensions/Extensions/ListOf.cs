@@ -5,7 +5,7 @@ namespace PanoramicData.NCalcExtensions.Extensions;
 
 internal static class ListOf
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		var typeString = functionArgs.Parameters[0].Evaluate() as string
 			?? throw new FormatException($"First {ExtensionFunction.ListOf} parameter must be a string.");
@@ -14,65 +14,65 @@ internal static class ListOf
 		switch (typeString)
 		{
 			case "byte":
-				functionArgs.Result = GetListOf<byte>(remainingParameters);
+				functionArgs.Result = GetListOf<byte>(remainingParameters, cultureInfo);
 				return;
 			case "byte?":
-				functionArgs.Result = GetListOf<byte?>(remainingParameters);
+				functionArgs.Result = GetListOf<byte?>(remainingParameters, cultureInfo);
 				return;
 			case "short":
-				functionArgs.Result = GetListOf<short>(remainingParameters);
+				functionArgs.Result = GetListOf<short>(remainingParameters, cultureInfo);
 				return;
 			case "short?":
-				functionArgs.Result = GetListOf<short?>(remainingParameters);
+				functionArgs.Result = GetListOf<short?>(remainingParameters, cultureInfo);
 				return;
 			case "int":
-				functionArgs.Result = GetListOf<int>(remainingParameters);
+				functionArgs.Result = GetListOf<int>(remainingParameters, cultureInfo);
 				return;
 			case "int?":
-				functionArgs.Result = GetListOf<int?>(remainingParameters);
+				functionArgs.Result = GetListOf<int?>(remainingParameters, cultureInfo);
 				return;
 			case "long":
-				functionArgs.Result = GetListOf<long>(remainingParameters);
+				functionArgs.Result = GetListOf<long>(remainingParameters, cultureInfo);
 				return;
 			case "long?":
-				functionArgs.Result = GetListOf<long?>(remainingParameters);
+				functionArgs.Result = GetListOf<long?>(remainingParameters, cultureInfo);
 				return;
 			case "float":
-				functionArgs.Result = GetListOf<float>(remainingParameters);
+				functionArgs.Result = GetListOf<float>(remainingParameters, cultureInfo);
 				return;
 			case "float?":
-				functionArgs.Result = GetListOf<float?>(remainingParameters);
+				functionArgs.Result = GetListOf<float?>(remainingParameters, cultureInfo);
 				return;
 			case "double":
-				functionArgs.Result = GetListOf<double>(remainingParameters);
+				functionArgs.Result = GetListOf<double>(remainingParameters, cultureInfo);
 				return;
 			case "double?":
-				functionArgs.Result = GetListOf<double?>(remainingParameters);
+				functionArgs.Result = GetListOf<double?>(remainingParameters, cultureInfo);
 				return;
 			case "decimal":
-				functionArgs.Result = GetListOf<decimal>(remainingParameters);
+				functionArgs.Result = GetListOf<decimal>(remainingParameters, cultureInfo);
 				return;
 			case "decimal?":
-				functionArgs.Result = GetListOf<decimal?>(remainingParameters);
+				functionArgs.Result = GetListOf<decimal?>(remainingParameters, cultureInfo);
 				return;
 			case "string":
-				functionArgs.Result = GetListOf<string>(remainingParameters);
+				functionArgs.Result = GetListOf<string>(remainingParameters, cultureInfo);
 				return;
 			case "string?":
-				functionArgs.Result = GetListOf<string?>(remainingParameters);
+				functionArgs.Result = GetListOf<string?>(remainingParameters, cultureInfo);
 				return;
 			case "object":
-				functionArgs.Result = GetListOf<object>(remainingParameters);
+				functionArgs.Result = GetListOf<object>(remainingParameters, cultureInfo);
 				return;
 			case "object?":
-				functionArgs.Result = GetListOf<object?>(remainingParameters);
+				functionArgs.Result = GetListOf<object?>(remainingParameters, cultureInfo);
 				return;
 			default:
 				throw new FormatException($"First {ExtensionFunction.ListOf} parameter must be a string of a numeric or string type.");
 		}
 	}
 
-	private static List<T> GetListOf<T>(Expression[] remainingParameters)
+	private static List<T> GetListOf<T>(Expression[] remainingParameters, CultureInfo cultureInfo)
 	{
 		var list = new List<T>();
 		foreach (var parameter in remainingParameters)
@@ -84,14 +84,14 @@ internal static class ListOf
 			}
 			else if (Nullable.GetUnderlyingType(typeof(T)) != null && value == null)
 			{
-				list.Add(default);
+				list.Add(default!);
 			}
 			else if (Nullable.GetUnderlyingType(typeof(T)) != null && value != null)
 			{
 				var underlyingType = Nullable.GetUnderlyingType(typeof(T));
 				if (underlyingType != null)
 				{
-					var convertedValue = Convert.ChangeType(value, underlyingType, CultureInfo.InvariantCulture);
+					var convertedValue = Convert.ChangeType(value, underlyingType, cultureInfo);
 					list.Add((T)convertedValue);
 				}
 			}
@@ -99,7 +99,7 @@ internal static class ListOf
 			{
 				list.Add(tValue);
 			}
-			else if (Convert.ChangeType(value, typeof(T), CultureInfo.InvariantCulture) is T convertedValue)
+			else if (Convert.ChangeType(value, typeof(T), cultureInfo) is T convertedValue)
 			{
 				list.Add(convertedValue);
 			}

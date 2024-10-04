@@ -2,7 +2,7 @@
 
 internal static class ToString
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		var parameterCount = functionArgs.Parameters.Length;
 		switch (parameterCount)
@@ -22,17 +22,17 @@ internal static class ToString
 				functionArgs.Result = parameter1a switch
 				{
 					null => null,
-					byte value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					int value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					uint value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					long value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					ulong value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					short value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					ushort value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					float value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					double value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					DateTime value => value.ToString(parameter2, CultureInfo.InvariantCulture),
-					DateTimeOffset value => value.ToString(parameter2, CultureInfo.InvariantCulture),
+					byte value => value.ToString(parameter2, cultureInfo),
+					int value => value.ToString(parameter2, cultureInfo),
+					uint value => value.ToString(parameter2, cultureInfo),
+					long value => value.ToString(parameter2, cultureInfo),
+					ulong value => value.ToString(parameter2, cultureInfo),
+					short value => value.ToString(parameter2, cultureInfo),
+					ushort value => value.ToString(parameter2, cultureInfo),
+					float value => value.ToString(parameter2, cultureInfo),
+					double value => value.ToString(parameter2, cultureInfo),
+					DateTime value => value.ToString(parameter2, cultureInfo),
+					DateTimeOffset value => value.ToString(parameter2, cultureInfo),
 					object @object => @object.ToString()
 				};
 				break;

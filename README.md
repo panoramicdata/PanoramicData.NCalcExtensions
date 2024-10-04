@@ -93,6 +93,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [toLower()](#tolower) | Converts a string to lower case. |
 | [toString()](#tostring) | Converts any object to a string. |
 | [toUpper()](#toupper) | Converts a string to upper case. |
+| [trim()](#trim) | Removed leading and trailing whitespace. |
 | [try()](#try) | If a function throws an exception, return an alternate value. |
 | [tryParse()](#tryparse) | Returns a boolean result of an attempted cast |
 | [typeOf()](#typeof) | Determines the C# type of the object. |
@@ -1464,6 +1465,19 @@ Emits a List\<T\>.
 
 #### Examples
    * toUpper('PaNToMIMe') : 'PANTOMIME'
+
+---
+
+### trim()
+
+#### Purpose
+   Removes leading and trailing whitespace.
+
+#### Parameters
+   * string
+
+#### Examples
+   * trim(' xxx xxx\n') : 'xxx xxx'
 
 ---
 

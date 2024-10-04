@@ -2,7 +2,7 @@
 
 internal static class TimeSpan
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		if (functionArgs.Parameters.Length != 3)
 		{
@@ -38,7 +38,7 @@ internal static class TimeSpan
 
 		functionArgs.Result = Enum.TryParse(timeFormat, true, out TimeUnit timeUnit)
 			? GetUnits(timeSpan, timeUnit)
-			: timeSpan.ToString(timeFormat);
+			: timeSpan.ToString(timeFormat, cultureInfo);
 	}
 
 	private static object GetUnits(System.TimeSpan timeSpan, TimeUnit timeUnit)

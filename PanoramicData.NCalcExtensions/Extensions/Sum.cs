@@ -12,8 +12,8 @@ internal static class Sum
 		{
 			functionArgs.Result = originalList switch
 			{
-				IEnumerable<byte> list => list.Cast<int>().Sum(),
-				IEnumerable<short> list => list.Cast<int>().Sum(),
+				IEnumerable<byte> list => (byte)list.Select(l => (int)l).Sum(),
+				IEnumerable<short> list => (short)list.Select(l => (int)l).Sum(),
 				IEnumerable<int> list => list.Sum(),
 				IEnumerable<long> list => list.Sum(),
 				IEnumerable<float> list => list.Sum(),
@@ -35,8 +35,8 @@ internal static class Sum
 
 		functionArgs.Result = originalList switch
 		{
-			IEnumerable<byte> byteList => byteList.Cast<int>().Sum(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short> shortList => shortList.Cast<int>().Sum(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<byte> byteList => byteList.Select(l => (int)l).Sum(value => (int?)lambda.Evaluate(value)),
+			IEnumerable<short> shortList => shortList.Select(l => (int)l).Sum(value => (int?)lambda.Evaluate(value)),
 			IEnumerable<int> intList => intList.Sum(value => (int?)lambda.Evaluate(value)),
 			IEnumerable<long> longList => longList.Sum(value => (long?)lambda.Evaluate(value)),
 			IEnumerable<float> floatList => floatList.Sum(value => (float?)lambda.Evaluate(value)),

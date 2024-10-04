@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>Fixes to min() and max().  Added jArray().</PackageReleaseNotes>
+		<PackageReleaseNotes>Added trim().  Added formatting constructor options.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 

@@ -2,7 +2,7 @@
 
 internal static class Cast
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		const int castParameterCount = 2;
 		if (functionArgs.Parameters.Length != castParameterCount)
@@ -19,7 +19,7 @@ internal static class Cast
 		var castType = Type.GetType(castTypeString)
 			?? throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a valid .NET type e.g. System.Decimal.");
 
-		var result = Convert.ChangeType(inputObject, castType, CultureInfo.InvariantCulture);
+		var result = Convert.ChangeType(inputObject, castType, cultureInfo);
 		functionArgs.Result = result;
 		return;
 	}

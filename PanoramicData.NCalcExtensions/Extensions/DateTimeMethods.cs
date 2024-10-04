@@ -2,7 +2,7 @@
 
 internal static class DateTimeMethods
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		if (functionArgs.Parameters.Length > 0)
 		{
@@ -83,7 +83,7 @@ internal static class DateTimeMethods
 			.AddHours(hoursToAdd)
 			.AddMinutes(minutesToAdd)
 			.AddSeconds(secondsToAdd)
-			.ToString(format, CultureInfo.InvariantCulture);
+			.ToString(format, cultureInfo);
 	}
 
 	private static double? GetNullableDouble(Expression expression)
@@ -94,15 +94,15 @@ internal static class DateTimeMethods
 			_ => null,
 		};
 
-	internal static string BetterToString(this DateTime dateTime, string format)
+	internal static string BetterToString(this DateTime dateTime, string format, CultureInfo cultureInfo)
 		=> format switch
 		{
-			"dayOfYear" => dateTime.DayOfYear.ToString(),
-			"weekOfMonth" => dateTime.WeekOfMonth().ToString(),
+			"dayOfYear" => dateTime.DayOfYear.ToString(cultureInfo),
+			"weekOfMonth" => dateTime.WeekOfMonth().ToString(cultureInfo),
 			"weekOfMonthText" => GetWeekText(dateTime.WeekOfMonth()),
-			"weekDayOfMonth" => dateTime.WeekDayOfMonth().ToString(),
+			"weekDayOfMonth" => dateTime.WeekDayOfMonth().ToString(cultureInfo),
 			"weekDayOfMonthText" => GetWeekText(dateTime.WeekDayOfMonth()),
-			_ => dateTime.ToString(format, CultureInfo.InvariantCulture)
+			_ => dateTime.ToString(format, cultureInfo)
 		};
 
 	private static string GetWeekText(int weekOfMonth) => weekOfMonth switch
@@ -125,10 +125,10 @@ internal static class DateTimeMethods
 	public static int WeekDayOfMonth(this DateTime dateTime)
 		=> ((dateTime.Day - 1) / 7) + 1;
 
-	internal static string ToDateTimeInTargetTimeZone(this DateTime dateTime, string formatFormat, string timeZoneString)
+	internal static string ToDateTimeInTargetTimeZone(this DateTime dateTime, string formatFormat, string timeZoneString, CultureInfo cultureInfo)
 	{
 		var timeZoneInfo = TZConvert.GetTimeZoneInfo(timeZoneString);
 		var dateTimeOffset = new DateTimeOffset(dateTime, -timeZoneInfo.GetUtcOffset(dateTime));
-		return dateTimeOffset.UtcDateTime.BetterToString(formatFormat);
+		return dateTimeOffset.UtcDateTime.BetterToString(formatFormat, cultureInfo);
 	}
 }
