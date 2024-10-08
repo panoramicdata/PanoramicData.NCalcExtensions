@@ -25,7 +25,7 @@
 		<DebugType>portable</DebugType>
 
 		<!-- Release Notes -->
-		<PackageReleaseNotes>Added trim().  Added formatting constructor options.</PackageReleaseNotes>
+		<PackageReleaseNotes>replace() can now replace more than one string at a time.</PackageReleaseNotes>
 
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 

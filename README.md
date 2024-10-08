@@ -1162,10 +1162,12 @@ Emits a List\<T\>.
    * haystackString
    * needleString
    * betterNeedleString
+	* ... (optional) more needle/betterNeedle pairs
 
 #### Examples
    * replace('abcdefg', 'cde', 'CDE') : 'abCDEfg'
    * replace('abcdefg', 'cde', '') : 'abfg'
+	* replace('abcdefg', 'a', '1', 'bc', '23') : '123defg'
 
 ---
 
