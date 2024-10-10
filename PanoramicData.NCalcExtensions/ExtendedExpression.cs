@@ -5,10 +5,17 @@ namespace PanoramicData.NCalcExtensions;
 public class ExtendedExpression : Expression
 {
 	private readonly Dictionary<string, object?> _storageDictionary = [];
+	private readonly CultureInfo _cultureInfo;
 	internal const string StorageDictionaryParameterName = "__storageDictionary";
 
-	public ExtendedExpression(string expression) : base(expression)
+	public ExtendedExpression(string expression) : this(expression, EvaluateOptions.None, CultureInfo.InvariantCulture) { }
+
+	public ExtendedExpression(
+		string expression,
+		EvaluateOptions evaluateOptions,
+		CultureInfo cultureInfo) : base(expression, evaluateOptions, cultureInfo)
 	{
+		_cultureInfo = cultureInfo;
 		Parameters[StorageDictionaryParameterName] = _storageDictionary;
 		EvaluateFunction += Extend;
 		CacheEnabled = false;
@@ -72,7 +79,7 @@ public class ExtendedExpression : Expression
 				Capitalize.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Cast:
-				Cast.Evaluate(functionArgs);
+				Cast.Evaluate(functionArgs, _cultureInfo);
 				return;
 			case ExtensionFunction.ChangeTimeZone:
 				ChangeTimeZone.Evaluate(functionArgs);
@@ -96,13 +103,13 @@ public class ExtendedExpression : Expression
 				DateAddMethods.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.DateTime:
-				DateTimeMethods.Evaluate(functionArgs);
+				DateTimeMethods.Evaluate(functionArgs, _cultureInfo);
 				return;
 			case ExtensionFunction.DateTimeAsEpoch:
-				DateTimeAsEpoch.Evaluate(functionArgs);
+				DateTimeAsEpoch.Evaluate(functionArgs, _cultureInfo);
 				return;
 			case ExtensionFunction.DateTimeAsEpochMs:
-				DateTimeAsEpochMs.Evaluate(functionArgs);
+				DateTimeAsEpochMs.Evaluate(functionArgs, _cultureInfo);
 				return;
 			case ExtensionFunction.DateTimeIsInPast:
 				DateTimeIsInPast.Evaluate(functionArgs);
@@ -129,7 +136,7 @@ public class ExtendedExpression : Expression
 				FirstOrDefault.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Format:
-				Format.Evaluate(functionArgs);
+				Format.Evaluate(functionArgs, _cultureInfo);
 				return;
 			case ExtensionFunction.GetProperty:
 				GetProperty.Evaluate(functionArgs);
@@ -196,7 +203,7 @@ public class ExtendedExpression : Expression
 				List.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.ListOf:
-				ListOf.Evaluate(functionArgs);
+				ListOf.Evaluate(functionArgs, _cultureInfo);
 				return;
 			case ExtensionFunction.Max:
 				Max.Evaluate(functionArgs);
@@ -292,19 +299,22 @@ public class ExtendedExpression : Expression
 				throw Throw.Evaluate(functionArgs);
 			case ExtensionFunction.TimeSpan:
 			case ExtensionFunction.TimeSpanCamel:
-				Extensions.TimeSpan.Evaluate(functionArgs);
+				Extensions.TimeSpan.Evaluate(functionArgs, _cultureInfo);
 				return;
 			case ExtensionFunction.ToDateTime:
-				ToDateTime.Evaluate(functionArgs);
+				ToDateTime.Evaluate(functionArgs, _cultureInfo);
 				return;
 			case ExtensionFunction.ToLower:
 				ToLower.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.ToString:
-				Extensions.ToString.Evaluate(functionArgs);
+				Extensions.ToString.Evaluate(functionArgs, _cultureInfo);
 				return;
 			case ExtensionFunction.ToUpper:
 				ToUpper.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Trim:
+				Trim.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Try:
 				Try.Evaluate(functionArgs);

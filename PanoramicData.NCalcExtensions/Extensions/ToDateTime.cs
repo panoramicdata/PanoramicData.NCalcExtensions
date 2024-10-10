@@ -24,7 +24,7 @@ public partial interface IFunctionPrototypes
 
 internal static class ToDateTime
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		var argument1 = functionArgs.Parameters.Length >= 1 ? functionArgs.Parameters[0]?.Evaluate() : null;
 		var argument2 = functionArgs.Parameters.Length >= 2 ? functionArgs.Parameters[1]?.Evaluate() : null;
@@ -42,12 +42,12 @@ internal static class ToDateTime
 				(_, null, null) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected between 2 and 3 arguments"),
 
 				// String and format, no timezone
-				(string dateTimeString, string format, null) => DateTime.TryParseExact(dateTimeString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime)
+				(string dateTimeString, string format, null) => DateTime.TryParseExact(dateTimeString, format, cultureInfo, DateTimeStyles.None, out var parsedDateTime)
 					 ? parsedDateTime
 					 : throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format."),
 
 				// String, format and timezone
-				(string dateTimeString, string format, string timeZoneName) => GetFromString(dateTimeString, format, timeZoneName),
+				(string dateTimeString, string format, string timeZoneName) => GetFromString(dateTimeString, format, timeZoneName, cultureInfo),
 
 				// long, format and timezone
 				// Format can be:
@@ -77,9 +77,9 @@ internal static class ToDateTime
 		return dateTimeOffset.UtcDateTime;
 	}
 
-	private static object GetFromString(string dateTimeString, string format, string timeZoneName)
+	private static object GetFromString(string dateTimeString, string format, string timeZoneName, CultureInfo cultureInfo)
 	{
-		if (!DateTime.TryParseExact(dateTimeString, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parsedDateTime))
+		if (!DateTime.TryParseExact(dateTimeString, format, cultureInfo, DateTimeStyles.None, out var parsedDateTime))
 		{
 			throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format.");
 		}

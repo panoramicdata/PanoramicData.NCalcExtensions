@@ -13,7 +13,7 @@ public class DateAddTests : NCalcTest
 	[InlineData("2023-12-05T05:00:01Z", 1, "days", "2023-12-06T05:00:01Z")]
 	[InlineData("2023-12-05T05:00:01Z", 1, "months", "2024-01-05T05:00:01Z")]
 	[InlineData("2023-12-05T05:00:01Z", 1, "years", "2024-12-05T05:00:01Z")]
-	public void DateAdd_ParameterisedInput_GivesExpectedOutput(string initialDateAndTime, int quantity, string units, string expectedDateAndTime)
+	public void DateAdd_ParameterizedInput_GivesExpectedOutput(string initialDateAndTime, int quantity, string units, string expectedDateAndTime)
 	{
 		var recognised = DateTime.TryParse(initialDateAndTime, out var initialDateTime);
 		recognised.Should().BeTrue();
@@ -35,7 +35,7 @@ public class DateAddTests : NCalcTest
 	[InlineData("2023-12-05T05:00:01Z", 250, "aa")]
 	[InlineData("2023-12-05T05:00:01Z", 1, "nanoseconds")]
 	[InlineData("2023-12-05T05:00:01Z", 1, "weeks")]
-	public void DateAdd_Unknownunits_ThrowsFormatException(string initialDateAndTime, int quantity, string units)
+	public void DateAdd_UnknownUnits_ThrowsFormatException(string initialDateAndTime, int quantity, string units)
 	{
 		var recognised = DateTime.TryParse(initialDateAndTime, out var initialDateTime);
 		recognised.Should().BeTrue();
@@ -66,7 +66,7 @@ public class DateAddTests : NCalcTest
 	}
 
 	[Fact]
-	public void DateAdd_IncorrectunitsDataType_ThrowsFormatException()
+	public void DateAdd_IncorrectUnitsDataType_ThrowsFormatException()
 	{
 		var units = 1;
 		var quantity = 1;
@@ -82,7 +82,7 @@ public class DateAddTests : NCalcTest
 	}
 
 	[Fact]
-	public void DateAdd_IncorrectquantityDataType_ThrowsFormatException()
+	public void DateAdd_IncorrectQuantityDataType_ThrowsFormatException()
 	{
 		var units = "Hours";
 		var quantity = "Hours";

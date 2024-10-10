@@ -27,7 +27,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Format
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		const int min = 2;
 		const int max = 3;
@@ -44,35 +44,35 @@ internal static class Format
 
 		functionArgs.Result = (inputObject, functionArgs.Parameters.Length) switch
 		{
-			(int inputInt, 2) => inputInt.ToString(formatFormat, CultureInfo.InvariantCulture),
-			(double inputDouble, 2) => inputDouble.ToString(formatFormat, CultureInfo.InvariantCulture),
-			(DateTime dateTime, 2) => dateTime.BetterToString(formatFormat),
-			(DateTime dateTime, 3) => dateTime.ToDateTimeInTargetTimeZone(formatFormat, functionArgs.Parameters[2].Evaluate() as string ?? throw new ArgumentException($"{ExtensionFunction.Format} function - expected third argument to be a TimeZone string")),
-			(string inputString, 2) => GetThing(inputString, formatFormat),
+			(int inputInt, 2) => inputInt.ToString(formatFormat, cultureInfo),
+			(double inputDouble, 2) => inputDouble.ToString(formatFormat, cultureInfo),
+			(DateTime dateTime, 2) => dateTime.BetterToString(formatFormat, cultureInfo),
+			(DateTime dateTime, 3) => dateTime.ToDateTimeInTargetTimeZone(formatFormat, functionArgs.Parameters[2].Evaluate() as string ?? throw new ArgumentException($"{ExtensionFunction.Format} function - expected third argument to be a TimeZone string"), cultureInfo),
+			(string inputString, 2) => GetThing(inputString, formatFormat, cultureInfo),
 			_ => throw new NotSupportedException($"Unsupported input type {inputObject.GetType().Name} or incorrect number of parameters.")
 		};
 	}
 
-	private static string GetThing(string inputString, string formatFormat)
+	private static string GetThing(string inputString, string formatFormat, CultureInfo cultureInfo)
 	{
 		// Assume this is a number
 		if (long.TryParse(inputString, out var longValue))
 		{
-			return longValue.ToString(formatFormat, CultureInfo.InvariantCulture);
+			return longValue.ToString(formatFormat, cultureInfo);
 		}
 
 		if (double.TryParse(inputString, out var doubleValue))
 		{
-			return doubleValue.ToString(formatFormat, CultureInfo.InvariantCulture);
+			return doubleValue.ToString(formatFormat, cultureInfo);
 		}
 
 		if (DateTimeOffset.TryParse(
 			inputString,
-			CultureInfo.InvariantCulture.DateTimeFormat,
+			cultureInfo.DateTimeFormat,
 			DateTimeStyles.AssumeUniversal,
 			out var dateTimeOffsetValue))
 		{
-			return dateTimeOffsetValue.UtcDateTime.BetterToString(formatFormat);
+			return dateTimeOffsetValue.UtcDateTime.BetterToString(formatFormat, cultureInfo);
 		}
 
 		throw new FormatException($"Could not parse '{inputString}' as a number or date.");
