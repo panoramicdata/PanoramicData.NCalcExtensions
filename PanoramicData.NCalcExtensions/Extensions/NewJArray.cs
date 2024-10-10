@@ -21,12 +21,12 @@ internal static class NewJArray
 	{
 		var parameterIndex = 0;
 
-		// Create an empty JObject
+		// Create an empty JArray
 		var jArray = new JArray();
 		while (parameterIndex < functionArgs.Parameters.Length)
 		{
 			var item = functionArgs.Parameters[parameterIndex++].Evaluate();
-			jArray.Add(item is null ? JValue.CreateNull() : JObject.FromObject(item));
+			jArray.Add(item is null ? JValue.CreateNull() : JToken.FromObject(item));
 		}
 
 		functionArgs.Result = jArray;
