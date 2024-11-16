@@ -7,7 +7,7 @@ namespace PanoramicData.NCalcExtensions.Extensions;
 /// </summary>
 public partial interface IFunctionPrototypes
 {
-	[DisplayName("newJObject")]
+	[DisplayName("jObject")]
 	[Description("Creates and returns a new JObject instance with the given properties.")]
 	JArray NewJObject(
 		[Description("Interlaced keys and values. You must provide an even number of parameters, and names must evaluate to strings.")]

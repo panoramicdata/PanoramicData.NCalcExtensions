@@ -7,7 +7,7 @@ namespace PanoramicData.NCalcExtensions.Extensions;
 /// </summary>
 public partial interface IFunctionPrototypes
 {
-	[DisplayName("newJArray")]
+	[DisplayName("jArray")]
 	[Description("Creates and returns a new JArray instance with the given items.")]
 	JArray NewJArray(
 		[Description("Name of the data type.")]
@@ -21,12 +21,12 @@ internal static class NewJArray
 	{
 		var parameterIndex = 0;
 
-		// Create an empty JObject
+		// Create an empty JArray
 		var jArray = new JArray();
 		while (parameterIndex < functionArgs.Parameters.Length)
 		{
 			var item = functionArgs.Parameters[parameterIndex++].Evaluate();
-			jArray.Add(item is null ? JValue.CreateNull() : JObject.FromObject(item));
+			jArray.Add(item is null ? JValue.CreateNull() : JToken.FromObject(item));
 		}
 
 		functionArgs.Result = jArray;

@@ -20,4 +20,18 @@ public class JArrayTests
 		result![1]["b"].Should().BeEquivalentTo(JToken.FromObject("woo"));
 		result![2].Should().BeEquivalentTo(JValue.CreateNull());
 	}
+
+	[Fact]
+	public void JArray_StringParameters_CreatesJArray()
+	{
+		var expression = new ExtendedExpression("jArray('test1', 'test2')");
+		var result = expression.Evaluate() as JArray;
+		result.Should().BeOfType<JArray>();
+		result.Should().NotBeNull();
+		result.Should().HaveCount(2);
+		result![0].Should().BeOfType<JValue>();
+		result![0].Should().BeEquivalentTo(JToken.FromObject("test1"));
+		result![1].Should().BeOfType<JValue>();
+		result![1].Should().BeEquivalentTo(JToken.FromObject("test2"));
+	}
 }
