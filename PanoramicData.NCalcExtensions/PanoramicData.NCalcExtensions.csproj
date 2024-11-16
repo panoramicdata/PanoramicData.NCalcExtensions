@@ -21,24 +21,11 @@
 		<PackageIcon>Panoramic Data.png</PackageIcon>
 		<PackageTags>ncalc extensions</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<IncludeSymbols>true</IncludeSymbols>
-		<DebugSymbols>true</DebugSymbols>
-		<EmbedAllSources>true</EmbedAllSources>
 		<DebugType>portable</DebugType>
 		<PackageReleaseNotes>extend() can now add properties with null value.</PackageReleaseNotes>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<Title>Panoramic Data NCalc Extensions</Title>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
-		<SignAssembly>true</SignAssembly>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<DebugType>embedded</DebugType>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DebugType>embedded</DebugType>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -48,6 +35,7 @@
 	<ItemGroup>
 		<None Include="Panoramic Data.png" Pack="True" PackagePath="\" />
 		<None Include="../README.md" Pack="true" PackagePath="" />
+		<None Include="PanoramicData.NCalcExtensions.snk" />
 	</ItemGroup>
 
 	<ItemGroup>
