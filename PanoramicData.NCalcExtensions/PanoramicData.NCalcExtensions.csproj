@@ -1,22 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0;net9.0</TargetFrameworks>
 		<ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Company>Panoramic Data Limited</Company>
+		<Configuration>Release</Configuration>
 		<Copyright>Panoramic Data Limited 2019-2024</Copyright>
-		<Authors>Panoramic Data Limited</Authors>
+		<Description>Extensions for NCalc</Description>
+		<Product>PanoramicData.NCalcExtensions</Product>
+		<Title>PanoramicData.NCalcExtensions</Title>
+		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisMode>All</AnalysisMode>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>Panoramic Data.png</PackageIcon>
 		<PackageTags>ncalc extensions</PackageTags>
-		<Description>Extensions for NCalc</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<IncludeSymbols>true</IncludeSymbols>
 		<DebugSymbols>true</DebugSymbols>
@@ -26,6 +29,8 @@
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<Title>Panoramic Data NCalc Extensions</Title>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<SignAssembly>true</SignAssembly>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -56,8 +61,10 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="System.Formats.Asn1" Version="9.0.0" />
 		<PackageReference Include="TimeZoneConverter" Version="6.1.0" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<PackageReference Include="NuGet.Packaging" Version="6.2.1" PrivateAssets="All" />
+		<PackageReference Include="NuGet.Common" Version="6.12.1" />
 	</ItemGroup>
-
 </Project>

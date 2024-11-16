@@ -25,7 +25,7 @@ internal static class Contains
 		{
 			var haystack = (string)functionArgs.Parameters[0].Evaluate();
 			var needle = (string)functionArgs.Parameters[1].Evaluate();
-			functionArgs.Result = haystack.IndexOf(needle, StringComparison.InvariantCulture) >= 0;
+			functionArgs.Result = haystack.Contains(needle);
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{

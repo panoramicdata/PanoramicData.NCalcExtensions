@@ -10,7 +10,7 @@ public partial interface IFunctionPrototypes
 	[DisplayName("typeOf")]
 	[Description("Determines the C# type of the object.")]
 	string TypeOfFn(
-		[Description("The value whose dat atype is to be returned.")]
+		[Description("The value whose data type is to be returned.")]
 		object value
 	);
 }
