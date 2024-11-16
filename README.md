@@ -482,6 +482,7 @@ Extends an existing object into a JObject with both the original and additional 
 
 #### Examples
 * extend(jObject('a', 1, 'b', null), list('c', 5)) : JObject with a=1, b=null and c=5
+* extend(jObject('a', 1, 'b', null), list('c', null)) : JObject with a=1, b=null and c=null
 
 ---
 ### first()

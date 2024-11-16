@@ -39,7 +39,7 @@ internal static class ExtendObject
 		{
 			var propertyName = extensionObjectList[i] as string ?? throw new FormatException("Property name must be a string");
 			var propertyValue = extensionObjectList[i + 1];
-			jObject[propertyName] = JToken.FromObject(propertyValue);
+			jObject[propertyName] = propertyValue is null ? JValue.CreateNull() : JToken.FromObject(propertyValue);
 		}
 
 		functionArgs.Result = jObject;

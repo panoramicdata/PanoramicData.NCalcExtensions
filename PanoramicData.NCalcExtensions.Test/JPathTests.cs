@@ -1,4 +1,4 @@
-﻿using Meraki.Api.Data;
+﻿using PanoramicData.NCalcExtensions.Test.Models;
 
 namespace PanoramicData.NCalcExtensions.Test;
 public class JPathTests : NCalcTest
