@@ -1,5 +1,4 @@
-﻿using NCalc.Cache;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PanoramicData.NCalcExtensions;
 
