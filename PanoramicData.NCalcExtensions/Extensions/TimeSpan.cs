@@ -37,9 +37,9 @@ internal static class TimeSpan
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function - requires three parameters.");
 		}
 
-		string fromString;
-		string toString;
-		string timeFormat;
+		string? fromString;
+		string? toString;
+		string? timeFormat;
 		try
 		{
 			fromString = functionArgs.Parameters[0].Evaluate().ToString();

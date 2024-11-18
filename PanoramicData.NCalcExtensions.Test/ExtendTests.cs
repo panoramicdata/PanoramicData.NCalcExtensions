@@ -10,9 +10,18 @@ public class ExtendTests
 
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
-		result["a"]!.Value<int>().Should().Be(1);
-		result["b"]!.Value<int?>().Should().BeNull();
-		result["c"]!.Value<int>().Should().Be(5);
+
+		var a = result["a"];
+		a.Should().NotBeNull();
+		a.Value<int>().Should().Be(1);
+
+		var b = result["b"];
+		b.Should().NotBeNull();
+		b.Value<int?>().Should().BeNull();
+
+		var c = result["c"];
+		c.Should().NotBeNull();
+		c.Value<int>().Should().Be(5);
 	}
 
 	[Fact]
@@ -23,8 +32,17 @@ public class ExtendTests
 
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
-		result["a"]!.Value<int>().Should().Be(1);
-		result["b"]!.Value<int?>().Should().BeNull();
-		result["c"]!.Value<string?>().Should().Be(null);
+
+		var a = result["a"];
+		a.Should().NotBeNull();
+		a.Value<int>().Should().Be(1);
+
+		var b = result["b"];
+		b.Should().NotBeNull();
+		b.Value<int?>().Should().BeNull();
+
+		var c = result["c"];
+		c.Should().NotBeNull();
+		c.Value<string?>().Should().Be(null);
 	}
 }
