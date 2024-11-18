@@ -65,7 +65,7 @@ internal static class ToDateTime
 			};
 	}
 
-	private static object GetFromDateTime(DateTime dateTime, string timeZoneName)
+	private static DateTime GetFromDateTime(DateTime dateTime, string timeZoneName)
 	{
 		var timeZoneInfo = TZConvert.GetTimeZoneInfo(timeZoneName);
 		var dateTimeOffset = new DateTimeOffset(dateTime, timeZoneInfo.GetUtcOffset(dateTime));

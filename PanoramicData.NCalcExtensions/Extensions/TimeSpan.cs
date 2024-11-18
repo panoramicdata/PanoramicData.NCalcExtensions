@@ -69,7 +69,7 @@ internal static class TimeSpan
 			: timeSpan.ToString(timeFormat, cultureInfo);
 	}
 
-	private static object GetUnits(System.TimeSpan timeSpan, TimeUnit timeUnit)
+	private static double GetUnits(System.TimeSpan timeSpan, TimeUnit timeUnit)
 		=> timeUnit switch
 		{
 			TimeUnit.Milliseconds => timeSpan.TotalMilliseconds,
