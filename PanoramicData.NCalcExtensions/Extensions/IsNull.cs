@@ -27,7 +27,7 @@ internal static class IsNull
 		try
 		{
 			var outputObject = functionArgs.Parameters[0].Evaluate();
-			functionArgs.Result = outputObject is null || outputObject is JToken { Type: JTokenType.Null };
+			functionArgs.Result = outputObject is null or JToken { Type: JTokenType.Null };
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{

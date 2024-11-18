@@ -31,7 +31,7 @@ internal static class Format
 	{
 		const int min = 2;
 		const int max = 3;
-		if (functionArgs.Parameters.Length < min || functionArgs.Parameters.Length > max)
+		if (functionArgs.Parameters.Length is < min or > max)
 		{
 			throw new ArgumentException($"{ExtensionFunction.Format} function - expected between {min} and {max} arguments");
 		}
