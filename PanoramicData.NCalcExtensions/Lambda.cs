@@ -4,7 +4,7 @@ namespace PanoramicData.NCalcExtensions;
 public class Lambda(
 	string predicate,
 	string nCalcString,
-	Dictionary<string, object?> parameters)
+	IDictionary<string, object?> parameters)
 {
 	public object? Evaluate<T>(T value)
 	{
