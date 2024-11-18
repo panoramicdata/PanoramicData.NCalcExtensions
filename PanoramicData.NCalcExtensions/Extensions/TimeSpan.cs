@@ -51,12 +51,12 @@ internal static class TimeSpan
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not extract three parameters into strings: {e.Message}");
 		}
 
-		if (!System.DateTime.TryParse(fromString, out var fromDateTime))
+		if (!DateTime.TryParse(fromString, out var fromDateTime))
 		{
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{fromString}' to DateTime");
 		}
 
-		if (!System.DateTime.TryParse(toString, out var toDateTime))
+		if (!DateTime.TryParse(toString, out var toDateTime))
 		{
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{toString}' to DateTime");
 		}
