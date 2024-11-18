@@ -65,14 +65,7 @@ internal static class CountBy
 				throw new FormatException($"All lambdas should evaluate to a string.  \"{value}\" did not.");
 			}
 
-			if (dictionary.TryGetValue(key, out var dictionaryValue))
-			{
-				dictionary[key] = ++dictionaryValue;
-			}
-			else
-			{
-				dictionary[key] = 1;
-			}
+			dictionary[key] = dictionary.TryGetValue(key, out var dictionaryValue) ? ++dictionaryValue : 1;
 		}
 
 		functionArgs.Result = JObject.FromObject(dictionary);

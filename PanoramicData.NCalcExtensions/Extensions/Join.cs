@@ -29,15 +29,13 @@ internal static class Join
 			{
 				input = [];
 			}
-			else if (firstParam is List<object> objList)
-			{
-				input = objList
-					.Select(u => u?.ToString() ?? string.Empty)
-					.ToList();
-			}
 			else
 			{
-				input = (firstParam as IEnumerable<string>).ToList();
+				input = firstParam is List<object> objList
+					? objList
+									.Select(u => u?.ToString() ?? string.Empty)
+									.ToList()
+					: (firstParam as IEnumerable<string>).ToList();
 			}
 
 			joinString = (string)functionArgs.Parameters[1].Evaluate();

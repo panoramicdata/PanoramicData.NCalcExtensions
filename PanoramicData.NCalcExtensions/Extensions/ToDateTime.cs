@@ -30,13 +30,9 @@ internal static class ToDateTime
 		var argument2 = functionArgs.Parameters.Length >= 2 ? functionArgs.Parameters[1]?.Evaluate() : null;
 		var argument3 = functionArgs.Parameters.Length >= 3 ? functionArgs.Parameters[2]?.Evaluate() : null;
 
-		if (argument1 == null)
-		{
-			functionArgs.Result = null;
-		}
-		else
-		{
-			functionArgs.Result = (argument1, argument2, argument3) switch
+		functionArgs.Result = argument1 == null
+			? null
+			: (argument1, argument2, argument3) switch
 			{
 				// Only one argument
 				(_, null, null) => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected between 2 and 3 arguments"),
@@ -67,7 +63,6 @@ internal static class ToDateTime
 
 				_ => throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Expected first argument to be a long, int, double, string or DateTime.")
 			};
-		}
 	}
 
 	private static object GetFromDateTime(DateTime dateTime, string timeZoneName)
@@ -78,14 +73,9 @@ internal static class ToDateTime
 	}
 
 	private static object GetFromString(string dateTimeString, string format, string timeZoneName, CultureInfo cultureInfo)
-	{
-		if (!DateTime.TryParseExact(dateTimeString, format, cultureInfo, DateTimeStyles.None, out var parsedDateTime))
-		{
-			throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format.");
-		}
-
-		return ConvertTimeZone(parsedDateTime, timeZoneName, "UTC");
-	}
+		=> !DateTime.TryParseExact(dateTimeString, format, cultureInfo, DateTimeStyles.None, out var parsedDateTime)
+			? throw new ArgumentException($"{ExtensionFunction.ToDateTime} function - Input string did not match expected format.")
+			: ConvertTimeZone(parsedDateTime, timeZoneName, "UTC");
 
 	private static object GetFromDouble(double countSinceEpoch, string format, string timeZoneName)
 	{

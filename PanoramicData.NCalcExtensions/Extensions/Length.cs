@@ -24,14 +24,7 @@ internal static class Length
 		{
 			var value = functionArgs.Parameters[0].Evaluate();
 
-			if (value is string a)
-			{
-				functionArgs.Result = a.Length;
-			}
-			else
-			{
-				functionArgs.Result = GetLength(value);
-			}
+			functionArgs.Result = value is string a ? a.Length : (object)GetLength(value);
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{

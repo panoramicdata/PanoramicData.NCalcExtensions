@@ -37,14 +37,7 @@ internal static class JPath
 			var jPathSourceObject = functionArgs.Parameters[0].Evaluate()
 				?? throw new NCalcExtensionsException($"{ExtensionFunction.JPath} function - parameter 1 should not be null.");
 
-			if (jPathSourceObject is JObject jObject2)
-			{
-				jObject = jObject2;
-			}
-			else
-			{
-				jObject = JObject.FromObject(jPathSourceObject);
-			}
+			jObject = jPathSourceObject is JObject jObject2 ? jObject2 : JObject.FromObject(jPathSourceObject);
 
 			jPathExpression = (string)functionArgs.Parameters[1].Evaluate();
 		}

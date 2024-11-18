@@ -53,28 +53,16 @@ internal static class Format
 		};
 	}
 
-	private static string GetThing(string inputString, string formatFormat, CultureInfo cultureInfo)
-	{
-		// Assume this is a number
-		if (long.TryParse(inputString, out var longValue))
-		{
-			return longValue.ToString(formatFormat, cultureInfo);
-		}
-
-		if (double.TryParse(inputString, out var doubleValue))
-		{
-			return doubleValue.ToString(formatFormat, cultureInfo);
-		}
-
-		if (DateTimeOffset.TryParse(
+	private static string GetThing(string inputString, string formatFormat, CultureInfo cultureInfo) =>
+		long.TryParse(inputString, out var longValue)
+			? longValue.ToString(formatFormat, cultureInfo)
+		: double.TryParse(inputString, out var doubleValue)
+			? doubleValue.ToString(formatFormat, cultureInfo)
+		: DateTimeOffset.TryParse(
 			inputString,
 			cultureInfo.DateTimeFormat,
 			DateTimeStyles.AssumeUniversal,
-			out var dateTimeOffsetValue))
-		{
-			return dateTimeOffsetValue.UtcDateTime.BetterToString(formatFormat, cultureInfo);
-		}
-
-		throw new FormatException($"Could not parse '{inputString}' as a number or date.");
-	}
+			out var dateTimeOffsetValue)
+			? dateTimeOffsetValue.UtcDateTime.BetterToString(formatFormat, cultureInfo)
+		: throw new FormatException($"Could not parse '{inputString}' as a number or date.");
 }
