@@ -25,18 +25,13 @@ internal static class Join
 		try
 		{
 			var firstParam = functionArgs.Parameters[0].Evaluate();
-			if (firstParam == null)
-			{
-				input = [];
-			}
-			else
-			{
-				input = firstParam is List<object> objList
+			input = firstParam == null
+				? ([])
+				: firstParam is List<object> objList
 					? objList
-									.Select(u => u?.ToString() ?? string.Empty)
-									.ToList()
-					: (firstParam as IEnumerable<string>).ToList();
-			}
+						.Select(u => u?.ToString() ?? string.Empty)
+						.ToList()
+					: ((IEnumerable<string>)firstParam).ToList();
 
 			joinString = (string)functionArgs.Parameters[1].Evaluate();
 		}

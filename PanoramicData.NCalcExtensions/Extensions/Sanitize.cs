@@ -24,9 +24,7 @@ internal static class Sanitize
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		string inputString;
-		string allowedCharacters;
-		string replacementCharacters = string.Empty;
+		var replacementCharacters = string.Empty;
 
 		if (functionArgs.Parameters.Length < 2)
 		{
@@ -40,27 +38,26 @@ internal static class Sanitize
 			return;
 		}
 
-		if (inputObject is not string)
+		if (inputObject is not string inputString)
 		{
 			throw new FormatException($"{ExtensionFunction.Sanitize}() first parameter must be a string.");
 		}
-		inputString = inputObject.ToString();
 
 		var allowedCharactersObject = functionArgs.Parameters[1].Evaluate();
-		if (allowedCharactersObject is not string)
+		if (allowedCharactersObject is not string allowedCharacters)
 		{
 			throw new FormatException($"{ExtensionFunction.Sanitize}() second parameter must be a string.");
 		}
-		allowedCharacters = allowedCharactersObject.ToString();
 
 		if (functionArgs.Parameters.Length > 2)
 		{
 			var replacementCharactersObject = functionArgs.Parameters[2].Evaluate();
-			if (replacementCharactersObject is not string)
+			if (replacementCharactersObject is not string replacementCharactersString)
 			{
 				throw new FormatException($"{ExtensionFunction.Sanitize}() third parameter must be a string.");
 			}
-			replacementCharacters = replacementCharactersObject.ToString();
+
+			replacementCharacters = replacementCharactersString;
 		}
 
 		functionArgs.Result = Sanitise(inputString, allowedCharacters, replacementCharacters);
@@ -72,14 +69,7 @@ internal static class Sanitize
 
 		foreach (var character in inputString)
 		{
-			if (allowedCharacters.Contains(character))
-			{
-				builder.Append(character);
-			}
-			else
-			{
-				builder.Append(replacementCharacters);
-			}
+			builder.Append(allowedCharacters.Contains(character) ? character : replacementCharacters);
 		}
 
 		return builder.ToString();
