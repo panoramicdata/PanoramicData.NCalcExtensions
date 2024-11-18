@@ -112,7 +112,7 @@ internal static class DateTimeMethods
 	}
 
 	private static double? GetNullableDouble(Expression expression)
-		=> (expression.Evaluate()) switch
+		=> expression.Evaluate() switch
 		{
 			double doubleResult => doubleResult,
 			int intResult => intResult,
