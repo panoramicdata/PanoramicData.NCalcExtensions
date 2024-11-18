@@ -31,7 +31,7 @@ public class SplitTests : NCalcTest
 		var result = e.Evaluate();
 		result.Should().BeOfType<List<string>>();
 		var list = (List<string>)result;
-		list.Count.Should().Be(3);
+		list.Should().HaveCount(3);
 		list[0].Should().Be("a");
 		list[1].Should().Be("b");
 		list[2].Should().Be("c");

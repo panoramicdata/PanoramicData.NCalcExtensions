@@ -9,7 +9,7 @@ public class ExtendTests
 		var result = expression.Evaluate() as JObject;
 
 		result.Should().NotBeNull();
-		result!.Count.Should().Be(3);
+		result.Should().HaveCount(3);
 		result["a"]!.Value<int>().Should().Be(1);
 		result["b"]!.Value<int?>().Should().BeNull();
 		result["c"]!.Value<int>().Should().Be(5);
@@ -22,7 +22,7 @@ public class ExtendTests
 		var result = expression.Evaluate() as JObject;
 
 		result.Should().NotBeNull();
-		result!.Count.Should().Be(3);
+		result.Should().HaveCount(3);
 		result["a"]!.Value<int>().Should().Be(1);
 		result["b"]!.Value<int?>().Should().BeNull();
 		result["c"]!.Value<string?>().Should().Be(null);
