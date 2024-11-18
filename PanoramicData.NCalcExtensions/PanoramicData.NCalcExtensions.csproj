@@ -51,8 +51,8 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.Formats.Asn1" Version="9.0.0" />
 		<PackageReference Include="TimeZoneConverter" Version="6.1.0" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-		<PackageReference Include="NuGet.Packaging" Version="6.2.1" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+		<PackageReference Include="NuGet.Packaging" Version="6.12.1" PrivateAssets="All" />
 		<PackageReference Include="NuGet.Common" Version="6.12.1" />
 	</ItemGroup>
 </Project>
