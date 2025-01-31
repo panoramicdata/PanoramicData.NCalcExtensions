@@ -268,6 +268,9 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.SetProperties:
 				SetProperties.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Sha256:
+				Sha256.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Skip:
 				Skip.Evaluate(functionArgs);
 				return;

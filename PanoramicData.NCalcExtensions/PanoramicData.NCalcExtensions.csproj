@@ -22,7 +22,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DebugType>portable</DebugType>
-		<PackageReleaseNotes>extend() can now add properties with null value.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added sha256().</PackageReleaseNotes>
 		<Title>Panoramic Data NCalc Extensions</Title>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>

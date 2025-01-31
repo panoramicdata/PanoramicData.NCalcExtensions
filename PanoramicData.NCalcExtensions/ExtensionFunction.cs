@@ -71,6 +71,7 @@ public static class ExtensionFunction
 	public const string Select = "select";
 	public const string SelectDistinct = "selectDistinct";
 	public const string SetProperties = "setProperties";
+	public const string Sha256 = "sha256";
 	public const string Skip = "skip";
 	public const string Sort = "sort";
 	public const string Split = "split";

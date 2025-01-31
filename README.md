@@ -82,6 +82,7 @@ The NCalc documentation can be found [here (source code)](https://github.com/skl
 | [select()](#select) | Converts an IEnumerable using a lambda. |
 | [selectDistinct()](#selectdistinct) | Converts an IEnumerable using a lambda and removes duplicates. |
 | [setProperties()](#setproperties) | Sets properties on an existing object. |
+| [sha256()](#sha256) | Converts a string to a SHA256 hash. |
 | [skip()](#skip) | Skips a number of items in a list. |
 | [sort()](#sort) | Sorts an IComparable ascending or descending. |
 | [split()](#split) | Splits a string on a given character into a list of strings. |
@@ -1264,6 +1265,22 @@ Emits a List\<T\>.
 #### Examples
    * setProperties(jObject('a', 1, 'b', null), 'c', 'X') : jObject('a', 1, 'b', null, 'c', 'X')
    * setProperties(jObject('a', 1, 'b', null), 'c', 'X', 'd', 'Y') : jObject('a', 1, 'b', null, 'c', 'X', 'd', 'Y')
+---
+
+### sha256()
+
+#### Purpose
+   Performs a SHA 256 hash of a string.
+
+#### Notes
+	The output is a 64-character hexadecimal string.
+
+#### Parameters
+   * the input string
+
+#### Examples
+   * sha('Hello'): '185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969'
+
 ---
 
 ### skip()
