@@ -43,7 +43,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CoreCLR-NCalc" Version="3.1.253" />
+		<PackageReference Include="NCalcSync" Version="5.3.0" />
 		<PackageReference Include="Nerdbank.GitVersioning" Version="3.6.146">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
