@@ -20,4 +20,13 @@ public class GetPropertyTests
 		result.Should().BeOfType<int>();
 		result.Should().Be(2);
 	}
+
+	[Fact]
+	public void GetProperty_FromDictionary()
+	{
+		var expression = new ExtendedExpression($"getProperty(dictionary('A', 2, 'B', 'Target'), 'B')");
+		var result = expression.Evaluate();
+		result.Should().BeOfType<string>();
+		result.Should().Be("Target");
+	}
 }
