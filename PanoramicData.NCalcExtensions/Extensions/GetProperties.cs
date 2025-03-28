@@ -36,11 +36,10 @@ internal static class GetProperties
 				.Properties()
 				.Select(p => p.Name)
 				.ToList(),
-			_ => value
+			_ => [.. value
 				.GetType()
 				.GetProperties()
-				.Select(p => p.Name)
-				.ToList()
+				.Select(p => p.Name)]
 		};
 	}
 }

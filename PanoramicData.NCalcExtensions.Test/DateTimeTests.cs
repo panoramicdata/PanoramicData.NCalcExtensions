@@ -25,8 +25,8 @@ public class DateTimeTests : NCalcTest
 		//                 timespan(format(toDateTime(incident_CreateDate      , 'yyyy-MM-ddTHH:mm:ss.FFF', 'Eastern Standard Time'), 'yyyy-MM-dd HH:mm:ss', 'UTC'), dateTime('UTC', 'yyyy-MM-dd HH:mm:ss'), 'seconds') <= 600
 		var result = Test("timespan(format(toDateTime('2020-01-01T00:00:00.000', 'yyyy-MM-ddTHH:mm:ss.FFF', 'Eastern Standard Time'), 'yyyy-MM-dd HH:mm:ss', 'UTC'), dateTime('UTC', 'yyyy-MM-dd HH:mm:ss'), 'seconds') <= 600");
 		var resultAsTimeSpan = result as bool?;
-		resultAsTimeSpan.HasValue.Should().BeTrue();
-		Assert.False(resultAsTimeSpan);
+		resultAsTimeSpan.Should().NotBeNull();
+		resultAsTimeSpan.Should().BeFalse();
 	}
 
 	[Fact]

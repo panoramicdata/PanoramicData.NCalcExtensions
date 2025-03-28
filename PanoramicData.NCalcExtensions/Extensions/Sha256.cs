@@ -48,6 +48,7 @@ internal static class Sha256
 		{
 			hash.Append(b.ToString("x2", CultureInfo.InvariantCulture));
 		}
+
 		return hash.ToString();
 	}
 }

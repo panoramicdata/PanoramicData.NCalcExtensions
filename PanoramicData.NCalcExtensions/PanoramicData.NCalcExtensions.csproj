@@ -44,15 +44,15 @@
 
 	<ItemGroup>
 		<PackageReference Include="CoreCLR-NCalc" Version="3.1.253" />
-		<PackageReference Include="Nerdbank.GitVersioning" Version="3.6.146">
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="System.Formats.Asn1" Version="9.0.0" />
-		<PackageReference Include="TimeZoneConverter" Version="6.1.0" />
+		<PackageReference Include="System.Formats.Asn1" Version="9.0.3" />
+		<PackageReference Include="TimeZoneConverter" Version="7.0.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-		<PackageReference Include="NuGet.Packaging" Version="6.12.1" PrivateAssets="All" />
-		<PackageReference Include="NuGet.Common" Version="6.12.1" />
+		<PackageReference Include="NuGet.Packaging" Version="6.13.2" PrivateAssets="All" />
+		<PackageReference Include="NuGet.Common" Version="6.13.2" />
 	</ItemGroup>
 </Project>

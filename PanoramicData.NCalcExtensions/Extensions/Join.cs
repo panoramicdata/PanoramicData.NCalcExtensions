@@ -28,10 +28,8 @@ internal static class Join
 			input = firstParam == null
 				? ([])
 				: firstParam is List<object> objList
-					? objList
-						.Select(u => u?.ToString() ?? string.Empty)
-						.ToList()
-					: ((IEnumerable<string>)firstParam).ToList();
+					? [.. objList.Select(u => u?.ToString() ?? string.Empty)]
+					: [.. ((IEnumerable<string>)firstParam)];
 
 			joinString = (string)functionArgs.Parameters[1].Evaluate();
 		}
