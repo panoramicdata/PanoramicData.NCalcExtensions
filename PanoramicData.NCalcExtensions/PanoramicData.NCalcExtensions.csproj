@@ -22,7 +22,9 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DebugType>portable</DebugType>
-		<PackageReleaseNotes>Added sha256().</PackageReleaseNotes>
+
+		<PackageReleaseNotes>Added multi-line and comment support.</PackageReleaseNotes>
+
 		<Title>Panoramic Data NCalc Extensions</Title>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>

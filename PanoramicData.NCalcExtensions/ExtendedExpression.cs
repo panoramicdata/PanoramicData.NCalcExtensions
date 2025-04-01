@@ -8,7 +8,23 @@ public class ExtendedExpression : Expression
 	private readonly CultureInfo _cultureInfo;
 	internal const string StorageDictionaryParameterName = "__storageDictionary";
 
-	public ExtendedExpression(string expression) : this(expression, EvaluateOptions.None, CultureInfo.InvariantCulture) { }
+	public ExtendedExpression(string expression) : this(Tidy(expression), EvaluateOptions.None, CultureInfo.InvariantCulture) { }
+
+	/// <summary>
+	/// Treat this as multi-line input, stripping off any \r characters
+	/// Remove any comment lines starting with just whitespace and then // e.g.
+	///		"\t\t    // This is a comment"
+	///		"// This is also a comment"
+	/// Re-assemble the lines into a single string
+	/// </summary>
+	private static string Tidy(string expression)
+		=> string.Join(
+			" ",
+			expression
+				.Split('\n')
+				.Select(line => line.TrimEnd('\r'))
+				.Where(line => !line.TrimStart().StartsWith("//", StringComparison.Ordinal))
+			);
 
 	public ExtendedExpression(
 		string expression,

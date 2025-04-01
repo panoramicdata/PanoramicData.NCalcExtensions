@@ -11,6 +11,29 @@ This nuget package provides extension functions for NCalc.
 
 The NCalc documentation can be found [here (source code)](https://github.com/sklose/NCalc2) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
 
+## Additional benefits
+
+When using ExtendedExpression, you can:
+- use "//" comments
+- split expressions over multiple lines
+- include empty lines
+- indent lines
+
+For example:
+
+````NCalc
+// This calculates the presence of a needle in a haystack
+contains(
+
+	// Complicated haystack creation
+	'haystack ' + 'containing needle',
+
+	// The needle we are looking for
+	'needle'
+
+)
+````
+
 ## Functions
 
 | Function | Purpose | Notes |
