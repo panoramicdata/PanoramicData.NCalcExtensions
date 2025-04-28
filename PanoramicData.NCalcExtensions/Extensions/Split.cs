@@ -20,7 +20,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Split
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		string input;
 		string splitString;

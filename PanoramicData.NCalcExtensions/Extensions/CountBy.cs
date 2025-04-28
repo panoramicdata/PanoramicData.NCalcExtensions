@@ -22,7 +22,7 @@ public partial interface IFunctionPrototypes
 
 internal static class CountBy
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var listObject = functionArgs.Parameters[0].Evaluate();
 		var listEnumerable = listObject as IEnumerable<object?>;

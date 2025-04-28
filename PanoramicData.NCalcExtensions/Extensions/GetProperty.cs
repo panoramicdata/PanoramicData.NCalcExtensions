@@ -20,7 +20,7 @@ public partial interface IFunctionPrototypes
 
 internal static class GetProperty
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		object value;
 		string property;

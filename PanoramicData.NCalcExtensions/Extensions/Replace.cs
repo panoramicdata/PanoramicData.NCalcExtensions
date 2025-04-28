@@ -25,7 +25,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Replace
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		// Input checks
 		switch (functionArgs.Parameters.Length)

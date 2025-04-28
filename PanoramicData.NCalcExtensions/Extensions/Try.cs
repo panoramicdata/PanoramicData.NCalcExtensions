@@ -19,9 +19,9 @@ public partial interface IFunctionPrototypes
 
 internal static class Try
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
-		ExtendedExpression.CheckParameterCount(nameof(Try), functionArgs, 1, 2);
+		ExpressionHelper.CheckParameterCount(nameof(Try), functionArgs, 1, 2);
 
 		try
 		{

@@ -4,9 +4,9 @@ namespace PanoramicData.NCalcExtensions;
 public class Lambda(
 	string predicate,
 	string nCalcString,
-	Dictionary<string, object?> parameters)
+	IDictionary<string, object?> parameters)
 {
-	public object? Evaluate<T>(T value)
+	public object? Evaluate(object value)
 	{
 		parameters.Remove(predicate);
 		parameters.Add(predicate, value!);
@@ -17,4 +17,41 @@ public class Lambda(
 
 		return ncalc.Evaluate();
 	}
+
+	public TOut? Evaluate<T, TOut>(T value)
+	{
+		parameters.Remove(predicate);
+		parameters.Add(predicate, value!);
+		var ncalc = new ExtendedExpression(nCalcString)
+		{
+			Parameters = parameters
+		};
+
+		var val = ncalc.Evaluate();
+
+		return (TOut)Convert.ChangeType(val, typeof(TOut), CultureInfo.InvariantCulture);
+	}
+
+	public TOut? Evaluate<TOut>(object value)
+	{
+		parameters.Remove(predicate);
+		parameters.Add(predicate, value!);
+		var ncalc = new ExtendedExpression(nCalcString, typeof(TOut) == typeof(string) ? (ExpressionOptions.StringConcat) : (ExpressionOptions.NoCache))
+		{
+			Parameters = parameters
+		};
+
+		var val = ncalc.Evaluate();
+
+		return (TOut)Convert.ChangeType(val, typeof(TOut), CultureInfo.InvariantCulture);
+	}
+
+	//public TOut? Evaluate<T, TOut>(T value) where TOut : struct
+	//{
+	//	var result = Evaluate(value);
+	//	if (result == null)
+	//		return null;
+
+	//	return (TOut)Convert.ChangeType(result, typeof(TOut), CultureInfo.InvariantCulture);
+	//}
 }

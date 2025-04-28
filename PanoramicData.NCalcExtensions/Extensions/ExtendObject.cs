@@ -20,7 +20,7 @@ public partial interface IFunctionPrototypes
 
 internal static class ExtendObject
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		// Determine the type
 		(

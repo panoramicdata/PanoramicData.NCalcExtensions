@@ -17,7 +17,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Throw
 {
-	internal static Exception Evaluate(FunctionArgs functionArgs)
+	internal static Exception Evaluate(IFunctionArgs functionArgs)
 	{
 		switch (functionArgs.Parameters.Length)
 		{
