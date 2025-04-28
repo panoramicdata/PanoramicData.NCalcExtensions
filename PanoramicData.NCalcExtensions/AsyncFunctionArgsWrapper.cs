@@ -2,7 +2,7 @@
 
 internal class AsyncFunctionArgsWrapper : IFunctionArgs
 {
-	AsyncFunctionArgs _args;
+	readonly AsyncFunctionArgs _args;
 
 	public AsyncFunctionArgsWrapper(AsyncFunctionArgs args)
 	{

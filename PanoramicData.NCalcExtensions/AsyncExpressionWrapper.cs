@@ -6,7 +6,7 @@ namespace PanoramicData.NCalcExtensions;
 
 internal class AsyncExpressionWrapper : IExpression
 {
-	AsyncExpression _expression;
+	readonly AsyncExpression _expression;
 
 	public AsyncExpressionWrapper(AsyncExpression expression)
 	{

@@ -45,13 +45,4 @@ public class Lambda(
 
 		return (TOut)Convert.ChangeType(val, typeof(TOut), CultureInfo.InvariantCulture);
 	}
-
-	//public TOut? Evaluate<T, TOut>(T value) where TOut : struct
-	//{
-	//	var result = Evaluate(value);
-	//	if (result == null)
-	//		return null;
-
-	//	return (TOut)Convert.ChangeType(result, typeof(TOut), CultureInfo.InvariantCulture);
-	//}
 }

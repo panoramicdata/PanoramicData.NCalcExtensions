@@ -2,7 +2,7 @@
 
 internal class FunctionArgsWrapper : IFunctionArgs
 {
-	FunctionArgs _args;
+	readonly FunctionArgs _args;
 
 	public FunctionArgsWrapper(FunctionArgs args)
 	{

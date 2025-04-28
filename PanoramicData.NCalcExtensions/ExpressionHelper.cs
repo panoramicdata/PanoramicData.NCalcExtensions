@@ -13,15 +13,26 @@ internal static class ExpressionHelper
 	{
 		parameters[StorageDictionaryParameterName] = _storageDictionary;
 
-		if (parameters.ContainsKey("null")) throw new InvalidOperationException("Reserved keyword 'null'.");
+		if (parameters.ContainsKey("null"))
+		{
+			throw new InvalidOperationException("Reserved keyword 'null'."); 
+		}
+
 		parameters["null"] = null;
 
-		if (parameters.ContainsKey("True")) throw new InvalidOperationException("Reserved keyword 'True'.");
+		if (parameters.ContainsKey("True"))
+		{
+			throw new InvalidOperationException("Reserved keyword 'True'.");
+		}
+
 		parameters["True"] = true;
 
-		if (parameters.ContainsKey("False")) throw new InvalidOperationException("Reserved keyword 'False'.");
-		parameters["False"] = false;
+		if (parameters.ContainsKey("False"))
+		{
+			throw new InvalidOperationException("Reserved keyword 'False'.");
+		}
 
+		parameters["False"] = false;
 		parameters["EMPTYQUOTES"] = string.Empty;
 	}
 

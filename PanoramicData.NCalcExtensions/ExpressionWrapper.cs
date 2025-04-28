@@ -6,7 +6,7 @@ namespace PanoramicData.NCalcExtensions;
 
 internal class ExpressionWrapper : IExpression
 {
-	Expression _expression;
+	readonly Expression _expression;
 
 	public ExpressionWrapper(Expression expression)
 	{
