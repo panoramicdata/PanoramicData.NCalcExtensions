@@ -20,7 +20,15 @@ public class AsyncExtendedExpression : AsyncExpression
 		CultureInfo cultureInfo) : base(expression.TidyExpression(), expressionOptions, cultureInfo)
 	{
 		ExpressionHelper.Configure(this.Parameters, _storageDictionary);
-		EvaluateFunctionAsync += (fn, args) => ExpressionHelper.ExtendAsync(fn, args, _storageDictionary, cultureInfo);
+		EvaluateFunctionAsync += (fn, args) => ExpressionHelper.Extend(fn, args, _storageDictionary, cultureInfo);
+	}
+
+	public AsyncExtendedExpression(
+		string expression,
+		AsyncExpressionContext context) : base(expression.TidyExpression(), context)
+	{
+		ExpressionHelper.Configure(this.Parameters, _storageDictionary);
+		EvaluateFunctionAsync += (fn, args) => ExpressionHelper.Extend(fn, args, _storageDictionary, context.CultureInfo);
 	}
 
 	public object? Evaluate()

@@ -22,4 +22,12 @@ public class ExtendedExpression : Expression
 		ExpressionHelper.Configure(this.Parameters, _storageDictionary);
 		EvaluateFunction += (fn, args) => ExpressionHelper.Extend(fn, args, _storageDictionary, cultureInfo);
 	}
+
+	public ExtendedExpression(
+		string expression,
+		ExpressionContext context) : base(expression.TidyExpression(), context)
+	{
+		ExpressionHelper.Configure(this.Parameters, _storageDictionary);
+		EvaluateFunction += (fn, args) => ExpressionHelper.Extend(fn, args, _storageDictionary, context.CultureInfo);
+	}
 }

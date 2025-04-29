@@ -72,7 +72,7 @@ internal static class ExpressionHelper
 		}
 	}
 
-	internal static ValueTask ExtendAsync(string functionName, AsyncFunctionArgs functionArgs, Dictionary<string, object?> _storageDictionary, CultureInfo _cultureInfo)
+	internal static ValueTask Extend(string functionName, AsyncFunctionArgs functionArgs, Dictionary<string, object?> _storageDictionary, CultureInfo _cultureInfo)
 	{
 		var args = new AsyncFunctionArgsWrapper(functionArgs);
 		Extend(functionName, args, _storageDictionary, _cultureInfo);
