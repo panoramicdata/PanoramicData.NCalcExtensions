@@ -23,8 +23,10 @@ internal static class ExpressionHelper
 		{
 			if (parameters.ContainsKey(reserved.Key))
 			{
-				if (!Equals(parameters[reserved.Key], reserved.Value))
+				if (!Equals(parameters[reserved.Key], reserved.Value)) 
+				{
 					throw new InvalidOperationException($"Reserved keyword '{reserved.Key}'.");
+				}
 			}
 			parameters[reserved.Key] = reserved.Value;
 		}

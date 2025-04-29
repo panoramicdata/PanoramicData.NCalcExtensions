@@ -10,9 +10,9 @@ public class AsyncExtendedExpressionTests : NCalcTest
 	{
 		Assert.Throws<InvalidOperationException>(() =>
 		{
-			var expr = new AsyncExtendedExpression("expression", new AsyncExpressionContext
+			_ = new AsyncExtendedExpression("expression", new AsyncExpressionContext
 			{
-				StaticParameters = new Dictionary<string, object?>()
+				StaticParameters = new Dictionary<string, object?>
 				{
 					{ "null", "notnull" },
 					{ "True", false },
@@ -24,17 +24,14 @@ public class AsyncExtendedExpressionTests : NCalcTest
 	}
 
 	[Fact]
-	public void Adding_Reserverd_Keywords_The_Same_Must_Not_Fail()
+	public void Adding_Reserverd_Keywords_The_Same_Must_Not_Fail() => _ = new AsyncExtendedExpression("expression", new AsyncExpressionContext
 	{
-		var expr = new AsyncExtendedExpression("expression", new AsyncExpressionContext
-		{
-			StaticParameters = new Dictionary<string, object?>()
+		StaticParameters = new Dictionary<string, object?>
 			{
 				{ "null", null },
 				{ "True", true },
 				{ "False", false },
 				{ "EMPTYQUOTES", string.Empty }
 			}
-		});
-	}
+	});
 }
