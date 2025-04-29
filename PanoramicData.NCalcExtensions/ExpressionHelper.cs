@@ -1,6 +1,4 @@
-﻿using NCalc.Cache;
-using NCalc.Factories;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PanoramicData.NCalcExtensions;
@@ -13,27 +11,23 @@ internal static class ExpressionHelper
 	{
 		parameters[StorageDictionaryParameterName] = _storageDictionary;
 
-		if (parameters.ContainsKey("null"))
+		var reservedKeyValues = new Dictionary<string, object?>
 		{
-			throw new InvalidOperationException("Reserved keyword 'null'."); 
-		}
+			{ "null", null },
+			{ "True", true },
+			{ "False", false },
+			{ "EMPTYQUOTES", string.Empty }
+		};
 
-		parameters["null"] = null;
-
-		if (parameters.ContainsKey("True"))
+		foreach (var reserved in reservedKeyValues)
 		{
-			throw new InvalidOperationException("Reserved keyword 'True'.");
+			if (parameters.ContainsKey(reserved.Key))
+			{
+				if (!Equals(parameters[reserved.Key], reserved.Value))
+					throw new InvalidOperationException($"Reserved keyword '{reserved.Key}'.");
+			}
+			parameters[reserved.Key] = reserved.Value;
 		}
-
-		parameters["True"] = true;
-
-		if (parameters.ContainsKey("False"))
-		{
-			throw new InvalidOperationException("Reserved keyword 'False'.");
-		}
-
-		parameters["False"] = false;
-		parameters["EMPTYQUOTES"] = string.Empty;
 	}
 
 	/// <summary>
@@ -87,7 +81,7 @@ internal static class ExpressionHelper
 
 	internal static void Extend(string functionName, IFunctionArgs functionArgs, Dictionary<string, object?> _storageDictionary, CultureInfo _cultureInfo)
 	{
-		if (functionArgs == null)
+		if (string.IsNullOrWhiteSpace(functionName))
 		{
 			throw new ArgumentNullException(nameof(functionArgs));
 		}
