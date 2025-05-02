@@ -27,7 +27,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Format
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(IFunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		const int min = 2;
 		const int max = 3;

@@ -20,7 +20,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Store
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		string key;
 		object? value;
@@ -34,7 +34,7 @@ internal static class Store
 			throw new FormatException($"{ExtensionFunction.Store}() requires two parameters.");
 		}
 
-		var storageDictionary = functionArgs.Parameters[0].Parameters[ExtendedExpression.StorageDictionaryParameterName] as Dictionary<string, object?>
+		var storageDictionary = functionArgs.Parameters[0].Parameters[ExpressionHelper.StorageDictionaryParameterName] as Dictionary<string, object?>
 			?? throw new FormatException($"{ExtensionFunction.Retrieve}() requires a storage dictionary.");
 
 		storageDictionary[key] = value;

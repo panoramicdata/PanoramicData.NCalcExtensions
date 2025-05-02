@@ -22,7 +22,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Any
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		switch (functionArgs.Parameters.Length)
 		{

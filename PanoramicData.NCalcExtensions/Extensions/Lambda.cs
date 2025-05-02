@@ -4,7 +4,7 @@ namespace PanoramicData.NCalcExtensions.Extensions;
 
 internal static class LambdaFunction
 {
-	internal static void Evaluate(FunctionArgs functionArgs, Dictionary<string, object?> storageDictionary)
+	internal static void Evaluate(IFunctionArgs functionArgs, Dictionary<string, object?> storageDictionary)
 	{
 		string predicate;
 		string nCalcString;

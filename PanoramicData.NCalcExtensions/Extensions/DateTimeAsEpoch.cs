@@ -19,7 +19,7 @@ public partial interface IFunctionPrototypes
 
 internal static class DateTimeAsEpoch
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(IFunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		var dateTimeOffset = DateTimeOffset.ParseExact(
 			functionArgs.Parameters[0].Evaluate() as string, // Input date as string

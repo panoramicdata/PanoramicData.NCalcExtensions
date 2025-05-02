@@ -19,7 +19,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Concat
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var list = new List<object>();
 		foreach (var parameter in functionArgs.Parameters)

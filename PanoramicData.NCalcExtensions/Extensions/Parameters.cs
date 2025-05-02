@@ -8,7 +8,7 @@ internal static class Parameters
 	#region Parameters
 
 	internal static T1 GetParameter<T1>(
-		FunctionArgs args,
+		IFunctionArgs args,
 		[CallerMemberName] string callerName = "")
 	{
 		CheckParameterCount(1, 1, args.Parameters, callerName);
@@ -17,7 +17,7 @@ internal static class Parameters
 	}
 
 	internal static Tuple<T1, T2> GetParameters<T1, T2>(
-		FunctionArgs args,
+		IFunctionArgs args,
 		[CallerMemberName] string callerName = "")
 	{
 		CheckParameterCount(2, 2, args.Parameters, callerName);
@@ -30,7 +30,7 @@ internal static class Parameters
 	}
 
 	internal static Tuple<T1, T2, T3> GetParameters<T1, T2, T3>(
-		FunctionArgs args,
+		IFunctionArgs args,
 		[CallerMemberName] string callerName = "")
 	{
 		CheckParameterCount(3, 3, args.Parameters, callerName);
@@ -44,7 +44,7 @@ internal static class Parameters
 	}
 
 	internal static Tuple<T1, T2, T3, T4> GetParameters<T1, T2, T3, T4>(
-		FunctionArgs args,
+		IFunctionArgs args,
 		[CallerMemberName] string callerName = "")
 	{
 		CheckParameterCount(4, 4, args.Parameters, callerName);
@@ -59,7 +59,7 @@ internal static class Parameters
 	}
 
 	internal static Tuple<T1, T2, T3, T4, T5> GetParameters<T1, T2, T3, T4, T5>(
-		FunctionArgs args,
+		IFunctionArgs args,
 		[CallerMemberName] string callerName = "")
 	{
 		CheckParameterCount(5, 5, args.Parameters, callerName);
@@ -75,7 +75,7 @@ internal static class Parameters
 	}
 
 	internal static Tuple<T1, T2, T3, T4, T5, T6> GetParameters<T1, T2, T3, T4, T5, T6>(
-		FunctionArgs args,
+		IFunctionArgs args,
 		[CallerMemberName] string callerName = "")
 	{
 		CheckParameterCount(6, 6, args.Parameters, callerName);
@@ -92,7 +92,7 @@ internal static class Parameters
 	}
 
 	internal static Tuple<T1, T2, T3, T4, T5, T6, T7> GetParameters<T1, T2, T3, T4, T5, T6, T7>(
-		FunctionArgs args,
+		IFunctionArgs args,
 		[CallerMemberName] string callerName = "")
 	{
 		CheckParameterCount(7, 7, args.Parameters, callerName);
@@ -112,7 +112,7 @@ internal static class Parameters
 	internal static void CheckParameterCount(
 		int? minCount,
 		int? maxCount,
-		Expression[] parameters,
+		IExpression[] parameters,
 		[CallerMemberName] string callerName = "")
 	{
 		if (minCount.HasValue && parameters.Length < minCount.Value)

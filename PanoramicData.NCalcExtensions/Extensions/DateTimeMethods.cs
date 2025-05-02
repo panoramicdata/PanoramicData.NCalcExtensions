@@ -27,7 +27,7 @@ public partial interface IFunctionPrototypes
 
 internal static class DateTimeMethods
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(IFunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		if (functionArgs.Parameters.Length > 0)
 		{
@@ -111,7 +111,7 @@ internal static class DateTimeMethods
 			.ToString(format, cultureInfo);
 	}
 
-	private static double? GetNullableDouble(Expression expression)
+	private static double? GetNullableDouble(IExpression expression)
 		=> expression.Evaluate() switch
 		{
 			double doubleResult => doubleResult,

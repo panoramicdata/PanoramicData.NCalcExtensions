@@ -19,7 +19,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Switch
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		if (functionArgs.Parameters.Length < 3)
 		{
@@ -33,7 +33,7 @@ internal static class Switch
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
-			throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
+			throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0].LogicalExpression}'.");
 		}
 
 		// Determine the pair count
