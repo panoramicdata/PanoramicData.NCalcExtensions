@@ -20,7 +20,7 @@ public class AsyncExtendedExpression : AsyncExpression
 		CultureInfo cultureInfo) : base(expression.TidyExpression(), expressionOptions, cultureInfo)
 	{
 		ExpressionHelper.Configure(this.Parameters, _storageDictionary);
-		EvaluateFunctionAsync += (fn, args) => ExpressionHelper.Extend(fn, args, _storageDictionary, cultureInfo);
+		ExpressionHelper.Extend(_storageDictionary, Context);
 	}
 
 	public AsyncExtendedExpression(
@@ -28,12 +28,21 @@ public class AsyncExtendedExpression : AsyncExpression
 		AsyncExpressionContext context) : base(expression.TidyExpression(), context)
 	{
 		ExpressionHelper.Configure(this.Parameters, _storageDictionary);
-		EvaluateFunctionAsync += (fn, args) => ExpressionHelper.Extend(fn, args, _storageDictionary, context.CultureInfo);
+		ExpressionHelper.Extend(_storageDictionary, Context);
 	}
 
 	public object? Evaluate()
 	{
 		// TODO : this is a hack to make the existing functions still work
-		return this.EvaluateAsync().AsTask().GetAwaiter().GetResult();
+		var valueTask = EvaluateAsync();
+
+		if (valueTask.IsCompletedSuccessfully)
+		{
+			return valueTask.Result;
+		}
+		else
+		{
+			return valueTask.AsTask().GetAwaiter().GetResult();
+		}
 	}
 }

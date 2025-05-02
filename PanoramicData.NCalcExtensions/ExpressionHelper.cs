@@ -68,17 +68,40 @@ internal static class ExpressionHelper
 		}
 	}
 
-	internal static ValueTask Extend(string functionName, AsyncFunctionArgs functionArgs, Dictionary<string, object?> _storageDictionary, CultureInfo _cultureInfo)
+	internal static void Extend(Dictionary<string, object?> storageDictionary, AsyncExpressionContext context)
 	{
-		var args = new AsyncFunctionArgsWrapper(functionArgs);
-		Extend(functionName, args, _storageDictionary, _cultureInfo);
-		return new ValueTask(Task.FromResult(args.Result));
+		var currentHandler = context.AsyncEvaluateFunctionHandler;
+
+		context.AsyncEvaluateFunctionHandler = async (fn, args) =>
+		{
+			var wrappedArgs = new AsyncFunctionArgsWrapper(args);
+			Extend(fn, wrappedArgs, storageDictionary, context.CultureInfo);
+			if (args.HasResult)
+				return;
+
+			if (currentHandler != null)
+			{
+				await currentHandler(fn, args);
+			}
+		};
 	}
 
-	internal static void Extend(string functionName, FunctionArgs functionArgs, Dictionary<string, object?> _storageDictionary, CultureInfo _cultureInfo)
+	internal static void Extend(Dictionary<string, object?> storageDictionary, ExpressionContext context)
 	{
-		var args = new FunctionArgsWrapper(functionArgs);
-		Extend(functionName, args, _storageDictionary, _cultureInfo);
+		var currentHandler = context.EvaluateFunctionHandler;
+
+		context.EvaluateFunctionHandler = (fn, args) =>
+		{
+			var wrappedArgs = new FunctionArgsWrapper(args);
+			Extend(fn, wrappedArgs, storageDictionary, context.CultureInfo);
+			if (args.HasResult)
+				return;
+
+			if (currentHandler != null)
+			{
+				currentHandler(fn, args);
+			}
+		};
 	}
 
 	internal static void Extend(string functionName, IFunctionArgs functionArgs, Dictionary<string, object?> _storageDictionary, CultureInfo _cultureInfo)

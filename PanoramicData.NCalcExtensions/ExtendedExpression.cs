@@ -20,7 +20,7 @@ public class ExtendedExpression : Expression
 		CultureInfo cultureInfo) : base(expression.TidyExpression(), expressionOptions, cultureInfo)
 	{
 		ExpressionHelper.Configure(this.Parameters, _storageDictionary);
-		EvaluateFunction += (fn, args) => ExpressionHelper.Extend(fn, args, _storageDictionary, cultureInfo);
+		ExpressionHelper.Extend(_storageDictionary, Context);
 	}
 
 	public ExtendedExpression(
@@ -28,6 +28,6 @@ public class ExtendedExpression : Expression
 		ExpressionContext context) : base(expression.TidyExpression(), context)
 	{
 		ExpressionHelper.Configure(this.Parameters, _storageDictionary);
-		EvaluateFunction += (fn, args) => ExpressionHelper.Extend(fn, args, _storageDictionary, context.CultureInfo);
+		ExpressionHelper.Extend(_storageDictionary, Context);
 	}
 }

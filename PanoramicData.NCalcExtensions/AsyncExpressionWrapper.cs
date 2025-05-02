@@ -16,6 +16,19 @@ internal class AsyncExpressionWrapper : IExpression
 	public IDictionary<string, object?> Parameters { get => _expression.Parameters; }
 	public LogicalExpression? LogicalExpression { get => _expression.LogicalExpression; }
 
-	public object? Evaluate() => _expression.EvaluateAsync().GetAwaiter().GetResult();
+	public object? Evaluate()
+	{
+		var valueTask = _expression.EvaluateAsync();
+
+		if (valueTask.IsCompletedSuccessfully) 
+		{
+			return valueTask.Result;
+		}
+		else
+		{
+			return valueTask.AsTask().GetAwaiter().GetResult();
+		}
+	}
+
 	public ValueTask<object?> EvaluateAsync() => _expression.EvaluateAsync();
 }
