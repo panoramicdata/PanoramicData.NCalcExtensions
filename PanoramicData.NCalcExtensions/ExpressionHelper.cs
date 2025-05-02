@@ -76,8 +76,9 @@ internal static class ExpressionHelper
 		{
 			var wrappedArgs = new AsyncFunctionArgsWrapper(args);
 			Extend(fn, wrappedArgs, storageDictionary, context.CultureInfo);
-			if (args.HasResult)
+			if (args.HasResult) {
 				return;
+			}
 
 			if (currentHandler != null)
 			{
@@ -94,8 +95,9 @@ internal static class ExpressionHelper
 		{
 			var wrappedArgs = new FunctionArgsWrapper(args);
 			Extend(fn, wrappedArgs, storageDictionary, context.CultureInfo);
-			if (args.HasResult)
+			if (args.HasResult) {
 				return;
+			}
 
 			if (currentHandler != null)
 			{
