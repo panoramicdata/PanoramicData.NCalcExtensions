@@ -23,7 +23,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added multi-line and comment support.</PackageReleaseNotes>
+		<PackageReleaseNotes>Added custom IComparer so that mixed ints and doubles can be compared.</PackageReleaseNotes>
 
 		<Title>Panoramic Data NCalc Extensions</Title>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>

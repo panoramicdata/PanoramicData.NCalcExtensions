@@ -45,7 +45,7 @@ internal static class OrderBy
 			{
 				var result = lambda.Evaluate(value);
 				return result;
-			});
+			}, ObjectKeyComparer.Instance);
 
 		var parameterCount = functionArgs.Parameters.Length;
 
@@ -59,9 +59,49 @@ internal static class OrderBy
 						{
 							var result = lambda.Evaluate(value);
 							return result;
-						});
+						}, ObjectKeyComparer.Instance);
 		}
 
 		functionArgs.Result = orderable.ToList();
+	}
+}
+
+internal sealed class ObjectKeyComparer : IComparer<object?>
+{
+	public static readonly ObjectKeyComparer Instance = new();
+
+	public int Compare(object? x, object? y)
+	{
+		if (ReferenceEquals(x, y)) return 0;
+		if (x is null) return -1;
+		if (y is null) return 1;
+
+		// Allow mixed numeric comparisons (e.g., int vs double)
+		if (TryToDouble(x, out var dx) && TryToDouble(y, out var dy))
+		{
+			return dx.CompareTo(dy);
+		}
+
+		// Fall back to default behavior for non-numeric keys
+		return Comparer<object>.Default.Compare(x, y);
+	}
+
+	private static bool TryToDouble(object value, out double result)
+	{
+		switch (value)
+		{
+			case byte b: result = b; return true;
+			case sbyte sb: result = sb; return true;
+			case short s: result = s; return true;
+			case ushort us: result = us; return true;
+			case int i: result = i; return true;
+			case uint ui: result = ui; return true;
+			case long l: result = l; return true;
+			case ulong ul: result = ul; return true;
+			case float f: result = f; return true;
+			case double d: result = d; return true;
+			case decimal m: result = (double)m; return true;
+			default: result = 0; return false;
+		}
 	}
 }
