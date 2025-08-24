@@ -23,7 +23,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DebugType>portable</DebugType>
 
-		<PackageReleaseNotes>Added custom IComparer so that mixed ints and doubles can be compared.</PackageReleaseNotes>
+		<PackageReleaseNotes>Fixed an where the ItemAtIndex function would fail if the index parameter was an Int64 rather than an Int32.</PackageReleaseNotes>
 
 		<Title>Panoramic Data NCalc Extensions</Title>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
