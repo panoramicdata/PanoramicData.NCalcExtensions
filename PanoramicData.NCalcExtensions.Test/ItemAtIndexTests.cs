@@ -17,4 +17,10 @@ public class ItemAtIndexTests : NCalcTest
 	[InlineData("itemAtIndex(split('a b c', ' '), 1)", "b")]
 	public void ItemAtIndex_ReturnsExpected(string expression, object? expectedOutput)
 		=> new ExtendedExpression(expression).Evaluate().Should().Be(expectedOutput);
+
+	[Theory]
+	[InlineData("itemAtIndex(list(1, 2, 3, 4, 5), 1)", 2)]
+	[InlineData("itemAtIndex(list(1, 2, 3, 4, 5), 1)", 2L)]
+	public void ItemAtIndexWithInt32AndInt64Index_ReturnsExpected(string expression, object? expectedOutput)
+		=> new ExtendedExpression(expression).Evaluate().Should().Be(expectedOutput);
 }
