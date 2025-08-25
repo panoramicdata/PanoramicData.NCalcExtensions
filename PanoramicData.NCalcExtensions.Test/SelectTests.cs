@@ -24,4 +24,14 @@ public class SelectTests : NCalcTest
 		result.Should().NotBeNull();
 		result.Should().BeOfType<List<JObject>>();
 	}
+
+	[Fact]
+	public void SelectWithListOfLists_Succeeds()
+	{
+		var result = new ExtendedExpression("select(list(list(1,2),list(2,3),list(3,4)), 'X', 'itemAtIndex(X,0) * itemAtIndex(X,1)')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(new List<int> { 2, 6, 12 });
+	}
 }
