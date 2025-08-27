@@ -21,7 +21,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Skip
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var list = (IList)functionArgs.Parameters[0].Evaluate();
 		var numberToSkip = (int)functionArgs.Parameters[1].Evaluate();

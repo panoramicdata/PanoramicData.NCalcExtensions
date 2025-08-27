@@ -19,7 +19,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Contains
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		try
 		{

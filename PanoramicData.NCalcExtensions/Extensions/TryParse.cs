@@ -23,7 +23,7 @@ public partial interface IFunctionPrototypes
 
 internal static class TryParse
 {
-	internal static void Evaluate(FunctionArgs functionArgs, Dictionary<string, object?> dictionary)
+	internal static void Evaluate(IFunctionArgs functionArgs, Dictionary<string, object?> dictionary)
 	{
 		if (functionArgs.Parameters.Length != 3)
 		{

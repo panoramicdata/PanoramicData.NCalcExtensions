@@ -22,7 +22,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Last
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var enumerable = functionArgs.Parameters[0].Evaluate() as IList
 			?? throw new FormatException($"First {ExtensionFunction.Last} parameter must be an IEnumerable.");

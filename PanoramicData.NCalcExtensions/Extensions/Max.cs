@@ -23,7 +23,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Max
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var originalListUntyped = functionArgs.Parameters[0].Evaluate();
 
@@ -87,7 +87,7 @@ internal static class Max
 			IEnumerable<double?> list => list.Max(value => (double?)lambda.Evaluate(value)),
 			IEnumerable<decimal> list => list.Max(value => (decimal?)lambda.Evaluate(value)),
 			IEnumerable<decimal?> list => list.Max(value => (decimal?)lambda.Evaluate(value)),
-			IEnumerable<string?> list => list.Max(value => (string?)lambda.Evaluate(value)),
+			IEnumerable<string?> list => list.Max(value => (string?)lambda.Evaluate<string>(value)),
 			IEnumerable<object?> list => GetMax(list.Select(value => lambda.Evaluate(value))),
 			_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a string or numeric type when processing as a lambda.")
 		};

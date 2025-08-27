@@ -17,7 +17,7 @@ public partial interface IFunctionPrototypes
 
 internal static class NullCoalesce
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		foreach (var parameter in functionArgs.Parameters)
 		{

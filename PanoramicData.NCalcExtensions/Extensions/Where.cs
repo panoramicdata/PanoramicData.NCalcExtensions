@@ -23,7 +23,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Where
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
 			?? throw new FormatException($"First {ExtensionFunction.Where} parameter must be an IEnumerable.");

@@ -30,7 +30,7 @@ public partial interface IFunctionPrototypes
 
 internal static class TimeSpan
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(IFunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		if (functionArgs.Parameters.Length != 3)
 		{
