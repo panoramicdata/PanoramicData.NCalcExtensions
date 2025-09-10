@@ -6,17 +6,20 @@ public class InterClassTests
 	public void AddingAnIntStringToAnInt_YieldsInt()
 	{
 		var expression = new ExtendedExpression("0 + '1'");
-		expression.Evaluate().Should().BeOfType<decimal>();
-		expression.Evaluate().Should().Be(1);
-		expression.Evaluate().Should().NotBe("1");
+		// BREAKING CHANGE in 5.6.0: previously this yielded a decimal
+		var result = expression.Evaluate();
+		result.Should().BeOfType<double>();
+		result.Should().Be(1);
+		result.Should().NotBe("1");
 	}
 
 	[Fact]
 	public void AddingAnIntToAnIntString_YieldsString()
 	{
 		var expression = new ExtendedExpression("'1' + 0");
-		expression.Evaluate().Should().BeOfType<string>();
-		expression.Evaluate().Should().Be("10");
-		expression.Evaluate().Should().NotBe(10);
+		// BREAKING CHANGE in 5.6.0: previously this yielded a string
+		var result = expression.Evaluate();
+		result.Should().BeOfType<double>();
+		result.Should().Be(1);
 	}
 }

@@ -1,3 +1,5 @@
+using NCalc.Exceptions;
+
 namespace PanoramicData.NCalcExtensions.Test;
 
 public class ToDateTimeTests : NCalcTest
@@ -71,7 +73,8 @@ public class ToDateTimeTests : NCalcTest
 		expression.Parameters[nameof(estDateTime)] = estDateTime;
 		AssertionExtensions
 			.Should(() => { expression.Evaluate(); })
-			.Throw<ArgumentException>();
+			// Change in NCalc 5.6.0 - was ArgumentException
+			.Throw<NCalcParameterNotDefinedException>();
 	}
 
 	[Fact]

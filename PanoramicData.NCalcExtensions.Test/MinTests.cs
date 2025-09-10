@@ -11,7 +11,7 @@ public class MinTests
 	[InlineData("1, 1, 1", 1)]
 	[InlineData("1, 1, 2", 1)]
 	[InlineData("1, null, 2", 1)]
-	[InlineData("1.1, null, 2", 1.1)]
+	[InlineData("1.1, null, 2", 1.1d)]
 	[InlineData("null, null, null", null)]
 
 	public void Min_OfNumbers_ReturnsExpectedValue(string values, object? expectedOutput)
@@ -91,16 +91,16 @@ public class MinTests
 	}
 
 	[Fact]
-	public void Max_UsingLambdaForInt_ReturnsExpected()
+	public void Min_UsingLambdaForInt_ReturnsExpected()
 	{
 		var expression = new ExtendedExpression($"min(listOf('int', 1, 2, 3), 'x', 'x + 1')");
 		expression.Evaluate().Should().Be(2);
 	}
 
 	[Fact]
-	public void Max_UsingLambdaForString_ReturnsExpected()
+	public void Min_UsingLambdaForString_ReturnsExpected()
 	{
-		var expression = new ExtendedExpression("min(listOf('string', '1', '2', '3'), 'x', 'x + x')");
+		var expression = new ExtendedExpression("min(listOf('string', '1', '2', '3'), 'x', 'concat(x, x)')");
 		expression.Evaluate().Should().Be("11");
 	}
 }

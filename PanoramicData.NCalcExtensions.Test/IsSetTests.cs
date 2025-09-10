@@ -19,7 +19,7 @@ public class IsSetTests
 	[Fact]
 	public void IsSet_IsNotSetWithParameterReferenceSet_ReturnsTrue()
 	{
-		var expression = new ExtendedExpression("isSet('a.b') && !isNull([a.b]) && [a.b]!=''");
+		var expression = new ExtendedExpression("isSet('a.b') && !isNull([a.b]) && [a.b] != ''");
 		expression.Parameters["a.b"] = 1;
 		Assert.True(expression.Evaluate() as bool?);
 	}

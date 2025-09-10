@@ -33,7 +33,7 @@ internal static class If
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
-			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ParsedExpression}'.");
+			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ExpressionString}'.");
 		}
 
 		if (boolParam1)
@@ -45,7 +45,7 @@ internal static class If
 			}
 			catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 			{
-				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 2 '{functionArgs.Parameters[1].ParsedExpression}' due to {e.Message}.", e);
+				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 2 '{functionArgs.Parameters[1].ExpressionString}' due to {e.Message}.", e);
 			}
 		}
 
@@ -55,7 +55,7 @@ internal static class If
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
-			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 3 '{functionArgs.Parameters[2].ParsedExpression}' due to {e.Message}.", e);
+			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 3 '{functionArgs.Parameters[2].ExpressionString}' due to {e.Message}.", e);
 		}
 	}
 }

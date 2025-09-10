@@ -6,7 +6,7 @@ public class ExtendedExpression : Expression
 	private readonly CultureInfo _cultureInfo;
 	internal const string StorageDictionaryParameterName = "__storageDictionary";
 
-	public ExtendedExpression(string expression) : this(Tidy(expression), EvaluateOptions.None, CultureInfo.InvariantCulture) { }
+	public ExtendedExpression(string expression) : this(expression, ExpressionOptions.NoCache, CultureInfo.InvariantCulture) { }
 
 	/// <summary>
 	/// Treat this as multi-line input, stripping off any \r characters
@@ -26,13 +26,12 @@ public class ExtendedExpression : Expression
 
 	public ExtendedExpression(
 		string expression,
-		EvaluateOptions evaluateOptions,
-		CultureInfo cultureInfo) : base(expression, evaluateOptions, cultureInfo)
+		ExpressionOptions expressionOptions,
+		CultureInfo cultureInfo) : base(Tidy(expression), expressionOptions, cultureInfo)
 	{
 		_cultureInfo = cultureInfo;
 		Parameters[StorageDictionaryParameterName] = _storageDictionary;
 		EvaluateFunction += Extend;
-		CacheEnabled = false;
 		if (Parameters.ContainsKey("null"))
 		{
 			throw new InvalidOperationException("You may not set a parameter called 'null', as it is a reserved keyword.");

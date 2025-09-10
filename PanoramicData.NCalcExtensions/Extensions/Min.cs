@@ -61,6 +61,8 @@ internal static class Min
 			return;
 		}
 
+		// It's in lambda form
+
 		var predicate = functionArgs.Parameters[1].Evaluate() as string
 			 ?? throw new FormatException($"Second {ExtensionFunction.Min} parameter must be a string.");
 
@@ -71,21 +73,21 @@ internal static class Min
 
 		functionArgs.Result = originalList switch
 		{
-			IEnumerable<byte> list => list.Min(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<byte?> list => list.Min(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short> list => list.Min(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short?> list => list.Min(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<int> list => list.Min(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<int?> list => list.Min(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<long> list => list.Min(value => (long?)lambda.Evaluate(value)),
-			IEnumerable<long?> list => list.Min(value => (long?)lambda.Evaluate(value)),
-			IEnumerable<float> list => list.Min(value => (float?)lambda.Evaluate(value)),
-			IEnumerable<float?> list => list.Min(value => (float?)lambda.Evaluate(value)),
-			IEnumerable<double> list => list.Min(value => (double?)lambda.Evaluate(value)),
-			IEnumerable<double?> list => list.Min(value => (double?)lambda.Evaluate(value)),
-			IEnumerable<decimal> list => list.Min(value => (decimal?)lambda.Evaluate(value)),
-			IEnumerable<decimal?> list => list.Min(value => (decimal?)lambda.Evaluate(value)),
-			IEnumerable<string?> list => list.Min(value => (string?)lambda.Evaluate(value)),
+			IEnumerable<byte> list => list.Min(lambda.EvaluateTo<byte, byte>),
+			IEnumerable<byte?> list => list.Min(lambda.EvaluateTo<byte?, byte?>),
+			IEnumerable<short> list => list.Min(lambda.EvaluateTo<short, short>),
+			IEnumerable<short?> list => list.Min(lambda.EvaluateTo<short?, short?>),
+			IEnumerable<int> list => list.Min(lambda.EvaluateTo<int, int>),
+			IEnumerable<int?> list => list.Min(lambda.EvaluateTo<int?, int?>),
+			IEnumerable<long> list => list.Min(lambda.EvaluateTo<long, long>),
+			IEnumerable<long?> list => list.Min(lambda.EvaluateTo<long?, long?>),
+			IEnumerable<float> list => list.Min(lambda.EvaluateTo<float, float>),
+			IEnumerable<float?> list => list.Min(lambda.EvaluateTo<float?, float?>),
+			IEnumerable<double> list => list.Min(lambda.EvaluateTo<double, double>),
+			IEnumerable<double?> list => list.Min(lambda.EvaluateTo<double?, double?>),
+			IEnumerable<decimal> list => list.Min(lambda.EvaluateTo<decimal, decimal>),
+			IEnumerable<decimal?> list => list.Min(lambda.EvaluateTo<decimal?, decimal?>),
+			IEnumerable<string?> list => list.Min(lambda.EvaluateTo<string?, string?>),
 			IEnumerable<object?> list => GetMin(list.Select(value => lambda.Evaluate(value))),
 			_ => throw new FormatException($"First {ExtensionFunction.Min} parameter must be an IEnumerable of a string or numeric type when processing as a lambda.")
 		};
