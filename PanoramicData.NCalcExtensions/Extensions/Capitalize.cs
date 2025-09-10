@@ -1,5 +1,4 @@
 ﻿using PanoramicData.NCalcExtensions.Helpers;
-using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
 

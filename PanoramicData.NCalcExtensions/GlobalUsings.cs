@@ -3,6 +3,8 @@ global using Newtonsoft.Json.Linq;
 global using PanoramicData.NCalcExtensions.Exceptions;
 global using PanoramicData.NCalcExtensions.Extensions;
 global using System;
+global using System.Collections.Generic;
+global using System.ComponentModel;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Globalization;
 global using System.Linq;

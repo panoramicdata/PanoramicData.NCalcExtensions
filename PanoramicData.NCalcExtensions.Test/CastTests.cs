@@ -1,6 +1,5 @@
-﻿using FluentAssertions;
+﻿namespace PanoramicData.NCalcExtensions.Test;
 
-namespace PanoramicData.NCalcExtensions.Test;
 public class CastTests
 {
 	[Theory]

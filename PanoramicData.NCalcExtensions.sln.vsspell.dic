@@ -39,6 +39,7 @@ namespace
 ncalc
 netstandard
 nuget
+nullable
 Poco
 regex
 sbyte
@@ -47,6 +48,8 @@ Silverlight
 snupkg
 ss
 startswith
+substring
+timespan
 tolower
 tostring
 toupper

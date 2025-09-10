@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PanoramicData.NCalcExtensions.Extensions;
+﻿namespace PanoramicData.NCalcExtensions.Extensions;
 
 internal static class LambdaFunction
 {

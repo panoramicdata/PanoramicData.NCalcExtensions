@@ -1,6 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
 
@@ -172,7 +170,8 @@ internal static class TryParse
 					}
 				default:
 					throw new FormatException($"type '{typeString}' not supported.");
-			};
+			}
+			;
 		}
 		catch (FormatException e)
 		{

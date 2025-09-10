@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PanoramicData.NCalcExtensions;
+﻿namespace PanoramicData.NCalcExtensions;
 public class Lambda(
 	string predicate,
 	string nCalcString,

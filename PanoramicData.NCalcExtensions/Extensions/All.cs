@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-
-namespace PanoramicData.NCalcExtensions.Extensions;
+﻿namespace PanoramicData.NCalcExtensions.Extensions;
 
 /// <summary>
 /// Used to provide IntelliSense in Monaco editor

@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace PanoramicData.NCalcExtensions.Test;
+﻿namespace PanoramicData.NCalcExtensions.Test;
 
 public class OrderByTests : NCalcTest
 {
 	[Theory]
-	[InlineData("n", new [] { 1, 2, 3 })]
-	[InlineData("-n", new [] { 3, 2, 1 })]
+	[InlineData("n", new[] { 1, 2, 3 })]
+	[InlineData("-n", new[] { 3, 2, 1 })]
 	public void OrderBy_SingleTerm_Succeeds(string expression, int[] expectedOrder)
 		=> new ExtendedExpression($"orderBy(list(2, 1, 3), 'n', '{expression}')")
 		.Evaluate()
@@ -39,7 +37,7 @@ public class OrderByTests : NCalcTest
 	.Evaluate()
 	.Should()
 	.BeEquivalentTo(expectedOrder);
-	
+
 	// Should use the strict order
 	//.BeEquivalentTo(expectedOrder, options => options.WithStrictOrdering());
 }
