@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Test;
+﻿using System.Text.Json;
+
+namespace PanoramicData.NCalcExtensions.Test;
 
 public class IsNullTests
 {
@@ -6,14 +8,14 @@ public class IsNullTests
 	public void IsNull_Example1_Succeeds()
 	{
 		var expression = new ExtendedExpression("isNull(1)");
-		Assert.False(expression.Evaluate() as bool?);
+		(expression.Evaluate() as bool?).Should().BeFalse();
 	}
 
 	[Fact]
 	public void IsNull_Example2_Succeeds()
 	{
 		var expression = new ExtendedExpression("isNull('text')");
-		Assert.False(expression.Evaluate() as bool?);
+		(expression.Evaluate() as bool?).Should().BeFalse();
 	}
 
 	[Fact]
@@ -21,14 +23,14 @@ public class IsNullTests
 	{
 		var expression = new ExtendedExpression("isNull(bob)");
 		expression.Parameters["bob"] = null;
-		Assert.True(expression.Evaluate() as bool?);
+		(expression.Evaluate() as bool?).Should().BeTrue();
 	}
 
 	[Fact]
 	public void IsNull_Example4_Succeeds()
 	{
 		var expression = new ExtendedExpression("isNull(null)");
-		Assert.True(expression.Evaluate() as bool?);
+		(expression.Evaluate() as bool?).Should().BeTrue();
 	}
 
 	[Fact]
@@ -38,7 +40,18 @@ public class IsNullTests
 		var jObject = JObject.FromObject(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
 		expression.Parameters.Add(nameof(jObject), jObject["Message"]);
-		Assert.True(expression.Evaluate() as bool?);
+		(expression.Evaluate() as bool?).Should().BeTrue();
+	}
+
+
+	[Fact]
+	public void IsNull_JsonDocumentWithJTokenTypeOfNull_ReturnsTrue()
+	{
+		var theObject = new FormatException(null);
+		using var jsonDocument = JsonSerializer.SerializeToDocument(theObject);
+		var expression = new ExtendedExpression($"isNull({nameof(jsonDocument)})");
+		expression.Parameters.Add(nameof(jsonDocument), jsonDocument.RootElement.GetProperty("Message"));
+		(expression.Evaluate() as bool?).Should().BeTrue();
 	}
 
 	[Fact]
@@ -48,6 +61,6 @@ public class IsNullTests
 		var jObject = JObject.FromObject(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
 		expression.Parameters.Add(nameof(jObject), jObject["Message"]);
-		Assert.False(expression.Evaluate() as bool?);
+		(expression.Evaluate() as bool?).Should().BeFalse();
 	}
 }
