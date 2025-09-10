@@ -171,7 +171,6 @@ internal static class TryParse
 				default:
 					throw new FormatException($"type '{typeString}' not supported.");
 			}
-			;
 		}
 		catch (FormatException e)
 		{
