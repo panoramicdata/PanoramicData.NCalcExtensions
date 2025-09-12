@@ -38,7 +38,6 @@ public class IsNullTests
 	{
 		var theObject = new FormatException(null);
 		var jObject = JObject.FromObject(theObject);
-		var json = jObject.ToString();
 		var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
 		expression.Parameters.Add(nameof(jObject), jObject["InnerException"]);
 		var result = expression.Evaluate();
