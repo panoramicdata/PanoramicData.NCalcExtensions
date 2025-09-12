@@ -24,11 +24,13 @@ internal static class DateTimeIsInFuture
 		{
 			throw new FormatException($"{ExtensionFunction.DateTimeIsInFuture} function - The first argument must be a DateTime");
 		}
+
 		var parameter1Value = functionArgs.Parameters[0].Evaluate();
 		if (parameter1Value is not DateTime)
 		{
 			throw new FormatException($"{ExtensionFunction.DateTimeIsInFuture} function - The first argument must be a DateTime");
 		}
+
 		var dateTimeUnderTest = (DateTime)parameter1Value;
 
 		if (functionArgs.Parameters.Length > 1)

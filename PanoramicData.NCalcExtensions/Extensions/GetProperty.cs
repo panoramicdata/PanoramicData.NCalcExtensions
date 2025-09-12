@@ -78,6 +78,7 @@ internal static class GetProperty
 					{
 						functionArgs.Result = null;
 					}
+
 					break;
 				}
 
@@ -96,6 +97,7 @@ internal static class GetProperty
 					{
 						functionArgs.Result = null;
 					}
+
 					break;
 				}
 
@@ -109,20 +111,17 @@ internal static class GetProperty
 		}
 	}
 
-	private static object? ConvertJsonElement(JsonElement jsonElement)
+	private static object? ConvertJsonElement(JsonElement jsonElement) => jsonElement.ValueKind switch
 	{
-		return jsonElement.ValueKind switch
-		{
-			JsonValueKind.Null => null,
-			JsonValueKind.True => true,
-			JsonValueKind.False => false,
-			JsonValueKind.Number => ConvertJsonNumber(jsonElement),
-			JsonValueKind.String => jsonElement.GetString(),
-			JsonValueKind.Object => jsonElement,
-			JsonValueKind.Array => jsonElement,
-			_ => jsonElement
-		};
-	}
+		JsonValueKind.Null => null,
+		JsonValueKind.True => true,
+		JsonValueKind.False => false,
+		JsonValueKind.Number => ConvertJsonNumber(jsonElement),
+		JsonValueKind.String => jsonElement.GetString(),
+		JsonValueKind.Object => jsonElement,
+		JsonValueKind.Array => jsonElement,
+		_ => jsonElement
+	};
 
 	private static object ConvertJsonNumber(JsonElement jsonElement)
 	{
@@ -131,10 +130,12 @@ internal static class GetProperty
 		{
 			return intValue;
 		}
+
 		if (jsonElement.TryGetInt64(out var longValue))
 		{
 			return longValue;
 		}
+
 		if (jsonElement.TryGetDouble(out var doubleValue))
 		{
 			return doubleValue;

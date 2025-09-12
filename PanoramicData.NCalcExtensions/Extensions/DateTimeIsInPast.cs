@@ -31,6 +31,7 @@ internal static class DateTimeIsInPast
 		{
 			throw new FormatException($"{ExtensionFunction.DateTimeIsInPast} function - The first argument must be a DateTime");
 		}
+
 		var dateTimeUnderTest = (DateTime)parameter1Value;
 
 		if (functionArgs.Parameters.Length > 1)
