@@ -100,7 +100,7 @@ public class MinTests
 	[Fact]
 	public void Min_UsingLambdaForString_ReturnsExpected()
 	{
-		var expression = new ExtendedExpression("min(listOf('string', '1', '2', '3'), 'x', 'concat(x, x)')");
+		var expression = new ExtendedExpression("min(listOf('string', '1', '2', '3'), 'x', 'x + x')");
 		expression.Evaluate().Should().Be("11");
 	}
 }

@@ -33,6 +33,18 @@ public class Lambda(
 		}
 		else
 		{
+			// If the result is null and TResult is a nullable type, return default
+			if (resultObject == null && (default(TResult) == null || Nullable.GetUnderlyingType(typeof(TResult)) != null))
+			{
+				return default!;
+			}
+
+			// Try casting it
+			if (resultObject is IConvertible)
+			{
+				return (TResult)Convert.ChangeType(resultObject, typeof(TResult));
+			}
+
 			throw new InvalidCastException($"Could not cast result of expression '{nCalcString}' to type {typeof(TResult).FullName}.");
 		}
 	}

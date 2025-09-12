@@ -38,9 +38,11 @@ public class IsNullTests
 	{
 		var theObject = new FormatException(null);
 		var jObject = JObject.FromObject(theObject);
+		var json = jObject.ToString();
 		var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
-		expression.Parameters.Add(nameof(jObject), jObject["Message"]);
-		(expression.Evaluate() as bool?).Should().BeTrue();
+		expression.Parameters.Add(nameof(jObject), jObject["InnerException"]);
+		var result = expression.Evaluate();
+		(result as bool?).Should().BeTrue();
 	}
 
 
@@ -50,7 +52,7 @@ public class IsNullTests
 		var theObject = new FormatException(null);
 		using var jsonDocument = JsonSerializer.SerializeToDocument(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jsonDocument)})");
-		expression.Parameters.Add(nameof(jsonDocument), jsonDocument.RootElement.GetProperty("Message"));
+		expression.Parameters.Add(nameof(jsonDocument), jsonDocument.RootElement.GetProperty("InnerException"));
 		(expression.Evaluate() as bool?).Should().BeTrue();
 	}
 

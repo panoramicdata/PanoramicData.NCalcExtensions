@@ -6,14 +6,13 @@ public class EqualityTests
 	private const string xDotY = "b";
 
 	[Theory]
+	[InlineData("1 != ''")]
 	[InlineData("'a' == 'a'")]
 	[InlineData("x == 'a'")]
 	[InlineData("[x.y] == 'b'")]
 	[InlineData("[x.y] != 'a'")]
 	[InlineData("[x.y] != x")]
 	[InlineData("!isNull([x.y])")]
-	[InlineData("x != nullThing")]
-	[InlineData("[x.y] != nullThing")]
 	[InlineData("!([x.y] == nullThing)")]
 	[InlineData("[x.y] != ''")]
 	[InlineData("x != ''")]

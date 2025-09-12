@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.Text.Json;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
 
 /// <summary>
 /// Used to provide IntelliSense in Monaco editor
@@ -25,7 +27,13 @@ internal static class IsNull
 		try
 		{
 			var outputObject = functionArgs.Parameters[0].Evaluate();
-			functionArgs.Result = outputObject is null or JToken { Type: JTokenType.Null };
+			functionArgs.Result = outputObject is
+				null
+				// Newtonsoft.Json.Linq.JToken of type null
+				or JToken { Type: JTokenType.Null }
+				// System.Text.Json JsonElement of type null
+				or JsonElement { ValueKind: JsonValueKind.Null }
+				;
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
