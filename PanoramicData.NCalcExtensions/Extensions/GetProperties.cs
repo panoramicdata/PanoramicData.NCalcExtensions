@@ -29,10 +29,20 @@ internal static class GetProperties
 
 		functionArgs.Result = value switch
 		{
-			JObject jObject => jObject
+			JObject jObject => [.. jObject
 				.Properties()
-				.Select(p => p.Name)
-				.ToList(),
+				.Select(p => p.Name)],
+			JsonDocument jsonDocument when jsonDocument.RootElement.ValueKind == JsonValueKind.Object =>
+				jsonDocument.RootElement
+					.EnumerateObject()
+					.Select(p => p.Name)
+					.ToList(),
+			JsonDocument jsonDocument => throw new FormatException($"JsonDocument root element must be an object to get properties. Found: {jsonDocument.RootElement.ValueKind}"),
+			JsonElement jsonElement when jsonElement.ValueKind == JsonValueKind.Object =>
+				[.. jsonElement
+					.EnumerateObject()
+					.Select(p => p.Name)],
+			JsonElement jsonElement => throw new FormatException($"JsonElement must be an object to get properties. Found: {jsonElement.ValueKind}"),
 			_ => [.. value
 				.GetType()
 				.GetProperties()

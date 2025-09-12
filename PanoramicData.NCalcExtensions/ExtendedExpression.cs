@@ -248,6 +248,12 @@ public class ExtendedExpression : Expression
 			case ExtensionFunction.NewJObject:
 				NewJObject.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.NewJsonDocument:
+				NewJsonDocument.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.NewJsonArray:
+				NewJsonArray.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.OrderBy:
 				OrderBy.Evaluate(functionArgs);
 				return;

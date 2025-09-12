@@ -27,7 +27,9 @@ internal static class IsNullOrWhiteSpace
 			var outputObject = functionArgs.Parameters[0].Evaluate();
 			functionArgs.Result = outputObject is null ||
 				outputObject is JToken { Type: JTokenType.Null } ||
-				(outputObject is string outputString && string.IsNullOrWhiteSpace(outputString));
+				outputObject is JsonElement { ValueKind: JsonValueKind.Null } ||
+				(outputObject is string outputString && string.IsNullOrWhiteSpace(outputString)) ||
+				(outputObject is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.String && string.IsNullOrWhiteSpace(jsonElement.GetString()));
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{

@@ -79,6 +79,8 @@ contains(
 | [jArray()](#jarray) | Creates a Newtonsoft JArray from input values. |
 | [jObject()](#jobject) | Creates a JObject from key/value pairs. |
 | [join()](#join) | Joins a list of strings into a single string. |
+| [jsonArray()](#jsonarray) | Creates a System.Text.Json JsonDocument array from input values. |
+| [jsonDocument()](#jsondocument) | Creates a System.Text.Json JsonDocument from key/value pairs. |
 | [jPath()](#jpath) | Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression |
 | [last()](#last) | Determines the last value in an IEnumerable. Throws an Exception if no item matches. |
 | [lastIndexOf()](#lastindexof) | Determines the last position of a string within another string. |
@@ -347,7 +349,7 @@ Counts the number of items, grouped by a calculation.
 
 #### Examples
   * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toLower(toString(n > 1))') : { 'false': 1, 'true': 6 }
-  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)') : { '1': 1, '2': 2, '3', 3, '4', '1 }
+  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)') : { '1': 1, '2': 2, '3', 3, '4', '1' }
 
 ---
 
@@ -574,11 +576,15 @@ Formats strings and numbers as output strings with the specified format.
 #### Purpose
 Gets a list of an object's properties.
 
+#### Notes
+Supports JObject, JsonDocument, JsonElement, and regular .NET objects.
+
 #### Parameters
 * sourceObject
 
 #### Examples
 * getProperties(parse('jObject', '{ "A": 1, "B": 2 }')) : [ 'A', 'B' ]
+* getProperties(jsonDocument('name', 'John', 'age', 30)) : [ 'name', 'age' ]
 * getProperties(toDateTime('2019-01-01', 'yyyy-MM-dd')) : [ 'Date', 'Day', 'DayOfWeek', 'DayOfYear', 'Hour', 'Kind', 'Millisecond', 'Microsecond', 'Nanosecond', 'Minute', 'Month', 'Now', 'Second', 'Ticks', 'TimeOfDay', 'Today', 'Year', 'UtcNow' ]
 
 ---
@@ -588,12 +594,16 @@ Gets a list of an object's properties.
 #### Purpose
 Gets an object's property.
 
+#### Notes
+Supports JObject, JsonDocument, JsonElement, Dictionary<string, object?>, and regular .NET objects.
+
 #### Parameters
 * sourceObject
 * propertyName
 
 #### Examples
 * getProperty(toDateTime('2019-01-01', 'yyyy-MM-dd'), 'Year') : 2019 (int)
+* getProperty(jsonDocument('name', 'John', 'age', 30), 'name') : 'John'
 
 ---
 
@@ -712,7 +722,8 @@ Determines whether a value is null.
 #### Notes
 Returns true if the value is:
 * null; or
-* it's a JObject and it's type is JTokenType.Null.
+* it's a JObject and it's type is JTokenType.Null; or
+* it's a JsonElement and it's ValueKind is JsonValueKind.Null.
 
 #### Parameters
 * value
@@ -732,8 +743,10 @@ Determines whether a value is null or empty.
 #### Notes
 True if:
 * null; or
-* it's a JObject and it's type is JTokenType.Null or;
-* it's a string and it's empty.
+* it's a JObject and it's type is JTokenType.Null; or
+* it's a JsonElement and it's ValueKind is JsonValueKind.Null; or
+* it's a string and it's empty; or
+* it's a JsonElement string and it's empty.
 
 #### Parameters
 * value
@@ -755,8 +768,10 @@ Determines whether a value is null, empty or whitespace.
 #### Notes
 Returns true is the value is:
 * null; or
-* it's a JObject and it's type is JTokenType.Null or;
-* it's a string and it's empty or only contains whitespace characters (\r, \n, \t, or ' ').
+* it's a JObject and it's type is JTokenType.Null; or
+* it's a JsonElement and it's ValueKind is JsonValueKind.Null; or
+* it's a string and it's empty or only contains whitespace characters (\r, \n, \t, or ' '); or
+* it's a JsonElement string and it's empty or only contains whitespace.
 
 #### Parameters
 * value
@@ -827,6 +842,40 @@ Creates a JObject from key/value pairs.
 
 #### Examples
 * jObject('a', 1, 'b', null) : JObject{ "a": 1, "b": null}
+
+---
+
+### jsonArray()
+
+#### Purpose
+Creates a System.Text.Json JsonDocument array from input values.
+
+#### Parameters
+* items[]
+
+#### Examples
+* jsonArray(1, 'test', null, true) : JsonDocument array containing [1, "test", null, true]
+* jsonArray() : Empty JsonDocument array
+* jsonArray(jsonDocument('a', 1), jsonDocument('b', 2)) : JsonDocument array containing two objects
+
+---
+
+### jsonDocument()
+
+#### Purpose
+Creates a System.Text.Json JsonDocument from key/value pairs.
+
+#### Parameters
+* key1 (string)
+* value1
+* key2 (string)
+* value2
+* ...
+* keyN
+* valueN
+
+#### Examples
+* jsonDocument('a', 1, 'b', null) : JsonDocument with properties a=1 and b=null
 
 ---
 
@@ -1115,6 +1164,8 @@ Emits a List\<T\>.
    * decimal or System.Decimal
    * JArray or Newtonsoft.Json.Linq.JArray (jArray also supported for backaward compatibility)
    * JObject or Newtonsoft.Json.Linq.JObject (jObject also supported for backaward compatibility)
+   * JsonDocument or System.Text.Json.JsonDocument (jsonDocument also supported)
+   * JsonArray (for System.Text.Json arrays, jsonArray also supported)
    * Guid
 
 #### Parameters
@@ -1128,6 +1179,8 @@ Emits a List\<T\>.
    * parse('bool', 'x', null) : null
    * parse('jObject', '{ "a" : 1 }', null) : JObject { "a": 1 }
    * parse('jArray', '[ { "a" : 1 } ]', null) : JArray [{ "a": 1 }]
+   * parse('JsonDocument', '{ "a" : 1 }', null) : JsonDocument { "a": 1 }
+   * parse('JsonArray', '[ 1, 2, 3 ]', null) : JsonDocument array [1, 2, 3]
 
 ---
 

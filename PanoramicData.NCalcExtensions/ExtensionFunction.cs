@@ -56,6 +56,8 @@ public static class ExtensionFunction
 	public const string MinValue = "minValue";
 	public const string NewJArray = "jArray";
 	public const string NewJObject = "jObject";
+	public const string NewJsonDocument = "jsonDocument";
+	public const string NewJsonArray = "jsonArray";
 	public const string Now = "now";
 	public const string NullCoalesce = "nullCoalesce";
 	public const string OrderBy = "orderBy";

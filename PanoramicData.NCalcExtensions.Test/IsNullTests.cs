@@ -64,4 +64,14 @@ public class IsNullTests
 		expression.Parameters.Add(nameof(jObject), jObject["Message"]);
 		(expression.Evaluate() as bool?).Should().BeFalse();
 	}
+
+	[Fact]
+	public void IsNull_JsonElementWithString_ReturnsFalse()
+	{
+		var theObject = new FormatException("A message");
+		using var jsonDocument = JsonSerializer.SerializeToDocument(theObject);
+		var expression = new ExtendedExpression($"isNull({nameof(jsonDocument)})");
+		expression.Parameters.Add(nameof(jsonDocument), jsonDocument.RootElement.GetProperty("Message"));
+		(expression.Evaluate() as bool?).Should().BeFalse();
+	}
 }

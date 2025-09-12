@@ -81,6 +81,8 @@ internal static class Parse
 					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
 				"JObject" or "jObject" or "Newtonsoft.Json.Linq.JObject" => ParseJObject(text),
 				"JArray" or "jArray" or "Newtonsoft.Json.Linq.JArray" => ParseJArray(text),
+				"JsonDocument" or "jsonDocument" or "System.Text.Json.JsonDocument" => ParseJsonDocument(text),
+				"JsonArray" or "jsonArray" => ParseJsonArray(text),
 				_ => throw new FormatException($"type '{typeString}' not supported.")
 			};
 		}
@@ -117,6 +119,36 @@ internal static class Parse
 		catch (JsonReaderException)
 		{
 			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JArray)}'.");
+		}
+	}
+
+	private static JsonDocument ParseJsonDocument(string text)
+	{
+		try
+		{
+			return JsonDocument.Parse(text);
+		}
+		catch (System.Text.Json.JsonException)
+		{
+			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JsonDocument)}'.");
+		}
+	}
+
+	private static JsonDocument ParseJsonArray(string text)
+	{
+		try
+		{
+			var jsonDocument = JsonDocument.Parse(text);
+			if (jsonDocument.RootElement.ValueKind != JsonValueKind.Array)
+			{
+				throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' is not a valid JSON array.");
+			}
+
+			return jsonDocument;
+		}
+		catch (System.Text.Json.JsonException)
+		{
+			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to JSON array.");
 		}
 	}
 }

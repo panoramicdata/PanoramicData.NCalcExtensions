@@ -27,7 +27,9 @@ internal static class IsNullOrEmpty
 			var outputObject = functionArgs.Parameters[0].Evaluate();
 			functionArgs.Result = outputObject is null ||
 				outputObject is JToken { Type: JTokenType.Null } ||
-				(outputObject is string outputString && outputString == string.Empty);
+				outputObject is JsonElement { ValueKind: JsonValueKind.Null } ||
+				(outputObject is string outputString && outputString == string.Empty) ||
+				(outputObject is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.String && jsonElement.GetString() == string.Empty);
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
