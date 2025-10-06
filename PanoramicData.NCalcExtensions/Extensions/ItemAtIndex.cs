@@ -20,7 +20,7 @@ public partial interface IFunctionPrototypes
 
 internal static class ItemAtIndex
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		IList input;
 		int index;

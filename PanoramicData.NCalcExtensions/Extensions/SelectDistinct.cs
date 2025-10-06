@@ -21,7 +21,7 @@ public partial interface IFunctionPrototypes
 
 internal static class SelectDistinct
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var enumerable = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
 			?? throw new FormatException($"First {ExtensionFunction.SelectDistinct} parameter must be an IEnumerable.");

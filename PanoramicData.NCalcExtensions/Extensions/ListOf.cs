@@ -19,7 +19,7 @@ public partial interface IFunctionPrototypes
 
 internal static class ListOf
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(IFunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		var typeString = functionArgs.Parameters[0].Evaluate() as string
 			?? throw new FormatException($"First {ExtensionFunction.ListOf} parameter must be a string.");
@@ -86,7 +86,7 @@ internal static class ListOf
 		}
 	}
 
-	private static List<T> GetListOf<T>(Expression[] remainingParameters, CultureInfo cultureInfo)
+	private static List<T> GetListOf<T>(IExpression[] remainingParameters, CultureInfo cultureInfo)
 	{
 		var list = new List<T>();
 		foreach (var parameter in remainingParameters)

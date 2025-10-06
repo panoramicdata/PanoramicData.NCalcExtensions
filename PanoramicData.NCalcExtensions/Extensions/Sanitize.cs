@@ -21,7 +21,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Sanitize
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var replacementCharacters = string.Empty;
 

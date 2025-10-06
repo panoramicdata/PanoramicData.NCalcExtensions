@@ -19,7 +19,7 @@ public partial interface IFunctionPrototypes
 
 internal static class All
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
 			?? throw new FormatException($"First {ExtensionFunction.All} parameter must be an IEnumerable.");

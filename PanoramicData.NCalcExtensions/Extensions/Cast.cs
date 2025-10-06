@@ -17,7 +17,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Cast
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(IFunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		const int castParameterCount = 2;
 		if (functionArgs.Parameters.Length != castParameterCount)

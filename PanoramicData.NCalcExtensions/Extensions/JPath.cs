@@ -17,7 +17,7 @@ public partial interface IFunctionPrototypes
 
 internal static class JPath
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		JObject jObject;
 		string jPathExpression;

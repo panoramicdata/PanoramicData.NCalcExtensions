@@ -17,7 +17,7 @@ public partial interface IFunctionPrototypes
 
 internal static class DateTimeIsInPast
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var destinationTimeZoneInfo = TimeZoneInfo.Utc;
 

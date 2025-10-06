@@ -21,7 +21,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Min
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var originalListUntyped = functionArgs.Parameters[0].Evaluate();
 
@@ -85,7 +85,7 @@ internal static class Min
 			IEnumerable<double?> list => list.Min(value => (double?)lambda.Evaluate(value)),
 			IEnumerable<decimal> list => list.Min(value => (decimal?)lambda.Evaluate(value)),
 			IEnumerable<decimal?> list => list.Min(value => (decimal?)lambda.Evaluate(value)),
-			IEnumerable<string?> list => list.Min(value => (string?)lambda.Evaluate(value)),
+			IEnumerable<string?> list => list.Min(value => (string?)lambda.Evaluate<string>(value)),
 			IEnumerable<object?> list => GetMin(list.Select(value => lambda.Evaluate(value))),
 			_ => throw new FormatException($"First {ExtensionFunction.Min} parameter must be an IEnumerable of a string or numeric type when processing as a lambda.")
 		};

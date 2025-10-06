@@ -23,7 +23,7 @@ public partial interface IFunctionPrototypes
 
 internal static class OrderBy
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var parameterIndex = 0;
 		var list = functionArgs.Parameters[parameterIndex++].Evaluate() as IEnumerable<object?>

@@ -17,7 +17,7 @@ internal static class MaxValue
 {
 	private const string ErrorMessage = $"{ExtensionFunction.MaxValue} takes exactly one string parameter, which must be one of 'sbyte', 'byte', 'short', 'ushort', 'int', 'uint', 'long', 'ulong', 'float', 'double' or 'decimal'.";
 
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var originalList = functionArgs.Parameters[0].Evaluate();
 

@@ -17,7 +17,7 @@ public partial interface IFunctionPrototypes
 
 internal static class In
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		if (functionArgs.Parameters.Length < 2)
 		{

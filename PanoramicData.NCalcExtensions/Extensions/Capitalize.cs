@@ -17,7 +17,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Capitalize
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		string param1;
 		try

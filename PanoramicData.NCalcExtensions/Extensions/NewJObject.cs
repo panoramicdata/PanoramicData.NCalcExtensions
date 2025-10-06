@@ -15,7 +15,7 @@ public partial interface IFunctionPrototypes
 
 internal static class NewJObject
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		if (functionArgs.Parameters.Length % 2 != 0)
 		{
@@ -48,7 +48,7 @@ internal static class NewJObject
 
 internal static class SetProperties
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		if (functionArgs.Parameters.Length % 2 != 1)
 		{

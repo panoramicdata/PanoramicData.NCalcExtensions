@@ -15,7 +15,7 @@ public partial interface IFunctionPrototypes
 
 internal static class IsNullOrWhiteSpace
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		if (functionArgs.Parameters.Length != 1)
 		{

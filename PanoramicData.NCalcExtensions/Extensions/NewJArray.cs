@@ -15,7 +15,7 @@ public partial interface IFunctionPrototypes
 
 internal static class NewJArray
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		var parameterIndex = 0;
 

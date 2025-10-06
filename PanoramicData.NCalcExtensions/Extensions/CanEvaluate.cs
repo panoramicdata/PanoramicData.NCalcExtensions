@@ -16,7 +16,7 @@ public partial interface IFunctionPrototypes
 
 internal static class CanEvaluate
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		try
 		{

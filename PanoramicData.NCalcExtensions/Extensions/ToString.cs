@@ -17,7 +17,7 @@ public partial interface IFunctionPrototypes
 
 internal static class ToString
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(IFunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
 		var parameterCount = functionArgs.Parameters.Length;
 		switch (parameterCount)

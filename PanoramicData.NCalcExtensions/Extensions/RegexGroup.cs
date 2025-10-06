@@ -19,7 +19,7 @@ public partial interface IFunctionPrototypes
 
 internal static class RegexGroup
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		try
 		{

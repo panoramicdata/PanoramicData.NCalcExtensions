@@ -12,15 +12,16 @@ public class IsSetTests
 	[Fact]
 	public void IsSet_IsNotSetWithParameterReferenceNotSet_ReturnsTrue()
 	{
-		var expression = new ExtendedExpression("isSet('a') && !isNull(a) && a!=''");
+		var expression = new ExtendedExpression("isSet('a') && !isNull(a) && !isNullOrWhiteSpace(a)");
 		Assert.False(expression.Evaluate() as bool?);
 	}
 
 	[Fact]
 	public void IsSet_IsNotSetWithParameterReferenceSet_ReturnsTrue()
 	{
-		var expression = new ExtendedExpression("isSet('a.b') && !isNull([a.b]) && [a.b]!=''");
+		var expression = new ExtendedExpression("isSet('a.b') && !isNull([a.b]) && !isNullOrWhiteSpace([a.b])");
 		expression.Parameters["a.b"] = 1;
+
 		Assert.True(expression.Evaluate() as bool?);
 	}
 

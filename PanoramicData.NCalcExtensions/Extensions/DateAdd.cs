@@ -22,7 +22,7 @@ public partial interface IFunctionPrototypes
 /// </summary>
 internal static class DateAddMethods
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		if (functionArgs.Parameters.Length < 3)
 		{

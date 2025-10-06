@@ -19,7 +19,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Humanize
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(IFunctionArgs functionArgs)
 	{
 		double param1Double;
 		string param2;
