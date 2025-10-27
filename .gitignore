@@ -6,6 +6,9 @@
 *.user
 *.sln.docstates
 
+# NuGet API key (sensitive)
+nuget-key.txt
+
 # Build results
 
 [Dd]ebug/
