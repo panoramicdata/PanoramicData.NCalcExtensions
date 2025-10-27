@@ -33,6 +33,7 @@ isinfinite
 isnan
 isnull
 isset
+json
 kvps
 lastindexof
 namespace

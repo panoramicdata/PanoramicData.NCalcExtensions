@@ -9,7 +9,8 @@ public class ExtendedExpression : Expression
 	public ExtendedExpression(string expression) : this(
 		expression,
 		ExpressionOptions.NoCache |
-		ExpressionOptions.NoStringTypeCoercion,
+		ExpressionOptions.NoStringTypeCoercion |
+		ExpressionOptions.StrictTypeMatching,
 		CultureInfo.InvariantCulture)
 	{
 	}
