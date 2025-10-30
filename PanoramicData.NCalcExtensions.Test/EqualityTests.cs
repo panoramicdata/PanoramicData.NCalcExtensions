@@ -5,6 +5,13 @@ public class EqualityTests
 	private const string x = "a";
 	private const string xDotY = "b";
 
+	/// <summary>
+	/// Issue is with the NCalc library itself
+	/// Related:
+	/// https://github.com/ncalc/ncalc/pull/489
+	/// https://github.com/ncalc/ncalc/issues/471
+	/// </summary>
+	/// <param name="trueExpressionString"></param>
 	[Theory]
 	[InlineData("1 != ''")]
 	[InlineData("'a' == 'a'")]
