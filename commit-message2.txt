@@ -1,0 +1,9 @@
+chore: enable TreatWarningsAsErrors to prevent future warnings
+
+This ensures that any new warnings introduced in the future will
+immediately break the build, preventing warning accumulation and
+maintaining code quality standards.
+
+- Added TreatWarningsAsErrors=true to main project
+- Added TreatWarningsAsErrors=true to test project
+- Verified build still succeeds with 0 warnings
