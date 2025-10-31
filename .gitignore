@@ -9,6 +9,12 @@
 # NuGet API key (sensitive)
 nuget-key.txt
 
+# Code Coverage
+TestResults/
+CoverageReport/
+*.coverage
+*.coveragexml
+
 # Build results
 
 [Dd]ebug/

@@ -12,6 +12,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="AwesomeAssertions" Version="9.3.0" />
+		<PackageReference Include="coverlet.collector" Version="6.0.4">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 		<PackageReference Include="FluentAssertions.Analyzers" Version="0.34.1">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
