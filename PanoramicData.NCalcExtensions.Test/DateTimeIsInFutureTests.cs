@@ -90,4 +90,47 @@ public class DateTimeIsInFutureTests : NCalcTest
 
 		((bool)result).Should().BeTrue();
 	}
+
+	// New edge case tests
+
+	[Theory]
+	[InlineData("dateTimeIsInFuture()")]
+	[InlineData("dateTimeIsInFuture(null)")]
+	public void DateTimeIsInFuture_InvalidParameters_ThrowsException(string expression)
+	{
+		new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.Throw<FormatException>();
+	}
+
+	[Fact]
+	public void DateTimeIsInFuture_VeryOldDate_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest)");
+		expression.Parameters.Add("valueUnderTest", new DateTime(1900, 1, 1));
+		var result = expression.Evaluate();
+		result.Should().NotBeNull();
+		((bool)result!).Should().BeFalse();
+	}
+
+	[Fact]
+	public void DateTimeIsInFuture_DateTimeMin_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest)");
+		expression.Parameters.Add("valueUnderTest", DateTime.MinValue);
+		var result = expression.Evaluate();
+		result.Should().NotBeNull();
+		((bool)result!).Should().BeFalse();
+	}
+
+	[Fact]
+	public void DateTimeIsInFuture_DateTimeMax_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest)");
+		expression.Parameters.Add("valueUnderTest", DateTime.MaxValue);
+		var result = expression.Evaluate();
+		result.Should().NotBeNull();
+		((bool)result!).Should().BeTrue();
+	}
 }

@@ -1,0 +1,18 @@
+test: add edge case tests for DateTime comparison functions (Phase 1)
+
+Added comprehensive edge case tests for dateTimeIsInPast and dateTimeIsInFuture:
+- Null/invalid parameter handling
+- Extreme dates (DateTime.Min, DateTime.Max)
+- Very old dates (1900)
+- Error case validation
+
+Coverage Impact:
+- DateTimeIsInPast: 63.6 percent ? improved
+- DateTimeIsInFuture: 63.6 percent ? improved  
+- Overall line coverage: 80.0 percent ? 80.3 percent (+0.3 percent)
+- Overall branch coverage: 73.1 percent ? 73.2 percent (+0.1 percent)
+
+Total tests: 1003 (+8 tests)
+Passing: 1001 (99.8 percent)
+
+Phase 1 Status: 80.3 percent / 85 percent target (4.7 percent remaining)

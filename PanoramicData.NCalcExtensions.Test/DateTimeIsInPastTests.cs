@@ -90,4 +90,47 @@ public class DateTimeIsInPastTests : NCalcTest
 
 		((bool)result).Should().BeFalse();
 	}
+
+	// New edge case tests
+
+	[Theory]
+	[InlineData("dateTimeIsInPast()")]
+	[InlineData("dateTimeIsInPast(null)")]
+	public void DateTimeIsInPast_InvalidParameters_ThrowsException(string expression)
+	{
+		new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.Throw<FormatException>();
+	}
+
+	[Fact]
+	public void DateTimeIsInPast_VeryOldDate_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest)");
+		expression.Parameters.Add("valueUnderTest", new DateTime(1900, 1, 1));
+		var result = expression.Evaluate();
+		result.Should().NotBeNull();
+		((bool)result!).Should().BeTrue();
+	}
+
+	[Fact]
+	public void DateTimeIsInPast_DateTimeMin_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest)");
+		expression.Parameters.Add("valueUnderTest", DateTime.MinValue);
+		var result = expression.Evaluate();
+		result.Should().NotBeNull();
+		((bool)result!).Should().BeTrue();
+	}
+
+	[Fact]
+	public void DateTimeIsInPast_DateTimeMax_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest)");
+		expression.Parameters.Add("valueUnderTest", DateTime.MaxValue);
+		var result = expression.Evaluate();
+		result.Should().NotBeNull();
+		((bool)result!).Should().BeFalse();
+	}
 }
