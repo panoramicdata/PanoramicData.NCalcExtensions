@@ -54,27 +54,21 @@ public class IfTests
 	[InlineData("if(true)")]
 	[InlineData("if(true, 'value')")]
 	[InlineData("if(true, 'value1', 'value2', 'value3')")]
-	public void If_WrongParameterCount_ThrowsException(string expression)
-	{
-		new ExtendedExpression(expression)
+	public void If_WrongParameterCount_ThrowsException(string expression) => new ExtendedExpression(expression)
 			.Invoking(e => e.Evaluate())
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*requires three parameters*");
-	}
 
 	[Theory]
 	[InlineData("if(1, 'true', 'false')")]
 	[InlineData("if('text', 'true', 'false')")]
 	[InlineData("if(null, 'true', 'false')")]
-	public void If_NonBooleanCondition_ThrowsException(string expression)
-	{
-		new ExtendedExpression(expression)
+	public void If_NonBooleanCondition_ThrowsException(string expression) => new ExtendedExpression(expression)
 			.Invoking(e => e.Evaluate())
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*parameter 1*");
-	}
 
 	[Fact]
 	public void If_ComplexExpression_InTrueBranch_Evaluates()

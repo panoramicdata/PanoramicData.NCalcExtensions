@@ -96,13 +96,10 @@ public class DateTimeIsInPastTests : NCalcTest
 	[Theory]
 	[InlineData("dateTimeIsInPast()")]
 	[InlineData("dateTimeIsInPast(null)")]
-	public void DateTimeIsInPast_InvalidParameters_ThrowsException(string expression)
-	{
-		new ExtendedExpression(expression)
+	public void DateTimeIsInPast_InvalidParameters_ThrowsException(string expression) => new ExtendedExpression(expression)
 			.Invoking(e => e.Evaluate())
 			.Should()
 			.Throw<FormatException>();
-	}
 
 	[Fact]
 	public void DateTimeIsInPast_VeryOldDate_ReturnsTrue()

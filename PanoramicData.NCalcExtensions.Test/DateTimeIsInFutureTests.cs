@@ -96,13 +96,10 @@ public class DateTimeIsInFutureTests : NCalcTest
 	[Theory]
 	[InlineData("dateTimeIsInFuture()")]
 	[InlineData("dateTimeIsInFuture(null)")]
-	public void DateTimeIsInFuture_InvalidParameters_ThrowsException(string expression)
-	{
-		new ExtendedExpression(expression)
+	public void DateTimeIsInFuture_InvalidParameters_ThrowsException(string expression) => new ExtendedExpression(expression)
 			.Invoking(e => e.Evaluate())
 			.Should()
 			.Throw<FormatException>();
-	}
 
 	[Fact]
 	public void DateTimeIsInFuture_VeryOldDate_ReturnsFalse()
