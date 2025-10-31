@@ -11,12 +11,14 @@
 		<Copyright>Panoramic Data Limited 2025</Copyright>
 		<Description>Extensions for NCalc</Description>
 		<Product>PanoramicData.NCalcExtensions</Product>
-		<Title>PanoramicData.NCalcExtensions</Title>
+		<Title>PanoramicData NCalc Extensions</Title>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisMode>All</AnalysisMode>
+		<AnalysisLevel>latest-recommended</AnalysisLevel>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
@@ -24,11 +26,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DebugType>portable</DebugType>
-
 		<PackageReleaseNotes>Added additional 'select' unit test that uses a list of lists.</PackageReleaseNotes>
-
-		<Title>Panoramic Data NCalc Extensions</Title>
-		<AnalysisLevel>latest-recommended</AnalysisLevel>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 
