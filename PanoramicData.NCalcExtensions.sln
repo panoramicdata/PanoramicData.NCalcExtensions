@@ -9,11 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		COVERAGE_ASSESSMENT.md = COVERAGE_ASSESSMENT.md
+		COVERAGE_PLAN.md = COVERAGE_PLAN.md
 		global.json = global.json
+		LICENSE = LICENSE
 		nuget-key.txt = nuget-key.txt
 		PanoramicData.NCalcExtensions.sln.vsspell.dic = PanoramicData.NCalcExtensions.sln.vsspell.dic
 		Publish.ps1 = Publish.ps1
 		README.md = README.md
+		SECURITY.md = SECURITY.md
 		version.json = version.json
 	EndProjectSection
 EndProject
