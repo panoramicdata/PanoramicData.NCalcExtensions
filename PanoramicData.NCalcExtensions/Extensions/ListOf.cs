@@ -94,7 +94,7 @@ internal static class ListOf
 			var value = parameter.Evaluate();
 			if (typeof(T) == typeof(object))
 			{
-				list.Add((T)value);
+				list.Add((T)value!);
 			}
 			else if (Nullable.GetUnderlyingType(typeof(T)) != null && value == null)
 			{
@@ -106,14 +106,14 @@ internal static class ListOf
 				if (underlyingType != null)
 				{
 					var convertedValue = Convert.ChangeType(value, underlyingType, cultureInfo);
-					list.Add((T)convertedValue);
+					list.Add((T)convertedValue!);
 				}
 			}
 			else if (value is T tValue)
 			{
 				list.Add(tValue);
 			}
-			else if (Convert.ChangeType(value, typeof(T), cultureInfo) is T convertedValue)
+			else if (value != null && Convert.ChangeType(value, typeof(T), cultureInfo) is T convertedValue)
 			{
 				list.Add(convertedValue);
 			}

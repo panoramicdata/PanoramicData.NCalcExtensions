@@ -12,7 +12,7 @@ public partial interface IFunctionPrototypes
 		string inputString,
 		[Description("The starting index (Zero based).")]
 		int startIndex,
-		[Description("(Optional) Number of charaters to returned.")]
+		[Description("(Optional) Number of characters to returned.")]
 		int? length = null
 	);
 }
@@ -21,25 +21,32 @@ internal static class Substring
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		string input;
-		int startIndex;
 		try
 		{
-			input = (string)functionArgs.Parameters[0].Evaluate();
-			startIndex = (int)functionArgs.Parameters[1].Evaluate();
+			var input = functionArgs.Parameters[0].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
+
+			if (functionArgs.Parameters[1].Evaluate() is not int startIndex)
+			{
+				throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
+			}
+
+			if (functionArgs.Parameters.Length > 2)
+			{
+				if (functionArgs.Parameters[2].Evaluate() is not int length)
+				{
+					throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
+				}
+
+				functionArgs.Result = input.Substring(startIndex, Math.Min(length, input.Length - startIndex));
+				return;
+			}
+
+			functionArgs.Result = input[startIndex..];
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
 		}
-
-		if (functionArgs.Parameters.Length > 2)
-		{
-			var length = (int)functionArgs.Parameters[2].Evaluate();
-			functionArgs.Result = input.Substring(startIndex, Math.Min(length, input.Length - startIndex));
-			return;
-		}
-
-		functionArgs.Result = input.Substring(startIndex);
 	}
 }

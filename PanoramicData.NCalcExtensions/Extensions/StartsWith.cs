@@ -19,8 +19,6 @@ internal static class StartsWith
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		string param1;
-		string param2;
 		if (functionArgs.Parameters.Length != 2)
 		{
 			throw new FormatException($"{ExtensionFunction.StartsWith}() requires two parameters.");
@@ -28,24 +26,16 @@ internal static class StartsWith
 
 		try
 		{
-			param1 = (string)functionArgs.Parameters[0].Evaluate();
-			param2 = (string)functionArgs.Parameters[1].Evaluate();
+			var param1 = functionArgs.Parameters[0].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 1 is not a string");
+			var param2 = functionArgs.Parameters[1].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 2 is not a string");
+
+			functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException($"Unexpected exception in {ExtensionFunction.StartsWith}(): {e.Message}", e);
 		}
-
-		if (param1 == null)
-		{
-			throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 1 is not a string");
-		}
-
-		if (param2 == null)
-		{
-			throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 2 is not a string");
-		}
-
-		functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);
 	}
 }

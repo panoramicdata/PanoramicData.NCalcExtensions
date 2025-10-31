@@ -19,16 +19,16 @@ internal static class Capitalize
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		string param1;
 		try
 		{
-			param1 = (string)functionArgs.Parameters[0].Evaluate();
+			var param1 = functionArgs.Parameters[0].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.Capitalize} function - requires one string parameter.");
+
+			functionArgs.Result = param1.ToLowerInvariant().UpperCaseFirst();
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
-			throw new FormatException($"{ExtensionFunction.Capitalize} function -  requires one string parameter.");
+			throw new FormatException($"{ExtensionFunction.Capitalize} function - requires one string parameter.");
 		}
-
-		functionArgs.Result = param1.ToLowerInvariant().UpperCaseFirst();
 	}
 }

@@ -18,3 +18,11 @@
 	 Scope = "namespaceanddescendants",
 	 Target = "~N:PanoramicData.NCalcExtensions.Test"
 )]
+
+[assembly: SuppressMessage(
+	"Design",
+	"CA1515:Consider making public types internal",
+	Justification = "Test base classes need to be public for inheritance",
+	Scope = "type",
+	Target = "~T:PanoramicData.NCalcExtensions.Test.NCalcTest"
+)]

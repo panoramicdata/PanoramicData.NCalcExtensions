@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Globalization;
 
 namespace PanoramicData.NCalcExtensions.Extensions;
 
@@ -22,17 +23,17 @@ internal static class ItemAtIndex
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		IList input;
-		int index;
 		try
 		{
-			input = (IList)functionArgs.Parameters[0].Evaluate();
+			var input = functionArgs.Parameters[0].Evaluate() as IList
+				?? throw new FormatException($"{ExtensionFunction.ItemAtIndex}() requires two parameters. The first should be an IList and the second should be a non-negative integer.");
 
 			// Use Convert.ToInt32 instead of (int) cast because otherwise this would fail with
 			// an InvalidCastException when doing this: itemAtIndex(list(1, 2, 3, 4), cast(1, 'System.Int64'))
+			int index;
 			try
 			{
-				index = Convert.ToInt32(functionArgs.Parameters[1].Evaluate());
+				index = Convert.ToInt32(functionArgs.Parameters[1].Evaluate(), CultureInfo.InvariantCulture);
 			}
 			catch (OverflowException)
 			{
@@ -43,12 +44,12 @@ internal static class ItemAtIndex
 			{
 				throw new FormatException($"{ExtensionFunction.ItemAtIndex}() requires two parameters. The first should be an IList and the second should be a non-negative integer.");
 			}
+
+			functionArgs.Result = input[index];
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException($"{ExtensionFunction.ItemAtIndex}() requires two parameters. The first should be an IList and the second should be a non-negative integer.");
 		}
-
-		functionArgs.Result = input[index];
 	}
 }

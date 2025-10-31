@@ -21,8 +21,11 @@ internal static class Contains
 	{
 		try
 		{
-			var haystack = (string)functionArgs.Parameters[0].Evaluate();
-			var needle = (string)functionArgs.Parameters[1].Evaluate();
+			var haystack = functionArgs.Parameters[0].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.Contains}() requires two string parameters.");
+			var needle = functionArgs.Parameters[1].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.Contains}() requires two string parameters.");
+
 			functionArgs.Result = haystack.Contains(needle);
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)

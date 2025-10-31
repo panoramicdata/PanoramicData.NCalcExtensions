@@ -20,6 +20,7 @@ public class ItemAtIndexTests : NCalcTest
 	public void ItemAtIndex_ReturnsExpected(string expression, object? expectedOutput)
 		=> new ExtendedExpression(expression).Evaluate().Should().Be(expectedOutput);
 
+	[Theory]
 	[InlineData("itemAtIndex(list(1, 2, 3, 4, 5), 1)", 2)]
 	public void ItemAtIndexWithListInts_ReturnsExpected(string expression, object? expectedOutput)
 		=> new ExtendedExpression(expression).Evaluate().Should().Be(expectedOutput);

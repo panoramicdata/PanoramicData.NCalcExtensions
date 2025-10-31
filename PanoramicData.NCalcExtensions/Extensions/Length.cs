@@ -21,7 +21,8 @@ internal static class Length
 	{
 		try
 		{
-			var value = functionArgs.Parameters[0].Evaluate();
+			var value = functionArgs.Parameters[0].Evaluate()
+				?? throw new FormatException($"{ExtensionFunction.Length}() requires one non-null string or IList parameter.");
 
 			functionArgs.Result = value is string a ? a.Length : (object)GetLength(value);
 		}
@@ -33,8 +34,7 @@ internal static class Length
 
 	private static int GetLength(object value)
 	{
-		var a = value as IList;
-		if (a is not null)
+		if (value is IList a)
 		{
 			return a.Count;
 		}

@@ -11,7 +11,7 @@ internal static class ListHelpers
 				return [];
 			}
 
-			value = [.. value.SelectMany(v => v as List<object?>)];
+			value = [.. value.SelectMany(v => (v as List<object?>) ?? [])];
 		}
 
 		return value;

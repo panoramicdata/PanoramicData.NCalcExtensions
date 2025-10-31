@@ -13,8 +13,9 @@ public class RegexGroupTests : NCalcTest
 	public void RegexGroup_Succeeds()
 	{
 		var result = Test("regexGroup('abc:def:2019-01-01', '^.+?:.+?:(.+)$') < dateTime('UTC', 'yyyy-MM-dd', -30, 0, 0, 0)");
-		(result as bool?).Should().NotBeNull();
-		((bool)result).Should().BeTrue();
+		var boolResult = result as bool?;
+		boolResult.Should().NotBeNull();
+		boolResult.Should().BeTrue();
 	}
 
 	[Fact]

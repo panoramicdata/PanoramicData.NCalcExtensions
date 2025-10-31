@@ -35,36 +35,36 @@ internal static class TimeSpan
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function - requires three parameters.");
 		}
 
-		string? fromString;
-		string? toString;
-		string? timeFormat;
 		try
 		{
-			fromString = functionArgs.Parameters[0].Evaluate().ToString();
-			toString = functionArgs.Parameters[1].Evaluate().ToString();
-			timeFormat = functionArgs.Parameters[2].Evaluate().ToString();
+			var fromString = functionArgs.Parameters[0].Evaluate()?.ToString()
+				?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - first parameter cannot be null.");
+			var toString = functionArgs.Parameters[1].Evaluate()?.ToString()
+				?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - second parameter cannot be null.");
+			var timeFormat = functionArgs.Parameters[2].Evaluate()?.ToString()
+				?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - third parameter cannot be null.");
+
+			if (!DateTime.TryParse(fromString, out var fromDateTime))
+			{
+				throw new FormatException($"{ExtensionFunction.TimeSpan} function - could not convert '{fromString}' to DateTime");
+			}
+
+			if (!DateTime.TryParse(toString, out var toDateTime))
+			{
+				throw new FormatException($"{ExtensionFunction.TimeSpan} function - could not convert '{toString}' to DateTime");
+			}
+
+			// Determine the timespan
+			var timeSpan = toDateTime - fromDateTime;
+
+			functionArgs.Result = Enum.TryParse(timeFormat, true, out TimeUnit timeUnit)
+				? GetUnits(timeSpan, timeUnit)
+				: timeSpan.ToString(timeFormat, cultureInfo);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
-			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not extract three parameters into strings: {e.Message}");
+			throw new FormatException($"{ExtensionFunction.TimeSpan} function - could not extract three parameters into strings: {e.Message}");
 		}
-
-		if (!DateTime.TryParse(fromString, out var fromDateTime))
-		{
-			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{fromString}' to DateTime");
-		}
-
-		if (!DateTime.TryParse(toString, out var toDateTime))
-		{
-			throw new FormatException($"{ExtensionFunction.TimeSpan} function -  could not convert '{toString}' to DateTime");
-		}
-
-		// Determine the timespan
-		var timeSpan = toDateTime - fromDateTime;
-
-		functionArgs.Result = Enum.TryParse(timeFormat, true, out TimeUnit timeUnit)
-			? GetUnits(timeSpan, timeUnit)
-			: timeSpan.ToString(timeFormat, cultureInfo);
 	}
 
 	private static double GetUnits(System.TimeSpan timeSpan, TimeUnit timeUnit)

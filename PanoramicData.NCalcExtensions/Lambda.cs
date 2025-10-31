@@ -42,7 +42,7 @@ public class Lambda(
 			// Try casting it
 			if (resultObject is IConvertible)
 			{
-				return (TResult)Convert.ChangeType(resultObject, typeof(TResult));
+				return (TResult)Convert.ChangeType(resultObject, typeof(TResult), CultureInfo.InvariantCulture);
 			}
 
 			throw new InvalidCastException($"Could not cast result of expression '{nCalcString}' to type {typeof(TResult).FullName}.");

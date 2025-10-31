@@ -6,12 +6,14 @@ internal static class Trim
 	{
 		try
 		{
-			var param1 = (string)functionArgs.Parameters[0].Evaluate();
+			var param1 = functionArgs.Parameters[0].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.Trim} function - requires one string parameter.");
+
 			functionArgs.Result = param1.Trim();
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException)
 		{
-			throw new FormatException($"{ExtensionFunction.Trim} function -  requires one string parameter.");
+			throw new FormatException($"{ExtensionFunction.Trim} function - requires one string parameter.");
 		}
 	}
 }

@@ -19,7 +19,7 @@ internal static class Concat
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		var list = new List<object>();
+		var list = new List<object?>();
 		foreach (var parameter in functionArgs.Parameters)
 		{
 			var parameterValue = parameter.Evaluate();

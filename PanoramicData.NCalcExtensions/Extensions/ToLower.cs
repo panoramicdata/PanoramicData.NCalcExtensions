@@ -18,15 +18,16 @@ internal static class ToLower
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		string param1;
 		try
 		{
-			param1 = (string)functionArgs.Parameters[0].Evaluate();
+			var param1 = functionArgs.Parameters[0].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.ToLower} function - requires one string parameter.");
+
 			functionArgs.Result = param1.ToLowerInvariant();
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException)
 		{
-			throw new FormatException($"{ExtensionFunction.ToLower} function -  requires one string parameter.");
+			throw new FormatException($"{ExtensionFunction.ToLower} function - requires one string parameter.");
 		}
 	}
 }

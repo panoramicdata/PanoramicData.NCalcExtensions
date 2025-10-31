@@ -21,11 +21,14 @@ internal static class IndexOf
 	{
 		try
 		{
-			var param1 = (string)functionArgs.Parameters[0].Evaluate();
-			var param2 = (string)functionArgs.Parameters[1].Evaluate();
+			var param1 = functionArgs.Parameters[0].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.IndexOf}() requires two string parameters.");
+			var param2 = functionArgs.Parameters[1].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.IndexOf}() requires two string parameters.");
+
 			functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
 			throw new FormatException($"{ExtensionFunction.IndexOf}() requires two string parameters.");
 		}

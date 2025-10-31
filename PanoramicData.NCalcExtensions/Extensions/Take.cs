@@ -21,8 +21,14 @@ internal static class Take
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		var list = (IList)functionArgs.Parameters[0].Evaluate();
-		var numberToTake = (int)functionArgs.Parameters[1].Evaluate();
+		var list = functionArgs.Parameters[0].Evaluate() as IList
+			?? throw new FormatException($"{ExtensionFunction.Take}() requires an IList and an integer parameter.");
+
+		if (functionArgs.Parameters[1].Evaluate() is not int numberToTake)
+		{
+			throw new FormatException($"{ExtensionFunction.Take}() requires an IList and an integer parameter.");
+		}
+
 		functionArgs.Result = list.Cast<object?>().Take(numberToTake).ToList();
 	}
 }

@@ -57,7 +57,9 @@ internal static class SetProperties
 
 		var parameterIndex = 0;
 
-		var original = functionArgs.Parameters[parameterIndex++].Evaluate();
+		var original = functionArgs.Parameters[parameterIndex++].Evaluate()
+			?? throw new FormatException($"{ExtensionFunction.SetProperties}() first parameter cannot be null.");
+		
 		var originalAsJObject = original is JObject jObject
 			? jObject
 			: JObject.FromObject(original);

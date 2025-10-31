@@ -19,95 +19,95 @@ internal static class GetProperty
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		object value;
-		string property;
 		try
 		{
-			value = functionArgs.Parameters[0].Evaluate();
-			property = (string)functionArgs.Parameters[1].Evaluate();
+			var value = functionArgs.Parameters[0].Evaluate()
+				?? throw new FormatException($"{ExtensionFunction.GetProperty}() first parameter cannot be null.");
+			var property = functionArgs.Parameters[1].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.GetProperty}() requires two parameters.");
+
+			switch (value)
+			{
+				case JObject jObject:
+					{
+						var jToken = jObject[property];
+
+						functionArgs.Result = jToken?.Type switch
+						{
+							null or JTokenType.Null or JTokenType.Undefined => null,
+							JTokenType.Object => jToken!.ToObject<JObject>(),
+							JTokenType.Array => jToken!.ToObject<JArray>(),
+							JTokenType.Constructor => jToken!.ToObject<JConstructor>(),
+							JTokenType.Property => jToken!.ToObject<JProperty>(),
+							JTokenType.Comment => jToken!.ToObject<JValue>(),
+							JTokenType.Integer => jToken!.ToObject<int>(),
+							JTokenType.Float => jToken!.ToObject<float>(),
+							JTokenType.String => jToken!.ToObject<string>(),
+							JTokenType.Boolean => jToken!.ToObject<bool>(),
+							JTokenType.Date => jToken!.ToObject<DateTime>(),
+							JTokenType.Raw or JTokenType.Bytes => jToken!.ToObject<JValue>(),
+							JTokenType.Guid => jToken!.ToObject<Guid>(),
+							_ => throw new NotSupportedException("Unsupported JTokenType: " + jToken!.Type)
+						};
+						break;
+					}
+
+				case IDictionary<string, object?> dictionary:
+					{
+						functionArgs.Result = dictionary[property];
+						break;
+					}
+
+				case JsonDocument jsonDocument:
+					{
+						if (jsonDocument.RootElement.ValueKind != JsonValueKind.Object)
+						{
+							throw new FormatException($"JsonDocument root element must be an object to access property '{property}'.");
+						}
+
+						if (jsonDocument.RootElement.TryGetProperty(property, out var jsonElement))
+						{
+							functionArgs.Result = ConvertJsonElement(jsonElement);
+						}
+						else
+						{
+							functionArgs.Result = null;
+						}
+
+						break;
+					}
+
+				case JsonElement jsonElement:
+					{
+						if (jsonElement.ValueKind != JsonValueKind.Object)
+						{
+							throw new FormatException($"JsonElement must be an object to access property '{property}'.");
+						}
+
+						if (jsonElement.TryGetProperty(property, out var propertyElement))
+						{
+							functionArgs.Result = ConvertJsonElement(propertyElement);
+						}
+						else
+						{
+							functionArgs.Result = null;
+						}
+
+						break;
+					}
+
+				default:
+					{
+						var type = value.GetType();
+						var propertyInfo = type.GetProperty(property) ?? throw new FormatException($"Could not find property {property} on type {type.Name}");
+						functionArgs.Result = propertyInfo.GetValue(value);
+						break;
+					}
+			}
 		}
-		catch (Exception e)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException or NotSupportedException)
 		{
-			throw new FormatException($"{ExtensionFunction.GetProperty}() requires two parameters.", e);
-		}
-
-		switch (value)
-		{
-			case JObject jObject:
-				{
-					var jToken = jObject[property];
-
-					functionArgs.Result = jToken?.Type switch
-					{
-						null or JTokenType.Null or JTokenType.Undefined => null,
-						JTokenType.Object => jToken.ToObject<JObject>(),
-						JTokenType.Array => jToken.ToObject<JArray>(),
-						JTokenType.Constructor => jToken.ToObject<JConstructor>(),
-						JTokenType.Property => jToken.ToObject<JProperty>(),
-						JTokenType.Comment => jToken.ToObject<JValue>(),
-						JTokenType.Integer => jToken.ToObject<int>(),
-						JTokenType.Float => jToken.ToObject<float>(),
-						JTokenType.String => jToken.ToObject<string>(),
-						JTokenType.Boolean => jToken.ToObject<bool>(),
-						JTokenType.Date => jToken.ToObject<DateTime>(),
-						JTokenType.Raw or JTokenType.Bytes => jToken.ToObject<JValue>(),
-						JTokenType.Guid => jToken.ToObject<Guid>(),
-						_ => throw new NotSupportedException("Unsupported JTokenType: " + jToken.Type)
-					};
-					break;
-				}
-
-			case IDictionary<string, object?> dictionary:
-				{
-					functionArgs.Result = dictionary[property];
-					break;
-				}
-
-			case JsonDocument jsonDocument:
-				{
-					if (jsonDocument.RootElement.ValueKind != JsonValueKind.Object)
-					{
-						throw new FormatException($"JsonDocument root element must be an object to access property '{property}'.");
-					}
-
-					if (jsonDocument.RootElement.TryGetProperty(property, out var jsonElement))
-					{
-						functionArgs.Result = ConvertJsonElement(jsonElement);
-					}
-					else
-					{
-						functionArgs.Result = null;
-					}
-
-					break;
-				}
-
-			case JsonElement jsonElement:
-				{
-					if (jsonElement.ValueKind != JsonValueKind.Object)
-					{
-						throw new FormatException($"JsonElement must be an object to access property '{property}'.");
-					}
-
-					if (jsonElement.TryGetProperty(property, out var propertyElement))
-					{
-						functionArgs.Result = ConvertJsonElement(propertyElement);
-					}
-					else
-					{
-						functionArgs.Result = null;
-					}
-
-					break;
-				}
-
-			default:
-				{
-					var type = value.GetType();
-					var propertyInfo = type.GetProperty(property) ?? throw new FormatException($"Could not find property {property} on type {type.Name}");
-					functionArgs.Result = propertyInfo.GetValue(value);
-					break;
-				}
+			throw new FormatException($"{ExtensionFunction.GetProperty}() error: {e.Message}", e);
 		}
 	}
 

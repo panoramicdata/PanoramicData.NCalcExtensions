@@ -20,23 +20,24 @@ internal static class GetProperties
 		object value;
 		try
 		{
-			value = functionArgs.Parameters[0].Evaluate();
+			value = functionArgs.Parameters[0].Evaluate()
+				?? throw new FormatException($"{ExtensionFunction.GetProperties}() parameter cannot be null.");
 		}
-		catch (Exception e)
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
-			throw new FormatException($"{ExtensionFunction.GetProperty}() requires one parameter.", e);
+			throw new FormatException($"{ExtensionFunction.GetProperties}() requires one parameter.", e);
 		}
 
 		functionArgs.Result = value switch
 		{
-			JObject jObject => [.. jObject
+			JObject jObject => jObject
 				.Properties()
-				.Select(p => p.Name)],
+				.Select(p => p.Name)
+				.ToList(),
 			JsonDocument jsonDocument when jsonDocument.RootElement.ValueKind == JsonValueKind.Object =>
-				jsonDocument.RootElement
+				[.. jsonDocument.RootElement
 					.EnumerateObject()
-					.Select(p => p.Name)
-					.ToList(),
+					.Select(p => p.Name)],
 			JsonDocument jsonDocument => throw new FormatException($"JsonDocument root element must be an object to get properties. Found: {jsonDocument.RootElement.ValueKind}"),
 			JsonElement jsonElement when jsonElement.ValueKind == JsonValueKind.Object =>
 				[.. jsonElement

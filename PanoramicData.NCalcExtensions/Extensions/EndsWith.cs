@@ -21,8 +21,11 @@ internal static class EndsWith
 	{
 		try
 		{
-			var param1 = (string)functionArgs.Parameters[0].Evaluate();
-			var param2 = (string)functionArgs.Parameters[1].Evaluate();
+			var param1 = functionArgs.Parameters[0].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.EndsWith} function requires two string parameters.");
+			var param2 = functionArgs.Parameters[1].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.EndsWith} function requires two string parameters.");
+
 			functionArgs.Result = param1.EndsWith(param2, StringComparison.InvariantCulture);
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException)

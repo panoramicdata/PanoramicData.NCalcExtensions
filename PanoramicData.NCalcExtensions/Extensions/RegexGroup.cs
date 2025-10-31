@@ -23,11 +23,15 @@ internal static class RegexGroup
 	{
 		try
 		{
-			var input = (string)functionArgs.Parameters[0].Evaluate();
-			var regexExpression = (string)functionArgs.Parameters[1].Evaluate();
+			var input = functionArgs.Parameters[0].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.RegexGroup}() requires string parameters.");
+			var regexExpression = functionArgs.Parameters[1].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.RegexGroup}() requires string parameters.");
+
 			var regexCaptureIndex = functionArgs.Parameters.Length == 3
-				? (int)functionArgs.Parameters[2].Evaluate()
+				? functionArgs.Parameters[2].Evaluate() as int? ?? 0
 				: 0;
+
 			var regex = new Regex(regexExpression);
 			if (!regex.IsMatch(input))
 			{
@@ -45,7 +49,7 @@ internal static class RegexGroup
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
-			throw new FormatException($"{ExtensionFunction.Replace}() requires three string parameters.");
+			throw new FormatException($"{ExtensionFunction.RegexGroup}() requires string parameters.");
 		}
 	}
 }

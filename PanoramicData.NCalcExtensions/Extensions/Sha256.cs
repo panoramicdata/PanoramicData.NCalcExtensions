@@ -40,8 +40,7 @@ internal static class Sha256
 	private static string GetSha256(string text)
 	{
 		var encodedBytes = Encoding.UTF8.GetBytes(text);
-		using var sha256 = SHA256.Create();
-		var hashBytes = sha256.ComputeHash(encodedBytes);
+		var hashBytes = SHA256.HashData(encodedBytes);
 		var hash = new StringBuilder();
 		foreach (var b in hashBytes)
 		{

@@ -24,36 +24,35 @@ internal static class Switch
 			throw new FormatException($"{ExtensionFunction.Switch}() requires at least three parameters.");
 		}
 
-		object valueParam;
 		try
 		{
-			valueParam = functionArgs.Parameters[0].Evaluate();
+			var valueParam = functionArgs.Parameters[0].Evaluate();
+
+			// Determine the pair count
+			var pairCount = (functionArgs.Parameters.Length - 1) / 2;
+			for (var pairIndex = 0; pairIndex < pairCount * 2; pairIndex += 2)
+			{
+				var caseIndex = 1 + pairIndex;
+				var @case = functionArgs.Parameters[caseIndex].Evaluate();
+				if (@case?.Equals(valueParam) == true || (@case == null && valueParam == null))
+				{
+					functionArgs.Result = functionArgs.Parameters[caseIndex + 1].Evaluate();
+					return;
+				}
+			}
+
+			var defaultIsPresent = functionArgs.Parameters.Length % 2 == 0;
+			if (defaultIsPresent)
+			{
+				functionArgs.Result = functionArgs.Parameters.Last().Evaluate();
+				return;
+			}
+
+			throw new FormatException($"Default {ExtensionFunction.Switch} condition occurred, but no default value was specified.");
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
-			throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0].ExpressionString}'.");
+			throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0].ExpressionString}'.", e);
 		}
-
-		// Determine the pair count
-		var pairCount = (functionArgs.Parameters.Length - 1) / 2;
-		for (var pairIndex = 0; pairIndex < pairCount * 2; pairIndex += 2)
-		{
-			var caseIndex = 1 + pairIndex;
-			var @case = functionArgs.Parameters[caseIndex].Evaluate();
-			if (@case.Equals(valueParam))
-			{
-				functionArgs.Result = functionArgs.Parameters[caseIndex + 1].Evaluate();
-				return;
-			}
-		}
-
-		var defaultIsPresent = functionArgs.Parameters.Length % 2 == 0;
-		if (defaultIsPresent)
-		{
-			functionArgs.Result = functionArgs.Parameters.Last().Evaluate();
-			return;
-		}
-
-		throw new FormatException($"Default {ExtensionFunction.Switch} condition occurred, but no default value was specified.");
 	}
 }

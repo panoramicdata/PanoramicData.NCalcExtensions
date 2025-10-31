@@ -7,6 +7,7 @@ public partial interface IFunctionPrototypes
 {
 	[DisplayName("throw")]
 	[Description("Throws an NCalcExtensionsException. Useful in an if().")]
+	[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "Method name matches NCalc function name 'throw()' for API consistency")]
 	void Throw(
 		[Description("(Optional) the exception message.")]
 		string? message = null

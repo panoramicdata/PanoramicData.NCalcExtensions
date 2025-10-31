@@ -41,18 +41,17 @@ internal static class Replace
 				break;
 		}
 
-		var haystack = (string)functionArgs.Parameters[0].Evaluate();
-
-		if (haystack is not string haystackString)
-		{
-			throw new NCalcExtensionsException($"{ExtensionFunction.Replace}() requires a string parameter.");
-		}
+		var haystackString = functionArgs.Parameters[0].Evaluate() as string
+			?? throw new NCalcExtensionsException($"{ExtensionFunction.Replace}() requires a string parameter.");
 
 		var needleIndex = 1;
 		while (needleIndex < functionArgs.Parameters.Length)
 		{
-			var needle = (string)functionArgs.Parameters[needleIndex++].Evaluate();
-			var replacementNeedle = (string)functionArgs.Parameters[needleIndex++].Evaluate();
+			var needle = functionArgs.Parameters[needleIndex++].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.Replace}() requires string parameters.");
+			var replacementNeedle = functionArgs.Parameters[needleIndex++].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.Replace}() requires string parameters.");
+
 			haystackString = haystackString.Replace(needle, replacementNeedle);
 		}
 

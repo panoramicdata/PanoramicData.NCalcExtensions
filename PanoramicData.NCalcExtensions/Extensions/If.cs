@@ -21,7 +21,6 @@ internal static class If
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		bool boolParam1;
 		if (functionArgs.Parameters.Length != 3)
 		{
 			throw new FormatException($"{ExtensionFunction.If}() requires three parameters.");
@@ -29,33 +28,36 @@ internal static class If
 
 		try
 		{
-			boolParam1 = (bool)functionArgs.Parameters[0].Evaluate();
-		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
-		{
-			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ExpressionString}'.");
-		}
+			if (functionArgs.Parameters[0].Evaluate() is not bool boolParam1)
+			{
+				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ExpressionString}' as boolean.");
+			}
 
-		if (boolParam1)
-		{
+			if (boolParam1)
+			{
+				try
+				{
+					functionArgs.Result = functionArgs.Parameters[1].Evaluate();
+					return;
+				}
+				catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+				{
+					throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 2 '{functionArgs.Parameters[1].ExpressionString}' due to {e.Message}.", e);
+				}
+			}
+
 			try
 			{
-				functionArgs.Result = functionArgs.Parameters[1].Evaluate();
-				return;
+				functionArgs.Result = functionArgs.Parameters[2].Evaluate();
 			}
 			catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 			{
-				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 2 '{functionArgs.Parameters[1].ExpressionString}' due to {e.Message}.", e);
+				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 3 '{functionArgs.Parameters[2].ExpressionString}' due to {e.Message}.", e);
 			}
-		}
-
-		try
-		{
-			functionArgs.Result = functionArgs.Parameters[2].Evaluate();
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{
-			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 3 '{functionArgs.Parameters[2].ExpressionString}' due to {e.Message}.", e);
+			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ExpressionString}'.", e);
 		}
 	}
 }

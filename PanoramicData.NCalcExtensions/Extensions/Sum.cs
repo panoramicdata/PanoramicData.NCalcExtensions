@@ -23,7 +23,8 @@ internal static class Sum
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		var originalList = functionArgs.Parameters[0].Evaluate();
+		var originalList = functionArgs.Parameters[0].Evaluate()
+			?? throw new FormatException($"First {ExtensionFunction.Sum} parameter cannot be null.");
 
 		if (functionArgs.Parameters.Length == 1)
 		{
@@ -85,7 +86,7 @@ internal static class Sum
 					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing sum.")
 				},
 				null => 0,
-				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing sum.")
+				_ => throw new FormatException($"Found unsupported type '{item.GetType().Name}' when completing sum.")
 			};
 		}
 

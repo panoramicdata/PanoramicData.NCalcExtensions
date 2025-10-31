@@ -78,10 +78,7 @@ public class ExtendedExpression : Expression
 
 	internal void Extend(string functionName, FunctionArgs functionArgs)
 	{
-		if (functionArgs == null)
-		{
-			throw new ArgumentNullException(nameof(functionArgs));
-		}
+		ArgumentNullException.ThrowIfNull(functionArgs);
 
 		switch (functionName)
 		{

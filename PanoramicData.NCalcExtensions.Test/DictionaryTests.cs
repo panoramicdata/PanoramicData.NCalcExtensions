@@ -36,11 +36,11 @@ public class DictionaryTests
 	{
 		var expression = new ExtendedExpression("dictionary('p1', true, 'p2', false)");
 
-		var result = expression.Evaluate();
-		var dictionary = (Dictionary<string, object?>)result;
-		dictionary.Should().HaveCount(2);
-		dictionary["p1"].Should().Be(true);
-		dictionary["p2"].Should().Be(false);
+		var result = expression.Evaluate() as Dictionary<string, object?>;
+		result.Should().NotBeNull();
+		result.Should().HaveCount(2);
+		result["p1"].Should().Be(true);
+		result["p2"].Should().Be(false);
 	}
 
 	[Fact]
@@ -48,8 +48,9 @@ public class DictionaryTests
 	{
 		var expression = new ExtendedExpression("dictionary(null, true, 'p2', false)");
 
-		var action = expression.Evaluate;
-		action.Should().Throw<FormatException>();
+		((Func<object?>?)expression.Evaluate)
+			.Should()
+			.Throw<FormatException>();
 	}
 
 	[Fact]
@@ -57,10 +58,10 @@ public class DictionaryTests
 	{
 		var expression = new ExtendedExpression("dictionary('p1', null)");
 
-		var result = expression.Evaluate();
-		var dictionary = (Dictionary<string, object>)result;
-		dictionary.Should().ContainSingle();
-		dictionary["p1"].Should().BeNull();
+		var result = expression.Evaluate() as Dictionary<string, object?>;
+		result.Should().NotBeNull();
+		result.Should().HaveCount(1);
+		result["p1"].Should().BeNull();
 	}
 
 }

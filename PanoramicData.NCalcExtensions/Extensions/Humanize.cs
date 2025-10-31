@@ -21,31 +21,30 @@ internal static class Humanize
 {
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
-		double param1Double;
-		string param2;
 		try
 		{
-			if (double.TryParse(functionArgs.Parameters[0].Evaluate().ToString(), out var result))
-			{
-				param1Double = result;
-				param2 = (string)functionArgs.Parameters[1].Evaluate();
-			}
-			else
+			var param1Obj = functionArgs.Parameters[0].Evaluate()
+				?? throw new FormatException($"{ExtensionFunction.Humanize}() first parameter cannot be null.");
+
+			if (!double.TryParse(param1Obj.ToString(), out var param1Double))
 			{
 				throw new FormatException($"{ExtensionFunction.Humanize}() first parameter must be a number.");
 			}
-		}
-		catch (Exception e) when (e is not NCalcExtensionsException)
-		{
-			throw new FormatException($"{ExtensionFunction.Humanize} function - The first number should be a valid floating-point number and the second should be a time unit ({string.Join(", ", Enum.GetNames(typeof(TimeUnit)))}).");
-		}
 
-		if (!Enum.TryParse<TimeUnit>(param2, true, out var param2TimeUnit))
-		{
-			throw new FormatException($"{ExtensionFunction.Humanize} function - Parameter 2 must be a time unit - one of {string.Join(", ", Enum.GetNames(typeof(TimeUnit)).Select(n => $"'{n}'"))}.");
-		}
+			var param2 = functionArgs.Parameters[1].Evaluate() as string
+				?? throw new FormatException($"{ExtensionFunction.Humanize}() second parameter must be a string.");
 
-		functionArgs.Result = Humanise(param1Double, param2TimeUnit);
+			if (!Enum.TryParse<TimeUnit>(param2, true, out var param2TimeUnit))
+			{
+				throw new FormatException($"{ExtensionFunction.Humanize} function - Parameter 2 must be a time unit - one of {string.Join(", ", Enum.GetNames<TimeUnit>().Select(n => $"'{n}'"))}.");
+			}
+
+			functionArgs.Result = Humanise(param1Double, param2TimeUnit);
+		}
+		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		{
+			throw new FormatException($"{ExtensionFunction.Humanize} function - The first number should be a valid floating-point number and the second should be a time unit ({string.Join(", ", Enum.GetNames<TimeUnit>())}).");
+		}
 	}
 
 	private static string Humanise(double param1Double, TimeUnit timeUnit)

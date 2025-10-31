@@ -34,7 +34,9 @@ internal static class Format
 			throw new ArgumentException($"{ExtensionFunction.Format} function - expected between {min} and {max} arguments");
 		}
 
-		var inputObject = functionArgs.Parameters[0].Evaluate();
+		var inputObject = functionArgs.Parameters[0].Evaluate()
+			?? throw new ArgumentException($"{ExtensionFunction.Format} function - first argument cannot be null");
+		
 		if (functionArgs.Parameters[1].Evaluate() is not string formatFormat)
 		{
 			throw new ArgumentException($"{ExtensionFunction.Format} function - expected second argument to be a format string");

@@ -19,11 +19,17 @@ internal static class DateTimeAsEpochMs
 {
 	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
 	{
+		var input = functionArgs.Parameters[0].Evaluate() as string
+			?? throw new FormatException($"{ExtensionFunction.DateTimeAsEpochMs}() requires two string parameters.");
+		var format = functionArgs.Parameters[1].Evaluate() as string
+			?? throw new FormatException($"{ExtensionFunction.DateTimeAsEpochMs}() requires two string parameters.");
+
 		var dateTimeOffset = DateTimeOffset.ParseExact(
-			functionArgs.Parameters[0].Evaluate() as string, // Input date as string
-			functionArgs.Parameters[1].Evaluate() as string,
+			input,
+			format,
 			cultureInfo.DateTimeFormat,
 			DateTimeStyles.AssumeUniversal);
+		
 		functionArgs.Result = dateTimeOffset.ToUnixTimeMilliseconds();
 	}
 }
