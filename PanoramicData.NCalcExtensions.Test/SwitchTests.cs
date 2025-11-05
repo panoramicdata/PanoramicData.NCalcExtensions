@@ -75,7 +75,7 @@ public class SwitchTests : NCalcTest
 
 	private static object? GetValue(JProperty jProperty) => jProperty.Value.Type switch
 	{
-		JTokenType.Null => (object?)null,
+		JTokenType.Null => null,
 		JTokenType.Undefined => (object?)null,
 		JTokenType.String => jProperty.Value.ToObject<string>(),
 		JTokenType.Integer => jProperty.Value.ToObject<int>(),

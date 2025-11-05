@@ -39,5 +39,5 @@ public class OrderByTests : NCalcTest
 	.BeEquivalentTo(expectedOrder);
 
 	// Should use the strict order
-	//.BeEquivalentTo(expectedOrder, options => options.WithStrictOrdering());
+	// with .BeEquivalentTo(expectedOrder, options => options.WithStrictOrdering());
 }

@@ -140,7 +140,7 @@ internal static class TryParse
 							if (result is JObject jObject)
 							{
 								functionArgs.Result = true;
-								dictionary[outputVariableName] = result;
+								dictionary[outputVariableName] = jObject;
 							}
 						}
 						catch (JsonReaderException)
@@ -158,7 +158,7 @@ internal static class TryParse
 							if (result is JArray jArray)
 							{
 								functionArgs.Result = true;
-								dictionary[outputVariableName] = result;
+								dictionary[outputVariableName] = jArray;
 							}
 						}
 						catch (JsonReaderException)

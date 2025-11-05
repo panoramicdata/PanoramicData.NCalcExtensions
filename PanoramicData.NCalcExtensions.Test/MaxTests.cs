@@ -306,56 +306,56 @@ public class MaxTests
 	public void Max_WithLambda_SByteType_ReturnsMax()
 	{
 		var expression = new ExtendedExpression("max(listOf('sbyte', 10, -5, 3), 'x', 'x')");
-		expression.Evaluate().Should().Be((int)10);
+		expression.Evaluate().Should().Be(10);
 	}
 
 	[Fact]
 	public void Max_WithLambda_NullableSByteType_ReturnsMax()
 	{
 		var expression = new ExtendedExpression("max(listOf('sbyte?', 10, null, -5, 3), 'x', 'x')");
-		expression.Evaluate().Should().Be((int)10);
+		expression.Evaluate().Should().Be(10);
 	}
 
 	[Fact]
 	public void Max_WithLambda_ByteType_ReturnsMax()
 	{
 		var expression = new ExtendedExpression("max(listOf('byte', 100, 50, 200), 'x', 'x')");
-		expression.Evaluate().Should().Be((int)200);
+		expression.Evaluate().Should().Be(200);
 	}
 
 	[Fact]
 	public void Max_WithLambda_NullableByteType_ReturnsMax()
 	{
 		var expression = new ExtendedExpression("max(listOf('byte?', 100, null, 50, 200), 'x', 'x')");
-		expression.Evaluate().Should().Be((int)200);
+		expression.Evaluate().Should().Be(200);
 	}
 
 	[Fact]
 	public void Max_WithLambda_ShortType_ReturnsMax()
 	{
 		var expression = new ExtendedExpression("max(listOf('short', 1000, 500, 2000), 'x', 'x')");
-		expression.Evaluate().Should().Be((int)2000);
+		expression.Evaluate().Should().Be(2000);
 	}
 
 	[Fact]
 	public void Max_WithLambda_NullableShortType_ReturnsMax()
 	{
 		var expression = new ExtendedExpression("max(listOf('short?', 1000, null, 500, 2000), 'x', 'x')");
-		expression.Evaluate().Should().Be((int)2000);
+		expression.Evaluate().Should().Be(2000);
 	}
 
 	[Fact]
 	public void Max_WithLambda_UShortType_ReturnsMax()
 	{
 		var expression = new ExtendedExpression("max(listOf('ushort', 1000, 500, 2000), 'x', 'x')");
-		expression.Evaluate().Should().Be((int)2000);
+		expression.Evaluate().Should().Be(2000);
 	}
 
 	[Fact]
 	public void Max_WithLambda_NullableUShortType_ReturnsMax()
 	{
 		var expression = new ExtendedExpression("max(listOf('ushort?', 1000, null, 500, 2000), 'x', 'x')");
-		expression.Evaluate().Should().Be((int)2000);
+		expression.Evaluate().Should().Be(2000);
 	}
 
 	[Fact]

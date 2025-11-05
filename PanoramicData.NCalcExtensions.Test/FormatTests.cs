@@ -23,14 +23,11 @@ public class FormatTests
 	[Theory]
 	[InlineData("format(1, 2, 3)")]
 	public void Format_ThreeParametersForInt_Fails(string inputText)
-	{
-		var expression = new ExtendedExpression(inputText);
-		var exception = expression
+		=> new ExtendedExpression(inputText)
 			.Invoking(e => e.Evaluate())
 			.Should()
 			.ThrowExactly<ArgumentException>()
 			.WithMessage("format function - expected second argument to be a format string");
-	}
 
 	[Fact]
 	public void Format_IntFormat_Succeeds()
@@ -76,7 +73,7 @@ public class FormatTests
 	}
 
 	/// <summary>
-	///  See https://cdn.a-printable-calendar.com/images/large/full-year-calendar-2021.png and 
+	///  See https://cdn.a-printable-calendar.com/images/large/full-year-calendar-2021.png and
 	///  See https://cdn.a-printable-calendar.com/images/large/full-year-calendar-2022.png
 	/// </summary>
 	/// <param name="dateTimeString"></param>

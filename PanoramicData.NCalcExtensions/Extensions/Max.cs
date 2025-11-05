@@ -115,20 +115,20 @@ internal static class Max
 		{
 			var thisOne = item switch
 			{
-				sbyte value => (IComparable)value,
-				byte value => (IComparable)value,
-				short value => (IComparable)value,
-				ushort value => (IComparable)value,
-				int value => (IComparable)value,
-				uint value => (IComparable)value,
-				long value => (IComparable)value,
-				ulong value => (IComparable)value,
-				float value => (IComparable)value,
-				double value => (IComparable)value,
-				decimal value => (IComparable)value,
+				sbyte value => value,
+				byte value => value,
+				short value => value,
+				ushort value => value,
+				int value => value,
+				uint value => value,
+				long value => value,
+				ulong value => value,
+				float value => value,
+				double value => value,
+				decimal value => value,
 				JValue jValue => jValue.Type switch
 				{
-					JTokenType.Float => (IComparable)jValue.Value<float>()!,
+					JTokenType.Float => jValue.Value<float>()!,
 					JTokenType.Integer => (IComparable)jValue.Value<int>(),
 					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing max.")
 				},

@@ -24,7 +24,7 @@ internal static class Length
 			var value = functionArgs.Parameters[0].Evaluate()
 				?? throw new FormatException($"{ExtensionFunction.Length}() requires one non-null string or IList parameter.");
 
-			functionArgs.Result = value is string a ? a.Length : (object)GetLength(value);
+			functionArgs.Result = value is string a ? a.Length : GetLength(value);
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{

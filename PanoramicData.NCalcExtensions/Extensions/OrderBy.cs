@@ -68,20 +68,11 @@ internal sealed class ObjectKeyComparer : IComparer<object?>
 	public static readonly ObjectKeyComparer Instance = new();
 
 	public int Compare(object? x, object? y)
-	{
-		if (ReferenceEquals(x, y)) return 0;
-		if (x is null) return -1;
-		if (y is null) return 1;
-
-		// Allow mixed numeric comparisons (e.g., int vs double)
-		if (TryToDouble(x, out var dx) && TryToDouble(y, out var dy))
-		{
-			return dx.CompareTo(dy);
-		}
-
-		// Fall back to default behavior for non-numeric keys
-		return Comparer<object>.Default.Compare(x, y);
-	}
+		=> ReferenceEquals(x, y) ? 0
+		: x is null ? -1
+		: y is null ? 1
+		: (TryToDouble(x, out var dx) && TryToDouble(y, out var dy)) ? dx.CompareTo(dy)
+		: Comparer<object>.Default.Compare(x, y);
 
 	private static bool TryToDouble(object value, out double result)
 	{
