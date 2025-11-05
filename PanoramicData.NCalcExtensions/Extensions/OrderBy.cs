@@ -37,7 +37,7 @@ internal static class OrderBy
 
 		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
 
-		IOrderedEnumerable<object?> orderable = list
+		var orderable = list
 			.OrderBy(value =>
 			{
 				var result = lambda.Evaluate(value);
