@@ -11,3 +11,9 @@ exclude_paths:
   - '**/*.Version.cs'
   - '**/*.AssemblyInfo.cs'
   - '**/*.AssemblyAttributes.cs'
+
+# Suppress specific patterns
+patterns:
+  # Suppress 'partial' keyword warnings - needed for VS Code extension generation
+  - id: "Sonar.CSharp.S3260"
+    enabled: false
