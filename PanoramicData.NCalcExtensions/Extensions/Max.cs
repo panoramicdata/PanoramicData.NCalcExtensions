@@ -38,14 +38,22 @@ internal static class Max
 			functionArgs.Result = originalList switch
 			{
 				null => null,
+				IEnumerable<sbyte> list => list.Max(),
+				IEnumerable<sbyte?> list => list.DefaultIfEmpty(null).Max(),
 				IEnumerable<byte> list => list.Max(),
 				IEnumerable<byte?> list => list.DefaultIfEmpty(null).Max(),
 				IEnumerable<short> list => list.Max(),
 				IEnumerable<short?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<ushort> list => list.Max(),
+				IEnumerable<ushort?> list => list.DefaultIfEmpty(null).Max(),
 				IEnumerable<int> list => list.Max(),
 				IEnumerable<int?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<uint> list => list.Max(),
+				IEnumerable<uint?> list => list.DefaultIfEmpty(null).Max(),
 				IEnumerable<long> list => list.Max(),
 				IEnumerable<long?> list => list.DefaultIfEmpty(null).Max(),
+				IEnumerable<ulong> list => list.Max(),
+				IEnumerable<ulong?> list => list.DefaultIfEmpty(null).Max(),
 				IEnumerable<float> list => list.Max(),
 				IEnumerable<float?> list => list.DefaultIfEmpty(null).Max(),
 				IEnumerable<double> list => list.Max(),
@@ -71,56 +79,68 @@ internal static class Max
 
 		functionArgs.Result = originalList switch
 		{
-			IEnumerable<byte> list => list.Max(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<byte?> list => list.Max(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short> list => list.Max(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short?> list => list.Max(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<int> list => list.Max(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<int?> list => list.Max(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<long> list => list.Max(value => (long?)lambda.Evaluate(value)),
-			IEnumerable<long?> list => list.Max(value => (long?)lambda.Evaluate(value)),
-			IEnumerable<float> list => list.Max(value => (float?)lambda.Evaluate(value)),
-			IEnumerable<float?> list => list.Max(value => (float?)lambda.Evaluate(value)),
-			IEnumerable<double> list => list.Max(value => (double?)lambda.Evaluate(value)),
-			IEnumerable<double?> list => list.Max(value => (double?)lambda.Evaluate(value)),
-			IEnumerable<decimal> list => list.Max(value => (decimal?)lambda.Evaluate(value)),
-			IEnumerable<decimal?> list => list.Max(value => (decimal?)lambda.Evaluate(value)),
-			IEnumerable<string?> list => list.Max(value => (string?)lambda.Evaluate(value)),
+			IEnumerable<sbyte> list => list.Max(lambda.EvaluateTo<sbyte, sbyte>),
+			IEnumerable<sbyte?> list => list.Max(lambda.EvaluateTo<sbyte?, sbyte?>),
+			IEnumerable<byte> list => list.Max(lambda.EvaluateTo<byte, byte>),
+			IEnumerable<byte?> list => list.Max(lambda.EvaluateTo<byte?, byte?>),
+			IEnumerable<short> list => list.Max(lambda.EvaluateTo<short, short>),
+			IEnumerable<short?> list => list.Max(lambda.EvaluateTo<short?, short?>),
+			IEnumerable<ushort> list => list.Max(lambda.EvaluateTo<ushort, ushort>),
+			IEnumerable<ushort?> list => list.Max(lambda.EvaluateTo<ushort?, ushort?>),
+			IEnumerable<int> list => list.Max(lambda.EvaluateTo<int, int>),
+			IEnumerable<int?> list => list.Max(lambda.EvaluateTo<int?, int?>),
+			IEnumerable<uint> list => list.Max(lambda.EvaluateTo<uint, uint>),
+			IEnumerable<uint?> list => list.Max(lambda.EvaluateTo<uint?, uint?>),
+			IEnumerable<long> list => list.Max(lambda.EvaluateTo<long, long>),
+			IEnumerable<long?> list => list.Max(lambda.EvaluateTo<long?, long?>),
+			IEnumerable<ulong> list => list.Max(lambda.EvaluateTo<ulong, ulong>),
+			IEnumerable<ulong?> list => list.Max(lambda.EvaluateTo<ulong?, ulong?>),
+			IEnumerable<float> list => list.Max(lambda.EvaluateTo<float, float>),
+			IEnumerable<float?> list => list.Max(lambda.EvaluateTo<float?, float?>),
+			IEnumerable<double> list => list.Max(lambda.EvaluateTo<double, double>),
+			IEnumerable<double?> list => list.Max(lambda.EvaluateTo<double?, double?>),
+			IEnumerable<decimal> list => list.Max(lambda.EvaluateTo<decimal, decimal>),
+			IEnumerable<decimal?> list => list.Max(lambda.EvaluateTo<decimal?, decimal?>),
+			IEnumerable<string?> list => list.Max(lambda.EvaluateTo<string?, string?>),
 			IEnumerable<object?> list => GetMax(list.Select(value => lambda.Evaluate(value))),
 			_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a string or numeric type when processing as a lambda.")
 		};
 
 	}
 
-	private static double GetMax(IEnumerable<object?> objectList)
+	private static IComparable GetMax(IEnumerable<object?> objectList)
 	{
-		var max = double.NegativeInfinity;
+		IComparable? max = null;
 		foreach (var item in objectList)
 		{
 			var thisOne = item switch
 			{
-				byte value => value,
-				short value => value,
-				int value => value,
-				long value => value,
-				float value => value,
-				double value => value,
-				decimal value => (double)value,
+				sbyte value => (IComparable)value,
+				byte value => (IComparable)value,
+				short value => (IComparable)value,
+				ushort value => (IComparable)value,
+				int value => (IComparable)value,
+				uint value => (IComparable)value,
+				long value => (IComparable)value,
+				ulong value => (IComparable)value,
+				float value => (IComparable)value,
+				double value => (IComparable)value,
+				decimal value => (IComparable)value,
 				JValue jValue => jValue.Type switch
 				{
-					JTokenType.Float => jValue.Value<float>(),
-					JTokenType.Integer => jValue.Value<int>(),
+					JTokenType.Float => (IComparable)jValue.Value<float>()!,
+					JTokenType.Integer => (IComparable)jValue.Value<int>(),
 					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing max.")
 				},
-				null => 0,
+				null => null,
 				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing max.")
 			};
-			if (thisOne > max)
+			if (thisOne != null && (max == null || thisOne.CompareTo(max) > 0))
 			{
 				max = thisOne;
 			}
 		}
 
-		return max;
+		return max!;
 	}
 }

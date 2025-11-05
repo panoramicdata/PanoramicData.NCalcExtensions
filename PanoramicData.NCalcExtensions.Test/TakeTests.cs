@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 
 namespace PanoramicData.NCalcExtensions.Test;
-
 public class TakeTests
 {
 	[Fact]

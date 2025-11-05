@@ -19,7 +19,11 @@ public class DiagnosticComparisonTests
 	public void Diagnostic_IntegerVsEmptyString_Inequality()
 	{
 		// This test seems to be an NCalc bug, as it returns false instead of true
-		// The issue number is: https://github.com/ncalc/ncalc/issues/471
+		// Relevant issue numbers:
+		// - https://github.com/ncalc/ncalc/issues/471
+		// - https://github.com/ncalc/ncalc/pull/489
+		// - Fixed in 5.8.0
+
 
 		var expression = new ExtendedExpression("1 != ''");
 		var result = expression.Evaluate();

@@ -38,14 +38,22 @@ internal static class Min
 			functionArgs.Result = originalList switch
 			{
 				null => null,
+				IEnumerable<sbyte> list => list.Min(),
+				IEnumerable<sbyte?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<byte> list => list.Min(),
 				IEnumerable<byte?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<short> list => list.Min(),
 				IEnumerable<short?> list => list.DefaultIfEmpty(null).Min(),
+				IEnumerable<ushort> list => list.Min(),
+				IEnumerable<ushort?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<int> list => list.Min(),
 				IEnumerable<int?> list => list.DefaultIfEmpty(null).Min(),
+				IEnumerable<uint> list => list.Min(),
+				IEnumerable<uint?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<long> list => list.Min(),
 				IEnumerable<long?> list => list.DefaultIfEmpty(null).Min(),
+				IEnumerable<ulong> list => list.Min(),
+				IEnumerable<ulong?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<float> list => list.Min(),
 				IEnumerable<float?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<double> list => list.Min(),
@@ -73,14 +81,22 @@ internal static class Min
 
 		functionArgs.Result = originalList switch
 		{
+			IEnumerable<sbyte> list => list.Min(lambda.EvaluateTo<sbyte, sbyte>),
+			IEnumerable<sbyte?> list => list.Min(lambda.EvaluateTo<sbyte?, sbyte?>),
 			IEnumerable<byte> list => list.Min(lambda.EvaluateTo<byte, byte>),
 			IEnumerable<byte?> list => list.Min(lambda.EvaluateTo<byte?, byte?>),
 			IEnumerable<short> list => list.Min(lambda.EvaluateTo<short, short>),
 			IEnumerable<short?> list => list.Min(lambda.EvaluateTo<short?, short?>),
+			IEnumerable<ushort> list => list.Min(lambda.EvaluateTo<ushort, ushort>),
+			IEnumerable<ushort?> list => list.Min(lambda.EvaluateTo<ushort?, ushort?>),
 			IEnumerable<int> list => list.Min(lambda.EvaluateTo<int, int>),
 			IEnumerable<int?> list => list.Min(lambda.EvaluateTo<int?, int?>),
+			IEnumerable<uint> list => list.Min(lambda.EvaluateTo<uint, uint>),
+			IEnumerable<uint?> list => list.Min(lambda.EvaluateTo<uint?, uint?>),
 			IEnumerable<long> list => list.Min(lambda.EvaluateTo<long, long>),
 			IEnumerable<long?> list => list.Min(lambda.EvaluateTo<long?, long?>),
+			IEnumerable<ulong> list => list.Min(lambda.EvaluateTo<ulong, ulong>),
+			IEnumerable<ulong?> list => list.Min(lambda.EvaluateTo<ulong?, ulong?>),
 			IEnumerable<float> list => list.Min(lambda.EvaluateTo<float, float>),
 			IEnumerable<float?> list => list.Min(lambda.EvaluateTo<float?, float?>),
 			IEnumerable<double> list => list.Min(lambda.EvaluateTo<double, double>),
@@ -94,35 +110,39 @@ internal static class Min
 
 	}
 
-	private static double GetMin(IEnumerable<object?> objectList)
+	private static IComparable GetMin(IEnumerable<object?> objectList)
 	{
-		var min = double.PositiveInfinity;
+		IComparable? min = null;
 		foreach (var item in objectList)
 		{
 			var thisOne = item switch
 			{
-				byte value => value,
-				short value => value,
-				int value => value,
-				long value => value,
-				float value => value,
-				double value => value,
-				decimal value => (double)value,
+				sbyte value => (IComparable)value,
+				byte value => (IComparable)value,
+				short value => (IComparable)value,
+				ushort value => (IComparable)value,
+				int value => (IComparable)value,
+				uint value => (IComparable)value,
+				long value => (IComparable)value,
+				ulong value => (IComparable)value,
+				float value => (IComparable)value,
+				double value => (IComparable)value,
+				decimal value => (IComparable)value,
 				JValue jValue => jValue.Type switch
 				{
-					JTokenType.Float => jValue.Value<float>(),
-					JTokenType.Integer => jValue.Value<int>(),
+					JTokenType.Float => (IComparable)jValue.Value<float>()!,
+					JTokenType.Integer => (IComparable)jValue.Value<int>(),
 					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing Min.")
 				},
-				null => 0,
+				null => null,
 				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing Min.")
 			};
-			if (thisOne < min)
+			if (thisOne != null && (min == null || thisOne.CompareTo(min) < 0))
 			{
 				min = thisOne;
 			}
 		}
 
-		return min;
+		return min!;
 	}
 }

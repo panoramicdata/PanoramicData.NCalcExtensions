@@ -9,7 +9,8 @@
 
 This nuget package provides extension functions for NCalc.
 
-The NCalc documentation can be found [here (source code)](https://github.com/sklose/NCalc2) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
+The NCalc documentation can be found [here (source code)](https://github.com/ncalc/ncalc) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
+
 
 ## Additional benefits
 
@@ -33,6 +34,75 @@ contains(
 
 )
 ````
+
+## Breaking Changes in v5.8+
+
+Starting with version 5.8, this library has migrated from `CoreCLR-NCalc` to the **`NCalcSync`** package.
+This brings improved performance, better maintainability, and bug fixes, but requires awareness when upgrading.
+Version numbers align with the NCalcSync package for clarity.
+
+### What Changed
+
+1. **NuGet Package Dependency**: The underlying NCalc implementation changed from `CoreCLR-NCalc` to `NCalcSync`
+2. **Target Framework**: Now targets .NET 9 only (previously supported .NET Standard 2.0)
+3. **Constructor Options**: `ExtendedExpression` now provides two constructors for different use cases
+
+### Migration Guide
+
+#### Basic Usage (No Changes Required)
+
+For most users, **no code changes are required**. The default constructor continues to work with sensible defaults:
+
+```csharp
+using PanoramicData.NCalcExtensions;
+
+var expression = new ExtendedExpression("1 + 1");
+var result = expression.Evaluate(); // Returns: 2
+```
+
+The default constructor automatically applies these `ExpressionOptions`:
+- `ExpressionOptions.NoCache` - Expressions are not cached (safer for dynamic expressions)
+- `ExpressionOptions.NoStringTypeCoercion` - Prevents automatic string-to-number conversions
+- `ExpressionOptions.StrictTypeMatching` - Enforces type safety (e.g., `1 != '1'`)
+
+#### Advanced Usage (Custom Options)
+
+If you need custom `ExpressionOptions`, use the overloaded constructor:
+
+```csharp
+using PanoramicData.NCalcExtensions;
+using NCalc;
+using System.Globalization;
+
+var expression = new ExtendedExpression(
+    "1 + 1",
+    ExpressionOptions.None, // Or combine options with |
+    CultureInfo.InvariantCulture
+);
+var result = expression.Evaluate();
+```
+
+#### Understanding ExpressionOptions
+
+The `ExpressionOptions` enum from NCalcSync provides fine-grained control over expression evaluation:
+
+- **`None`**: Default NCalc behavior (allows caching, type coercion, etc.)
+- **`NoCache`**: Disables expression caching (recommended for dynamic expressions)
+- **`NoStringTypeCoercion`**: Prevents implicit string-to-number conversions
+- **`StrictTypeMatching`**: Enforces strict type comparisons
+- **`IgnoreCase`**: Makes string comparisons case-insensitive
+- **`AllowNullParameter`**: Allows null parameter values
+- **`IterateParameters`**: Enables parameter iteration in expressions
+
+For complete documentation on `ExpressionOptions`, see the [NCalcSync documentation](https://github.com/ncalc/ncalc/wiki).
+
+### Why This Change?
+
+The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCalcSync` provides:
+- Active maintenance and bug fixes
+- Better performance  
+- Improved standard compliance
+- Enhanced type safety options
 
 ## Functions
 
@@ -89,9 +159,9 @@ contains(
 | [list()](#list) | Emits a List\<object?\> and collapses down lists of lists to a single list. |
 | [listOf()](#listof) | Emits a List\<T\>. |
 | [max()](#max) | Emits the maximum value, ignoring nulls. |
-| [maxValue()](#maxValue) | Emits the maximum possible value for a given numeric type. |
+| [maxValue()](#maxValue) | Emits the maximum possible value for a given numeric or date/time type. |
 | [min()](#min) | Emits the minimum value, ignoring nulls. |
-| [minValue()](#minValue) | Emits the minimum possible value for a given numeric type. |
+| [minValue()](#minValue) | Emits the minimum possible value for a given numeric or date/time type. |
 | [now()](#now) | Returns the current date and time, with optional timezone correction. |
 | [nullCoalesce()](#nullcoalesce) | Returns the first parameter that is not null, otherwise: null. |
 | [orderBy()](#orderby) | Orders an IEnumerable by one or more lambda expressions. |
@@ -1036,14 +1106,18 @@ Emits a List\<T\>.
 ### maxValue()
 
 #### Purpose
-   Emits the maximum possible value for a given numeric type.
+   Emits the maximum possible value for a given numeric or date/time type.
 
 #### Parameters
-   * a string representing the type, which must be one of 'sbyte', 'byte', 'short', 'ushort', 'int', 'uint', 'long', 'ulong', 'float', 'double' or 'decimal'.
+   * a string representing the type, which must be one of 'sbyte', 'byte', 'short', 'ushort', 'int', 'uint', 'long', 'ulong', 'float', 'double', 'decimal', 'DateTime', or 'DateTimeOffset'.
 
 #### Examples
    * maxValue('byte') : (byte)255
    * maxValue('ushort') : (ushort)65535
+   * maxValue('int') : 2147483647
+   * maxValue('DateTime') : DateTime.MaxValue (9999-12-31T23:59:59.9999999)
+   * maxValue('DateTimeOffset') : DateTimeOffset.MaxValue (9999-12-31T23:59:59.9999999+00:00)
+
 ---
 
 ### min()
@@ -1065,14 +1139,17 @@ Emits a List\<T\>.
 ### minValue()
 
 #### Purpose
-   Emits the minimum possible value for a given numeric type.
+ Emits the minimum possible value for a given numeric or date/time type.
 
 #### Parameters
-   * a string representing the type, which must be one of 'sbyte', 'byte', 'short', 'ushort', 'int', 'uint', 'long', 'ulong', 'float', 'double' or 'decimal'.
+   * a string representing the type, which must be one of 'sbyte', 'byte', 'short', 'ushort', 'int', 'uint', 'long', 'ulong', 'float', 'double' 'decimal', 'DateTime', or 'DateTimeOffset'.
 
 #### Examples
    * minValue('byte') : (byte)0
    * minValue('ushort') : (ushort)0
+   * minValue('int') : -2147483648
+   * minValue('DateTime') : DateTime.MinValue (0001-01-01T00:00:00.0000000)
+   * minValue('DateTimeOffset') : DateTimeOffset.MinValue (0001-01-01T00:00:00.0000000+00:00)
 
 ---
 

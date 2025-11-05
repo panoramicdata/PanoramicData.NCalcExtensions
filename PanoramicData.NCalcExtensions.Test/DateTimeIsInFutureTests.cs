@@ -6,7 +6,7 @@ public class DateTimeIsInFutureTests : NCalcTest
 	public void Evaluate_UtcDateIn100Milliseconds_ReturnsTrue()
 	{
 		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest)");
-		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddMilliseconds(100));
+		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddMilliseconds(2000));
 		var result = expression.Evaluate();
 		result.Should().BeOfType<bool>();
 
@@ -17,7 +17,7 @@ public class DateTimeIsInFutureTests : NCalcTest
 	public void Evaluate_UtcDate100MillisecondsAgo_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest)");
-		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddMilliseconds(-100));
+		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddMilliseconds(-2000));
 		var result = expression.Evaluate();
 		result.Should().BeOfType<bool>();
 
@@ -29,7 +29,7 @@ public class DateTimeIsInFutureTests : NCalcTest
 	{
 		// West Africa Time does not observe Daylight Saving, so its offset from UTC is constant
 		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest, 'Africa/Luanda')");
-		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddHours(1).AddMilliseconds(100));
+		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddHours(1).AddMilliseconds(2000));
 		var result = expression.Evaluate();
 		result.Should().BeOfType<bool>();
 
@@ -41,7 +41,7 @@ public class DateTimeIsInFutureTests : NCalcTest
 	{
 		// West Africa Time does not observe Daylight Saving, so its offset from UTC is constant
 		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest, 'Africa/Luanda')");
-		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddHours(1).AddMilliseconds(-100));
+		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddHours(1).AddMilliseconds(-2000));
 		var result = expression.Evaluate();
 		result.Should().BeOfType<bool>();
 

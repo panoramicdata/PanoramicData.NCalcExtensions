@@ -103,4 +103,314 @@ public class MinTests
 		var expression = new ExtendedExpression("min(listOf('string', '1', '2', '3'), 'x', 'x + x')");
 		expression.Evaluate().Should().Be("11");
 	}
+
+	// Additional comprehensive tests for all numeric types
+
+	[Fact]
+	public void Min_ByteType_ReturnsMinByte()
+	{
+		var expression = new ExtendedExpression("min(listOf('byte', 255, 1, 100))");
+		expression.Evaluate().Should().Be((byte)1);
+	}
+
+	[Fact]
+	public void Min_SByteType_ReturnsMinSByte()
+	{
+		var expression = new ExtendedExpression("min(listOf('sbyte', 127, -128, 0))");
+		expression.Evaluate().Should().Be((sbyte)-128);
+	}
+
+	[Fact]
+	public void Min_ShortType_ReturnsMinShort()
+	{
+		var expression = new ExtendedExpression("min(listOf('short', 32767, -100, 100))");
+		expression.Evaluate().Should().Be((short)-100);
+	}
+
+	[Fact]
+	public void Min_UShortType_ReturnsMinUShort()
+	{
+		var expression = new ExtendedExpression("min(listOf('ushort', 65535, 1, 100))");
+		expression.Evaluate().Should().Be((ushort)1);
+	}
+
+	[Fact]
+	public void Min_UIntType_ReturnsMinUInt()
+	{
+		var expression = new ExtendedExpression("min(listOf('uint', 4294967295, 1, 100))");
+		expression.Evaluate().Should().Be(1u);
+	}
+
+	[Fact]
+	public void Min_LongType_ReturnsMinLong()
+	{
+		var expression = new ExtendedExpression("min(listOf('long', 9223372036854775807, -1000, 1000))");
+		expression.Evaluate().Should().Be(-1000L);
+	}
+
+	[Fact]
+	public void Min_ULongType_ReturnsMinULong()
+	{
+		// Note: Using values that can be safely represented in double (which NCalc uses for numeric literals)
+		var expression = new ExtendedExpression("min(listOf('ulong', 100, 1, 50))");
+		expression.Evaluate().Should().Be(1UL);
+	}
+
+	[Fact]
+	public void Min_FloatType_ReturnsMinFloat()
+	{
+		var expression = new ExtendedExpression("min(listOf('float', 3.3, 1.1, 2.2))");
+		var result = (float)expression.Evaluate()!;
+		result.Should().BeApproximately(1.1f, 0.01f);
+	}
+
+	[Fact]
+	public void Min_DecimalType_ReturnsMinDecimal()
+	{
+		var expression = new ExtendedExpression("min(listOf('decimal', 3.3, 1.1, 2.2))");
+		expression.Evaluate().Should().Be(1.1m);
+	}
+
+	[Fact]
+	public void Min_WithLambda_EmptyList_ReturnsNull()
+	{
+		var expression = new ExtendedExpression("min(list(), 'x', 'x')");
+		expression.Evaluate().Should().BeNull();
+	}
+
+	[Fact]
+	public void Min_NullableInt_WithNulls_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('int?', 3, null, 1, null, 2))");
+		expression.Evaluate().Should().Be(1);
+	}
+
+	[Fact]
+	public void Min_NullableInt_AllNulls_ReturnsNull()
+	{
+		var expression = new ExtendedExpression("min(listOf('int?', null, null, null))");
+		expression.Evaluate().Should().BeNull();
+	}
+
+	[Fact]
+	public void Min_WithLambda_ReturningNull_HandlesCorrectly()
+	{
+		var expression = new ExtendedExpression("min(listOf('int?', 1, 2, 3), 'x', 'if(x == 2, null, x)')");
+		expression.Evaluate().Should().Be(1);
+	}
+
+	[Fact]
+	public void Min_VeryLargeNumbers_HandlesCorrectly()
+	{
+		var expression = new ExtendedExpression("min(listOf('long', 9223372036854775806, 9223372036854775807))");
+		expression.Evaluate().Should().Be(9223372036854775806L);
+	}
+
+	[Fact]
+	public void Min_NegativeNumbers_ReturnsMostNegative()
+	{
+		var expression = new ExtendedExpression("min(listOf('int', -100, -50, -200))");
+		expression.Evaluate().Should().Be(-200);
+	}
+
+	[Fact]
+	public void Min_SingleElement_ReturnsThatElement()
+	{
+		var expression = new ExtendedExpression("min(listOf('int', 42))");
+		expression.Evaluate().Should().Be(42);
+	}
+
+	[Fact]
+	public void Min_WithLambda_ComplexExpression_Works()
+	{
+		var expression = new ExtendedExpression("min(listOf('int', 1, 2, 3), 'x', 'x * x')");
+		expression.Evaluate().Should().Be(1);
+	}
+
+	// Lambda form tests for additional numeric types
+
+	[Fact]
+	public void Min_WithLambda_UIntType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('uint', 100, 50, 200), 'x', 'x')");
+		expression.Evaluate().Should().Be(50u);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableUIntType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('uint?', 100, null, 50, 200), 'x', 'x')");
+		expression.Evaluate().Should().Be(50u);
+	}
+
+	[Fact]
+	public void Min_WithLambda_ULongType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('ulong', 1000, 500, 2000), 'x', 'x')");
+		expression.Evaluate().Should().Be(500UL);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableULongType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('ulong?', 1000, null, 500, 2000), 'x', 'x')");
+		expression.Evaluate().Should().Be(500UL);
+	}
+
+	[Fact]
+	public void Min_WithLambda_FloatType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('float', 3.3, 1.1, 2.2), 'x', 'x')");
+		var result = (float)expression.Evaluate()!;
+		result.Should().BeApproximately(1.1f, 0.01f);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableFloatType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('float?', 3.3, null, 1.1, 2.2), 'x', 'x')");
+		var result = (float)expression.Evaluate()!;
+		result.Should().BeApproximately(1.1f, 0.01f);
+	}
+
+	[Fact]
+	public void Min_WithLambda_DoubleType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('double', 3.3, 1.1, 2.2), 'x', 'x')");
+		expression.Evaluate().Should().Be(1.1);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableDoubleType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('double?', 3.3, null, 1.1, 2.2), 'x', 'x')");
+		expression.Evaluate().Should().Be(1.1);
+	}
+
+	[Fact]
+	public void Min_WithLambda_DecimalType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('decimal', 3.3, 1.1, 2.2), 'x', 'x')");
+		expression.Evaluate().Should().Be(1.1m);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableDecimalType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('decimal?', 3.3, null, 1.1, 2.2), 'x', 'x')");
+		expression.Evaluate().Should().Be(1.1m);
+	}
+
+	[Fact]
+	public void Min_WithLambda_SByteType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('sbyte', 10, -5, 3), 'x', 'x')");
+		expression.Evaluate().Should().Be((sbyte)-5);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableSByteType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('sbyte?', 10, null, -5, 3), 'x', 'x')");
+		expression.Evaluate().Should().Be((sbyte)-5);
+	}
+
+	[Fact]
+	public void Min_WithLambda_ByteType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('byte', 100, 50, 200), 'x', 'x')");
+		expression.Evaluate().Should().Be((byte)50);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableByteType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('byte?', 100, null, 50, 200), 'x', 'x')");
+		expression.Evaluate().Should().Be((byte)50);
+	}
+
+	[Fact]
+	public void Min_WithLambda_ShortType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('short', 1000, 500, 2000), 'x', 'x')");
+		expression.Evaluate().Should().Be((short)500);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableShortType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('short?', 1000, null, 500, 2000), 'x', 'x')");
+		expression.Evaluate().Should().Be((short)500);
+	}
+
+	[Fact]
+	public void Min_WithLambda_UShortType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('ushort', 1000, 500, 2000), 'x', 'x')");
+		expression.Evaluate().Should().Be((ushort)500);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableUShortType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('ushort?', 1000, null, 500, 2000), 'x', 'x')");
+		expression.Evaluate().Should().Be((ushort)500);
+	}
+
+	[Fact]
+	public void Min_WithLambda_LongType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('long', 1000, 500, 2000), 'x', 'x')");
+		expression.Evaluate().Should().Be(500L);
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableLongType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('long?', 1000, null, 500, 2000), 'x', 'x')");
+		expression.Evaluate().Should().Be(500L);
+	}
+
+	[Fact]
+	public void Min_WithLambda_StringType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('string', 'abc', 'xyz', 'def'), 'x', 'x')");
+		expression.Evaluate().Should().Be("abc");
+	}
+
+	[Fact]
+	public void Min_WithLambda_NullableStringType_ReturnsMin()
+	{
+		var expression = new ExtendedExpression("min(listOf('string?', 'abc', null, 'xyz', 'def'), 'x', 'x')");
+		expression.Evaluate().Should().Be("abc");
+	}
+
+	// Error path tests
+
+	[Fact]
+	public void Min_WithInvalidFirstParameter_ThrowsFormatException()
+	{
+		var expression = new ExtendedExpression("min('not a list')");
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*must be an IEnumerable*");
+	}
+
+	[Fact]
+	public void Min_WithLambda_InvalidSecondParameter_ThrowsFormatException()
+	{
+		var expression = new ExtendedExpression("min(list(1, 2, 3), 123, 'x')");
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*Second*parameter must be a string*");
+	}
+
+	[Fact]
+	public void Min_WithLambda_InvalidThirdParameter_ThrowsFormatException()
+	{
+		var expression = new ExtendedExpression("min(list(1, 2, 3), 'x', 456)");
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*Third*parameter must be a string*");
+	}
 }

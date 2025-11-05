@@ -6,7 +6,7 @@
 public partial interface IFunctionPrototypes
 {
 	[DisplayName("maxValue")]
-	[Description("Emits the maximum possible value for a given numeric type.")]
+	[Description("Emits the maximum possible value for a given numeric or date/time type.")]
 	object MaxValue(
 		[Description("Name of the data type.")]
 		string type
@@ -15,7 +15,7 @@ public partial interface IFunctionPrototypes
 
 internal static class MaxValue
 {
-	private const string ErrorMessage = $"{ExtensionFunction.MaxValue} takes exactly one string parameter, which must be one of 'sbyte', 'byte', 'short', 'ushort', 'int', 'uint', 'long', 'ulong', 'float', 'double' or 'decimal'.";
+	private const string ErrorMessage = $"{ExtensionFunction.MaxValue} takes exactly one string parameter, which must be one of 'sbyte', 'byte', 'short', 'ushort', 'int', 'uint', 'long', 'ulong', 'float', 'double', 'decimal', 'DateTime' or 'DateTimeOffset'.";
 
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
@@ -39,6 +39,8 @@ internal static class MaxValue
 			"float" => float.MaxValue,
 			"double" => double.MaxValue,
 			"decimal" => decimal.MaxValue,
+			"DateTime" => DateTime.MaxValue,
+			"DateTimeOffset" => DateTimeOffset.MaxValue,
 			_ => throw new FormatException(ErrorMessage)
 		};
 

@@ -26,7 +26,7 @@
 		<PackageTags>ncalc extensions</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<DebugType>portable</DebugType>
-		<PackageReleaseNotes>Added additional 'select' unit test that uses a list of lists.</PackageReleaseNotes>
+		<PackageReleaseNotes>Major version update - see README for full details, including breaking changes.</PackageReleaseNotes>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 
@@ -45,7 +45,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NCalcSync" Version="5.7.0" />
+		<PackageReference Include="NCalcSync" Version="5.8.0" />
 		<PackageReference Include="Nerdbank.GitVersioning" Version="3.8.118">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
