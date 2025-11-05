@@ -1,0 +1,14 @@
+---
+engines:
+  csslint:
+    enabled: false
+  
+exclude_paths:
+  - '**/*.Designer.cs'
+  - '**/obj/**'
+  - '**/bin/**'
+  - '**/packages/**'
+  - '**/*.Version.cs'
+  - '**/*.AssemblyInfo.cs'
+  - '**/*.AssemblyAttributes.cs'
+  - 'Publish.ps1'
