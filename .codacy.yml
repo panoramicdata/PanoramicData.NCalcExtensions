@@ -11,4 +11,3 @@ exclude_paths:
   - '**/*.Version.cs'
   - '**/*.AssemblyInfo.cs'
   - '**/*.AssemblyAttributes.cs'
-  - 'Publish.ps1'
