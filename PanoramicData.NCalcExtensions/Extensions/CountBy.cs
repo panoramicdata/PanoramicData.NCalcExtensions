@@ -22,29 +22,14 @@ internal static class CountBy
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		var listObject = functionArgs.Parameters[0].Evaluate();
-		var listEnumerable = listObject as IEnumerable<object?>;
 
-		if (functionArgs.Parameters.Length == 1)
+		// Convert typed collections (like List<int>) to IEnumerable<object?>
+		var listEnumerable = listObject switch
 		{
-			if (listObject is string text)
-			{
-				functionArgs.Result = text.Length;
-				return;
-			}
-
-			if (listEnumerable is null)
-			{
-				throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
-			}
-
-			functionArgs.Result = listEnumerable.Count();
-			return;
-		}
-
-		if (listEnumerable is null)
-		{
-			throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
-		}
+			IEnumerable<object?> enumerable => enumerable,
+			System.Collections.IEnumerable nonGenericEnumerable => nonGenericEnumerable.Cast<object?>(),
+			_ => null
+		} ?? throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
 
 		var predicate = functionArgs.Parameters[1].Evaluate() as string
 			?? throw new FormatException($"Second {ExtensionFunction.Count} parameter must be a string.");

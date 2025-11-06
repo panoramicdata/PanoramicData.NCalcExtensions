@@ -72,6 +72,65 @@ public class FormatTests
 		expression.Evaluate().Should().Be("333");
 	}
 
+	// Additional format type tests
+	[Fact]
+	public void Format_NullValue_ReturnsNull()
+	{
+		var expression = new ExtendedExpression("format(null, 'yyyy-MM-dd')");
+		expression.Evaluate().Should().BeNull();
+	}
+
+	[Fact]
+	public void Format_LongInteger_Succeeds()
+	{
+		var expression = new ExtendedExpression("format(123456789, '#,##0')");
+		expression.Evaluate().Should().Be("123,456,789");
+	}
+
+	[Fact]
+	public void Format_DecimalNumber_Succeeds()
+	{
+		var expression = new ExtendedExpression("format(theDecimal, '0.00')");
+		expression.Parameters["theDecimal"] = 123.456m;
+		expression.Evaluate().Should().Be("123.46");
+	}
+
+	[Fact]
+	public void Format_Float_Succeeds()
+	{
+		var expression = new ExtendedExpression("format(theFloat, '0.00')");
+		expression.Parameters["theFloat"] = 123.456f;
+		var result = expression.Evaluate() as string;
+		result.Should().StartWith("123.4");
+	}
+
+	[Fact]
+	public void Format_DateTimeOffset_Succeeds()
+	{
+		var expression = new ExtendedExpression("format(theDateTimeOffset, 'yyyy-MM-dd')");
+		expression.Parameters["theDateTimeOffset"] = new DateTimeOffset(2021, 1, 15, 0, 0, 0, TimeSpan.Zero);
+		expression.Evaluate().Should().Be("2021-01-15");
+	}
+
+	[Fact]
+	public void Format_InvalidTimeZone_ThrowsException()
+	{
+		var expression = new ExtendedExpression("format(theDateTime, 'yyyy-MM-dd', 'InvalidTimeZone')");
+		expression.Parameters["theDateTime"] = DateTime.UtcNow;
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<Exception>();
+	}
+
+	[Fact]
+	public void Format_CustomDateTimeFormat_Succeeds()
+	{
+		var expression = new ExtendedExpression("format(theDateTime, 'dd MMM yyyy')");
+		expression.Parameters["theDateTime"] = new DateTime(2021, 3, 15);
+		var result = expression.Evaluate() as string;
+		result.Should().Contain("15");
+		result.Should().Contain("2021");
+	}
+
 	/// <summary>
 	///  See https://cdn.a-printable-calendar.com/images/large/full-year-calendar-2021.png and
 	///  See https://cdn.a-printable-calendar.com/images/large/full-year-calendar-2022.png
@@ -153,5 +212,37 @@ public class FormatTests
 		var expression = new ExtendedExpression("parseInt(format(toDateTime((dateTimeAsEpochMs('2021-01-17 12:45:00', 'yyyy-MM-dd HH:mm:ss')) + (dateTimeAsEpochMs('1970-01-01 08:00:00', 'yyyy-MM-dd HH:mm:ss')), 'ms', 'UTC'), 'HH'))");
 		var result = expression.Evaluate();
 		result.Should().Be(20);
+	}
+
+	// Additional edge cases
+	[Fact]
+	public void Format_ZeroInteger_Succeeds()
+	{
+		var expression = new ExtendedExpression("format(0, '0000')");
+		expression.Evaluate().Should().Be("0000");
+	}
+
+	[Fact]
+	public void Format_NegativeNumber_Succeeds()
+	{
+		var expression = new ExtendedExpression("format(-123, '0000')");
+		expression.Evaluate().Should().Be("-0123");
+	}
+
+	[Fact]
+	public void Format_VeryLargeNumber_Succeeds()
+	{
+		var expression = new ExtendedExpression("format(theLong, '#,##0')");
+		expression.Parameters["theLong"] = 9223372036854775807L;
+		expression.Evaluate().Should().Be("9,223,372,036,854,775,807");
+	}
+
+	[Fact]
+	public void Format_WithVariables_Works()
+	{
+		var expression = new ExtendedExpression("format(myValue, myFormat)");
+		expression.Parameters["myValue"] = 42;
+		expression.Parameters["myFormat"] = "000";
+		expression.Evaluate().Should().Be("042");
 	}
 }

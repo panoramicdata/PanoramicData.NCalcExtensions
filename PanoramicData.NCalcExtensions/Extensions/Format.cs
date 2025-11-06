@@ -34,8 +34,14 @@ internal static class Format
 			throw new ArgumentException($"{ExtensionFunction.Format} function - expected between {min} and {max} arguments");
 		}
 
-		var inputObject = functionArgs.Parameters[0].Evaluate()
-			?? throw new ArgumentException($"{ExtensionFunction.Format} function - first argument cannot be null");
+		var inputObject = functionArgs.Parameters[0].Evaluate();
+		
+		// Handle null
+		if (inputObject is null)
+		{
+			functionArgs.Result = null;
+			return;
+		}
 		
 		if (functionArgs.Parameters[1].Evaluate() is not string formatFormat)
 		{
@@ -45,9 +51,14 @@ internal static class Format
 		functionArgs.Result = (inputObject, functionArgs.Parameters.Length) switch
 		{
 			(int inputInt, 2) => inputInt.ToString(formatFormat, cultureInfo),
+			(long inputLong, 2) => inputLong.ToString(formatFormat, cultureInfo),
+			(float inputFloat, 2) => inputFloat.ToString(formatFormat, cultureInfo),
 			(double inputDouble, 2) => inputDouble.ToString(formatFormat, cultureInfo),
+			(decimal inputDecimal, 2) => inputDecimal.ToString(formatFormat, cultureInfo),
 			(DateTime dateTime, 2) => dateTime.BetterToString(formatFormat, cultureInfo),
 			(DateTime dateTime, 3) => dateTime.ToDateTimeInTargetTimeZone(formatFormat, functionArgs.Parameters[2].Evaluate() as string ?? throw new ArgumentException($"{ExtensionFunction.Format} function - expected third argument to be a TimeZone string"), cultureInfo),
+			(DateTimeOffset dateTimeOffset, 2) => dateTimeOffset.UtcDateTime.BetterToString(formatFormat, cultureInfo),
+			(DateTimeOffset dateTimeOffset, 3) => dateTimeOffset.UtcDateTime.ToDateTimeInTargetTimeZone(formatFormat, functionArgs.Parameters[2].Evaluate() as string ?? throw new ArgumentException($"{ExtensionFunction.Format} function - expected third argument to be a TimeZone string"), cultureInfo),
 			(string inputString, 2) => GetThing(inputString, formatFormat, cultureInfo),
 			_ => throw new NotSupportedException($"Unsupported input type {inputObject.GetType().Name} or incorrect number of parameters.")
 		};
