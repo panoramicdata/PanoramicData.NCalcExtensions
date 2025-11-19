@@ -101,7 +101,7 @@ public class MinTests
 	public void Min_UsingLambdaForString_ReturnsExpected()
 	{
 		var expression = new ExtendedExpression("min(listOf('string', '1', '2', '3'), 'x', 'x + x')");
-		expression.Evaluate().Should().Be("11");
+		expression.Evaluate().Should().Be("2");
 	}
 
 	// Additional comprehensive tests for all numeric types

@@ -6,11 +6,11 @@ public class ExtendedExpression : Expression
 	private readonly CultureInfo _cultureInfo;
 	internal const string StorageDictionaryParameterName = "__storageDictionary";
 
+	public static readonly ExpressionOptions ExtendedExpressionDefaults = ExpressionOptions.None;
+
 	public ExtendedExpression(string expression) : this(
 		expression,
-		ExpressionOptions.NoCache |
-		ExpressionOptions.NoStringTypeCoercion |
-		ExpressionOptions.StrictTypeMatching,
+		ExtendedExpressionDefaults,
 		CultureInfo.InvariantCulture)
 	{
 	}

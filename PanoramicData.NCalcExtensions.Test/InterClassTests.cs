@@ -3,21 +3,20 @@
 public class InterClassTests
 {
 	[Fact]
-	public void AddingAnIntStringToAnInt_YieldsString()
+	public void AddingAnIntStringToAnInt_YieldsDouble()
 	{
 		var expression = new ExtendedExpression("0 + '1'");
 		var result = expression.Evaluate();
-		result.Should().BeOfType<string>();
-		result.Should().Be("01");
-		result.Should().NotBe(1);
+		result.Should().BeOfType<double>();
+		result.Should().Be(1);
 	}
 
 	[Fact]
-	public void AddingAnIntToAnIntString_YieldsString()
+	public void AddingAnIntToAnIntString_YieldsDouble()
 	{
 		var expression = new ExtendedExpression("'1' + 0");
 		var result = expression.Evaluate();
-		result.Should().BeOfType<string>();
-		result.Should().Be("10");
+		result.Should().BeOfType<double>();
+		result.Should().Be(1);
 	}
 }

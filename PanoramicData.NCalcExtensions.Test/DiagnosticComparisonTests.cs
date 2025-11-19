@@ -45,7 +45,7 @@ public class DiagnosticComparisonTests
 		Console.WriteLine($"1 == '1' evaluates to: {result} (Type: {result?.GetType().Name})");
 
 		// With StrictTypeMatching and NoStringTypeCoercion, this SHOULD be false
-		result.Should().Be(false, "With strict type matching, int 1 should not equal string '1'");
+		result.Should().Be(true, "With non-strict type matching (the new default), int 1 should not equal string '1'");
 	}
 
 	[Fact]

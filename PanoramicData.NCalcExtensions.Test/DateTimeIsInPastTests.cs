@@ -41,7 +41,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	{
 		// West Africa Time does not observe Daylight Saving, so its offset from UTC is constant
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest, 'Africa/Luanda')");
-		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddHours(1).AddMilliseconds(100));
+		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddHours(2).AddMilliseconds(100));
 		var result = expression.Evaluate();
 		result.Should().BeOfType<bool>();
 

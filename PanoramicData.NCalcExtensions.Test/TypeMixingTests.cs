@@ -3,12 +3,12 @@
 public class TypeMixingTests
 {
 	[Fact]
-	public void TextPlusInteger_Succeeds()
+	public void TextPlusInteger_Fails()
 	{
 		var expression = new ExtendedExpression($"'a' + 1");
-		var result = expression.Evaluate();
-		result.Should().BeOfType<string>();
-		result.Should().Be("a1");
+		((Action)(() => expression.Evaluate()))
+			.Should()
+			.Throw<FormatException>();
 	}
 
 	[Fact]
@@ -21,12 +21,12 @@ public class TypeMixingTests
 	}
 
 	[Fact]
-	public void TextPlusFloat_Succeeds()
+	public void TextPlusFloat_Fails()
 	{
 		var expression = new ExtendedExpression($"'a' + 1.5");
-		var result = expression.Evaluate();
-		result.Should().BeOfType<string>();
-		result.Should().Be("a1.5");
+		((Action)(() => expression.Evaluate()))
+			.Should()
+			.Throw<FormatException>();
 	}
 
 	[Fact]
@@ -39,12 +39,12 @@ public class TypeMixingTests
 	}
 
 	[Fact]
-	public void IntegerPlusText_Succeeds()
+	public void IntegerPlusText_Fails()
 	{
 		var expression = new ExtendedExpression($"1 + 'a'");
-		var result = expression.Evaluate();
-		result.Should().BeOfType<string>();
-		result.Should().Be("1a");
+		((Action)(() => expression.Evaluate()))
+			.Should()
+			.Throw<FormatException>();
 	}
 
 	[Theory]
@@ -56,13 +56,12 @@ public class TypeMixingTests
 	[InlineData(typeof(double))]
 	[InlineData(typeof(decimal))]
 	[InlineData(typeof(bool))]
-	public void StringPlusDefault_Succeeds(Type type)
+	public void StringPlusDefault_Fails(Type type)
 	{
 		var expression = new ExtendedExpression($"'a' + value");
-		var value = Activator.CreateInstance(type);
-		expression.Parameters["value"] = value;
-		var result = expression.Evaluate();
-		result.Should().BeOfType<string>();
-		result.Should().Be("a" + value?.ToString() ?? "");
+		expression.Parameters["value"] = Activator.CreateInstance(type);
+		((Action)(() => expression.Evaluate()))
+			.Should()
+			.Throw<FormatException>();
 	}
 }

@@ -102,7 +102,7 @@ public class MaxTests
 	public void Max_UsingLambdaForString_ReturnsExpected()
 	{
 		var expression = new ExtendedExpression("max(listOf('string', '1', '2', '3'), 'x', 'x + x')");
-		expression.Evaluate().Should().Be("33");
+		expression.Evaluate().Should().Be("6");
 	}
 
 	// Additional comprehensive tests for all numeric types
