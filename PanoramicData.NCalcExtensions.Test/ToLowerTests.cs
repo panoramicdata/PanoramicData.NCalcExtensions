@@ -12,4 +12,20 @@ public class ToLowerTests
 		var result = expression.Evaluate();
 		result.Should().Be(expectedValue);
 	}
+
+	[Fact]
+	public void ToLower_NullParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("toLower(null)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one string parameter*");
+	}
+
+	[Fact]
+	public void ToLower_NonStringParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("toLower(123)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one string parameter*");
+	}
 }

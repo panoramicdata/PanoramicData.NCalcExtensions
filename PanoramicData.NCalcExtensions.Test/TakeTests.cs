@@ -33,4 +33,11 @@ public class TakeTests
 		var expression = new ExtendedExpression($"take(list(1, 2, 3), 10)");
 		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
 	}
+
+	[Fact]
+	public void Take_InvalidCountParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("take(list(1, 2, 3), 'invalid')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+	}
 }

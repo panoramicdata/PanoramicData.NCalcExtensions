@@ -12,6 +12,22 @@ public class ToUpperTests
 		var result = expression.Evaluate();
 		result.Should().Be(expected);
 	}
+
+	[Fact]
+	public void ToUpper_NullParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("toUpper(null)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one string parameter*");
+	}
+
+	[Fact]
+	public void ToUpper_NonStringParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("toUpper(123)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one string parameter*");
+	}
 }
 
 public class TrimTests
@@ -30,5 +46,21 @@ public class TrimTests
 		expression.Parameters.Add("x", input);
 		var result = expression.Evaluate();
 		result.Should().Be("test");
+	}
+
+	[Fact]
+	public void Trim_NullParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("trim(null)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one string parameter*");
+	}
+
+	[Fact]
+	public void Trim_NonStringParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("trim(123)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one string parameter*");
 	}
 }

@@ -35,4 +35,11 @@ public class SkipTests
 		var expression = new ExtendedExpression($"skip(list(1, 2, 3), 10)");
 		expression.Evaluate().Should().BeEquivalentTo(new List<object>(), options => options.WithStrictOrdering());
 	}
+
+	[Fact]
+	public void Skip_InvalidCountParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("skip(list(1, 2, 3), 'invalid')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+	}
 }

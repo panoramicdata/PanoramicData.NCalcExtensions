@@ -12,4 +12,25 @@ public class IndexOfTests
 		var result = expr.Evaluate();
 		result.Should().Be(expected);
 	}
+
+	[Fact]
+	public void IndexOf_NullFirstParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("indexOf(null, 'search')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+	}
+
+	[Fact]
+	public void IndexOf_NullSecondParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("indexOf('string', null)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+	}
+
+	[Fact]
+	public void IndexOf_NonStringParameters_ThrowsException()
+	{
+		var expression = new ExtendedExpression("indexOf(123, 456)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+	}
 }

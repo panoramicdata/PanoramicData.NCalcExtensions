@@ -150,7 +150,7 @@ public class ToStringTests
 	[Fact]
 	public void ToString_Decimal_WithFormat_Succeeds()
 	{
-		// Note: toString doesn't format decimal currently, it falls through to object.ToString()
+		// Note: tostring doesn't format decimal currently, it falls through to object.ToString()
 		var expression = new ExtendedExpression("toString(TheDecimal)");
 		expression.Parameters.Add("TheDecimal", 1234.5678m);
 		expression.Evaluate().Should().Be("1234.5678");
@@ -185,5 +185,103 @@ public class ToStringTests
 	{
 		var expression = new ExtendedExpression("toString(1234.567, '#,##0.00')");
 		expression.Evaluate().Should().Be("1,234.57");
+	}
+
+	// Tests for all numeric types with format parameter
+	[Fact]
+	public void ToString_Byte_WithFormat_Succeeds()
+	{
+		var expression = new ExtendedExpression("toString(TheByte, 'X2')");
+		expression.Parameters.Add("TheByte", (byte)255);
+		expression.Evaluate().Should().Be("FF");
+	}
+
+	[Fact]
+	public void ToString_UInt_WithFormat_Succeeds()
+	{
+		var expression = new ExtendedExpression("toString(TheUInt, 'N0')");
+		expression.Parameters.Add("TheUInt", 1000u);
+		expression.Evaluate().Should().Be("1,000");
+	}
+
+	[Fact]
+	public void ToString_Long_WithFormat_Succeeds()
+	{
+		var expression = new ExtendedExpression("toString(TheLong, 'N0')");
+		expression.Parameters.Add("TheLong", 1000000L);
+		expression.Evaluate().Should().Be("1,000,000");
+	}
+
+	[Fact]
+	public void ToString_ULong_WithFormat_Succeeds()
+	{
+		var expression = new ExtendedExpression("toString(TheULong, 'N0')");
+		expression.Parameters.Add("TheULong", 1000000UL);
+		expression.Evaluate().Should().Be("1,000,000");
+	}
+
+	[Fact]
+	public void ToString_Short_WithFormat_Succeeds()
+	{
+		var expression = new ExtendedExpression("toString(TheShort, 'N0')");
+		expression.Parameters.Add("TheShort", (short)1000);
+		expression.Evaluate().Should().Be("1,000");
+	}
+
+	[Fact]
+	public void ToString_UShort_WithFormat_Succeeds()
+	{
+		var expression = new ExtendedExpression("toString(TheUShort, 'N0')");
+		expression.Parameters.Add("TheUShort", (ushort)1000);
+		expression.Evaluate().Should().Be("1,000");
+	}
+
+	[Fact]
+	public void ToString_Float_WithFormat_Succeeds()
+	{
+		var expression = new ExtendedExpression("toString(TheFloat, 'F2')");
+		expression.Parameters.Add("TheFloat", 123.456f);
+		expression.Evaluate().Should().Be("123.46");
+	}
+
+	[Fact]
+	public void ToString_Double_WithFormat_Succeeds()
+	{
+		var expression = new ExtendedExpression("toString(TheDouble, 'F2')");
+		expression.Parameters.Add("TheDouble", 123.456);
+		expression.Evaluate().Should().Be("123.46");
+	}
+
+	// Error case tests
+	[Fact]
+	public void ToString_TooManyParameters_ThrowsException()
+	{
+		var expression = new ExtendedExpression("toString(1, 'N2', 'extra')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*one or two parameters*");
+	}
+
+	[Fact]
+	public void ToString_InvalidFormatParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("toString(123, 123)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*string as the second parameter*");
+	}
+
+	[Fact]
+	public void ToString_NullWithFormat_ReturnsNull()
+	{
+		var expression = new ExtendedExpression("toString(null, 'N2')");
+		expression.Evaluate().Should().BeNull();
+	}
+
+	[Fact]
+	public void ToString_Object_WithFormat_CallsObjectToString()
+	{
+		var expression = new ExtendedExpression("toString(TheObject, 'anyformat')");
+		expression.Parameters.Add("TheObject", new { Name = "Test" });
+		var result = expression.Evaluate() as string;
+		result.Should().NotBeNullOrEmpty();
 	}
 }

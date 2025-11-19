@@ -158,4 +158,111 @@ public class SumTests
 		var result = expression.Evaluate();
 		result.Should().Be(42);
 	}
+
+	// Lambda tests for all numeric types
+	[Fact]
+	public void Sum_ByteWithLambda_ReturnsCorrectSum()
+	{
+		var expression = new ExtendedExpression("sum(listOf('byte', 1, 2, 3), 'n', 'n * 2')");
+		var result = expression.Evaluate();
+		result.Should().Be(12);
+	}
+
+	[Fact]
+	public void Sum_ShortWithLambda_ReturnsCorrectSum()
+	{
+		var expression = new ExtendedExpression("sum(listOf('short', 10, 20, 30), 'n', 'n * 2')");
+		var result = expression.Evaluate();
+		result.Should().Be(120);
+	}
+
+	[Fact]
+	public void Sum_LongWithLambda_ReturnsCorrectSum()
+	{
+		var expression = new ExtendedExpression("sum(listOf('long', 100, 200, 300), 'n', 'n * 2')");
+		var result = expression.Evaluate();
+		result.Should().Be(1200L);
+	}
+
+	[Fact]
+	public void Sum_FloatWithLambda_ReturnsCorrectSum()
+	{
+		var expression = new ExtendedExpression("sum(listOf('float', 1.0, 2.0, 3.0), 'n', 'n * 2')");
+		var result = expression.Evaluate();
+		((float)result!).Should().BeApproximately(12.0f, 0.01f);
+	}
+
+	[Fact]
+	public void Sum_DoubleWithLambda_ReturnsCorrectSum()
+	{
+		var expression = new ExtendedExpression("sum(listOf('double', 1.0, 2.0, 3.0), 'n', 'n * 2')");
+		var result = expression.Evaluate();
+		((double)result!).Should().BeApproximately(12.0, 0.01);
+	}
+
+	[Fact]
+	public void Sum_DecimalWithLambda_ReturnsCorrectSum()
+	{
+		var expression = new ExtendedExpression("sum(listOf('decimal', 1.5, 2.5, 3.5), 'n', 'n * 2')");
+		var result = expression.Evaluate();
+		result.Should().Be(15.0m);
+	}
+
+	// JValue support tests
+	[Fact]
+	public void Sum_JValueInteger_ReturnsCorrectSum()
+	{
+		var expression = new ExtendedExpression("sum(jArray(1, 2, 3))");
+		var result = expression.Evaluate();
+		result.Should().Be(6.0);
+	}
+
+	[Fact]
+	public void Sum_JValueFloat_ReturnsCorrectSum()
+	{
+		var expression = new ExtendedExpression("sum(jArray(1.5, 2.5, 3.0))");
+		var result = expression.Evaluate();
+		((double)result!).Should().BeApproximately(7.0, 0.01);
+	}
+
+	// Error case tests
+	[Fact]
+	public void Sum_NullParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("sum(null)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*cannot be null*");
+	}
+
+	[Fact]
+	public void Sum_InvalidSecondParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("sum(list(1, 2, 3), 123, 'n')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*must be a string*");
+	}
+
+	[Fact]
+	public void Sum_InvalidThirdParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("sum(list(1, 2, 3), 'n', 456)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*must be a string*");
+	}
+
+	[Fact]
+	public void Sum_UnsupportedTypeWithoutLambda_ThrowsException()
+	{
+		var expression = new ExtendedExpression("sum(list('a', 'b', 'c'))");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+	}
+
+	[Fact]
+	public void Sum_UnsupportedTypeInObjectList_ThrowsException()
+	{
+		var expression = new ExtendedExpression("sum(TheList)");
+		expression.Parameters["TheList"] = new List<object?> { 1, 2, "invalid" };
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*unsupported type*");
+	}
 }
