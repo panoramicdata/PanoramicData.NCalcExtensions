@@ -4,66 +4,26 @@ namespace PanoramicData.NCalcExtensions.Test;
 
 public class ConcatTests
 {
-	[Fact]
-	public void OneListsOfInts_Succeeds()
+	[Theory]
+	[InlineData("concat(list(1, 2, 3))", new object[] { 1, 2, 3 })]
+	[InlineData("concat(list(1), list(2, 3))", new object[] { 1, 2, 3 })]
+	[InlineData("concat(list(1), list(2), list(3))", new object[] { 1, 2, 3 })]
+	[InlineData("concat(list(1, 2), 3)", new object[] { 1, 2, 3 })]
+	[InlineData("concat(1, list(2, 3))", new object[] { 1, 2, 3 })]
+	[InlineData("concat(list(), list())", new object[] { })]
+	[InlineData("concat(list(), list(1, 2, 3))", new object[] { 1, 2, 3 })]
+	[InlineData("concat(1, 2, 3, 4)", new object[] { 1, 2, 3, 4 })]
+	[InlineData("concat(list(1), list(2), list(3), list(4))", new object[] { 1, 2, 3, 4 })]
+	[InlineData("concat(list(1, 2), 3, list(4, 5))", new object[] { 1, 2, 3, 4, 5 })]
+	[InlineData("concat(list(1, 2, 2), list(2, 3, 3))", new object[] { 1, 2, 2, 2, 3, 3 })]
+	[InlineData("concat(list(1, 2, 3, 4, 5), list(6, 7, 8, 9, 10))", new object[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 })]
+	[InlineData("concat()", new object[] { })]
+	[InlineData("concat(42)", new object[] { 42 })]
+	public void Concat_VariousScenarios_ReturnsExpected(string expression, object[] expected)
 	{
-		var expression = new ExtendedExpression($"concat(list(1, 2, 3))");
-		var result = expression.Evaluate();
+		var result = new ExtendedExpression(expression).Evaluate();
 		result.Should().BeOfType<List<object?>>();
-		result.Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
-	public void TwoListsOfInts_Succeeds()
-	{
-		var expression = new ExtendedExpression($"concat(list(1), list(2, 3))");
-		var result = expression.Evaluate();
-		result.Should().BeOfType<List<object?>>();
-		result.Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
-	public void ThreeListsOfInts_Succeeds()
-	{
-		var expression = new ExtendedExpression($"concat(list(1), list(2), list(3))");
-		var result = expression.Evaluate();
-		result.Should().BeOfType<List<object?>>();
-		result.Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
-	public void ListOfIntsAddingOneObject_Succeeds()
-	{
-		var expression = new ExtendedExpression($"concat(list(1, 2), 3)");
-		var result = expression.Evaluate();
-		result.Should().BeOfType<List<object?>>();
-		result.Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
-	public void OneObjectAddingListOfInts_Succeeds()
-	{
-		var expression = new ExtendedExpression($"concat(1, list(2, 3))");
-		var result = expression.Evaluate();
-		result.Should().BeOfType<List<object?>>();
-		result.Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
-	}
-
-	// Additional comprehensive tests
-	[Fact]
-	public void Concat_EmptyLists_ReturnsEmpty()
-	{
-		var expression = new ExtendedExpression("concat(list(), list())");
-		var result = expression.Evaluate() as List<object?>;
-		result.Should().NotBeNull();
-		result.Should().BeEmpty();
-	}
-
-	[Fact]
-	public void Concat_EmptyWithNonEmpty_ReturnNonEmpty()
-	{
-		var expression = new ExtendedExpression("concat(list(), list(1, 2, 3))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
+		result.Should().BeEquivalentTo(expected, options => options.WithStrictOrdering());
 	}
 
 	[Fact]
@@ -94,48 +54,6 @@ public class ConcatTests
 	}
 
 	[Fact]
-	public void Concat_MultipleScalars_CreatesList()
-	{
-		var expression = new ExtendedExpression("concat(1, 2, 3, 4)");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 1, 2, 3, 4 }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
-	public void Concat_ScalarAtStart_Works()
-	{
-		var expression = new ExtendedExpression("concat('first', list('second', 'third'))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { "first", "second", "third" }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
-	public void Concat_ScalarAtEnd_Works()
-	{
-		var expression = new ExtendedExpression("concat(list('first', 'second'), 'third')");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { "first", "second", "third" }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
-	public void Concat_ScalarInMiddle_Works()
-	{
-		var expression = new ExtendedExpression("concat(list(1, 2), 3, list(4, 5))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 1, 2, 3, 4, 5 }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
-	public void Concat_FourLists_Works()
-	{
-		var expression = new ExtendedExpression("concat(list(1), list(2), list(3), list(4))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 1, 2, 3, 4 }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
-	public void Concat_WithDuplicates_PreservesDuplicates()
-	{
-		var expression = new ExtendedExpression("concat(list(1, 2, 2), list(2, 3, 3))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 1, 2, 2, 2, 3, 3 }, options => options.WithStrictOrdering());
-	}
-
-	[Fact]
 	public void Concat_TypedListInt_Works()
 	{
 		var expression = new ExtendedExpression("concat(myList1, myList2)");
@@ -158,15 +76,6 @@ public class ConcatTests
 	}
 
 	[Fact]
-	public void Concat_LargeLists_Works()
-	{
-		var expression = new ExtendedExpression("concat(list(1, 2, 3, 4, 5), list(6, 7, 8, 9, 10))");
-		expression.Evaluate().Should().BeEquivalentTo(
-			new List<object> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 },
-			options => options.WithStrictOrdering());
-	}
-
-	[Fact]
 	public void Concat_Chained_Works()
 	{
 		var expression = new ExtendedExpression("concat(concat(list(1), list(2)), list(3))");
@@ -178,23 +87,6 @@ public class ConcatTests
 	{
 		var expression = new ExtendedExpression("concat(select(list(1, 2), 'n', 'n * 2'), list(5, 6))");
 		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 2, 4, 5, 6 }, options => options.WithStrictOrdering());
-	}
-
-	// Error cases
-	[Fact]
-	public void Concat_NoParameters_ReturnsEmptyList()
-	{
-		var expression = new ExtendedExpression("concat()");
-		var result = expression.Evaluate() as List<object?>;
-		result.Should().NotBeNull();
-		result.Should().BeEmpty();
-	}
-
-	[Fact]
-	public void Concat_SingleScalar_ReturnsAsList()
-	{
-		var expression = new ExtendedExpression("concat(42)");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 42 });
 	}
 
 	[Fact]

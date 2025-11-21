@@ -4,46 +4,26 @@ namespace PanoramicData.NCalcExtensions.Test;
 
 public class DistinctTests : NCalcTest
 {
-	[Fact]
-	public void Distinct_Succeeds()
+	[Theory]
+	[InlineData("list(1, 2, 3, 3, 3)", new object[] { 1, 2, 3 })]
+	[InlineData("list()", new object[] { })]
+	[InlineData("list(1, 2, 3, 4)", new object[] { 1, 2, 3, 4 })]
+	[InlineData("list(5, 5, 5, 5)", new object[] { 5 })]
+	[InlineData("list(42)", new object[] { 42 })]
+	[InlineData("list(1, 2, 3, 4, 5, 1, 2, 3, 4, 5)", new object[] { 1, 2, 3, 4, 5 })]
+	public void Distinct_Numbers_ReturnsExpected(string input, object[] expected)
 	{
-		var result = new ExtendedExpression($"distinct(list(1, 2, 3, 3, 3))")
-			.Evaluate();
-
-		// The result should be 1, 2, 3
-		result.Should().NotBeNull();
-		result.Should().BeEquivalentTo(new List<int> { 1, 2, 3 });
+		var expression = new ExtendedExpression($"distinct({input})");
+		expression.Evaluate().Should().BeEquivalentTo(expected);
 	}
 
-	// Additional comprehensive tests
-	[Fact]
-	public void Distinct_EmptyList_ReturnsEmpty()
+	[Theory]
+	[InlineData("list('a', 'b', 'a', 'c', 'b')", new[] { "a", "b", "c" })]
+	[InlineData("list('A', 'a', 'B', 'b')", new[] { "A", "a", "B", "b" })]
+	public void Distinct_Strings_ReturnsExpected(string input, string[] expected)
 	{
-		var expression = new ExtendedExpression("distinct(list())");
-		var result = expression.Evaluate() as List<object?>;
-		result.Should().NotBeNull();
-		result.Should().BeEmpty();
-	}
-
-	[Fact]
-	public void Distinct_NoDuplicates_ReturnsSame()
-	{
-		var expression = new ExtendedExpression("distinct(list(1, 2, 3, 4))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<int> { 1, 2, 3, 4 });
-	}
-
-	[Fact]
-	public void Distinct_AllDuplicates_ReturnsSingle()
-	{
-		var expression = new ExtendedExpression("distinct(list(5, 5, 5, 5))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<int> { 5 });
-	}
-
-	[Fact]
-	public void Distinct_Strings_Works()
-	{
-		var expression = new ExtendedExpression("distinct(list('a', 'b', 'a', 'c', 'b'))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<string> { "a", "b", "c" });
+		var expression = new ExtendedExpression($"distinct({input})");
+		expression.Evaluate().Should().BeEquivalentTo(expected);
 	}
 
 	[Fact]
@@ -86,20 +66,6 @@ public class DistinctTests : NCalcTest
 	}
 
 	[Fact]
-	public void Distinct_LongList_Works()
-	{
-		var expression = new ExtendedExpression("distinct(list(1, 2, 3, 4, 5, 1, 2, 3, 4, 5))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<int> { 1, 2, 3, 4, 5 });
-	}
-
-	[Fact]
-	public void Distinct_SingleItem_ReturnsSame()
-	{
-		var expression = new ExtendedExpression("distinct(list(42))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<int> { 42 });
-	}
-
-	[Fact]
 	public void Distinct_WithVariables_Works()
 	{
 		var expression = new ExtendedExpression("distinct(myList)");
@@ -115,19 +81,11 @@ public class DistinctTests : NCalcTest
 		expression.Evaluate().Should().BeEquivalentTo(new List<string> { "a", "b", "c" });
 	}
 
-	[Fact]
-	public void Distinct_ChainedWithSelect_Works()
-	{
-		var expression = new ExtendedExpression("distinct(select(list(1, 2, 2, 3), 'n', 'n * 2'))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<int> { 2, 4, 6 });
-	}
-
-	[Fact]
-	public void Distinct_ThenCount_Works()
-	{
-		var expression = new ExtendedExpression("count(distinct(list(1, 1, 2, 2, 3, 3)))");
-		expression.Evaluate().Should().Be(3);
-	}
+	[Theory]
+	[InlineData("distinct(select(list(1, 2, 2, 3), 'n', 'n * 2'))", new object?[] { 2, 4, 6 })]
+	[InlineData("count(distinct(list(1, 1, 2, 2, 3, 3)))", 3)]
+	public void Distinct_Chained_Works(string expression, object expected)
+		=> new ExtendedExpression(expression).Evaluate().Should().BeEquivalentTo(expected);
 
 	[Fact]
 	public void Distinct_ThenJoin_Works()
@@ -136,35 +94,12 @@ public class DistinctTests : NCalcTest
 		expression.Evaluate().Should().Be("x,y,z");
 	}
 
-	[Fact]
-	public void Distinct_CaseSensitive_Strings()
-	{
-		var expression = new ExtendedExpression("distinct(list('A', 'a', 'B', 'b'))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<string> { "A", "a", "B", "b" });
-	}
-
-	// Error cases
-	[Fact]
-	public void Distinct_NullList_ThrowsException()
-	{
-		var expression = new ExtendedExpression("distinct(null)");
-		expression.Invoking(e => e.Evaluate())
-			.Should().Throw<FormatException>();
-	}
-
-	[Fact]
-	public void Distinct_NonEnumerable_ThrowsException()
-	{
-		var expression = new ExtendedExpression("distinct(42)");
-		expression.Invoking(e => e.Evaluate())
-			.Should().Throw<FormatException>();
-	}
-
-	[Fact]
-	public void Distinct_NoParameters_ThrowsException()
-	{
-		var expression = new ExtendedExpression("distinct()");
-		expression.Invoking(e => e.Evaluate())
+	[Theory]
+	[InlineData("distinct(null)")]
+	[InlineData("distinct(42)")]
+	[InlineData("distinct()")]
+	public void Distinct_InvalidInput_ThrowsException(string expression)
+		=> new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
 			.Should().Throw<Exception>();
-	}
 }

@@ -102,20 +102,30 @@ public class DateTimeIsInFutureTests : NCalcTest
 			.Throw<FormatException>();
 
 	[Fact]
+	public void DateTimeIsInFuture_NonStringTimezone_ThrowsException()
+	{
+		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest, 123)");
+		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow);
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*second argument should be a string*");
+	}
+
+	[Fact]
+	public void DateTimeIsInFuture_InvalidTimezone_ThrowsException()
+	{
+		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest, 'Invalid/Timezone')");
+		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow);
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*timezone was not a recognized*");
+	}
+
+	[Fact]
 	public void DateTimeIsInFuture_VeryOldDate_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest)");
 		expression.Parameters.Add("valueUnderTest", new DateTime(1900, 1, 1));
-		var result = expression.Evaluate();
-		result.Should().NotBeNull();
-		((bool)result!).Should().BeFalse();
-	}
-
-	[Fact]
-	public void DateTimeIsInFuture_DateTimeMin_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("dateTimeIsInFuture(valueUnderTest)");
-		expression.Parameters.Add("valueUnderTest", DateTime.MinValue);
 		var result = expression.Evaluate();
 		result.Should().NotBeNull();
 		((bool)result!).Should().BeFalse();

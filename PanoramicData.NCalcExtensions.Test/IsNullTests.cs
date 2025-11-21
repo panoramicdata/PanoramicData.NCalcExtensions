@@ -4,22 +4,28 @@ namespace PanoramicData.NCalcExtensions.Test;
 
 public class IsNullTests
 {
-	[Fact]
-	public void IsNull_Example1_Succeeds()
+	[Theory]
+	[InlineData("1", false)]
+	[InlineData("'text'", false)]
+	[InlineData("null", true)]
+	[InlineData("3.14", false)]
+	[InlineData("true", false)]
+	[InlineData("false", false)]
+	[InlineData("0", false)]
+	[InlineData("''", false)]
+	[InlineData("list(1, 2, 3)", false)]
+	[InlineData("list()", false)]
+	[InlineData("jArray(1, 2, 3)", false)]
+	[InlineData("jObject('key', 'value')", false)]
+	[InlineData("now()", false)]
+	public void IsNull_VariousValues_ReturnsExpected(string expression, bool expected)
 	{
-		var expression = new ExtendedExpression("isNull(1)");
-		(expression.Evaluate() as bool?).Should().BeFalse();
+		var extendedExpression = new ExtendedExpression($"isNull({expression})");
+		(extendedExpression.Evaluate() as bool?).Should().Be(expected);
 	}
 
 	[Fact]
-	public void IsNull_Example2_Succeeds()
-	{
-		var expression = new ExtendedExpression("isNull('text')");
-		(expression.Evaluate() as bool?).Should().BeFalse();
-	}
-
-	[Fact]
-	public void IsNull_Example3_Succeeds()
+	public void IsNull_NullParameter_ReturnsTrue()
 	{
 		var expression = new ExtendedExpression("isNull(bob)");
 		expression.Parameters["bob"] = null;
@@ -27,10 +33,11 @@ public class IsNullTests
 	}
 
 	[Fact]
-	public void IsNull_Example4_Succeeds()
+	public void IsNull_NonNullParameter_ReturnsFalse()
 	{
-		var expression = new ExtendedExpression("isNull(null)");
-		(expression.Evaluate() as bool?).Should().BeTrue();
+		var expression = new ExtendedExpression("isNull(myVar)");
+		expression.Parameters["myVar"] = 42;
+		(expression.Evaluate() as bool?).Should().BeFalse();
 	}
 
 	[Fact]
@@ -90,24 +97,12 @@ public class IsNullTests
 		(expression.Evaluate() as bool?).Should().BeTrue();
 	}
 
-	[Fact]
-	public void IsNull_EmptyString_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("isNull('')");
-		(expression.Evaluate() as bool?).Should().BeFalse();
-	}
-
-	[Fact]
-	public void IsNull_ZeroInt_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("isNull(0)");
-		(expression.Evaluate() as bool?).Should().BeFalse();
-	}
-
-	[Fact]
-	public void IsNull_False_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("isNull(false)");
-		(expression.Evaluate() as bool?).Should().BeFalse();
-	}
+	[Theory]
+	[InlineData("isNull()")]
+	[InlineData("isNull(1, 2)")]
+	[InlineData("isNull(1, 2, 3)")]
+	public void IsNull_WrongParameterCount_ThrowsException(string expression) => new ExtendedExpression(expression)
+			.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*requires one parameter*");
 }

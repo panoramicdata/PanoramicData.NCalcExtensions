@@ -7,12 +7,15 @@ public class CountTests
 {
 	private readonly List<string> _stringList = ["a", "b", "c"];
 
-	[Fact]
-	public void Count_OfList_ReturnsExpectedResult()
+	[Theory]
+	[InlineData("split('a piece of string', ' ')", 4)]
+	[InlineData("'a piece of string'", 17)]
+	[InlineData("list(1,2,3,4,5)", 5)]
+	[InlineData("list()", 0)]
+	public void Count_VariousInputs_ReturnsExpected(string input, int expected)
 	{
-		var expression = new ExtendedExpression($"count(split('a piece of string', ' '))");
-		var result = expression.Evaluate();
-		result.Should().Be(4);
+		var expression = new ExtendedExpression($"count({input})");
+		expression.Evaluate().Should().Be(expected);
 	}
 
 	[Fact]
@@ -22,14 +25,6 @@ public class CountTests
 		expression.Parameters.Add("x", _stringList);
 		var result = expression.Evaluate();
 		result.Should().Be(_stringList.Count);
-	}
-
-	[Fact]
-	public void Count_WithString_ReturnsExpectedResult()
-	{
-		var expression = new ExtendedExpression($"count('a piece of string')");
-		var result = expression.Evaluate();
-		result.Should().Be(17);
 	}
 
 	[Fact]
