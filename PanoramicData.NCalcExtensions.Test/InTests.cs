@@ -124,6 +124,14 @@ public class InTests
 			.Throw<FormatException>();
 
 	[Fact]
+	public void In_OneParameter_ThrowsException()
+	{
+		var expression = new ExtendedExpression("in('single')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires at least two parameters*");
+	}
+
+	[Fact]
 	public void In_CaseSensitive_NoMatch_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("in('NEEDLE', 'needle', 'Needle', 'NeEdLe')");

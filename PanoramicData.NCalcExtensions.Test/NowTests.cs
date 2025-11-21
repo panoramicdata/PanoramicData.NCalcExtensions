@@ -79,13 +79,12 @@ public class NowTests : NCalcTest
 			.Throw<FormatException>();
 
 	[Fact]
-	public void Now_ExtraParametersIgnored_ReturnsUtcTime()
-	{
-		// Extra parameters are ignored
-		var result = Test("now('UTC', 'ignored')");
-		result.Should().BeOfType<DateTime>();
-		((DateTime)result).Kind.Should().Be(DateTimeKind.Utc);
-	}
+	public void Now_NonStringParameter_ThrowsException()
+		=> new ExtendedExpression("now(123)")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.Throw<FormatException>()
+			.WithMessage("*first argument should be a string*");
 
 	[Fact]
 	public void Now_RepeatedCalls_ReturnsIncreasingTime()

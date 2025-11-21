@@ -53,4 +53,28 @@ public class PadLeftTests
 			.Should()
 			.ThrowExactly<NCalcExtensionsException>()
 			.WithMessage("padLeft() requires a single character string for parameter 3.");
+
+	[Fact]
+	public void PadLeft_NullInput_ThrowsException()
+		=> new ExtendedExpression("padLeft(null, 5, '0')")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.Throw<FormatException>()
+			.WithMessage("*string Input*integer DesiredStringLength*");
+
+	[Fact]
+	public void PadLeft_NonIntegerLength_ThrowsException()
+		=> new ExtendedExpression("padLeft('test', 'abc', '0')")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.Throw<FormatException>()
+			.WithMessage("*integer DesiredStringLength*");
+
+	[Fact]
+	public void PadLeft_NullPaddingCharacter_ThrowsException()
+		=> new ExtendedExpression("padLeft('test', 5, null)")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<NCalcExtensionsException>()
+			.WithMessage("*parameter 3 be a string*");
 }

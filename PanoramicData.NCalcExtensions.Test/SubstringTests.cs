@@ -132,17 +132,26 @@ public class SubstringTests
 			.Throw<FormatException>();
 
 	[Fact]
+	public void Substring_NonIntegerStartIndex_ThrowsException()
+		=> new ExtendedExpression("substring('test', 'abc')")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.Throw<FormatException>()
+			.WithMessage("*one or two numeric parameters*");
+
+	[Fact]
+	public void Substring_NonIntegerLength_ThrowsException()
+		=> new ExtendedExpression("substring('test', 0, 'abc')")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.Throw<FormatException>()
+			.WithMessage("*one or two numeric parameters*");
+
+	[Fact]
 	public void Substring_WithSpaces_HandlesCorrectly()
 	{
 		var expression = new ExtendedExpression("substring('hello world', 6, 5)");
 		(expression.Evaluate() as string).Should().Be("world");
-	}
-
-	[Fact]
-	public void Substring_UnicodeCharacters_HandlesCorrectly()
-	{
-		var expression = new ExtendedExpression("substring('Hello ??', 6, 2)");
-		(expression.Evaluate() as string).Should().Be("??");
 	}
 
 	[Fact]

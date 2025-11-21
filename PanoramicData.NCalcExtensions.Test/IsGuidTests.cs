@@ -17,4 +17,28 @@ public class IsGuidTests
 		expression.Parameters["parameter1"] = parameterValue;
 		(expression.Evaluate() as bool?).Should().Be(expectedResult);
 	}
+
+	[Fact]
+	public void IsGuid_ActualGuidObject_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("isGuid(parameter1)");
+		expression.Parameters["parameter1"] = Guid.NewGuid();
+		(expression.Evaluate() as bool?).Should().BeTrue();
+	}
+
+	[Fact]
+	public void IsGuid_WrongNumberOfParameters_ThrowsException()
+	{
+		var expression = new ExtendedExpression("isGuid()");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one parameter*");
+	}
+
+	[Fact]
+	public void IsGuid_TooManyParameters_ThrowsException()
+	{
+		var expression = new ExtendedExpression("isGuid('test', 'extra')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one parameter*");
+	}
 }

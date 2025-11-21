@@ -39,4 +39,20 @@ public class IsSetTests
 		expression.Parameters["a"] = null;
 		Assert.True(expression.Evaluate() as bool?);
 	}
+
+	[Fact]
+	public void IsSet_WrongNumberOfParameters_ThrowsException()
+	{
+		var expression = new ExtendedExpression("isSet()");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one parameter*");
+	}
+
+	[Fact]
+	public void IsSet_TooManyParameters_ThrowsException()
+	{
+		var expression = new ExtendedExpression("isSet('a', 'b')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires one parameter*");
+	}
 }

@@ -44,7 +44,6 @@ public class IsNullTests
 		(result as bool?).Should().BeTrue();
 	}
 
-
 	[Fact]
 	public void IsNull_JsonDocumentWithJTokenTypeOfNull_ReturnsTrue()
 	{
@@ -72,6 +71,43 @@ public class IsNullTests
 		using var jsonDocument = JsonSerializer.SerializeToDocument(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jsonDocument)})");
 		expression.Parameters.Add(nameof(jsonDocument), jsonDocument.RootElement.GetProperty("Message"));
+		(expression.Evaluate() as bool?).Should().BeFalse();
+	}
+
+	[Fact]
+	public void IsNull_JValue_NonNull_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("isNull(theValue)");
+		expression.Parameters["theValue"] = new JValue(42);
+		(expression.Evaluate() as bool?).Should().BeFalse();
+	}
+
+	[Fact]
+	public void IsNull_JValue_Null_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("isNull(theValue)");
+		expression.Parameters["theValue"] = JValue.CreateNull();
+		(expression.Evaluate() as bool?).Should().BeTrue();
+	}
+
+	[Fact]
+	public void IsNull_EmptyString_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("isNull('')");
+		(expression.Evaluate() as bool?).Should().BeFalse();
+	}
+
+	[Fact]
+	public void IsNull_ZeroInt_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("isNull(0)");
+		(expression.Evaluate() as bool?).Should().BeFalse();
+	}
+
+	[Fact]
+	public void IsNull_False_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("isNull(false)");
 		(expression.Evaluate() as bool?).Should().BeFalse();
 	}
 }

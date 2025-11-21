@@ -42,4 +42,35 @@ public class RegexGroupTests : NCalcTest
 		result.Should().Be("37407238");
 	}
 
+	// Additional tests for full coverage
+	[Fact]
+	public void RegexGroup_NoMatch_ReturnsNull()
+	{
+		var result = Test("regexGroup('abc', 'xyz')");
+		result.Should().BeNull();
+	}
+
+	[Fact]
+	public void RegexGroup_NullInput_ThrowsException()
+	{
+		var expression = new ExtendedExpression("regexGroup(null, 'pattern')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires string parameters*");
+	}
+
+	[Fact]
+	public void RegexGroup_NullPattern_ThrowsException()
+	{
+		var expression = new ExtendedExpression("regexGroup('text', null)");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires string parameters*");
+	}
+
+	[Fact]
+	public void RegexGroup_NonStringInput_ThrowsException()
+	{
+		var expression = new ExtendedExpression("regexGroup(123, 'pattern')");
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*requires string parameters*");
+	}
 }
