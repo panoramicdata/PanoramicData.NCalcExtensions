@@ -192,6 +192,22 @@ public class FormatTests
 	}
 
 	[Fact]
+	public void Format_DateFormat_WeekOfYear_Succeeds()
+	{
+		var expression = new ExtendedExpression("format('2024-06-15', 'weekOfYear')");
+		var result = expression.Evaluate();
+		result.Should().NotBeNull();
+		int.Parse(result.ToString()!, CultureInfo.InvariantCulture).Should().BeGreaterThan(0).And.BeLessThanOrEqualTo(53);
+	}
+
+	[Fact]
+	public void Format_DateFormat_IsoWeekOfYear_Succeeds()
+	{
+		var expression = new ExtendedExpression("format('2024-01-01', 'isoWeekOfYear')");
+		expression.Evaluate().Should().Be("1");
+	}
+
+	[Fact]
 	public void Format_DateTimeStringFormat_Succeeds()
 	{
 		var expression = new ExtendedExpression("format('01/01/2019', 'yyyy-MM-dd')");

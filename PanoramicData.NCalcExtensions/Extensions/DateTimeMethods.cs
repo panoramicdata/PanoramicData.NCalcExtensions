@@ -125,6 +125,9 @@ internal static class DateTimeMethods
 			"weekOfMonthText" => GetWeekText(dateTime.WeekOfMonth()),
 			"weekDayOfMonth" => dateTime.WeekDayOfMonth().ToString(cultureInfo),
 			"weekDayOfMonthText" => GetWeekText(dateTime.WeekDayOfMonth()),
+			"weekOfYear" => GetWeekOfYear(dateTime, cultureInfo).ToString(cultureInfo),
+			"weekNumber" => GetWeekOfYear(dateTime, cultureInfo).ToString(cultureInfo),
+			"isoWeekOfYear" => ISOWeek.GetWeekOfYear(dateTime).ToString(cultureInfo),
 			_ => dateTime.ToString(format, cultureInfo)
 		};
 
@@ -136,6 +139,17 @@ internal static class DateTimeMethods
 		4 => "fourth",
 		_ => "last"
 	};
+
+	/// <summary>
+	/// Gets the week of year using the culture-specific calendar
+	/// </summary>
+	private static int GetWeekOfYear(DateTime dateTime, CultureInfo cultureInfo)
+	{
+		var calendar = cultureInfo.Calendar;
+		var calendarWeekRule = cultureInfo.DateTimeFormat.CalendarWeekRule;
+		var firstDayOfWeek = cultureInfo.DateTimeFormat.FirstDayOfWeek;
+		return calendar.GetWeekOfYear(dateTime, calendarWeekRule, firstDayOfWeek);
+	}
 
 	public static int WeekOfMonth(this DateTime dateTime)
 	{

@@ -624,6 +624,8 @@ Formats strings and numbers as output strings with the specified format.
 - weekOfMonthText is the same as weekOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'
 - weekDayOfMonth is the number of times this weekday has occurred within the month so far, including this one
 - weekDayOfMonthText is the same as weekDayOfMonth, but translated: 1: 'first', 2: 'second', 3: 'third', 4: 'forth', 5: 'last'
+- weekOfYear is the culture-specific week number of the year (1-53)
+- isoWeekOfYear is the ISO 8601 week number of the year (1-53)
 * timeZone [optional] - see https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=netstandard-2.0
 
 #### Examples
@@ -636,6 +638,8 @@ Formats strings and numbers as output strings with the specified format.
 * format('2021-11-28', 'weekOfMonthText') : 'last'
 * format('2021-11-28', 'weekDayOfMonth') : 4
 * format('2021-11-28', 'weekDayOfMonthText') : 'forth'
+* format('2024-01-01', 'weekOfYear') : '1' (can be controlled with CultureOptions, but defaults to CultureInfo.Invariant)
+* format('2024-01-01', 'isoWeekOfYear') : '1'
 * format('01/01/2019', 'yyyy-MM-dd') : '2019-01-01'
 * format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time') [where theDateTime is a .NET DateTime, set to DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture)] : '2020-03-13 12:00'
 
