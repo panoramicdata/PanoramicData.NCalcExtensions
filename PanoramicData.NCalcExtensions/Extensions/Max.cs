@@ -130,8 +130,10 @@ internal static class Max
 				{
 					JTokenType.Float => jValue.Value<float>()!,
 					JTokenType.Integer => (IComparable)jValue.Value<int>(),
+					JTokenType.String => jValue.Value<string>()!,
 					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing max.")
 				},
+				string value => value,
 				null => null,
 				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing max.")
 			};

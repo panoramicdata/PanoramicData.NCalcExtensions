@@ -29,7 +29,7 @@ internal static class LastOrDefault
 		// If there is only 1 parameter, return the last element of the enumerable
 		if (functionArgs.Parameters.Length == 1)
 		{
-			functionArgs.Result = enumerable.Count == 0 ? null : enumerable[enumerable.Count - 1];
+			functionArgs.Result = enumerable.Count == 0 ? null : JValueHelper.UnwrapJValue(enumerable[enumerable.Count - 1]);
 			return;
 		}
 
@@ -47,7 +47,7 @@ internal static class LastOrDefault
 		{
 			if (lambda.Evaluate(value) as bool? == true)
 			{
-				functionArgs.Result = value;
+				functionArgs.Result = JValueHelper.UnwrapJValue(value);
 				return;
 			}
 		}

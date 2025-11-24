@@ -21,6 +21,7 @@ internal static class Distinct
 			?? throw new FormatException($"First {ExtensionFunction.Distinct} parameter must be an IEnumerable.");
 
 		functionArgs.Result = enumerable
+			.Select(value => JValueHelper.UnwrapJValue(value))
 			.Distinct()
 			.ToList();
 	}

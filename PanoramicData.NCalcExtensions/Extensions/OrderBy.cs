@@ -59,7 +59,7 @@ internal static class OrderBy
 						}, ObjectKeyComparer.Instance);
 		}
 
-		functionArgs.Result = orderable.ToList();
+		functionArgs.Result = orderable.Select(value => JValueHelper.UnwrapJValue(value)).ToList();
 	}
 }
 

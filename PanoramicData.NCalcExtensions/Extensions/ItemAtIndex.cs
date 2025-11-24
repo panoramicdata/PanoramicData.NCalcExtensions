@@ -45,7 +45,10 @@ internal static class ItemAtIndex
 				throw new FormatException($"{ExtensionFunction.ItemAtIndex}() requires two parameters. The first should be an IList and the second should be a non-negative integer.");
 			}
 
-			functionArgs.Result = input[index];
+			var result = input[index];
+
+			// If the result is a JValue, extract the underlying value
+			functionArgs.Result = JValueHelper.UnwrapJValue(result);
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
 		{

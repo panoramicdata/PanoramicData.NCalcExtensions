@@ -38,7 +38,7 @@ internal static class SelectDistinct
 			.Select(value =>
 				{
 					var result = lambda.Evaluate(value);
-					return result;
+					return JValueHelper.UnwrapJValue(result);
 				}
 			)
 			.Distinct()

@@ -40,6 +40,7 @@ internal static class Where
 				var result = lambda.Evaluate(value) as bool?;
 				return result == true;
 			})
+			.Select(value => JValueHelper.UnwrapJValue(value))
 			.ToList();
 	}
 }

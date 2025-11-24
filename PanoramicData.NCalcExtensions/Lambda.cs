@@ -7,7 +7,13 @@ public class Lambda(
 	public object? Evaluate<T>(T value)
 	{
 		parameters.Remove(predicate);
-		parameters.Add(predicate, value);
+		// Unwrap JValue objects before passing to the expression
+		var unwrappedValue = value switch
+		{
+			JValue jValue => jValue.Value,
+			_ => value
+		};
+		parameters.Add(predicate, unwrappedValue);
 		var ncalc = new ExtendedExpression(nCalcString)
 		{
 			Parameters = parameters
@@ -19,7 +25,13 @@ public class Lambda(
 	public TResult EvaluateTo<TValue, TResult>(TValue value)
 	{
 		parameters.Remove(predicate);
-		parameters.Add(predicate, value);
+		// Unwrap JValue objects before passing to the expression
+		var unwrappedValue = value switch
+		{
+			JValue jValue => jValue.Value,
+			_ => value
+		};
+		parameters.Add(predicate, unwrappedValue);
 		var ncalc = new ExtendedExpression(nCalcString)
 		{
 			Parameters = parameters

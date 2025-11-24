@@ -81,4 +81,18 @@ public class ItemAtIndexTests : NCalcTest
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new List<int> { 2, 6, 12 });
 	}
+
+	[Fact]
+	public void ItemAtIndexWithJArrayEmptyString_ReturnsString()
+	{
+		var expression = new ExtendedExpression("itemAtIndex(jArray('a', ''), 1)");
+		expression.Evaluate().Should().BeOfType<string>();
+	}
+
+	[Fact]
+	public void ItemAtIndexWithJArrayEmptyString_MatchesEmptyString()
+	{
+		var expression = new ExtendedExpression("itemAtIndex(jArray('a', ''), 1) == ''");
+		expression.Evaluate().Should().Be(true);
+	}
 }

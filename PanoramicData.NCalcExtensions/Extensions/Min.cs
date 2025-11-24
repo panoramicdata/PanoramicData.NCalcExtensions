@@ -132,8 +132,10 @@ internal static class Min
 				{
 					JTokenType.Float => jValue.Value<float>()!,
 					JTokenType.Integer => (IComparable)jValue.Value<int>(),
+					JTokenType.String => jValue.Value<string>()!,
 					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing Min.")
 				},
+				string value => value,
 				null => null,
 				_ => throw new FormatException($"Found unsupported type '{item?.GetType().Name}' when completing Min.")
 			};

@@ -26,7 +26,7 @@ internal static class All
 
 		if (functionArgs.Parameters.Length == 1)
 		{
-			functionArgs.Result = list.All(value => value as bool? == true);
+			functionArgs.Result = list.All(value => JValueHelper.UnwrapJValue(value) as bool? == true);
 			return;
 		}
 

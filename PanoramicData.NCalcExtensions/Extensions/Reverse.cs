@@ -22,6 +22,9 @@ internal static class Reverse
 		var enumerable = functionArgs.Parameters[0].Evaluate() as IList
 			?? throw new FormatException($"First {ExtensionFunction.Reverse} parameter must be an IEnumerable.");
 
-		functionArgs.Result = enumerable.Cast<object?>().Reverse().ToList();
+		functionArgs.Result = enumerable.Cast<object?>()
+			.Reverse()
+			.Select(value => JValueHelper.UnwrapJValue(value))
+			.ToList();
 	}
 }

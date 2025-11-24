@@ -29,6 +29,9 @@ internal static class Skip
 			throw new FormatException($"{ExtensionFunction.Skip}() requires an IList and an integer parameter.");
 		}
 		
-		functionArgs.Result = list.Cast<object?>().Skip(numberToSkip).ToList();
+		functionArgs.Result = list.Cast<object?>()
+			.Skip(numberToSkip)
+			.Select(value => JValueHelper.UnwrapJValue(value))
+			.ToList();
 	}
 }

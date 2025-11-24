@@ -60,7 +60,7 @@ internal static class Sum
 			IEnumerable<float> floatList => floatList.Sum(value => (float?)lambda.Evaluate(value)),
 			IEnumerable<double> doubleList => doubleList.Sum(value => (double?)lambda.Evaluate(value)),
 			IEnumerable<decimal> decimalList => decimalList.Sum(value => (decimal?)lambda.Evaluate(value)),
-			IEnumerable<object?> list => GetSum(list),
+			IEnumerable<object?> list => GetSum(list.Select(value => lambda.Evaluate(value))),
 			_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.   Received a {originalList.GetType().Name}<{string.Join(", ", originalList.GetType().GetGenericArguments().Select(t => t.Name))}>.")
 		};
 	}

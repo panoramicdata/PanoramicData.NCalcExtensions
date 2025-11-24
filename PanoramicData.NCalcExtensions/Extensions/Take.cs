@@ -29,6 +29,9 @@ internal static class Take
 			throw new FormatException($"{ExtensionFunction.Take}() requires an IList and an integer parameter.");
 		}
 
-		functionArgs.Result = list.Cast<object?>().Take(numberToTake).ToList();
+		functionArgs.Result = list.Cast<object?>()
+			.Take(numberToTake)
+			.Select(value => JValueHelper.UnwrapJValue(value))
+			.ToList();
 	}
 }

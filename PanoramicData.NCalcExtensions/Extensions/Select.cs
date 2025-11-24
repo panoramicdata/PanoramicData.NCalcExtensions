@@ -45,7 +45,7 @@ internal static class Select
 				var result = new List<object?>();
 				foreach (var value in enumerable)
 				{
-					result.Add(lambda.Evaluate(value));
+					result.Add(JValueHelper.UnwrapJValue(lambda.Evaluate(value)));
 				}
 
 				functionArgs.Result = result;

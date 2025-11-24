@@ -5,11 +5,11 @@ public class WeekOfYearTests : NCalcTest
 	[Theory]
 	[InlineData("2024-01-01", 1)]   // Monday, Week 1
 	[InlineData("2024-01-07", 2)]   // Sunday, Week 2
-	[InlineData("2024-12-31", 53)]  // Tuesday, Week 53
+	[InlineData("2024-12-31", 53)]  // Tuesday, Week 53 of 2025 (InvariantCulture)
 	[InlineData("2023-01-01", 1)]   // Sunday, Week 1
-	[InlineData("2023-12-31", 53)]  // Sunday, Week 53
-	[InlineData("2021-01-01", 53)]  // Friday, Week 53 (of 2020 in ISO)
-	[InlineData("2021-12-31", 52)]  // Friday, Week 52
+	[InlineData("2023-12-31", 53)]  // Sunday, Week 53 of 2024 (InvariantCulture)
+	[InlineData("2021-01-01", 1)]   // Friday, Week 1
+	[InlineData("2021-12-31", 53)]  // Friday, Week 53 of 2021 (InvariantCulture)
 	public void Format_WeekOfYear_ReturnsExpected(string dateString, int expectedWeek)
 	{
 		var expression = new ExtendedExpression($"format('{dateString}', 'weekOfYear')");
@@ -61,7 +61,7 @@ public class WeekOfYearTests : NCalcTest
 	public void Format_IsoWeekOfYear_MatchesExpectedWeek(string expectedIsoWeek, string dateString)
 	{
 		ArgumentNullException.ThrowIfNull(expectedIsoWeek);
-		
+
 		var expression = new ExtendedExpression($"format('{dateString}', 'isoWeekOfYear')");
 		var result = expression.Evaluate();
 		result.Should().NotBeNull();

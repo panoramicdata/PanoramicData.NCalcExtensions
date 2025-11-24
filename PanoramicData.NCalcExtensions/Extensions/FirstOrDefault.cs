@@ -29,7 +29,7 @@ internal static class FirstOrDefault
 		// If there is only 1 parameter, return the first element of the enumerable
 		if (functionArgs.Parameters.Length == 1)
 		{
-			functionArgs.Result = enumerable.Count == 0 ? null : enumerable[0];
+			functionArgs.Result = enumerable.Count == 0 ? null : JValueHelper.UnwrapJValue(enumerable[0]);
 			return;
 		}
 
@@ -48,7 +48,7 @@ internal static class FirstOrDefault
 				continue;
 			}
 
-			functionArgs.Result = value;
+			functionArgs.Result = JValueHelper.UnwrapJValue(value);
 			return;
 		}
 

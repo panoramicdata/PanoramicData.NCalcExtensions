@@ -74,7 +74,7 @@ internal static class JPath
 			// Try and get the result out of a JValue
 			functionArgs.Result = result switch
 			{
-				JValue jValue => jValue.Value,
+				JValue jValue => JValueHelper.UnwrapJValue(jValue),
 				JArray jArray => jArray,
 				_ => JObject.FromObject(result)
 			};
