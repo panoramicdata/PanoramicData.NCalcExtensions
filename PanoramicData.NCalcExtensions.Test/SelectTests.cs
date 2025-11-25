@@ -73,4 +73,105 @@ public class SelectTests : NCalcTest
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*Fourth*must be a string*");
+
+	// Additional coverage tests
+	[Fact]
+	public void Select_EmptyList_ReturnsEmptyList()
+	{
+		var result = new ExtendedExpression("select(list(), 'n', 'n + 1')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(new List<object>());
+	}
+
+	[Fact]
+	public void Select_SingleElement_Works()
+	{
+		var result = new ExtendedExpression("select(list(5), 'n', 'n * 2')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(new List<int> { 10 });
+	}
+
+	[Fact]
+	public void Select_Strings_Works()
+	{
+		var result = new ExtendedExpression("select(list('a', 'b', 'c'), 's', 'toUpper(s)')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(new List<string> { "A", "B", "C" });
+	}
+
+	[Fact]
+	public void Select_WithNullInResult_Works()
+	{
+		var result = new ExtendedExpression("select(list(1, 2, 3), 'n', 'if(n == 2, null, n)')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		var list = result as List<object?>;
+		list.Should().NotBeNull();
+		list.Should().HaveCount(3);
+	}
+
+	[Fact]
+	public void Select_JObject_WithNullValue_Works()
+	{
+		var result = new ExtendedExpression("select(list(1, 2, 3), 'n', 'if(n == 2, null, jObject(\"value\", n))', 'JObject')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeOfType<List<JObject?>>();
+		var list = result as List<JObject?>;
+		list.Should().HaveCount(3);
+		list![1].Should().BeNull();
+	}
+
+	[Fact]
+	public void Select_JObject_FromNonJObjectValue_Works()
+	{
+		// When converting non-JObject values, they need to be wrapped in an object first
+		var result = new ExtendedExpression("select(list(jObject('a', 1), jObject('a', 2)), 'obj', 'obj', 'JObject')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeOfType<List<JObject?>>();
+		var list = result as List<JObject?>;
+		list.Should().HaveCount(2);
+		list![0].Should().NotBeNull();
+		list![0]!["a"]?.Value<int>().Should().Be(1);
+	}
+
+	[Fact]
+	public void Select_JObject_ExplicitObjectType_Works()
+	{
+		var result = new ExtendedExpression("select(list(1, 2, 3), 'n', 'n * 2', 'object')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(new List<int> { 2, 4, 6 });
+	}
+
+	[Fact]
+	public void Select_ComplexTransformation_Works()
+	{
+		var result = new ExtendedExpression("select(list(1, 2, 3, 4, 5), 'n', 'if(n % 2 == 0, n * 10, n)')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(new List<int> { 1, 20, 3, 40, 5 });
+	}
+
+	[Fact]
+	public void Select_Doubles_Works()
+	{
+		var result = new ExtendedExpression("select(list(1.5, 2.5, 3.5), 'n', 'n * 2')")
+			.Evaluate();
+
+		result.Should().NotBeNull();
+		result.Should().BeEquivalentTo(new List<double> { 3.0, 5.0, 7.0 });
+	}
 }

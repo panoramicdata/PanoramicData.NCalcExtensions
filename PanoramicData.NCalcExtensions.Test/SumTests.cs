@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace PanoramicData.NCalcExtensions.Test;
 
@@ -264,5 +265,60 @@ public class SumTests
 		expression.Parameters["TheList"] = new List<object?> { 1, 2, "invalid" };
 		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
 			.WithMessage("*unsupported type*");
+	}
+
+	// Additional error path tests for uncovered branches
+
+	[Fact]
+	public void Sum_UnsupportedJTokenType_ThrowsException()
+	{
+		var expression = new ExtendedExpression("sum(jValueList)");
+		expression.Parameters["jValueList"] = new List<object?> { new JValue(true), new JValue(false) };
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*Found unsupported JToken type*");
+	}
+
+	[Fact]
+	public void Sum_WithLambda_UnsupportedType_ThrowsException()
+	{
+		var expression = new ExtendedExpression("sum(stringList, 'x', 'x')");
+		expression.Parameters["stringList"] = new List<string> { "a", "b", "c" };
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*Found unsupported type*when completing sum*");
+	}
+
+	[Fact]
+	public void Sum_UnsupportedEnumerableType_WithoutLambda_ThrowsException()
+	{
+		var expression = new ExtendedExpression("sum(stringList)");
+		expression.Parameters["stringList"] = new List<string> { "a", "b", "c" };
+		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+			.WithMessage("*Found unsupported type*when completing sum*");
+	}
+
+	[Fact]
+	public void Sum_ObjectListWithNullValues_SkipsNulls()
+	{
+		var expression = new ExtendedExpression("sum(mixedList)");
+		expression.Parameters["mixedList"] = new List<object?> { 1, null, 2, null, 3 };
+		var result = expression.Evaluate();
+		result.Should().Be(6.0);
+	}
+
+	[Fact]
+	public void Sum_DecimalList_ReturnsDecimalSum()
+	{
+		var expression = new ExtendedExpression("sum(listOf('decimal', 1.5, 2.5, 3.5))");
+		var result = expression.Evaluate();
+		result.Should().Be(7.5m);
+	}
+
+	[Fact]
+	public void Sum_WithLambda_OnObjectList_ReturnsCorrectSum()
+	{
+		var expression = new ExtendedExpression("sum(mixedList, 'x', 'x * 2')");
+		expression.Parameters["mixedList"] = new List<object?> { 1, 2, 3 };
+		var result = expression.Evaluate();
+		result.Should().Be(12.0);
 	}
 }

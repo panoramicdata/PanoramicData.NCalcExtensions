@@ -4,7 +4,6 @@ namespace PanoramicData.NCalcExtensions.Extensions;
 
 internal static class Parameters
 {
-
 	#region Parameters
 
 	internal static T1 GetParameter<T1>(

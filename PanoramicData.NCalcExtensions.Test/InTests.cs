@@ -57,5 +57,58 @@ public class InTests
 		=> new ExtendedExpression(expression)
 			.Invoking(e => e.Evaluate())
 			.Should()
-			.Throw<FormatException>();
+			.Throw<FormatException>()
+			.WithMessage("*requires at least two parameters*");
+
+	// Additional tests to improve coverage
+	[Fact]
+	public void In_TwoParameters_MinimumValid_Works()
+	{
+		var expression = new ExtendedExpression("in(1, 1)");
+		expression.Evaluate().Should().Be(true);
+	}
+
+	[Fact]
+	public void In_ManyParameters_Works()
+	{
+		var expression = new ExtendedExpression("in(100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 100)");
+		expression.Evaluate().Should().Be(true);
+	}
+
+	[Fact]
+	public void In_WithJObjects_Works()
+	{
+		// JObjects are compared by reference, not value
+		var expression = new ExtendedExpression("in(searchValue, jObject('a', 2), searchValue)");
+		expression.Parameters["searchValue"] = JObject.Parse("{\"a\": 1}");
+		expression.Evaluate().Should().Be(true);
+	}
+
+	[Fact]
+	public void In_WithMixedTypes_Works()
+	{
+		var expression = new ExtendedExpression("in(1, '1', 1.0, 1)");
+		expression.Evaluate().Should().Be(true);
+	}
+
+	[Fact]
+	public void In_CaseSensitiveStrings_Works()
+	{
+		var expression = new ExtendedExpression("in('Test', 'test', 'TEST', 'TeSt')");
+		expression.Evaluate().Should().Be(false);
+	}
+
+	[Fact]
+	public void In_WithBooleans_Works()
+	{
+		var expression = new ExtendedExpression("in(false, true, true, false)");
+		expression.Evaluate().Should().Be(true);
+	}
+
+	[Fact]
+	public void In_WithDoubles_Works()
+	{
+		var expression = new ExtendedExpression("in(2.5, 1.5, 2.5, 3.5)");
+		expression.Evaluate().Should().Be(true);
+	}
 }

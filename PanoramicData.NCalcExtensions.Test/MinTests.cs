@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace PanoramicData.NCalcExtensions.Test;
 
@@ -412,5 +414,50 @@ public class MinTests
 		expression.Invoking(e => e.Evaluate())
 			.Should().Throw<FormatException>()
 			.WithMessage("*Third*parameter must be a string*");
+	}
+
+	// Test for GetMin with unsupported type
+	[Fact]
+	public void Min_WithUnsupportedType_ThrowsFormatException()
+	{
+		var expression = new ExtendedExpression("min(unsupportedList)");
+		expression.Parameters["unsupportedList"] = new List<object?> { new System.DateTime(2024, 1, 1), new System.DateTime(2024, 1, 2) };
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*Found unsupported type*");
+	}
+
+	// Test for GetMin with unsupported JToken type (not Float, Integer, or String)
+	[Fact]
+	public void Min_WithUnsupportedJTokenType_ThrowsFormatException()
+	{
+		var expression = new ExtendedExpression("min(jValueList)");
+		// Create a JValue with an unsupported type (e.g., Boolean or Date)
+		expression.Parameters["jValueList"] = new List<object?> { new JValue(true), new JValue(false) };
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*Found unsupported JToken type*");
+	}
+
+	// Test for invalid IEnumerable type in single parameter mode
+	[Fact]
+	public void Min_WithUnsupportedEnumerableType_ThrowsFormatException()
+	{
+		var expression = new ExtendedExpression("min(dateList)");
+		expression.Parameters["dateList"] = new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(1) };
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*must be an IEnumerable of a numeric or string type*");
+	}
+
+	// Test for invalid IEnumerable type in lambda mode
+	[Fact]
+	public void Min_WithLambda_UnsupportedEnumerableType_ThrowsFormatException()
+	{
+		var expression = new ExtendedExpression("min(dateList, 'x', 'x')");
+		expression.Parameters["dateList"] = new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(1) };
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*must be an IEnumerable of a string or numeric type when processing as a lambda*");
 	}
 }
