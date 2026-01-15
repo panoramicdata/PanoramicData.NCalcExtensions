@@ -6,7 +6,7 @@ public class JObjectTests
 	public void JObject_CreatesJObject()
 	{
 		var expression = new ExtendedExpression("jObject('a', 1, 'b', null)");
-		var result = expression.Evaluate() as JObject;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JObject;
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);
@@ -20,7 +20,7 @@ public class JObjectTests
 	public void JObject_EmptyJObject_Succeeds()
 	{
 		var expression = new ExtendedExpression("jObject()");
-		var result = expression.Evaluate() as JObject;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JObject;
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(0);
@@ -30,7 +30,7 @@ public class JObjectTests
 	public void JObject_OddNumberOfParameters_ThrowsException()
 	{
 		var expression = new ExtendedExpression("jObject('a', 1, 'b')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*even number of parameters*");
 	}
 
@@ -38,7 +38,7 @@ public class JObjectTests
 	public void JObject_NonStringKey_ThrowsException()
 	{
 		var expression = new ExtendedExpression("jObject(123, 'value')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires a string key*");
 	}
 
@@ -46,7 +46,7 @@ public class JObjectTests
 	public void JObject_DuplicateKey_ThrowsException()
 	{
 		var expression = new ExtendedExpression("jObject('a', 1, 'a', 2)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*can only define property a once*");
 	}
 }

@@ -9,7 +9,7 @@ public class GetPropertiesJsonDocumentTests
 	public void GetProperties_JsonDocument_ReturnsPropertyNames()
 	{
 		var expression = new ExtendedExpression("getProperties(jsonDocument('name', 'John', 'age', 30, 'active', true))");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 		result.Should().Contain("name");
@@ -21,7 +21,7 @@ public class GetPropertiesJsonDocumentTests
 	public void GetProperties_EmptyJsonDocument_ReturnsEmptyList()
 	{
 		var expression = new ExtendedExpression("getProperties(jsonDocument())");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().BeEmpty();
 	}
@@ -32,7 +32,7 @@ public class GetPropertiesJsonDocumentTests
 		var jsonDoc = JsonDocument.Parse("{\"person\": {\"name\": \"Jane\", \"age\": 25}}");
 		var expression = new ExtendedExpression("getProperties(person)");
 		expression.Parameters["person"] = jsonDoc.RootElement.GetProperty("person");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);
 		result.Should().Contain("name");
@@ -44,7 +44,7 @@ public class GetPropertiesJsonDocumentTests
 	{
 		// Ensure getProperties throws exception for arrays, consistent with getProperty behavior
 		var expression = new ExtendedExpression("getProperties(jsonArray(1, 2, 3))");
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>()
 			.WithMessage("*must be an object to get properties*");
 	}
@@ -53,7 +53,7 @@ public class GetPropertiesJsonDocumentTests
 	public void GetProperties_JsonDocument_FromParsedJson_Succeeds()
 	{
 		var expression = new ExtendedExpression("getProperties(parse('JsonDocument', '{\"A\": 1, \"B\": 2}'))");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);
 		result.Should().Contain("A");
@@ -64,7 +64,7 @@ public class GetPropertiesJsonDocumentTests
 	public void GetProperties_JsonDocument_NestedObject_ReturnsTopLevelProperties()
 	{
 		var expression = new ExtendedExpression("getProperties(jsonDocument('outer', jsonDocument('inner', 'value'), 'simple', 'text'))");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);
 		result.Should().Contain("outer");
@@ -78,7 +78,7 @@ public class GetPropertiesJsonDocumentTests
 		var expression = new ExtendedExpression("getProperties(stringElement)");
 		expression.Parameters["stringElement"] = jsonDoc.RootElement.GetProperty("stringValue");
 
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>()
 			.WithMessage("*must be an object to get properties*");
 	}

@@ -6,7 +6,7 @@ public class ExtendTests
 	public void Extend_WithInt_Succeeds()
 	{
 		var expression = new ExtendedExpression("extend(jObject('first', 1, 'second', null), list('third', 5))");
-		var result = expression.Evaluate() as JObject;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JObject;
 
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
@@ -30,7 +30,7 @@ public class ExtendTests
 	public void Extend_WithNull_Succeeds(string expressionString)
 	{
 		var expression = new ExtendedExpression(expressionString);
-		var result = expression.Evaluate() as JObject;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JObject;
 
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);

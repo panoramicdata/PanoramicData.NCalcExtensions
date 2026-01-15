@@ -7,7 +7,7 @@ public class BangTests : NCalcTest
 	{
 		const string expression = "!(1 == 2)";
 		var e = new ExtendedExpression(expression);
-		var result = e.Evaluate();
+		var result = e.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 }

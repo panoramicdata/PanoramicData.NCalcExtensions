@@ -10,7 +10,7 @@ public class NullCheckingJsonElementTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": null}");
 		var expression = new ExtendedExpression("isNullOrEmpty(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -20,7 +20,7 @@ public class NullCheckingJsonElementTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": \"\"}");
 		var expression = new ExtendedExpression("isNullOrEmpty(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -30,7 +30,7 @@ public class NullCheckingJsonElementTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": \"test\"}");
 		var expression = new ExtendedExpression("isNullOrEmpty(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(false);
 	}
 
@@ -40,7 +40,7 @@ public class NullCheckingJsonElementTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": null}");
 		var expression = new ExtendedExpression("isNullOrWhiteSpace(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -50,7 +50,7 @@ public class NullCheckingJsonElementTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": \"   \"}");
 		var expression = new ExtendedExpression("isNullOrWhiteSpace(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -60,7 +60,7 @@ public class NullCheckingJsonElementTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": \"test\"}");
 		var expression = new ExtendedExpression("isNullOrWhiteSpace(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(false);
 	}
 
@@ -70,7 +70,7 @@ public class NullCheckingJsonElementTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": null}");
 		var expression = new ExtendedExpression("isNull(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -80,7 +80,7 @@ public class NullCheckingJsonElementTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": \"test\"}");
 		var expression = new ExtendedExpression("isNull(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(false);
 	}
 }

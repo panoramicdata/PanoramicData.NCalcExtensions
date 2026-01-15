@@ -7,7 +7,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest)");
 		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddMilliseconds(-100));
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<bool>();
 
 		((bool)result).Should().BeTrue();
@@ -18,7 +18,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest)");
 		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddMilliseconds(100));
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<bool>();
 
 		((bool)result).Should().BeFalse();
@@ -30,7 +30,7 @@ public class DateTimeIsInPastTests : NCalcTest
 		// West Africa Time does not observe Daylight Saving, so its offset from UTC is constant
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest, 'Africa/Luanda')");
 		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddHours(1).AddMilliseconds(-100));
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<bool>();
 
 		((bool)result).Should().BeTrue();
@@ -42,7 +42,7 @@ public class DateTimeIsInPastTests : NCalcTest
 		// West Africa Time does not observe Daylight Saving, so its offset from UTC is constant
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest, 'Africa/Luanda')");
 		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow.AddHours(2).AddMilliseconds(100));
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<bool>();
 
 		((bool)result).Should().BeFalse();
@@ -53,7 +53,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	{
 		// West Africa Time does not observe Daylight Saving, so its offset from UTC is constant
 		var expression = new ExtendedExpression("dateTimeIsInPast(now(), 'Africa/Luanda')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<bool>();
 
 		((bool)result).Should().BeTrue();
@@ -65,7 +65,7 @@ public class DateTimeIsInPastTests : NCalcTest
 		// CET is always ahead of UTC, so UtcNow masquerading as CET is always in the past
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest, 'Central European Standard Time')");
 		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<bool>();
 
 		((bool)result).Should().BeTrue();
@@ -75,7 +75,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	public void Evaluate_1stJan2001_ReturnsTrue()
 	{
 		var expression = new ExtendedExpression("dateTimeIsInPast(toDateTime('2001-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss'))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<bool>();
 
 		((bool)result).Should().BeTrue();
@@ -85,7 +85,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	public void Evaluate_1stJan2201_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("dateTimeIsInPast(toDateTime('2201-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss'))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<bool>();
 
 		((bool)result).Should().BeFalse();
@@ -97,7 +97,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	[InlineData("dateTimeIsInPast()")]
 	[InlineData("dateTimeIsInPast(null)")]
 	public void DateTimeIsInPast_InvalidParameters_ThrowsException(string expression) => new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>();
 
@@ -106,7 +106,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest, 123)");
 		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow);
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>()
 			.WithMessage("*second argument should be a string*");
 	}
@@ -116,7 +116,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest, 'Invalid/Timezone')");
 		expression.Parameters.Add("valueUnderTest", DateTime.UtcNow);
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>()
 			.WithMessage("*timezone was not a recognized*");
 	}
@@ -126,7 +126,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest)");
 		expression.Parameters.Add("valueUnderTest", new DateTime(1900, 1, 1));
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().NotBeNull();
 		((bool)result!).Should().BeTrue();
 	}
@@ -136,7 +136,7 @@ public class DateTimeIsInPastTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("dateTimeIsInPast(valueUnderTest)");
 		expression.Parameters.Add("valueUnderTest", DateTime.MaxValue);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().NotBeNull();
 		((bool)result!).Should().BeFalse();
 	}

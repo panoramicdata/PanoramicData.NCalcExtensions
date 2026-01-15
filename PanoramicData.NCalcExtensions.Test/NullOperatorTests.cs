@@ -10,5 +10,5 @@ public class NullOperatorTests : NCalcTest
 	[InlineData("null / 1")]
 	[InlineData("null % 1")]
 	public void NullOutputTest_Succeeds(string expressionThatShouldResultInNull)
-		=> new ExtendedExpression(expressionThatShouldResultInNull).Evaluate().Should().BeNull();
+		=> new ExtendedExpression(expressionThatShouldResultInNull).Evaluate(TestContext.Current.CancellationToken).Should().BeNull();
 }

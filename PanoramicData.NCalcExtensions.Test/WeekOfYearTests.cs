@@ -13,7 +13,7 @@ public class WeekOfYearTests : NCalcTest
 	public void Format_WeekOfYear_ReturnsExpected(string dateString, int expectedWeek)
 	{
 		var expression = new ExtendedExpression($"format('{dateString}', 'weekOfYear')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expectedWeek.ToString(CultureInfo.InvariantCulture));
 	}
 
@@ -28,7 +28,7 @@ public class WeekOfYearTests : NCalcTest
 	public void Format_IsoWeekOfYear_ReturnsExpected(string dateString, int expectedWeek)
 	{
 		var expression = new ExtendedExpression($"format('{dateString}', 'isoWeekOfYear')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expectedWeek.ToString(CultureInfo.InvariantCulture));
 	}
 
@@ -37,7 +37,7 @@ public class WeekOfYearTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("format(theDateTime, 'weekOfYear')");
 		expression.Parameters["theDateTime"] = new DateTime(2024, 6, 15);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().NotBeNull();
 		var weekNumber = int.Parse(result.ToString()!, CultureInfo.InvariantCulture);
 		weekNumber.Should().BeGreaterThan(0).And.BeLessThanOrEqualTo(53);
@@ -48,7 +48,7 @@ public class WeekOfYearTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("format(theDateTime, 'isoWeekOfYear')");
 		expression.Parameters["theDateTime"] = new DateTime(2024, 6, 15);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().NotBeNull();
 		var weekNumber = int.Parse(result.ToString()!, CultureInfo.InvariantCulture);
 		weekNumber.Should().BeGreaterThan(0).And.BeLessThanOrEqualTo(53);
@@ -63,7 +63,7 @@ public class WeekOfYearTests : NCalcTest
 		ArgumentNullException.ThrowIfNull(expectedIsoWeek);
 
 		var expression = new ExtendedExpression($"format('{dateString}', 'isoWeekOfYear')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().NotBeNull();
 		var weekNumber = int.Parse(result.ToString()!, CultureInfo.InvariantCulture);
 		var expectedWeekNumber = int.Parse(expectedIsoWeek.Split('-')[1][1..], CultureInfo.InvariantCulture);

@@ -17,7 +17,7 @@ public class StoreAndRetrieveTests
 			: value;
 		var expression = $"convert(store('x', {insertedString}), retrieve('x'))";
 		new ExtendedExpression(expression)
-			.Evaluate()
+			.Evaluate(TestContext.Current.CancellationToken)
 			.Should()
 			.Be(value);
 	}
@@ -37,7 +37,7 @@ public class StoreAndRetrieveTests
 			: value;
 		var expression = $"store('x', {insertedString}) && retrieve('x') == {insertedString}";
 		var result = new ExtendedExpression(expression)
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().Be(true);
 	}
@@ -49,7 +49,7 @@ public class StoreAndRetrieveTests
 	[InlineData("1, 1, 1, 1")]
 	public void Store_IncorrectParameterCount_Throws(string parameters) =>
 		new ExtendedExpression($"store({parameters})")
-		.Invoking(e => e.Evaluate())
+		.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 		.Should()
 		.Throw<FormatException>()
 		.WithMessage($"{ExtensionFunction.Store}() requires two parameters.");
@@ -61,7 +61,7 @@ public class StoreAndRetrieveTests
 	[InlineData("1, 1, 1, 1")]
 	public void Retrieve_IncorrectParameterCount_Throws(string parameters) =>
 		new ExtendedExpression($"retrieve({parameters})")
-		.Invoking(e => e.Evaluate())
+		.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 		.Should()
 		.Throw<FormatException>()
 		.WithMessage($"{ExtensionFunction.Retrieve}() requires one string parameter.");

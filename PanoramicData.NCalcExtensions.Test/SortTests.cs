@@ -8,7 +8,7 @@ public class SortTests : NCalcTest
 	[InlineData("desc", new[] { 3, 2, 1 })]
 	public void Sort_Ints_Succeeds(string? direction, int[] expectedOrder)
 		=> new ExtendedExpression($"sort(list(2, 1, 3){(direction is null ? string.Empty : $", '{direction}'")})")
-		.Evaluate()
+		.Evaluate(TestContext.Current.CancellationToken)
 		.Should()
 		.BeEquivalentTo(expectedOrder);
 
@@ -18,7 +18,7 @@ public class SortTests : NCalcTest
 	[InlineData("desc", new[] { "3", "2", "1" })]
 	public void Sort_Strings_Succeeds(string? direction, string[] expectedOrder)
 		=> new ExtendedExpression($"sort(list('2', '1', '3'){(direction is null ? string.Empty : $", '{direction}'")})")
-		.Evaluate()
+		.Evaluate(TestContext.Current.CancellationToken)
 		.Should()
 		.BeEquivalentTo(expectedOrder);
 }

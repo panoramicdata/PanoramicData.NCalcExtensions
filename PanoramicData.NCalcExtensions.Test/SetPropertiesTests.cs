@@ -6,7 +6,7 @@ public class SetPropertiesTests
 	public void SetProperties_OnJObject_CreatesJObject()
 	{
 		var expression = new ExtendedExpression("setProperties(jObject('a', 1, 'b', null), 'c', 'X')");
-		var result = expression.Evaluate() as JObject;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JObject;
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
@@ -22,7 +22,7 @@ public class SetPropertiesTests
 	{
 		var expression = new ExtendedExpression("setProperties(anon, 'c', 'X')");
 		expression.Parameters["anon"] = new { a = 1, b = (string?)null };
-		var result = expression.Evaluate() as JObject;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JObject;
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
@@ -37,7 +37,7 @@ public class SetPropertiesTests
 	public void SetProperties_MultipleProperties_Succeeds()
 	{
 		var expression = new ExtendedExpression("setProperties(jObject('a', 1), 'b', 2, 'c', 3)");
-		var result = expression.Evaluate() as JObject;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JObject;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 		result!["a"]!.Value<int>().Should().Be(1);
@@ -50,7 +50,7 @@ public class SetPropertiesTests
 	public void SetProperties_EvenNumberOfParameters_ThrowsException()
 	{
 		var expression = new ExtendedExpression("setProperties(jObject('a', 1), 'b')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*odd number of parameters*");
 	}
 
@@ -58,7 +58,7 @@ public class SetPropertiesTests
 	public void SetProperties_NullFirstParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("setProperties(null, 'key', 'value')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*first parameter cannot be null*");
 	}
 
@@ -66,7 +66,7 @@ public class SetPropertiesTests
 	public void SetProperties_NonStringKey_ThrowsException()
 	{
 		var expression = new ExtendedExpression("setProperties(jObject('a', 1), 123, 'value')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires a string key*");
 	}
 
@@ -74,7 +74,7 @@ public class SetPropertiesTests
 	public void SetProperties_DuplicateKey_ThrowsException()
 	{
 		var expression = new ExtendedExpression("setProperties(jObject('a', 1), 'a', 2)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*can only define property a once*");
 	}
 }

@@ -9,7 +9,7 @@ public class ToUpperTests
 	public void ToUpper_UsingInlineData_ResultMatchExpectedValue(string input, string expected)
 	{
 		var expression = new ExtendedExpression($"toUpper('{input}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expected);
 	}
 
@@ -17,7 +17,7 @@ public class ToUpperTests
 	public void ToUpper_NullParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("toUpper(null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires one string parameter*");
 	}
 
@@ -25,7 +25,7 @@ public class ToUpperTests
 	public void ToUpper_NonStringParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("toUpper(123)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires one string parameter*");
 	}
 }
@@ -44,7 +44,7 @@ public class TrimTests
 		var input = $"{prefix}test{suffix}";
 		var expression = new ExtendedExpression($"trim(x)");
 		expression.Parameters.Add("x", input);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be("test");
 	}
 
@@ -52,7 +52,7 @@ public class TrimTests
 	public void Trim_NullParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("trim(null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires one string parameter*");
 	}
 
@@ -60,7 +60,7 @@ public class TrimTests
 	public void Trim_NonStringParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("trim(123)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires one string parameter*");
 	}
 }

@@ -9,7 +9,7 @@ public class ToLowerTests
 	public void ToLower_UsingInlineData_ResultMatchExpectedValue(string parameter, string expectedValue)
 	{
 		var expression = new ExtendedExpression($"toLower('{parameter}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expectedValue);
 	}
 
@@ -17,7 +17,7 @@ public class ToLowerTests
 	public void ToLower_NullParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("toLower(null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires one string parameter*");
 	}
 
@@ -25,7 +25,7 @@ public class ToLowerTests
 	public void ToLower_NonStringParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("toLower(123)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires one string parameter*");
 	}
 }

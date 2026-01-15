@@ -12,7 +12,7 @@ public class CapitalizeTests : NCalcTest
 	{
 		var expression = new ExtendedExpression($"capitalize('{input}')");
 
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().Be(expected);
 	}
@@ -21,14 +21,14 @@ public class CapitalizeTests : NCalcTest
 	public void Capitalize_NullParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("capitalize(null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 
 	[Fact]
 	public void Capitalize_NonStringParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("capitalize(123)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 }
 

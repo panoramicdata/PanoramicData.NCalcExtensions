@@ -17,7 +17,7 @@ public class ToDateTimeTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("toDateTime('2020-02-29 12:00')");
 		AssertionExtensions
-			.Should(() => { expression.Evaluate(); })
+			.Should(() => { expression.Evaluate(TestContext.Current.CancellationToken); })
 			.Throw<ArgumentException>();
 	}
 
@@ -51,7 +51,7 @@ public class ToDateTimeTests : NCalcTest
 		var estDateTime = new DateTime(2020, 03, 02, 12, 00, 00);
 		var expression = new ExtendedExpression("toDateTime(estDateTime, 'Eastern Standard Time')");
 		expression.Parameters[nameof(estDateTime)] = estDateTime;
-		var utcDateTime = expression.Evaluate();
+		var utcDateTime = expression.Evaluate(TestContext.Current.CancellationToken);
 		utcDateTime.Should().Be(new DateTime(2020, 03, 02, 17, 00, 00));
 	}
 
@@ -61,7 +61,7 @@ public class ToDateTimeTests : NCalcTest
 		object? estDateTime = null;
 		var expression = new ExtendedExpression("toDateTime(estDateTime, 'Eastern Standard Time')");
 		expression.Parameters[nameof(estDateTime)] = estDateTime;
-		var utcDateTime = expression.Evaluate();
+		var utcDateTime = expression.Evaluate(TestContext.Current.CancellationToken);
 		utcDateTime.Should().BeNull();
 	}
 
@@ -72,7 +72,7 @@ public class ToDateTimeTests : NCalcTest
 		var expression = new ExtendedExpression("toDateTime(theDateTime)");
 		expression.Parameters[nameof(estDateTime)] = estDateTime;
 		AssertionExtensions
-			.Should(() => { expression.Evaluate(); })
+			.Should(() => { expression.Evaluate(TestContext.Current.CancellationToken); })
 			// Change in NCalc 5.6.0 - was ArgumentException
 			.Throw<NCalcParameterNotDefinedException>();
 	}
@@ -83,7 +83,7 @@ public class ToDateTimeTests : NCalcTest
 		var expectedDateTime = new DateTime(1975, 02, 17, 00, 00, 00);
 		var expression = new ExtendedExpression("toDateTime(161827200.0, 's', 'UTC')");
 		expression.Parameters[nameof(expectedDateTime)] = expectedDateTime;
-		expression.Evaluate().Should().Be(expectedDateTime);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expectedDateTime);
 	}
 
 	[Fact]
@@ -92,7 +92,7 @@ public class ToDateTimeTests : NCalcTest
 		var expectedDateTime = new DateTime(1975, 02, 17, 00, 00, 00);
 		var expression = new ExtendedExpression("toDateTime(161827200000.0, 'ms', 'UTC')");
 		expression.Parameters[nameof(expectedDateTime)] = expectedDateTime;
-		expression.Evaluate().Should().Be(expectedDateTime);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expectedDateTime);
 	}
 
 	[Fact]
@@ -101,6 +101,6 @@ public class ToDateTimeTests : NCalcTest
 		var expectedDateTime = new DateTime(1975, 02, 17, 00, 00, 00);
 		var expression = new ExtendedExpression("toDateTime(161827200000000.0, 'us', 'UTC')");
 		expression.Parameters[nameof(expectedDateTime)] = expectedDateTime;
-		expression.Evaluate().Should().Be(expectedDateTime);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expectedDateTime);
 	}
 }

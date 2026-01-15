@@ -67,21 +67,21 @@ public class NowTests : NCalcTest
 	[Fact]
 	public void Now_InvalidTimeZone_ThrowsException()
 		=> new ExtendedExpression("now('Invalid/Timezone')")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>();
 
 	[Fact]
 	public void Now_EmptyStringTimeZone_ThrowsException()
 		=> new ExtendedExpression("now('')")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>();
 
 	[Fact]
 	public void Now_NonStringParameter_ThrowsException()
 		=> new ExtendedExpression("now(123)")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*first argument should be a string*");

@@ -8,7 +8,7 @@ public class SwitchTests : NCalcTest
 	[InlineData("switch(1, 2)")]
 	public void Switch_InsufficientParameters_ThrowsException(string expression)
 		=> new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<FormatException>();
 
@@ -22,13 +22,13 @@ public class SwitchTests : NCalcTest
 	[InlineData("switch('blah', 'yes', 1, 'no', 2, '3')", "3")]
 	[InlineData("switch(1, 1, 'one', 2, 'two')", "one")]
 	public void Switch_ReturnsExpected(string expression, object expectedOutput)
-		=> new ExtendedExpression(expression).Evaluate().Should().Be(expectedOutput);
+		=> new ExtendedExpression(expression).Evaluate(TestContext.Current.CancellationToken).Should().Be(expectedOutput);
 
 	[Theory]
 	[InlineData("switch('blah', 'yes', 1, 'no', 2)")]
 	public void Switch_MissingDefault_ThrowsException(string expression)
 		=> new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<FormatException>();
 
@@ -38,7 +38,7 @@ public class SwitchTests : NCalcTest
 		const string expression = "switch(incident_Priority, 4, 4, 1, 1, 21)";
 		var e = new ExtendedExpression(expression);
 		e.Parameters["incident_Priority"] = 1;
-		var result = e.Evaluate();
+		var result = e.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(1);
 	}
 
@@ -49,7 +49,7 @@ public class SwitchTests : NCalcTest
 		var e = new ExtendedExpression(expression);
 		e.Parameters["incident_exists"] = true;
 		e.Parameters["incident_Priority"] = 4;
-		var result = e.Evaluate();
+		var result = e.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(4);
 	}
 
@@ -69,7 +69,7 @@ public class SwitchTests : NCalcTest
 			e.Parameters[property.Name] = GetValue(property);
 		}
 
-		var result = e.Evaluate();
+		var result = e.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(4);
 	}
 

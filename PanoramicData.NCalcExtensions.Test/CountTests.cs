@@ -15,7 +15,7 @@ public class CountTests
 	public void Count_VariousInputs_ReturnsExpected(string input, int expected)
 	{
 		var expression = new ExtendedExpression($"count({input})");
-		expression.Evaluate().Should().Be(expected);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expected);
 	}
 
 	[Fact]
@@ -23,7 +23,7 @@ public class CountTests
 	{
 		var expression = new ExtendedExpression($"count(x)");
 		expression.Parameters.Add("x", _stringList);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(_stringList.Count);
 	}
 
@@ -31,7 +31,7 @@ public class CountTests
 	public void Count_WithLambda_ReturnsExpectedResult()
 	{
 		var expression = new ExtendedExpression($"count(list(1,2,3), 'n', 'n < 3')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(2);
 	}
 
@@ -40,7 +40,7 @@ public class CountTests
 	{
 		var expression = new ExtendedExpression($"count(x)");
 		expression.Parameters.Add("x", _stringList.AsEnumerable());
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(_stringList.Count);
 	}
 
@@ -49,7 +49,7 @@ public class CountTests
 	{
 		var expression = new ExtendedExpression($"count(x)");
 		expression.Parameters.Add("x", _stringList.AsReadOnly());
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(_stringList.Count);
 	}
 
@@ -58,7 +58,7 @@ public class CountTests
 	{
 		var expression = new ExtendedExpression($"count(x)");
 		expression.Parameters.Add("x", JArray.FromObject(_stringList));
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(_stringList.Count);
 	}
 }

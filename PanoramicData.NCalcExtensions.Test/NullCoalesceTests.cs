@@ -15,7 +15,7 @@ public class NullCoalesceTests
 	public void Parse_GoodValues_Succeeds(string parameters, object? expectedValue)
 	{
 		var expression = new ExtendedExpression($"nullCoalesce({parameters})");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expectedValue);
 	}
 
@@ -32,7 +32,7 @@ public class NullCoalesceTests
 		expression.Parameters.Add("a", a);
 		expression.Parameters.Add("b", b);
 		expression.Parameters.Add("c", c);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expectedValue);
 	}
 }

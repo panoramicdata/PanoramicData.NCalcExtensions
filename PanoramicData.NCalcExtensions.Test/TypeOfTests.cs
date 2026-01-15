@@ -10,6 +10,6 @@ public class TypeOfTests
 	public void TypeOf_ReturnsExpected(string? expected, string input)
 	{
 		var expression = new ExtendedExpression($"typeOf({input})");
-		expression.Evaluate().Should().Be(expected);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expected);
 	}
 }

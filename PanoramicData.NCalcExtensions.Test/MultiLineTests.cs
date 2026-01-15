@@ -28,7 +28,7 @@ if(
 """)]
 	public void All_LessThanFive_Succeeds(string multiLineExpression)
 		=> new ExtendedExpression(multiLineExpression)
-		.Evaluate()
+		.Evaluate(TestContext.Current.CancellationToken)
 		.Should()
 		.Be(true);
 }

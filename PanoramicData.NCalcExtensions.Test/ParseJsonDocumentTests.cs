@@ -11,7 +11,7 @@ public class ParseJsonDocumentTests
 	public void Parse_JsonDocument_Succeeds(string json)
 	{
 		var expression = new ExtendedExpression($"parse('JsonDocument', '{json}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JsonDocument>();
 		
 		var jsonDoc = result as JsonDocument;
@@ -26,7 +26,7 @@ public class ParseJsonDocumentTests
 	public void Parse_JsonArray_Succeeds(string json)
 	{
 		var expression = new ExtendedExpression($"parse('JsonArray', '{json}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JsonDocument>();
 		
 		var jsonDoc = result as JsonDocument;
@@ -40,7 +40,7 @@ public class ParseJsonDocumentTests
 	public void Parse_JsonDocument_VariousTypeNames_Succeeds(string typeName)
 	{
 		var expression = new ExtendedExpression($"parse('{typeName}', '{{\"test\":123}}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JsonDocument>();
 	}
 
@@ -49,7 +49,7 @@ public class ParseJsonDocumentTests
 	public void Parse_JsonArray_VariousTypeNames_Succeeds(string typeName)
 	{
 		var expression = new ExtendedExpression($"parse('{typeName}', '[1,2,3]')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JsonDocument>();
 		
 		var jsonDoc = result as JsonDocument;
@@ -60,7 +60,7 @@ public class ParseJsonDocumentTests
 	public void Parse_JsonDocument_InvalidJson_ThrowsException()
 	{
 		var expression = new ExtendedExpression("parse('JsonDocument', '{invalid json}')");
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>();
 	}
 
@@ -68,7 +68,7 @@ public class ParseJsonDocumentTests
 	public void Parse_JsonArray_ObjectInstead_ThrowsException()
 	{
 		var expression = new ExtendedExpression("parse('JsonArray', '{\"not\":\"array\"}')");
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>();
 	}
 
@@ -76,7 +76,7 @@ public class ParseJsonDocumentTests
 	public void Parse_JsonDocument_WithFallback_ReturnsFallback()
 	{
 		var expression = new ExtendedExpression("parse('JsonDocument', '{invalid}', 'fallback')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be("fallback");
 	}
 }

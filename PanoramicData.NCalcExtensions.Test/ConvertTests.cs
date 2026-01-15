@@ -16,7 +16,7 @@ public class ConvertTests
 		object? expectedResult
 	)
 		=> new ExtendedExpression($"convert({firstParameter}, {secondParameter})")
-		.Evaluate()
+		.Evaluate(TestContext.Current.CancellationToken)
 		.Should()
 		.Be(expectedResult);
 
@@ -27,7 +27,7 @@ public class ConvertTests
 	[InlineData("1, 1, 1, 1")]
 	public void IncorrectParameterCount_Throws(string parameters) =>
 		new ExtendedExpression($"convert({parameters})")
-		.Invoking(e => e.Evaluate())
+		.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 		.Should()
 		.Throw<FormatException>()
 		.WithMessage($"{ExtensionFunction.Convert}() requires two parameters.");

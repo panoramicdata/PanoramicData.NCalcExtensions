@@ -11,7 +11,7 @@ public class CountByJsonDocumentTests
 	{
 		var expression = new ExtendedExpression(expressionText);
 
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		// CountBy still returns JObject, but we verify it works with JsonDocument operations
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
@@ -29,7 +29,7 @@ public class CountByJsonDocumentTests
 		var jsonDoc = JsonDocument.Parse("[1, 2, 2, 3, 3, 3, 4]");
 		var expression = new ExtendedExpression("toString(typeOf(source))");
 		expression.Parameters["source"] = jsonDoc;
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be("JsonDocument");
 	}
 
@@ -38,7 +38,7 @@ public class CountByJsonDocumentTests
 	{
 		// Test property access on countBy result using JsonDocument-style operations
 		var expression = new ExtendedExpression("countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)')");
-		var result = expression.Evaluate() as JObject;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JObject;
 		
 		result.Should().NotBeNull();
 		result!["1"].Should().NotBeNull();

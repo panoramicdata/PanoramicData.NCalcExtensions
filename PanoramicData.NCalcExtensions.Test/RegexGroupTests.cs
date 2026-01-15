@@ -37,7 +37,7 @@ public class RegexGroupTests : NCalcTest
 		var text = "AutoTask: xxx.xxx@xxx.com at 2022-05-10 08:26:57 UTC (37407238)\nTitle: Notification Description: xxx@xxx.xxx";
 		var expression = new ExtendedExpression("regexGroup(text, 'AutoTask: .+ \\\\((\\\\d+)\\\\)\\\\n')");
 		expression.Parameters["text"] = text;
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().Be("37407238");
 	}
@@ -54,7 +54,7 @@ public class RegexGroupTests : NCalcTest
 	public void RegexGroup_NullInput_ThrowsException()
 	{
 		var expression = new ExtendedExpression("regexGroup(null, 'pattern')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires string parameters*");
 	}
 
@@ -62,7 +62,7 @@ public class RegexGroupTests : NCalcTest
 	public void RegexGroup_NullPattern_ThrowsException()
 	{
 		var expression = new ExtendedExpression("regexGroup('text', null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires string parameters*");
 	}
 
@@ -70,7 +70,7 @@ public class RegexGroupTests : NCalcTest
 	public void RegexGroup_NonStringInput_ThrowsException()
 	{
 		var expression = new ExtendedExpression("regexGroup(123, 'pattern')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires string parameters*");
 	}
 }

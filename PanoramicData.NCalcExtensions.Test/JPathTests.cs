@@ -15,7 +15,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression($"jPath(source, '{path}')");
 		expression.Parameters["source"] = TestJObject;
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(
 			expectedResult,
 			because: "the jPath is valid, present and returns a single result"
@@ -29,7 +29,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression($"jPath(source, 'kvps[?(@key==\\'{key}\\')].value', true)");
 		expression.Parameters["source"] = TestJObject;
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expectedValue);
 	}
 
@@ -38,7 +38,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'name')");
 		expression.Parameters["source"] = "SomeRandomString";
-		_ = expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		_ = expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 
 	[Fact]
@@ -46,7 +46,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'name')");
 		expression.Parameters["source"] = new Organization { Name = "woo" };
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be("woo");
 	}
 
@@ -55,7 +55,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'kvps')");
 		expression.Parameters["source"] = TestJObject;
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JArray>();
 	}
 
@@ -64,7 +64,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'name') == 'bob'");
 		expression.Parameters["source"] = JObject.FromObject(new Organization { Name = "bob" });
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<bool>();
 		result.Should().Be(true);
 	}
@@ -75,7 +75,7 @@ public class JPathTests : NCalcTest
 		var expression = new ExtendedExpression("jPath(source, 'size')");
 		expression.Parameters["source"] = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2] }");
 		expression
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<NCalcExtensionsException>()
 			.WithMessage(
@@ -89,7 +89,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'size', True)");
 		expression.Parameters["source"] = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2] }");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeNull(
 			because: "the requested jPath is not present and the third parameter 'returnNullIfNotFound' is set to True"
 		);
@@ -100,7 +100,7 @@ public class JPathTests : NCalcTest
 	{
 		var expression = new ExtendedExpression("jPath(source, 'numbers')");
 		expression.Parameters["source"] = JObject.Parse("{ \"name\": \"bob\", \"numbers\": [1, 2] }");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JArray>();
 		var theArray = result as JArray;
 		theArray.Should().NotBeNull();

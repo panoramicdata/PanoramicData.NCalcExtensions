@@ -17,7 +17,7 @@ public class IsInfiniteTests
 	public void IsInfinite_VariousInputs_ReturnsExpected(string input, bool expected)
 	{
 		var expression = new ExtendedExpression($"isInfinite({input})");
-		expression.Evaluate().Should().Be(expected);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expected);
 	}
 
 	[Theory]
@@ -26,7 +26,7 @@ public class IsInfiniteTests
 	[InlineData("isInfinite(1, 2, 3)")]
 	public void IsInfinite_WrongParameterCount_ThrowsException(string expressionText)
 		=> new ExtendedExpression(expressionText)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*requires one parameter*");
@@ -40,6 +40,6 @@ public class IsInfiniteTests
 	{
 		var expression = new ExtendedExpression("isInfinite(value)");
 		expression.Parameters["value"] = value;
-		expression.Evaluate().Should().Be(expected);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expected);
 	}
 }

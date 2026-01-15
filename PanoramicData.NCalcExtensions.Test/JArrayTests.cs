@@ -6,7 +6,7 @@ public class JArrayTests
 	public void JArray_CreatesJArray()
 	{
 		var expression = new ExtendedExpression("jArray(jObject('a', 1, 'b', null), jObject('a', 2, 'b', 'woo'), null)");
-		var result = expression.Evaluate() as JArray;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JArray;
 		result.Should().BeOfType<JArray>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
@@ -25,7 +25,7 @@ public class JArrayTests
 	public void JArray_StringParameters_CreatesJArray()
 	{
 		var expression = new ExtendedExpression("jArray('test1', 'test2')");
-		var result = expression.Evaluate() as JArray;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JArray;
 		result.Should().BeOfType<JArray>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);

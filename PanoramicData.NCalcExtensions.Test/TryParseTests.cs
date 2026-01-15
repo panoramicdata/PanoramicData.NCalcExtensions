@@ -11,7 +11,7 @@ public class TryParseTests
 	[InlineData("1")]
 	public void TryParse_IncorrectParameterCountOrType_Throws(string parameters)
 		=> new ExtendedExpression($"tryParse({parameters})")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<FormatException>();
 
@@ -33,7 +33,7 @@ public class TryParseTests
 	public void TryParse_DoesNotParse_ReturnsFalse(string parameters)
 	{
 		var expression = new ExtendedExpression($"tryParse('{parameters}', 'x', 'outputVariable')");
-		expression.Evaluate().Should().Be(false);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(false);
 	}
 
 	[Theory]
@@ -44,7 +44,7 @@ public class TryParseTests
 	public void TryParse_Bool_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('bool', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -53,91 +53,91 @@ public class TryParseTests
 	public void TryParse_SystemBoolean_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.Boolean', 'true', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemInt32_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.Int32', '42', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemInt64_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.Int64', '123456789', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemUInt32_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.UInt32', '42', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemUInt64_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.UInt64', '123456789', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemDouble_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.Double', '3.14', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemSingle_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.Single', '3.14', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemDecimal_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.Decimal', '3.14', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemByte_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.Byte', '255', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemSByte_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.SByte', '-128', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemInt16_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.Int16', '32767', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemUInt16_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.UInt16', '65535', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_SystemGuid_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('System.Guid', 'fa2e60e8-dd1e-4cbb-b53c-e69c63f14866', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Theory]
@@ -149,7 +149,7 @@ public class TryParseTests
 	{
 		var expectedValue = int.TryParse(text, out var expected) ? expected : (int?)null;
 		var expression = new ExtendedExpression($"if(tryParse('int', '{text}', 'outputVariable'), retrieve('outputVariable'), null)");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().NotBe(null);
 		result.Should().Be(expectedValue);
 	}
@@ -165,7 +165,7 @@ public class TryParseTests
 	{
 		var expectedValue = Guid.TryParse(text, out var expected) ? expected : (Guid?)null;
 		var expression = new ExtendedExpression($"if(tryParse('Guid', '{text}', 'outputVariable'), retrieve('outputVariable'), null)");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().NotBe(null);
 		result.Should().Be(expectedValue);
 	}
@@ -178,7 +178,7 @@ public class TryParseTests
 	public void TryParse_Long_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('long', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -188,7 +188,7 @@ public class TryParseTests
 	public void TryParse_ULong_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('ulong', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -198,7 +198,7 @@ public class TryParseTests
 	public void TryParse_UInt_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('uint', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -210,7 +210,7 @@ public class TryParseTests
 	public void TryParse_Double_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('double', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -222,7 +222,7 @@ public class TryParseTests
 	public void TryParse_Float_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('float', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -234,7 +234,7 @@ public class TryParseTests
 	public void TryParse_Decimal_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('decimal', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -246,7 +246,7 @@ public class TryParseTests
 	public void TryParse_SByte_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('sbyte', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -256,7 +256,7 @@ public class TryParseTests
 	public void TryParse_Byte_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('byte', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -268,7 +268,7 @@ public class TryParseTests
 	public void TryParse_Short_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('short', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -278,7 +278,7 @@ public class TryParseTests
 	public void TryParse_Ushort_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('ushort', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -288,7 +288,7 @@ public class TryParseTests
 	public void TryParse_JObject_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('jObject', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -298,7 +298,7 @@ public class TryParseTests
 	public void TryParse_JArray_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('jArray', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -308,7 +308,7 @@ public class TryParseTests
 	public void TryParse_CapitalJ_JObject_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('JObject', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -318,7 +318,7 @@ public class TryParseTests
 	public void TryParse_CapitalJ_JArray_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"tryParse('JArray', '{text}', 'outputVariable')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -327,14 +327,14 @@ public class TryParseTests
 	public void TryParse_JObject_InvalidJson_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("tryParse('jObject', '{invalid}', 'outputVariable')");
-		expression.Evaluate().Should().Be(false);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(false);
 	}
 
 	[Fact]
 	public void TryParse_JArray_InvalidJson_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("tryParse('jArray', '[invalid]', 'outputVariable')");
-		expression.Evaluate().Should().Be(false);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(false);
 	}
 
 	// Test JObject when JSON is actually JArray
@@ -342,7 +342,7 @@ public class TryParseTests
 	public void TryParse_JObject_WhenArray_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("tryParse('jObject', '[]', 'outputVariable')");
-		expression.Evaluate().Should().Be(false);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(false);
 	}
 
 	// Test JArray when JSON is actually JObject
@@ -350,7 +350,7 @@ public class TryParseTests
 	public void TryParse_JArray_WhenObject_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("tryParse('jArray', '{}', 'outputVariable')");
-		expression.Evaluate().Should().Be(false);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(false);
 	}
 
 	// Test unsupported type
@@ -358,7 +358,7 @@ public class TryParseTests
 	public void TryParse_UnsupportedType_ThrowsException()
 	{
 		var expression = new ExtendedExpression("tryParse('unsupportedType', '1', 'outputVariable')");
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<Exception>(); // Throws FormatException but wraps IndexOutOfRangeException
 	}
 
@@ -367,35 +367,35 @@ public class TryParseTests
 	public void TryParse_Int_MaxValue_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('int', '2147483647', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_Int_MinValue_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('int', '-2147483648', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_Int_Overflow_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("tryParse('int', '2147483648', 'outputVariable')");
-		expression.Evaluate().Should().Be(false);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(false);
 	}
 
 	[Fact]
 	public void TryParse_Byte_MaxValue_Succeeds()
 	{
 		var expression = new ExtendedExpression("tryParse('byte', '255', 'outputVariable')");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void TryParse_Byte_Overflow_ReturnsFalse()
 	{
 		var expression = new ExtendedExpression("tryParse('byte', '256', 'outputVariable')");
-		expression.Evaluate().Should().Be(false);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(false);
 	}
 
 	// Test retrieval of parsed values
@@ -403,14 +403,14 @@ public class TryParseTests
 	public void TryParse_AndRetrieve_Int_Works()
 	{
 		var expression = new ExtendedExpression("if(tryParse('int', '42', 'myVar'), retrieve('myVar'), -1)");
-		expression.Evaluate().Should().Be(42);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(42);
 	}
 
 	[Fact]
 	public void TryParse_AndRetrieve_Bool_Works()
 	{
 		var expression = new ExtendedExpression("if(tryParse('bool', 'true', 'myVar'), retrieve('myVar'), false)");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
@@ -418,6 +418,6 @@ public class TryParseTests
 	{
 		var guid = "fa2e60e8-dd1e-4cbb-b53c-e69c63f14866";
 		var expression = new ExtendedExpression($"if(tryParse('Guid', '{guid}', 'myVar'), retrieve('myVar'), null)");
-		expression.Evaluate().Should().Be(Guid.Parse(guid));
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(Guid.Parse(guid));
 	}
 }

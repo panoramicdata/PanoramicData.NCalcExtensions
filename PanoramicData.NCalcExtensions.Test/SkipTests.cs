@@ -8,7 +8,7 @@ public class SkipTests
 	public void List_OfInts_ReturnsExpectedType()
 	{
 		var expression = new ExtendedExpression($"skip(list(1, 2, 3), 1)");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<List<object?>>();
 	}
 
@@ -17,7 +17,7 @@ public class SkipTests
 	{
 		var expression = new ExtendedExpression($"skip(theArray, 1)");
 		expression.Parameters["theArray"] = new[] { 1, 2, 3 };
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<List<object?>>();
 		result.Should().BeEquivalentTo(new List<object> { 2, 3 }, options => options.WithStrictOrdering());
 	}
@@ -26,20 +26,20 @@ public class SkipTests
 	public void List_OfInts_ReturnsExpected()
 	{
 		var expression = new ExtendedExpression($"skip(list(1, 2, 3), 1)");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 2, 3 }, options => options.WithStrictOrdering());
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().BeEquivalentTo(new List<object> { 2, 3 }, options => options.WithStrictOrdering());
 	}
 
 	[Fact]
 	public void SkippingTooMany_ReturnsExpected()
 	{
 		var expression = new ExtendedExpression($"skip(list(1, 2, 3), 10)");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object>(), options => options.WithStrictOrdering());
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().BeEquivalentTo(new List<object>(), options => options.WithStrictOrdering());
 	}
 
 	[Fact]
 	public void Skip_InvalidCountParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("skip(list(1, 2, 3), 'invalid')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 }

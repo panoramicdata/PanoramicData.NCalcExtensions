@@ -14,7 +14,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression($"sum(x, 'n', 'n * n')");
 		expression.Parameters.Add("x", _intList);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(_intList.Sum(n => n * n));
 	}
 
@@ -23,7 +23,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression($"sum(list(100, 100, 100), 'n', 'n')");
 		expression.Parameters.Add("x", _intList);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(300);
 	}
 
@@ -32,7 +32,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression($"sum(x)");
 		expression.Parameters.Add("x", _intList.AsEnumerable());
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(_intList.Sum());
 	}
 
@@ -41,7 +41,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression($"sum(x)");
 		expression.Parameters.Add("x", _intList);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(_intList.Sum());
 	}
 
@@ -50,7 +50,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression($"sum(x)");
 		expression.Parameters.Add("x", _objectList);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(_intList.Sum());
 	}
 
@@ -60,7 +60,7 @@ public class SumTests
 	public void Sum_EmptyList_ReturnsZero()
 	{
 		var expression = new ExtendedExpression("sum(list())");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(0d);
 	}
 
@@ -68,7 +68,7 @@ public class SumTests
 	public void Sum_AllZeros_ReturnsZero()
 	{
 		var expression = new ExtendedExpression("sum(list(0, 0, 0, 0))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(0);
 	}
 
@@ -76,7 +76,7 @@ public class SumTests
 	public void Sum_NegativeNumbers_ReturnsNegativeSum()
 	{
 		var expression = new ExtendedExpression("sum(list(-1, -2, -3))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(-6);
 	}
 
@@ -84,7 +84,7 @@ public class SumTests
 	public void Sum_MixedPositiveAndNegative_ReturnsCorrectSum()
 	{
 		var expression = new ExtendedExpression("sum(list(10, -5, 3, -2))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(6);
 	}
 
@@ -92,7 +92,7 @@ public class SumTests
 	public void Sum_VeryLargeNumbers_HandlesOverflow()
 	{
 		var expression = new ExtendedExpression("sum(list(1000000000, 1000000000, 1000000000))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(3000000000);
 	}
 
@@ -100,7 +100,7 @@ public class SumTests
 	public void Sum_Decimals_RetainsDecimalPrecision()
 	{
 		var expression = new ExtendedExpression("sum(list(1.5, 2.5, 3.5))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(7.5);
 	}
 
@@ -108,7 +108,7 @@ public class SumTests
 	public void Sum_ByteValues_ConvertsCorrectly()
 	{
 		var expression = new ExtendedExpression("sum(listOf('byte', 1, 2, 3))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(6);
 	}
 
@@ -116,7 +116,7 @@ public class SumTests
 	public void Sum_ShortValues_ConvertsCorrectly()
 	{
 		var expression = new ExtendedExpression("sum(listOf('short', 100, 200, 300))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(600);
 	}
 
@@ -124,7 +124,7 @@ public class SumTests
 	public void Sum_LongValues_ConvertsCorrectly()
 	{
 		var expression = new ExtendedExpression("sum(listOf('long', 1000, 2000, 3000))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(6000L);
 	}
 
@@ -132,7 +132,7 @@ public class SumTests
 	public void Sum_FloatValues_HandlesFloatingPoint()
 	{
 		var expression = new ExtendedExpression("sum(listOf('float', 1.1, 2.2, 3.3))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		((float)result!).Should().BeApproximately(6.6f, 0.01f);
 	}
 
@@ -140,7 +140,7 @@ public class SumTests
 	public void Sum_DoubleValues_HandlesFloatingPoint()
 	{
 		var expression = new ExtendedExpression("sum(listOf('double', 1.1, 2.2, 3.3))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		((double)result!).Should().BeApproximately(6.6, 0.01);
 	}
 
@@ -148,7 +148,7 @@ public class SumTests
 	public void Sum_WithLambdaOnEmptyList_ReturnsZero()
 	{
 		var expression = new ExtendedExpression("sum(list(), 'x', 'x * 2')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(0d);
 	}
 
@@ -156,7 +156,7 @@ public class SumTests
 	public void Sum_SingleItem_ReturnsThatItem()
 	{
 		var expression = new ExtendedExpression("sum(list(42))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(42);
 	}
 
@@ -165,7 +165,7 @@ public class SumTests
 	public void Sum_ByteWithLambda_ReturnsCorrectSum()
 	{
 		var expression = new ExtendedExpression("sum(listOf('byte', 1, 2, 3), 'n', 'n * 2')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(12);
 	}
 
@@ -173,7 +173,7 @@ public class SumTests
 	public void Sum_ShortWithLambda_ReturnsCorrectSum()
 	{
 		var expression = new ExtendedExpression("sum(listOf('short', 10, 20, 30), 'n', 'n * 2')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(120);
 	}
 
@@ -181,7 +181,7 @@ public class SumTests
 	public void Sum_LongWithLambda_ReturnsCorrectSum()
 	{
 		var expression = new ExtendedExpression("sum(listOf('long', 100, 200, 300), 'n', 'n * 2')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(1200L);
 	}
 
@@ -189,7 +189,7 @@ public class SumTests
 	public void Sum_FloatWithLambda_ReturnsCorrectSum()
 	{
 		var expression = new ExtendedExpression("sum(listOf('float', 1.0, 2.0, 3.0), 'n', 'n * 2')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		((float)result!).Should().BeApproximately(12.0f, 0.01f);
 	}
 
@@ -197,7 +197,7 @@ public class SumTests
 	public void Sum_DoubleWithLambda_ReturnsCorrectSum()
 	{
 		var expression = new ExtendedExpression("sum(listOf('double', 1.0, 2.0, 3.0), 'n', 'n * 2')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		((double)result!).Should().BeApproximately(12.0, 0.01);
 	}
 
@@ -205,7 +205,7 @@ public class SumTests
 	public void Sum_DecimalWithLambda_ReturnsCorrectSum()
 	{
 		var expression = new ExtendedExpression("sum(listOf('decimal', 1.5, 2.5, 3.5), 'n', 'n * 2')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(15.0m);
 	}
 
@@ -214,7 +214,7 @@ public class SumTests
 	public void Sum_JValueInteger_ReturnsCorrectSum()
 	{
 		var expression = new ExtendedExpression("sum(jArray(1, 2, 3))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(6.0);
 	}
 
@@ -222,7 +222,7 @@ public class SumTests
 	public void Sum_JValueFloat_ReturnsCorrectSum()
 	{
 		var expression = new ExtendedExpression("sum(jArray(1.5, 2.5, 3.0))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		((double)result!).Should().BeApproximately(7.0, 0.01);
 	}
 
@@ -231,7 +231,7 @@ public class SumTests
 	public void Sum_NullParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("sum(null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*cannot be null*");
 	}
 
@@ -239,7 +239,7 @@ public class SumTests
 	public void Sum_InvalidSecondParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("sum(list(1, 2, 3), 123, 'n')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*must be a string*");
 	}
 
@@ -247,7 +247,7 @@ public class SumTests
 	public void Sum_InvalidThirdParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("sum(list(1, 2, 3), 'n', 456)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*must be a string*");
 	}
 
@@ -255,7 +255,7 @@ public class SumTests
 	public void Sum_UnsupportedTypeWithoutLambda_ThrowsException()
 	{
 		var expression = new ExtendedExpression("sum(list('a', 'b', 'c'))");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 
 	[Fact]
@@ -263,7 +263,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression("sum(TheList)");
 		expression.Parameters["TheList"] = new List<object?> { 1, 2, "invalid" };
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*unsupported type*");
 	}
 
@@ -274,7 +274,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression("sum(jValueList)");
 		expression.Parameters["jValueList"] = new List<object?> { new JValue(true), new JValue(false) };
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*Found unsupported JToken type*");
 	}
 
@@ -283,7 +283,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression("sum(stringList, 'x', 'x')");
 		expression.Parameters["stringList"] = new List<string> { "a", "b", "c" };
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*Found unsupported type*when completing sum*");
 	}
 
@@ -292,7 +292,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression("sum(stringList)");
 		expression.Parameters["stringList"] = new List<string> { "a", "b", "c" };
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*Found unsupported type*when completing sum*");
 	}
 
@@ -301,7 +301,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression("sum(mixedList)");
 		expression.Parameters["mixedList"] = new List<object?> { 1, null, 2, null, 3 };
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(6.0);
 	}
 
@@ -309,7 +309,7 @@ public class SumTests
 	public void Sum_DecimalList_ReturnsDecimalSum()
 	{
 		var expression = new ExtendedExpression("sum(listOf('decimal', 1.5, 2.5, 3.5))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(7.5m);
 	}
 
@@ -318,7 +318,7 @@ public class SumTests
 	{
 		var expression = new ExtendedExpression("sum(mixedList, 'x', 'x * 2')");
 		expression.Parameters["mixedList"] = new List<object?> { 1, 2, 3 };
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(12.0);
 	}
 }

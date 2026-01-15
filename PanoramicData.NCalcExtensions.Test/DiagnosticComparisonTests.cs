@@ -6,7 +6,7 @@ public class DiagnosticComparisonTests
 	public void Diagnostic_IntegerVsEmptyString_Equality()
 	{
 		var expression = new ExtendedExpression("1 == ''");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		// Log what we actually get
 		Console.WriteLine($"1 == '' evaluates to: {result} (Type: {result?.GetType().Name})");
@@ -26,7 +26,7 @@ public class DiagnosticComparisonTests
 
 
 		var expression = new ExtendedExpression("1 != ''");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		// Log what we actually get
 		Console.WriteLine($"1 != '' evaluates to: {result} (Type: {result?.GetType().Name})");
@@ -39,7 +39,7 @@ public class DiagnosticComparisonTests
 	public void Diagnostic_IntegerVsString1_Equality()
 	{
 		var expression = new ExtendedExpression("1 == '1'");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		// Log what we actually get
 		Console.WriteLine($"1 == '1' evaluates to: {result} (Type: {result?.GetType().Name})");
@@ -52,7 +52,7 @@ public class DiagnosticComparisonTests
 	public void Diagnostic_StringVsString_Equality()
 	{
 		var expression = new ExtendedExpression("'a' == 'a'");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		// Log what we actually get
 		Console.WriteLine($"'a' == 'a' evaluates to: {result} (Type: {result?.GetType().Name})");
@@ -65,7 +65,7 @@ public class DiagnosticComparisonTests
 	public void Diagnostic_IntegerVsInteger_Equality()
 	{
 		var expression = new ExtendedExpression("1 == 1");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		// Log what we actually get
 		Console.WriteLine($"1 == 1 evaluates to: {result} (Type: {result?.GetType().Name})");

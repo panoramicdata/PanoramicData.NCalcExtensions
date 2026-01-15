@@ -6,7 +6,7 @@ public class InterClassTests
 	public void AddingAnIntStringToAnInt_YieldsDouble()
 	{
 		var expression = new ExtendedExpression("0 + '1'");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<double>();
 		result.Should().Be(1);
 	}
@@ -15,7 +15,7 @@ public class InterClassTests
 	public void AddingAnIntToAnIntString_YieldsDouble()
 	{
 		var expression = new ExtendedExpression("'1' + 0");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<double>();
 		result.Should().Be(1);
 	}

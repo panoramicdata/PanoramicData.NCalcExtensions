@@ -10,14 +10,14 @@ public class Sha256Tests
 	{
 		var expression = new ExtendedExpression("sha256(x)");
 		expression.Parameters.Add("x", input);
-		expression.Evaluate().Should().Be(expectedOutput);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expectedOutput);
 	}
 
 	[Fact]
 	public void Sha256_NullParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("sha256(null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*string parameter*");
 	}
 
@@ -25,7 +25,7 @@ public class Sha256Tests
 	public void Sha256_NonStringParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("sha256(123)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*string parameter*");
 	}
 }

@@ -16,7 +16,7 @@ public class StringTests
 	{
 		var extendedExpression = new ExtendedExpression(expressionString);
 		extendedExpression.Parameters["x"] = x;
-		var result = extendedExpression.Evaluate();
+		var result = extendedExpression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType(type);
 		result.Should().BeEquivalentTo(expectedOutput);
 	}
@@ -28,7 +28,7 @@ public class StringTests
 	{
 		var expression = new ExtendedExpression(expressionString);
 		expression.Parameters["x"] = x;
-		((Action)(() => expression.Evaluate()))
+		((Action)(() => expression.Evaluate(TestContext.Current.CancellationToken)))
 			.Should()
 			.Throw<FormatException>();
 	}
