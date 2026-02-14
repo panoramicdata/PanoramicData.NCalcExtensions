@@ -10,7 +10,7 @@ public class CanEvaluateTests
 	{
 		var expression = new ExtendedExpression($"canEvaluate({value})");
 
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().Be(expected);
 	}

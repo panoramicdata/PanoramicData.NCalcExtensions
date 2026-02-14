@@ -12,7 +12,7 @@ public class SetPropertiesJsonDocumentTests
 		var jsonDoc = JsonDocument.Parse("{\"a\": 1, \"b\": null}");
 		var expression = new ExtendedExpression("getProperty(source, 'a')");
 		expression.Parameters["source"] = jsonDoc;
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(1);
 	}
 
@@ -22,7 +22,7 @@ public class SetPropertiesJsonDocumentTests
 		// Test that anonymous objects can be converted and properties accessed similar to JObject
 		var expression = new ExtendedExpression("getProperty(anon, 'a')");
 		expression.Parameters["anon"] = new { a = 1, b = (string?)null };
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(1);
 	}
 
@@ -30,7 +30,7 @@ public class SetPropertiesJsonDocumentTests
 	public void SetProperties_JsonDocument_PropertyAccess_Succeeds()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonDocument('a', 1, 'b', null, 'c', 'X'), 'c')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be("X");
 	}
 }

@@ -9,7 +9,7 @@ public class JsonArrayTests
 	public void JsonArray_CreatesJsonArray()
 	{
 		var expression = new ExtendedExpression("jsonArray(1, 'test', null, true)");
-		var result = expression.Evaluate() as JsonDocument;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JsonDocument;
 		result.Should().BeOfType<JsonDocument>();
 		result.Should().NotBeNull();
 		result!.RootElement.ValueKind.Should().Be(JsonValueKind.Array);
@@ -26,7 +26,7 @@ public class JsonArrayTests
 	public void JsonArray_EmptyArray_CreatesEmptyJsonArray()
 	{
 		var expression = new ExtendedExpression("jsonArray()");
-		var result = expression.Evaluate() as JsonDocument;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JsonDocument;
 		result.Should().BeOfType<JsonDocument>();
 		result.Should().NotBeNull();
 		result!.RootElement.ValueKind.Should().Be(JsonValueKind.Array);
@@ -37,7 +37,7 @@ public class JsonArrayTests
 	public void JsonArray_NestedObjects_CreatesComplexArray()
 	{
 		var expression = new ExtendedExpression("jsonArray(jsonDocument('a', 1), jsonDocument('b', 2))");
-		var result = expression.Evaluate() as JsonDocument;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JsonDocument;
 		result.Should().BeOfType<JsonDocument>();
 		result.Should().NotBeNull();
 		result!.RootElement.ValueKind.Should().Be(JsonValueKind.Array);
@@ -52,7 +52,7 @@ public class JsonArrayTests
 	public void JsonArray_StringParameters_CreatesJsonArray()
 	{
 		var expression = new ExtendedExpression("jsonArray('test1', 'test2')");
-		var result = expression.Evaluate() as JsonDocument;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JsonDocument;
 		result.Should().BeOfType<JsonDocument>();
 		result.Should().NotBeNull();
 		result!.RootElement.ValueKind.Should().Be(JsonValueKind.Array);
@@ -67,7 +67,7 @@ public class JsonArrayTests
 	public void JsonArray_MixedTypes_CreatesJsonArray()
 	{
 		var expression = new ExtendedExpression("jsonArray(jsonDocument('a', 1, 'b', null), jsonDocument('a', 2, 'b', 'woo'), null)");
-		var result = expression.Evaluate() as JsonDocument;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JsonDocument;
 		result.Should().BeOfType<JsonDocument>();
 		result.Should().NotBeNull();
 		result!.RootElement.ValueKind.Should().Be(JsonValueKind.Array);

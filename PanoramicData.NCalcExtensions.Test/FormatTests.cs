@@ -5,7 +5,7 @@ public class FormatTests
 	[Fact]
 	public void Format_InvalidFormat_Fails()
 		=> new ExtendedExpression("format(1, 1)")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<ArgumentException>()
 			.WithMessage("format function - expected second argument to be a format string");
@@ -15,7 +15,7 @@ public class FormatTests
 	[InlineData("format(1)")]
 	public void Format_NotTwoParameters_Fails(string inputText)
 		=> new ExtendedExpression(inputText)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<ArgumentException>()
 			.WithMessage("format function - expected between 2 and 3 arguments");
@@ -24,7 +24,7 @@ public class FormatTests
 	[InlineData("format(1, 2, 3)")]
 	public void Format_ThreeParametersForInt_Fails(string inputText)
 		=> new ExtendedExpression(inputText)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<ArgumentException>()
 			.WithMessage("format function - expected second argument to be a format string");
@@ -33,21 +33,21 @@ public class FormatTests
 	public void Format_IntFormat_Succeeds()
 	{
 		var expression = new ExtendedExpression("format(1, '00')");
-		expression.Evaluate().Should().Be("01");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("01");
 	}
 
 	[Fact]
 	public void Format_DoubleFormat_Succeeds()
 	{
 		var expression = new ExtendedExpression("format(1.0, '00')");
-		expression.Evaluate().Should().Be("01");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("01");
 	}
 
 	[Fact]
 	public void Format_DateTimeFormat_Succeeds()
 	{
 		var expression = new ExtendedExpression("format(dateTime('UTC', 'yyyy-MM-dd'), 'yyyy-MM-dd')");
-		expression.Evaluate().Should().Be(DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
 	}
 
 	[Fact]
@@ -55,21 +55,21 @@ public class FormatTests
 	{
 		var expression = new ExtendedExpression("format(theDateTime, 'yyyy-MM-dd HH:mm', 'Eastern Standard Time')");
 		expression.Parameters.Add("theDateTime", DateTime.Parse("2020-03-13 16:00", CultureInfo.InvariantCulture));
-		expression.Evaluate().Should().Be("2020-03-13 12:00");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("2020-03-13 12:00");
 	}
 
 	[Fact]
 	public void Format_StringFormat_Succeeds()
 	{
 		var expression = new ExtendedExpression("format('02', '0')");
-		expression.Evaluate().Should().Be("2");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("2");
 	}
 
 	[Fact]
 	public void Format_DateFormat_DayOfYear_Succeeds()
 	{
 		var expression = new ExtendedExpression("format('2021-11-29', 'dayOfYear')");
-		expression.Evaluate().Should().Be("333");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("333");
 	}
 
 	// Additional format type tests
@@ -77,14 +77,14 @@ public class FormatTests
 	public void Format_NullValue_ReturnsNull()
 	{
 		var expression = new ExtendedExpression("format(null, 'yyyy-MM-dd')");
-		expression.Evaluate().Should().BeNull();
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().BeNull();
 	}
 
 	[Fact]
 	public void Format_LongInteger_Succeeds()
 	{
 		var expression = new ExtendedExpression("format(123456789, '#,##0')");
-		expression.Evaluate().Should().Be("123,456,789");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("123,456,789");
 	}
 
 	[Fact]
@@ -92,7 +92,7 @@ public class FormatTests
 	{
 		var expression = new ExtendedExpression("format(theDecimal, '0.00')");
 		expression.Parameters["theDecimal"] = 123.456m;
-		expression.Evaluate().Should().Be("123.46");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("123.46");
 	}
 
 	[Fact]
@@ -100,7 +100,7 @@ public class FormatTests
 	{
 		var expression = new ExtendedExpression("format(theFloat, '0.00')");
 		expression.Parameters["theFloat"] = 123.456f;
-		var result = expression.Evaluate() as string;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as string;
 		result.Should().StartWith("123.4");
 	}
 
@@ -109,7 +109,7 @@ public class FormatTests
 	{
 		var expression = new ExtendedExpression("format(theDateTimeOffset, 'yyyy-MM-dd')");
 		expression.Parameters["theDateTimeOffset"] = new DateTimeOffset(2021, 1, 15, 0, 0, 0, TimeSpan.Zero);
-		expression.Evaluate().Should().Be("2021-01-15");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("2021-01-15");
 	}
 
 	[Fact]
@@ -117,7 +117,7 @@ public class FormatTests
 	{
 		var expression = new ExtendedExpression("format(theDateTime, 'yyyy-MM-dd', 'InvalidTimeZone')");
 		expression.Parameters["theDateTime"] = DateTime.UtcNow;
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<Exception>();
 	}
 
@@ -126,7 +126,7 @@ public class FormatTests
 	{
 		var expression = new ExtendedExpression("format(theDateTime, 'dd MMM yyyy')");
 		expression.Parameters["theDateTime"] = new DateTime(2021, 3, 15);
-		var result = expression.Evaluate() as string;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as string;
 		result.Should().Contain("15");
 		result.Should().Contain("2021");
 	}
@@ -171,7 +171,7 @@ public class FormatTests
 	public void Format_DateFormat_WeekOfMonth_Succeeds(string dateTimeString, int expectedWeekOfMonth)
 	{
 		var expression = new ExtendedExpression($"format('{dateTimeString}', 'weekOfMonth')");
-		expression.Evaluate().Should().Be(expectedWeekOfMonth.ToString(CultureInfo.InvariantCulture));
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expectedWeekOfMonth.ToString(CultureInfo.InvariantCulture));
 	}
 
 	[Theory(DisplayName = "weekDayOfMonth calculates the number of times (including this time) that the day of week has occurred so far.")]
@@ -181,21 +181,21 @@ public class FormatTests
 	public void Format_DateFormat_WeekDayOfMonth_Succeeds(string dateTimeString, int expectedWeekDayOfMonth)
 	{
 		var expression = new ExtendedExpression($"format('{dateTimeString}', 'weekDayOfMonth')");
-		expression.Evaluate().Should().Be(expectedWeekDayOfMonth.ToString(CultureInfo.InvariantCulture));
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expectedWeekDayOfMonth.ToString(CultureInfo.InvariantCulture));
 	}
 
 	[Fact]
 	public void Format_DateFormat_WeekOfMonthText_Succeeds()
 	{
 		var expression = new ExtendedExpression("format('2021-11-30', 'weekOfMonthText')");
-		expression.Evaluate().Should().Be("last");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("last");
 	}
 
 	[Fact]
 	public void Format_DateFormat_WeekOfYear_Succeeds()
 	{
 		var expression = new ExtendedExpression("format('2024-06-15', 'weekOfYear')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().NotBeNull();
 		int.Parse(result.ToString()!, CultureInfo.InvariantCulture).Should().BeGreaterThan(0).And.BeLessThanOrEqualTo(53);
 	}
@@ -204,20 +204,20 @@ public class FormatTests
 	public void Format_DateFormat_IsoWeekOfYear_Succeeds()
 	{
 		var expression = new ExtendedExpression("format('2024-01-01', 'isoWeekOfYear')");
-		expression.Evaluate().Should().Be("1");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("1");
 	}
 
 	[Fact]
 	public void Format_DateTimeStringFormat_Succeeds()
 	{
 		var expression = new ExtendedExpression("format('01/01/2019', 'yyyy-MM-dd')");
-		expression.Evaluate().Should().Be("2019-01-01");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("2019-01-01");
 	}
 
 	[Fact]
 	public void Format_InvalidStringFormat_Succeeds()
 		=> new ExtendedExpression("format('XXX', 'yyyy-MM-dd')")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<FormatException>()
 			.WithMessage("Could not parse 'XXX' as a number or date.");
@@ -226,7 +226,7 @@ public class FormatTests
 	public void Format_SingleH_Succeeds()
 	{
 		var expression = new ExtendedExpression("parseInt(format(toDateTime((dateTimeAsEpochMs('2021-01-17 12:45:00', 'yyyy-MM-dd HH:mm:ss')) + (dateTimeAsEpochMs('1970-01-01 08:00:00', 'yyyy-MM-dd HH:mm:ss')), 'ms', 'UTC'), 'HH'))");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(20);
 	}
 
@@ -235,14 +235,14 @@ public class FormatTests
 	public void Format_ZeroInteger_Succeeds()
 	{
 		var expression = new ExtendedExpression("format(0, '0000')");
-		expression.Evaluate().Should().Be("0000");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("0000");
 	}
 
 	[Fact]
 	public void Format_NegativeNumber_Succeeds()
 	{
 		var expression = new ExtendedExpression("format(-123, '0000')");
-		expression.Evaluate().Should().Be("-0123");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("-0123");
 	}
 
 	[Fact]
@@ -250,7 +250,7 @@ public class FormatTests
 	{
 		var expression = new ExtendedExpression("format(theLong, '#,##0')");
 		expression.Parameters["theLong"] = 9223372036854775807L;
-		expression.Evaluate().Should().Be("9,223,372,036,854,775,807");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("9,223,372,036,854,775,807");
 	}
 
 	[Fact]
@@ -259,6 +259,6 @@ public class FormatTests
 		var expression = new ExtendedExpression("format(myValue, myFormat)");
 		expression.Parameters["myValue"] = 42;
 		expression.Parameters["myFormat"] = "000";
-		expression.Evaluate().Should().Be("042");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("042");
 	}
 }

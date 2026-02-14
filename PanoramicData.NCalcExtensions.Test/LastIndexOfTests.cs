@@ -32,21 +32,21 @@ public class LastIndexOfTests : NCalcTest
 	[InlineData("lastIndexOf('test')")]
 	public void LastIndexOf_InsufficientParameters_ThrowsException(string expression)
 		=> new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>();
 
 	[Fact]
 	public void LastIndexOf_NullFirstParameter_ThrowsException()
 		=> new ExtendedExpression("lastIndexOf(null, 'test')")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>();
 
 	[Fact]
 	public void LastIndexOf_NullSecondParameter_ThrowsException()
 		=> new ExtendedExpression("lastIndexOf('test', null)")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>();
 }

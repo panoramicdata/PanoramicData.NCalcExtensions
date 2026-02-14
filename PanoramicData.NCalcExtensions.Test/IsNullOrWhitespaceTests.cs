@@ -10,7 +10,7 @@ public class IsNullOrWhiteSpaceTests
 	[InlineData("null", true)]
 	[InlineData("''", true)]
 	public void IsNullOrWhiteSpace_UsingInlineData_ResultMatchesExpected(string parameter, bool expectedValue)
-		=> new ExtendedExpression($"isNullOrWhiteSpace({parameter})").Evaluate().Should().Be(expectedValue);
+		=> new ExtendedExpression($"isNullOrWhiteSpace({parameter})").Evaluate(TestContext.Current.CancellationToken).Should().Be(expectedValue);
 
 	[Theory]
 	[InlineData("'a', 'a'")]
@@ -18,7 +18,7 @@ public class IsNullOrWhiteSpaceTests
 	[InlineData("'a', null, null")]
 	public void IsNullOrWhiteSpace_UsingAnIncorrectAmountOfParameters_ThrowsException(string parameter)
 		=> new ExtendedExpression($"isNullOrWhiteSpace({parameter})")
-		.Invoking(x => x.Evaluate())
+		.Invoking(x => x.Evaluate(TestContext.Current.CancellationToken))
 		.Should()
 		.Throw<FormatException>().WithMessage("isNullOrWhiteSpace() requires one parameter.");
 
@@ -27,7 +27,7 @@ public class IsNullOrWhiteSpaceTests
 	{
 		var expression = new ExtendedExpression("isNullOrWhiteSpace(value)");
 		expression.Parameters["value"] = JValue.CreateNull();
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
@@ -36,7 +36,7 @@ public class IsNullOrWhiteSpaceTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": \"  \"}");
 		var expression = new ExtendedExpression("isNullOrWhiteSpace(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 }
 
@@ -48,7 +48,7 @@ public class IsNullOrEmptyTests
 	[InlineData("null", true)]
 	[InlineData("''", true)]
 	public void IsNullOrEmpty_UsingInlineData_ResultMatchesExpected(string parameter, bool expectedValue)
-		=> new ExtendedExpression($"isNullOrEmpty({parameter})").Evaluate().Should().Be(expectedValue);
+		=> new ExtendedExpression($"isNullOrEmpty({parameter})").Evaluate(TestContext.Current.CancellationToken).Should().Be(expectedValue);
 
 	[Theory]
 	[InlineData("'a', 'a'")]
@@ -56,7 +56,7 @@ public class IsNullOrEmptyTests
 	[InlineData("'a', null, null")]
 	public void IsNullOrEmpty_UsingAnIncorrectAmountOfParameters_ThrowsException(string parameter)
 		=> new ExtendedExpression($"isNullOrEmpty({parameter})")
-		.Invoking(x => x.Evaluate())
+		.Invoking(x => x.Evaluate(TestContext.Current.CancellationToken))
 		.Should()
 		.Throw<FormatException>().WithMessage("isNullOrEmpty() requires one parameter.");
 
@@ -65,7 +65,7 @@ public class IsNullOrEmptyTests
 	{
 		var expression = new ExtendedExpression("isNullOrEmpty(value)");
 		expression.Parameters["value"] = JValue.CreateNull();
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
@@ -74,6 +74,6 @@ public class IsNullOrEmptyTests
 		var jsonDoc = JsonDocument.Parse("{\"value\": \"\"}");
 		var expression = new ExtendedExpression("isNullOrEmpty(value)");
 		expression.Parameters["value"] = jsonDoc.RootElement.GetProperty("value");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 }

@@ -8,7 +8,7 @@ public class LastTests
 	public void Last_Succeeds()
 	{
 		var expression = new ExtendedExpression("last(list(1, 5, 2, 3, 4, 1), 'n', 'n % 2 == 0')");
-		var result = expression.Evaluate() as int?;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as int?;
 
 		result.Should().Be(4);
 	}
@@ -17,7 +17,7 @@ public class LastTests
 	public void Last_SplittingString_Succeeds()
 	{
 		var expression = new ExtendedExpression("last(split('a b c', ' '))");
-		var result = expression.Evaluate() as string;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as string;
 
 		result.Should().Be("c");
 	}
@@ -28,7 +28,7 @@ public class LastTests
 		var expression = new ExtendedExpression("store('x', list(1, 5, 2, 3, 4, 1)) && last(retrieve('x'), 'n', 'n % 2 == 0') == 4");
 
 		expression
-			.Evaluate()
+			.Evaluate(TestContext.Current.CancellationToken)
 			.Should()
 			.Be(true);
 	}
@@ -39,7 +39,7 @@ public class LastTests
 		var expression = new ExtendedExpression("last(list(1, 5, 7, 3), 'n', 'n % 2 == 0')");
 
 		expression
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>();
 	}
@@ -51,7 +51,7 @@ public class ReverseTests
 	public void Reverse_Succeeds()
 	{
 		var expression = new ExtendedExpression("reverse(list(1, 2, 3, 4, 5, 5))");
-		var result = expression.Evaluate() as List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<object?>;
 
 		result.Should().BeEquivalentTo(new List<object?> { 5, 5, 4, 3, 2, 1 });
 	}
@@ -62,7 +62,7 @@ public class ReverseTests
 		var expression = new ExtendedExpression("reverse(1)");
 
 		expression
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>();
 	}

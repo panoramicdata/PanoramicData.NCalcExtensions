@@ -21,7 +21,7 @@ public class IsNullTests
 	public void IsNull_VariousValues_ReturnsExpected(string expression, bool expected)
 	{
 		var extendedExpression = new ExtendedExpression($"isNull({expression})");
-		(extendedExpression.Evaluate() as bool?).Should().Be(expected);
+		(extendedExpression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().Be(expected);
 	}
 
 	[Fact]
@@ -29,7 +29,7 @@ public class IsNullTests
 	{
 		var expression = new ExtendedExpression("isNull(bob)");
 		expression.Parameters["bob"] = null;
-		(expression.Evaluate() as bool?).Should().BeTrue();
+		(expression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().BeTrue();
 	}
 
 	[Fact]
@@ -37,7 +37,7 @@ public class IsNullTests
 	{
 		var expression = new ExtendedExpression("isNull(myVar)");
 		expression.Parameters["myVar"] = 42;
-		(expression.Evaluate() as bool?).Should().BeFalse();
+		(expression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().BeFalse();
 	}
 
 	[Fact]
@@ -47,7 +47,7 @@ public class IsNullTests
 		var jObject = JObject.FromObject(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
 		expression.Parameters.Add(nameof(jObject), jObject["InnerException"]);
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		(result as bool?).Should().BeTrue();
 	}
 
@@ -58,7 +58,7 @@ public class IsNullTests
 		using var jsonDocument = JsonSerializer.SerializeToDocument(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jsonDocument)})");
 		expression.Parameters.Add(nameof(jsonDocument), jsonDocument.RootElement.GetProperty("InnerException"));
-		(expression.Evaluate() as bool?).Should().BeTrue();
+		(expression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().BeTrue();
 	}
 
 	[Fact]
@@ -68,7 +68,7 @@ public class IsNullTests
 		var jObject = JObject.FromObject(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jObject)})");
 		expression.Parameters.Add(nameof(jObject), jObject["Message"]);
-		(expression.Evaluate() as bool?).Should().BeFalse();
+		(expression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().BeFalse();
 	}
 
 	[Fact]
@@ -78,7 +78,7 @@ public class IsNullTests
 		using var jsonDocument = JsonSerializer.SerializeToDocument(theObject);
 		var expression = new ExtendedExpression($"isNull({nameof(jsonDocument)})");
 		expression.Parameters.Add(nameof(jsonDocument), jsonDocument.RootElement.GetProperty("Message"));
-		(expression.Evaluate() as bool?).Should().BeFalse();
+		(expression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().BeFalse();
 	}
 
 	[Fact]
@@ -86,7 +86,7 @@ public class IsNullTests
 	{
 		var expression = new ExtendedExpression("isNull(theValue)");
 		expression.Parameters["theValue"] = new JValue(42);
-		(expression.Evaluate() as bool?).Should().BeFalse();
+		(expression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().BeFalse();
 	}
 
 	[Fact]
@@ -94,7 +94,7 @@ public class IsNullTests
 	{
 		var expression = new ExtendedExpression("isNull(theValue)");
 		expression.Parameters["theValue"] = JValue.CreateNull();
-		(expression.Evaluate() as bool?).Should().BeTrue();
+		(expression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().BeTrue();
 	}
 
 	[Theory]
@@ -102,7 +102,7 @@ public class IsNullTests
 	[InlineData("isNull(1, 2)")]
 	[InlineData("isNull(1, 2, 3)")]
 	public void IsNull_WrongParameterCount_ThrowsException(string expression) => new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>()
 			.WithMessage("*requires one parameter*");
 }

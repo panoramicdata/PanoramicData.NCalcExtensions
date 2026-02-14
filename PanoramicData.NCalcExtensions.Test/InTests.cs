@@ -11,7 +11,7 @@ public class InTests
 	public void In_UsingInlineData_ResultMatchesExpectation(string stringList, string item, bool expected)
 	{
 		var expression = new ExtendedExpression($"in({item},{stringList})");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expected);
 	}
 
@@ -40,14 +40,14 @@ public class InTests
 	[InlineData("in(' ', 'a', ' ', 'b')", true)]
 	[InlineData("in(10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)", true)]
 	[InlineData("in(1.5, 0.5, 1.0, 1.5, 2.0)", true)]
-	public void In_VariousScenarios_ReturnsExpected(string expression, bool expected) => new ExtendedExpression(expression).Evaluate().Should().Be(expected);
+	public void In_VariousScenarios_ReturnsExpected(string expression, bool expected) => new ExtendedExpression(expression).Evaluate(TestContext.Current.CancellationToken).Should().Be(expected);
 
 	[Fact]
 	public void In_WithVariable_ReturnsTrue()
 	{
 		var expression = new ExtendedExpression("in(searchValue, 'apple', 'banana', 'cherry')");
 		expression.Parameters["searchValue"] = "banana";
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Theory]
@@ -55,7 +55,7 @@ public class InTests
 	[InlineData("in('single')")]
 	public void In_InvalidParameterCount_ThrowsException(string expression)
 		=> new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*requires at least two parameters*");
@@ -65,14 +65,14 @@ public class InTests
 	public void In_TwoParameters_MinimumValid_Works()
 	{
 		var expression = new ExtendedExpression("in(1, 1)");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void In_ManyParameters_Works()
 	{
 		var expression = new ExtendedExpression("in(100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 100)");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
@@ -81,34 +81,34 @@ public class InTests
 		// JObjects are compared by reference, not value
 		var expression = new ExtendedExpression("in(searchValue, jObject('a', 2), searchValue)");
 		expression.Parameters["searchValue"] = JObject.Parse("{\"a\": 1}");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void In_WithMixedTypes_Works()
 	{
 		var expression = new ExtendedExpression("in(1, '1', 1.0, 1)");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void In_CaseSensitiveStrings_Works()
 	{
 		var expression = new ExtendedExpression("in('Test', 'test', 'TEST', 'TeSt')");
-		expression.Evaluate().Should().Be(false);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(false);
 	}
 
 	[Fact]
 	public void In_WithBooleans_Works()
 	{
 		var expression = new ExtendedExpression("in(false, true, true, false)");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void In_WithDoubles_Works()
 	{
 		var expression = new ExtendedExpression("in(2.5, 1.5, 2.5, 3.5)");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 }

@@ -9,7 +9,7 @@ public class DictionaryTests
 	{
 		var expression = new ExtendedExpression("dictionary('p1', true, 'p2')");
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
 		action.Should().Throw<FormatException>();
 	}
 
@@ -18,7 +18,7 @@ public class DictionaryTests
 	{
 		var expression = new ExtendedExpression("dictionary(0, true, 'p2', false)");
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
 		action.Should().Throw<FormatException>();
 	}
 
@@ -27,7 +27,7 @@ public class DictionaryTests
 	{
 		var expression = new ExtendedExpression("dictionary('p1', true, 'p2', false)");
 
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<Dictionary<string, object?>>();
 	}
 
@@ -36,7 +36,7 @@ public class DictionaryTests
 	{
 		var expression = new ExtendedExpression("dictionary('p1', true, 'p2', false)");
 
-		var result = expression.Evaluate() as Dictionary<string, object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as Dictionary<string, object?>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);
 		result["p1"].Should().Be(true);
@@ -48,9 +48,8 @@ public class DictionaryTests
 	{
 		var expression = new ExtendedExpression("dictionary(null, true, 'p2', false)");
 
-		((Func<object?>?)expression.Evaluate)
-			.Should()
-			.Throw<FormatException>();
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
+		action.Should().Throw<FormatException>();
 	}
 
 	[Fact]
@@ -58,7 +57,7 @@ public class DictionaryTests
 	{
 		var expression = new ExtendedExpression("dictionary('p1', null)");
 
-		var result = expression.Evaluate() as Dictionary<string, object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as Dictionary<string, object?>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(1);
 		result["p1"].Should().BeNull();

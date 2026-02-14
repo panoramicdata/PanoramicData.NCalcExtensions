@@ -31,7 +31,7 @@ public class EqualityTests
 		extendedExpression.Parameters["nullThing"] = null;
 		extendedExpression.Parameters["x"] = x;
 		extendedExpression.Parameters["x.y"] = xDotY;
-		var result = extendedExpression.Evaluate();
+		var result = extendedExpression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 }

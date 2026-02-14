@@ -14,7 +14,7 @@ public class ParseIntTests
 	public void ParseInt_ValidInput_ReturnsExpectedValue(string input, int expected)
 	{
 		var expression = new ExtendedExpression($"parseInt({input})");
-		expression.Evaluate().Should().Be(expected);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expected);
 	}
 
 	[Theory]
@@ -30,7 +30,7 @@ public class ParseIntTests
 	[InlineData("parseInt('0xFF')")]
 	[InlineData("parseInt(null)")]
 	public void ParseInt_InvalidInput_ThrowsException(string expression) => new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>();
 
 	[Fact]
@@ -38,28 +38,28 @@ public class ParseIntTests
 	{
 		var expression = new ExtendedExpression("parseInt(myValue)");
 		expression.Parameters["myValue"] = "123";
-		expression.Evaluate().Should().Be(123);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(123);
 	}
 
 	[Fact]
 	public void ParseInt_InExpression_Works()
 	{
 		var expression = new ExtendedExpression("parseInt('10') + parseInt('20')");
-		expression.Evaluate().Should().Be(30);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(30);
 	}
 
 	[Fact]
 	public void ParseInt_InComparison_Works()
 	{
 		var expression = new ExtendedExpression("parseInt('42') > 40");
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 
 	[Fact]
 	public void ParseInt_InList_Works()
 	{
 		var expression = new ExtendedExpression("list(parseInt('1'), parseInt('2'), parseInt('3'))");
-		var result = expression.Evaluate() as System.Collections.Generic.List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as System.Collections.Generic.List<object?>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 	}

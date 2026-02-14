@@ -43,7 +43,7 @@ public class TimeSpanTests : NCalcTest
 		var expression = new ExtendedExpression("timespan(start, end, 'Hours')");
 		expression.Parameters["start"] = "2020-01-01 00:00";
 		expression.Parameters["end"] = "2020-01-01 12:00";
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(12.0);
 	}
 
@@ -61,7 +61,7 @@ public class TimeSpanTests : NCalcTest
 		var expression = new ExtendedExpression("timespan(dt1, dt2, 'Days')");
 		expression.Parameters["dt1"] = new DateTime(2020, 1, 1);
 		expression.Parameters["dt2"] = new DateTime(2020, 1, 10);
-		expression.Evaluate().Should().Be(9.0);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(9.0);
 	}
 
 	[Theory]
@@ -96,6 +96,6 @@ public class TimeSpanTests : NCalcTest
 	[InlineData("timespan('not a date', '2020-01-01', 'Days')")]
 	[InlineData("timespan('2020-01-01', '2020-01-02', 'InvalidFormat')")]
 	public void TimeSpan_InvalidInput_ThrowsException(string expression) => new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<Exception>();
 }

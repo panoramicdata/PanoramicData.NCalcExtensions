@@ -4,13 +4,13 @@ public class TryTests
 {
 	[Fact]
 	public void Try_ToFewParameters_Fails()
-		=> new ExtendedExpression("try()").Invoking(y => y.Evaluate())
+		=> new ExtendedExpression("try()").Invoking(y => y.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>()
 			.WithMessage("try: At least 1 parameter required.");
 
 	[Fact]
 	public void Try_ToManyParameters_Fails()
-	  => new ExtendedExpression("try(throw('Woo'), 2, 3)").Invoking(y => y.Evaluate())
+	  => new ExtendedExpression("try(throw('Woo'), 2, 3)").Invoking(y => y.Evaluate(TestContext.Current.CancellationToken))
 		  .Should().Throw<FormatException>()
 		  .WithMessage("try: No more than 2 parameters permitted.");
 
@@ -25,7 +25,7 @@ public class TryTests
 	public void Try_SimpleNoThrow_Succeeds(string parameters, object? expectedValue)
 	{
 		var result = new ExtendedExpression($"try({parameters})")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expectedValue);
 	}
 }

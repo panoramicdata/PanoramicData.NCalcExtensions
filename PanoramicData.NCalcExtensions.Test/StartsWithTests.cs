@@ -19,7 +19,7 @@ public class StartsWithTests
 	public void StartsWith_VariousInputs_ReturnsExpected(string text, string prefix, bool expected)
 	{
 		var expression = new ExtendedExpression($"startsWith('{text}','{prefix}')");
-		expression.Evaluate().Should().Be(expected);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(expected);
 	}
 
 	[Theory]
@@ -30,7 +30,7 @@ public class StartsWithTests
 	[InlineData("startsWith('test', null)")]
 	public void StartsWith_InvalidInput_ThrowsException(string expressionText)
 		=> new ExtendedExpression(expressionText)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>();
 
@@ -39,6 +39,6 @@ public class StartsWithTests
 	{
 		var expression = new ExtendedExpression("startsWith(text, 'Hello')");
 		expression.Parameters["text"] = "Hello World";
-		expression.Evaluate().Should().Be(true);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(true);
 	}
 }

@@ -8,7 +8,7 @@ public class GetPropertyJsonDocumentTests
 	public void GetProperty_JsonDocument_ReturnsCorrectValue()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonDocument('name', 'John', 'age', 30), 'name')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be("John");
 	}
 
@@ -16,7 +16,7 @@ public class GetPropertyJsonDocumentTests
 	public void GetProperty_JsonDocument_ReturnsNumber()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonDocument('name', 'John', 'age', 30), 'age')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(30);
 	}
 
@@ -24,7 +24,7 @@ public class GetPropertyJsonDocumentTests
 	public void GetProperty_JsonDocument_ReturnsNull_ForNullValue()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonDocument('name', 'John', 'spouse', null), 'spouse')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeNull();
 	}
 
@@ -32,7 +32,7 @@ public class GetPropertyJsonDocumentTests
 	public void GetProperty_JsonDocument_ReturnsNull_ForMissingProperty()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonDocument('name', 'John'), 'age')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeNull();
 	}
 
@@ -42,7 +42,7 @@ public class GetPropertyJsonDocumentTests
 		var jsonDoc = JsonDocument.Parse("{\"person\": {\"name\": \"Jane\", \"age\": 25}}");
 		var expression = new ExtendedExpression("getProperty(person, 'name')");
 		expression.Parameters["person"] = jsonDoc.RootElement.GetProperty("person");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be("Jane");
 	}
 
@@ -50,7 +50,7 @@ public class GetPropertyJsonDocumentTests
 	public void GetProperty_JsonDocument_Boolean_ReturnsBoolean()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonDocument('active', true), 'active')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(true);
 	}
 
@@ -58,7 +58,7 @@ public class GetPropertyJsonDocumentTests
 	public void GetProperty_JsonDocument_FromParsedJson_Succeeds()
 	{
 		var expression = new ExtendedExpression("getProperty(parse('JsonDocument', '{\"A\": 1, \"B\": 2}'), 'B')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(2);
 	}
 
@@ -66,7 +66,7 @@ public class GetPropertyJsonDocumentTests
 	public void GetProperty_JsonDocument_NestedObject_ReturnsJsonElement()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonDocument('nested', jsonDocument('inner', 'value')), 'nested')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JsonElement>();
 		
 		var jsonElement = (JsonElement)result;
@@ -77,7 +77,7 @@ public class GetPropertyJsonDocumentTests
 	public void GetProperty_JsonDocument_Array_ReturnsJsonElement()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonDocument('items', jsonArray(1, 2, 3)), 'items')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JsonElement>();
 		
 		var jsonElement = (JsonElement)result;
@@ -88,7 +88,7 @@ public class GetPropertyJsonDocumentTests
 	public void GetProperty_JsonDocument_InvalidProperty_ThrowsException()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonArray(1, 2, 3), 'nonexistent')");
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>()
 			.WithMessage("*must be an object*");
 	}
@@ -98,7 +98,7 @@ public class GetPropertyJsonDocumentTests
 	{
 		// Test that JsonDocument property access returns the same types as JObject
 		var expression = new ExtendedExpression("getProperty(parse('JsonDocument', '{\"A\": 1, \"B\": 2}'), 'B')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<int>();
 		result.Should().Be(2);
 	}

@@ -8,7 +8,7 @@ public class JsonDocumentTests
 	public void JsonDocument_CreatesJsonDocument()
 	{
 		var expression = new ExtendedExpression("jsonDocument('a', 1, 'b', null)");
-		var result = expression.Evaluate() as JsonDocument;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JsonDocument;
 		result.Should().BeOfType<JsonDocument>();
 		result.Should().NotBeNull();
 		result.RootElement.EnumerateObject().Should().HaveCount(2);
@@ -22,7 +22,7 @@ public class JsonDocumentTests
 	public void JsonDocument_EmptyJsonDocument_Succeeds()
 	{
 		var expression = new ExtendedExpression("jsonDocument()");
-		var result = expression.Evaluate() as JsonDocument;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JsonDocument;
 		result.Should().BeOfType<JsonDocument>();
 		result.Should().NotBeNull();
 		result.RootElement.EnumerateObject().Should().HaveCount(0);
@@ -32,7 +32,7 @@ public class JsonDocumentTests
 	public void JsonDocument_OddNumberOfParameters_ThrowsException()
 	{
 		var expression = new ExtendedExpression("jsonDocument('a', 1, 'b')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*even number of parameters*");
 	}
 
@@ -40,7 +40,7 @@ public class JsonDocumentTests
 	public void JsonDocument_NonStringKey_ThrowsException()
 	{
 		var expression = new ExtendedExpression("jsonDocument(123, 'value')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires a string key*");
 	}
 
@@ -48,7 +48,7 @@ public class JsonDocumentTests
 	public void JsonDocument_DuplicateKey_ThrowsException()
 	{
 		var expression = new ExtendedExpression("jsonDocument('a', 1, 'a', 2)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*can only define property a once*");
 	}
 }

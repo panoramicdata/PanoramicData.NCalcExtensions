@@ -9,7 +9,7 @@ public class IndexOfTests
 	public void IndexOf_InlineData_ResultsMatchExpectation(string list, string item, object expected)
 	{
 		var expr = new ExtendedExpression($"indexOf('{list}','{item}')");
-		var result = expr.Evaluate();
+		var result = expr.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expected);
 	}
 
@@ -17,20 +17,20 @@ public class IndexOfTests
 	public void IndexOf_NullFirstParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("indexOf(null, 'search')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 
 	[Fact]
 	public void IndexOf_NullSecondParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("indexOf('string', null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 
 	[Fact]
 	public void IndexOf_NonStringParameters_ThrowsException()
 	{
 		var expression = new ExtendedExpression("indexOf(123, 456)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 }

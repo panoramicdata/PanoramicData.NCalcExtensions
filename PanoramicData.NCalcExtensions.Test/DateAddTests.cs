@@ -26,7 +26,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<DateTime>();
 		result.Should().Be(expectedDateTime);
 	}
@@ -45,7 +45,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
 		action.Should().Throw<FormatException>();
 	}
 
@@ -61,7 +61,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
 		action.Should().Throw<ArgumentOutOfRangeException>();
 	}
 
@@ -77,7 +77,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
 		action.Should().Throw<FormatException>();
 	}
 
@@ -93,7 +93,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
 		action.Should().Throw<FormatException>();
 	}
 
@@ -109,7 +109,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
 		action.Should().Throw<FormatException>();
 	}
 }

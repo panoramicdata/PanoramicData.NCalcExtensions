@@ -10,7 +10,7 @@ public class ContainsTest
 	{
 		var expression = new ExtendedExpression(expressionText);
 
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().Be(expected);
 	}

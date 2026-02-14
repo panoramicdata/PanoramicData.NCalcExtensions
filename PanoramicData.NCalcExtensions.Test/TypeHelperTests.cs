@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using PanoramicData.NCalcExtensions.Helpers;
+using TypeHelper = PanoramicData.NCalcExtensions.Helpers.TypeHelper;
 
 namespace PanoramicData.NCalcExtensions.Test;
 

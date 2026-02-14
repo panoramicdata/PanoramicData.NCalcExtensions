@@ -13,7 +13,7 @@ public class SanitizeTests
 	{
 		var expression = new ExtendedExpression($"sanitize({inputString}, {allowedCharacters})");
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
 
 		action.Should().Throw<FormatException>();
 	}
@@ -27,7 +27,7 @@ public class SanitizeTests
 	{
 		var expression = new ExtendedExpression($"sanitize({inputString}, {allowedCharacters}, {replacementCharacters})");
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate(TestContext.Current.CancellationToken);
 
 		action.Should().Throw<FormatException>();
 	}
@@ -46,7 +46,7 @@ public class SanitizeTests
 	{
 		var expression = new ExtendedExpression($"sanitize({inputString}, {allowedCharacters})");
 
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().Be(expectedResult);
 	}
@@ -71,7 +71,7 @@ public class SanitizeTests
 	{
 		var expression = new ExtendedExpression($"sanitize({inputString}, {allowedCharacters}, {replacementCharacters})");
 
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().Be(expectedResult);
 	}

@@ -15,7 +15,7 @@ public class IsGuidTests
 	{
 		var expression = new ExtendedExpression("isGuid(parameter1)");
 		expression.Parameters["parameter1"] = parameterValue;
-		(expression.Evaluate() as bool?).Should().Be(expectedResult);
+		(expression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().Be(expectedResult);
 	}
 
 	[Fact]
@@ -23,14 +23,14 @@ public class IsGuidTests
 	{
 		var expression = new ExtendedExpression("isGuid(parameter1)");
 		expression.Parameters["parameter1"] = Guid.NewGuid();
-		(expression.Evaluate() as bool?).Should().BeTrue();
+		(expression.Evaluate(TestContext.Current.CancellationToken) as bool?).Should().BeTrue();
 	}
 
 	[Fact]
 	public void IsGuid_WrongNumberOfParameters_ThrowsException()
 	{
 		var expression = new ExtendedExpression("isGuid()");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires one parameter*");
 	}
 
@@ -38,7 +38,7 @@ public class IsGuidTests
 	public void IsGuid_TooManyParameters_ThrowsException()
 	{
 		var expression = new ExtendedExpression("isGuid('test', 'extra')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires one parameter*");
 	}
 }

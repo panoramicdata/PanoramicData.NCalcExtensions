@@ -13,28 +13,28 @@ public class JsonDocumentPropertyTypeTests
 		// Test integer property
 		var expression1 = new ExtendedExpression("getProperty(source, 'intValue')");
 		expression1.Parameters["source"] = jsonDoc;
-		var result1 = expression1.Evaluate();
+		var result1 = expression1.Evaluate(TestContext.Current.CancellationToken);
 		result1.Should().BeOfType<int>();
 		result1.Should().Be(42);
 
 		// Test string property
 		var expression2 = new ExtendedExpression("getProperty(source, 'stringValue')");
 		expression2.Parameters["source"] = jsonDoc;
-		var result2 = expression2.Evaluate();
+		var result2 = expression2.Evaluate(TestContext.Current.CancellationToken);
 		result2.Should().BeOfType<string>();
 		result2.Should().Be("test");
 
 		// Test boolean property
 		var expression3 = new ExtendedExpression("getProperty(source, 'boolValue')");
 		expression3.Parameters["source"] = jsonDoc;
-		var result3 = expression3.Evaluate();
+		var result3 = expression3.Evaluate(TestContext.Current.CancellationToken);
 		result3.Should().BeOfType<bool>();
 		result3.Should().Be(true);
 
 		// Test null property
 		var expression4 = new ExtendedExpression("getProperty(source, 'nullValue')");
 		expression4.Parameters["source"] = jsonDoc;
-		var result4 = expression4.Evaluate();
+		var result4 = expression4.Evaluate(TestContext.Current.CancellationToken);
 		result4.Should().BeNull();
 	}
 
@@ -47,11 +47,11 @@ public class JsonDocumentPropertyTypeTests
 
 		var jsonDocExpression = new ExtendedExpression("getProperty(source, 'value')");
 		jsonDocExpression.Parameters["source"] = jsonDoc;
-		var jsonDocResult = jsonDocExpression.Evaluate();
+		var jsonDocResult = jsonDocExpression.Evaluate(TestContext.Current.CancellationToken);
 
 		var jObjectExpression = new ExtendedExpression("getProperty(source, 'value')");
 		jObjectExpression.Parameters["source"] = jObject;
-		var jObjectResult = jObjectExpression.Evaluate();
+		var jObjectResult = jObjectExpression.Evaluate(TestContext.Current.CancellationToken);
 
 		// Both should return the same type and value
 		jsonDocResult.Should().BeOfType<int>();

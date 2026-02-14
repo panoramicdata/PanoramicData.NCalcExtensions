@@ -6,7 +6,7 @@ public class LastOrDefaultTests
 	public void LastOrDefault_MatchingItem_Succeeds()
 	{
 		var expression = new ExtendedExpression("lastOrDefault(list(1, 5, 2, 3, 4, 1), 'n', 'n % 2 == 0')");
-		var result = expression.Evaluate() as int?;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as int?;
 
 		result.Should().Be(4);
 	}
@@ -15,7 +15,7 @@ public class LastOrDefaultTests
 	public void LastOrDefault_NoMatchingStringItem_Succeeds()
 	{
 		var expression = new ExtendedExpression("lastOrDefault(split('', ' '))");
-		var result = expression.Evaluate() as string;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as string;
 
 		result.Should().Be(string.Empty);
 	}
@@ -24,7 +24,7 @@ public class LastOrDefaultTests
 	public void LastOrDefault_MatchingStringItem_Succeeds()
 	{
 		var expression = new ExtendedExpression("lastOrDefault(split('a b c', ' '))");
-		var result = expression.Evaluate() as string;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as string;
 
 		result.Should().Be("c");
 	}
@@ -33,7 +33,7 @@ public class LastOrDefaultTests
 	public void FirstOrDefault_NoMatchingItem_Succeeds()
 	{
 		var expression = new ExtendedExpression("lastOrDefault(list(1, 5, 7, 3), 'n', 'n % 2 == 0')");
-		var result = expression.Evaluate() as int?;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as int?;
 
 		result.Should().BeNull();
 	}

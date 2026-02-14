@@ -9,7 +9,7 @@ public class WhereTests : NCalcTest
 	[InlineData("n % 2 == 0", 2)]
 	public void Where_Succeeds(string expression, int expectedCount)
 		=> new ExtendedExpression($"length(where(list(1, 2, 3, 4, 5), 'n', '{expression}'))")
-		.Evaluate()
+		.Evaluate(TestContext.Current.CancellationToken)
 		.Should()
 		.Be(expectedCount);
 
@@ -29,9 +29,9 @@ where(
 """;
 
 		var expression = new ExtendedExpression(expressionText);
-		Action act = () => expression.Evaluate();
+		Action act = () => expression.Evaluate(TestContext.Current.CancellationToken);
 		act.Should().NotThrow();
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<List<object?>>();
 		var list = (List<object?>)result;
 		list.Count.Should().Be(3);
@@ -48,7 +48,7 @@ where(
 	public void Where_EmptyList_ReturnsEmptyList()
 	{
 		var expression = new ExtendedExpression("where(list(), 'n', 'n > 0')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().BeEmpty();
 	}
@@ -57,7 +57,7 @@ where(
 	public void Where_NoneMatch_ReturnsEmptyList()
 	{
 		var expression = new ExtendedExpression("where(list(1, 2, 3), 'n', 'n > 10')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().BeEmpty();
 	}
@@ -66,7 +66,7 @@ where(
 	public void Where_AllMatch_ReturnsAllItems()
 	{
 		var expression = new ExtendedExpression("where(list(1, 2, 3), 'n', 'n > 0')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 	}
@@ -75,7 +75,7 @@ where(
 	public void Where_WithNulls_HandlesCorrectly()
 	{
 		var expression = new ExtendedExpression("where(list(1, null, 3, null, 5), 'n', 'n != null')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 	}
@@ -85,7 +85,7 @@ where(
 	public void Where_LambdaReturnsFalse_FiltersOut()
 	{
 		var expression = new ExtendedExpression("where(list(1, 2, 3), 'n', 'false')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().BeEmpty();
 	}
@@ -94,7 +94,7 @@ where(
 	public void Where_LambdaReturnsNull_FiltersOut()
 	{
 		var expression = new ExtendedExpression("where(list(1, 2, 3), 'n', 'null')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().BeEmpty();
 	}
@@ -103,7 +103,7 @@ where(
 	public void Where_LambdaReturnsNonBoolean_FiltersOut()
 	{
 		var expression = new ExtendedExpression("where(list(1, 2, 3), 'n', 'n')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().BeEmpty();
 	}
@@ -113,7 +113,7 @@ where(
 	public void Where_NullFirstParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("where(null, 'n', 'n > 0')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*First*parameter must be an IEnumerable*");
 	}
 
@@ -121,7 +121,7 @@ where(
 	public void Where_NonEnumerableFirstParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("where(123, 'n', 'n > 0')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*First*parameter must be an IEnumerable*");
 	}
 
@@ -129,7 +129,7 @@ where(
 	public void Where_StringFirstParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("where('not a list', 'n', 'n > 0')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*First*parameter must be an IEnumerable*");
 	}
 
@@ -138,7 +138,7 @@ where(
 	public void Where_NullSecondParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("where(list(1, 2, 3), null, 'n > 0')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*Second*parameter must be a string*");
 	}
 
@@ -146,7 +146,7 @@ where(
 	public void Where_NonStringSecondParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("where(list(1, 2, 3), 123, 'n > 0')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*Second*parameter must be a string*");
 	}
 
@@ -155,7 +155,7 @@ where(
 	public void Where_NullThirdParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("where(list(1, 2, 3), 'n', null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*Third*parameter must be a string*");
 	}
 
@@ -163,7 +163,7 @@ where(
 	public void Where_NonStringThirdParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("where(list(1, 2, 3), 'n', 456)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>()
 			.WithMessage("*Third*parameter must be a string*");
 	}
 }

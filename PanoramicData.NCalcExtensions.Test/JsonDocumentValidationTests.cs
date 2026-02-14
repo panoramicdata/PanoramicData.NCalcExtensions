@@ -10,7 +10,7 @@ public class JsonDocumentValidationTests
 	{
 		// Test that the basic jsonDocument function works
 		var expression = new ExtendedExpression("jsonDocument('test', 'value')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JsonDocument>();
 
 		var jsonDoc = result as JsonDocument;
@@ -23,7 +23,7 @@ public class JsonDocumentValidationTests
 	{
 		// Test that the basic jsonArray function works
 		var expression = new ExtendedExpression("jsonArray(1, 2, 3)");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JsonDocument>();
 
 		var jsonDoc = result as JsonDocument;
@@ -37,7 +37,7 @@ public class JsonDocumentValidationTests
 	{
 		// Test that getProperty works with JsonDocument
 		var expression = new ExtendedExpression("getProperty(jsonDocument('name', 'John'), 'name')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be("John");
 	}
 
@@ -46,7 +46,7 @@ public class JsonDocumentValidationTests
 	{
 		// Test that getProperties works with JsonDocument
 		var expression = new ExtendedExpression("getProperties(jsonDocument('a', 1, 'b', 2))");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);
 		result.Should().Contain("a");
@@ -58,7 +58,7 @@ public class JsonDocumentValidationTests
 	{
 		// Test that parse function works with JsonDocument
 		var expression = new ExtendedExpression("parse('JsonDocument', '{\"key\": \"value\"}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<JsonDocument>();
 
 		var jsonDoc = result as JsonDocument;

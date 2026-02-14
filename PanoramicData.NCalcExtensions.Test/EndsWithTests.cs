@@ -9,7 +9,7 @@ public class EndsWithTests
 	public void EndsWith_UsingInlineData_MatchesExpectedValue(string expressionText, bool expected)
 	{
 		var expression = new ExtendedExpression($"endsWith({expressionText})");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(expected);
 	}
 
@@ -17,20 +17,20 @@ public class EndsWithTests
 	public void EndsWith_NullFirstParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("endsWith(null, 'suffix')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 
 	[Fact]
 	public void EndsWith_NullSecondParameter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("endsWith('string', null)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 
 	[Fact]
 	public void EndsWith_NonStringParameters_ThrowsException()
 	{
 		var expression = new ExtendedExpression("endsWith(123, 456)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>();
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken)).Should().ThrowExactly<FormatException>();
 	}
 }

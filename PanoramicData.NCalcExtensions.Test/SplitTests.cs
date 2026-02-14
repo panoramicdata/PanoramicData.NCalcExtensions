@@ -9,7 +9,7 @@ public class SplitTests : NCalcTest
 	[InlineData("split('a b c')")]
 	public void Split_InsufficientParameters_ThrowsException(string expression)
 		=> new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<FormatException>();
 
@@ -18,7 +18,7 @@ public class SplitTests : NCalcTest
 	[InlineData("split('x x x', '')")]
 	public void Split_EmptySecondParameter_ThrowsException(string expression)
 		=> new ExtendedExpression(expression)
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<FormatException>();
 
@@ -28,7 +28,7 @@ public class SplitTests : NCalcTest
 	public void Split_ValidParameters_Succeeds(string expression)
 	{
 		var e = new ExtendedExpression(expression);
-		var result = e.Evaluate();
+		var result = e.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeOfType<List<string>>();
 		var list = (List<string>)result;
 		list.Should().HaveCount(3);
@@ -42,7 +42,7 @@ public class SplitTests : NCalcTest
 	public void Split_CommaSeparated_Works()
 	{
 		var expression = new ExtendedExpression("split('one,two,three', ',')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(["one", "two", "three"], options => options.WithStrictOrdering());
 	}
@@ -51,7 +51,7 @@ public class SplitTests : NCalcTest
 	public void Split_SingleCharDelimiter_Works()
 	{
 		var expression = new ExtendedExpression("split('a|b|c|d', '|')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(4);
 	}
@@ -60,7 +60,7 @@ public class SplitTests : NCalcTest
 	public void Split_NoDelimiterFound_ReturnsSingleItem()
 	{
 		var expression = new ExtendedExpression("split('nodivider', ',')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(1);
 		result![0].Should().Be("nodivider");
@@ -70,7 +70,7 @@ public class SplitTests : NCalcTest
 	public void Split_EmptyString_ReturnsEmptyList()
 	{
 		var expression = new ExtendedExpression("split('', ',')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(1);
 		result![0].Should().Be("");
@@ -80,7 +80,7 @@ public class SplitTests : NCalcTest
 	public void Split_ConsecutiveDelimiters_CreatesEmptyStrings()
 	{
 		var expression = new ExtendedExpression("split('a,,b', ',')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 		result![1].Should().Be("");
@@ -90,7 +90,7 @@ public class SplitTests : NCalcTest
 	public void Split_DelimiterAtStart_CreatesEmptyFirst()
 	{
 		var expression = new ExtendedExpression("split(',a,b', ',')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 		result![0].Should().Be("");
@@ -100,7 +100,7 @@ public class SplitTests : NCalcTest
 	public void Split_DelimiterAtEnd_CreatesEmptyLast()
 	{
 		var expression = new ExtendedExpression("split('a,b,', ',')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 		result![2].Should().Be("");
@@ -110,7 +110,7 @@ public class SplitTests : NCalcTest
 	public void Split_MultiCharDelimiter_Works()
 	{
 		var expression = new ExtendedExpression("split('one<=>two<=>three', '<=>')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(["one", "two", "three"], options => options.WithStrictOrdering());
 	}
@@ -119,7 +119,7 @@ public class SplitTests : NCalcTest
 	public void Split_WithWhitespace_Preserves()
 	{
 		var expression = new ExtendedExpression("split('  a  ,  b  ', ',')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);
 		result![0].Should().Be("  a  ");
@@ -130,7 +130,7 @@ public class SplitTests : NCalcTest
 	public void Split_Newlines_Works()
 	{
 		var expression = new ExtendedExpression("split('line1\nline2\nline3', '\n')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 	}
@@ -139,7 +139,7 @@ public class SplitTests : NCalcTest
 	public void Split_Tabs_Works()
 	{
 		var expression = new ExtendedExpression("split('col1\tcol2\tcol3', '\t')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 	}
@@ -148,7 +148,7 @@ public class SplitTests : NCalcTest
 	public void Split_SpecialCharacters_Works()
 	{
 		var expression = new ExtendedExpression("split('a@b#c$d', '@#$')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		// Split by string '@#$' not by chars
 		result.Should().HaveCount(1);
@@ -160,7 +160,7 @@ public class SplitTests : NCalcTest
 		var expression = new ExtendedExpression("split(myString, myDelimiter)");
 		expression.Parameters["myString"] = "apple;banana;cherry";
 		expression.Parameters["myDelimiter"] = ";";
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(["apple", "banana", "cherry"], options => options.WithStrictOrdering());
 	}
@@ -169,7 +169,7 @@ public class SplitTests : NCalcTest
 	public void Split_LongString_Works()
 	{
 		var expression = new ExtendedExpression("split('1,2,3,4,5,6,7,8,9,10', ',')");
-		var result = expression.Evaluate() as List<string>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<string>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(10);
 	}
@@ -178,21 +178,21 @@ public class SplitTests : NCalcTest
 	public void Split_ThenJoin_RoundTrip()
 	{
 		var expression = new ExtendedExpression("join(split('a,b,c', ','), ',')");
-		expression.Evaluate().Should().Be("a,b,c");
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be("a,b,c");
 	}
 
 	[Fact]
 	public void Split_ThenCount_Works()
 	{
 		var expression = new ExtendedExpression("count(split('one two three four', ' '))");
-		expression.Evaluate().Should().Be(4);
+		expression.Evaluate(TestContext.Current.CancellationToken).Should().Be(4);
 	}
 
 	[Fact]
 	public void Split_InSelect_Works()
 	{
 		var expression = new ExtendedExpression("select(split('a,b,c', ','), 's', 'toUpper(s)')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(["A", "B", "C"], options => options.WithStrictOrdering());
 	}
@@ -202,7 +202,7 @@ public class SplitTests : NCalcTest
 	public void Split_NullString_ThrowsException()
 	{
 		var expression = new ExtendedExpression("split(null, ',')");
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>();
 	}
 
@@ -210,7 +210,7 @@ public class SplitTests : NCalcTest
 	public void Split_NullDelimiter_ThrowsException()
 	{
 		var expression = new ExtendedExpression("split('a,b,c', null)");
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>();
 	}
 
@@ -218,7 +218,7 @@ public class SplitTests : NCalcTest
 	public void Split_NonStringFirst_ThrowsException()
 	{
 		var expression = new ExtendedExpression("split(123, ',')");
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>();
 	}
 
@@ -226,7 +226,7 @@ public class SplitTests : NCalcTest
 	public void Split_NonStringSecond_ThrowsException()
 	{
 		var expression = new ExtendedExpression("split('a,b,c', 123)");
-		expression.Invoking(e => e.Evaluate())
+		expression.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should().Throw<FormatException>();
 	}
 }

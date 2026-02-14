@@ -9,7 +9,7 @@ public class ExtendJsonDocumentTests
 	{
 		// Test property access on JsonDocument similar to JObject extend functionality
 		var expression = new ExtendedExpression("getProperty(jsonDocument('first', 1, 'second', null, 'third', 5), 'first')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(1);
 	}
 
@@ -17,7 +17,7 @@ public class ExtendJsonDocumentTests
 	public void Extend_JsonDocument_WithNullValues_Succeeds()
 	{
 		var expression = new ExtendedExpression("getProperty(jsonDocument('First', 1, 'Second', 2, 'Third', null), 'Third')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeNull();
 	}
 
@@ -28,17 +28,17 @@ public class ExtendJsonDocumentTests
 		
 		var expression1 = new ExtendedExpression("getProperty(source, 'first')");
 		expression1.Parameters["source"] = jsonDoc;
-		var result1 = expression1.Evaluate();
+		var result1 = expression1.Evaluate(TestContext.Current.CancellationToken);
 		result1.Should().Be(1);
 
 		var expression2 = new ExtendedExpression("getProperty(source, 'second')");
 		expression2.Parameters["source"] = jsonDoc;
-		var result2 = expression2.Evaluate();
+		var result2 = expression2.Evaluate(TestContext.Current.CancellationToken);
 		result2.Should().BeNull();
 
 		var expression3 = new ExtendedExpression("getProperty(source, 'third')");
 		expression3.Parameters["source"] = jsonDoc;
-		var result3 = expression3.Evaluate();
+		var result3 = expression3.Evaluate(TestContext.Current.CancellationToken);
 		result3.Should().Be(5);
 	}
 
@@ -46,7 +46,7 @@ public class ExtendJsonDocumentTests
 	public void Extend_JsonDocument_MultiplePropertyTypes_Succeeds()
 	{
 		var expression = new ExtendedExpression("jsonDocument('First', 1, 'Second', 2, 'Third', null, 'Fourth', 'text', 'Fifth', true)");
-		var result = expression.Evaluate() as JsonDocument;
+		var result = expression.Evaluate(TestContext.Current.CancellationToken) as JsonDocument;
 		
 		result.Should().NotBeNull();
 		result!.RootElement.ValueKind.Should().Be(JsonValueKind.Object);

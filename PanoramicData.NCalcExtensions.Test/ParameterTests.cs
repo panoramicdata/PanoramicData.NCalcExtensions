@@ -7,6 +7,6 @@ public class ParameterTests
 	{
 		var expression = new ExtendedExpression("[a.b]");
 		expression.Parameters["a.b"] = "AAAA";
-		(expression.Evaluate() as string).Should().Be("AAAA");
+		(expression.Evaluate(TestContext.Current.CancellationToken) as string).Should().Be("AAAA");
 	}
 }

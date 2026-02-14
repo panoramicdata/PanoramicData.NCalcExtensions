@@ -12,7 +12,7 @@ public class ParseTests
 	[InlineData("1")]
 	public void Parse_IncorrectParameterCountOrType_Throws(string parameters)
 		=> new ExtendedExpression($"parse({parameters})")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<FormatException>();
 
@@ -33,7 +33,7 @@ public class ParseTests
 	[InlineData("Guid")]
 	public void Parse_DoesNotParse_Throws(string parameters)
 		=> new ExtendedExpression($"parse('{parameters}', 'x')")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.ThrowExactly<FormatException>();
 
@@ -45,11 +45,11 @@ public class ParseTests
 	public void Parse_Bool_Succeeds(string text)
 	{
 		new ExtendedExpression($"parse('bool', '{text}')")
-				.Evaluate()
+				.Evaluate(TestContext.Current.CancellationToken)
 				.Should().Be(bool.Parse(text));
 
 		new ExtendedExpression($"parse('System.Boolean', '{text}')")
-			.Evaluate()
+			.Evaluate(TestContext.Current.CancellationToken)
 			.Should().Be(bool.Parse(text));
 	}
 
@@ -62,7 +62,7 @@ public class ParseTests
 	{
 		var expression = new ExtendedExpression($"parse('bool', a, null)");
 		expression.Parameters["a"] = text;
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		result.Should().BeNull();
 	}
 
@@ -73,10 +73,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Int_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('int', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('int', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(int.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.Int32', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.Int32', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(int.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -89,9 +89,9 @@ public class ParseTests
 	[InlineData("{fa2e60e8-dd1e-AAAA-b53c-e69c63f14866}")] // Mixed case with curlies
 	public void Parse_Guid_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('Guid', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('Guid', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(Guid.Parse(text));
-		result = new ExtendedExpression($"parse('System.Guid', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.Guid', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(Guid.Parse(text));
 	}
 
@@ -102,10 +102,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Long_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('long', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('long', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(long.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.Int64', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.Int64', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(long.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -114,10 +114,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_ULong_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('ulong', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('ulong', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(ulong.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.UInt64', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.UInt64', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(ulong.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -126,10 +126,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_UInt_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('uint', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('uint', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(uint.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.UInt32', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.UInt32', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(uint.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -140,10 +140,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Double_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('double', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('double', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(double.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.Double', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.Double', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(double.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -154,10 +154,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Float_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('float', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('float', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(float.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.Single', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.Single', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(float.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -168,10 +168,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Decimal_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('decimal', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('decimal', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(decimal.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.Decimal', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.Decimal', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(decimal.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -182,10 +182,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_SByte_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('sbyte', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('sbyte', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(sbyte.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.SByte', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.SByte', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(sbyte.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -194,10 +194,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Byte_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('byte', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('byte', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(byte.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.Byte', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.Byte', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(byte.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -208,10 +208,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Short_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('short', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('short', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(short.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.Int16', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.Int16', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(short.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -220,10 +220,10 @@ public class ParseTests
 	[InlineData("0")]
 	public void Parse_Ushort_Succeeds(string text)
 	{
-		var result = new ExtendedExpression($"parse('ushort', '{text}')").Evaluate();
+		var result = new ExtendedExpression($"parse('ushort', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(ushort.Parse(text, CultureInfo.InvariantCulture));
 
-		result = new ExtendedExpression($"parse('System.UInt16', '{text}')").Evaluate();
+		result = new ExtendedExpression($"parse('System.UInt16', '{text}')").Evaluate(TestContext.Current.CancellationToken);
 		result.Should().Be(ushort.Parse(text, CultureInfo.InvariantCulture));
 	}
 
@@ -233,7 +233,7 @@ public class ParseTests
 	public void Parse_JObject_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"parse('jObject', '{text}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		JsonConvert.SerializeObject(result).Should().Be(text);
 	}
 
@@ -243,7 +243,7 @@ public class ParseTests
 	public void Parse_JArray_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"parse('jArray', '{text}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		JsonConvert.SerializeObject(result).Should().Be(text);
 	}
 
@@ -253,7 +253,7 @@ public class ParseTests
 	public void Parse_CapitalJ_JObject_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"parse('JObject', '{text}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		JsonConvert.SerializeObject(result).Should().Be(text);
 	}
 
@@ -263,7 +263,7 @@ public class ParseTests
 	public void Parse_CapitalJ_JArray_Succeeds(string text)
 	{
 		var expression = new ExtendedExpression($"parse('JArray', '{text}')");
-		var result = expression.Evaluate();
+		var result = expression.Evaluate(TestContext.Current.CancellationToken);
 		JsonConvert.SerializeObject(result).Should().Be(text);
 	}
 }

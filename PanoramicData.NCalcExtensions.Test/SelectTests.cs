@@ -8,7 +8,7 @@ public class SelectTests : NCalcTest
 	public void Select_Succeeds()
 	{
 		var result = new ExtendedExpression($"select(list(1, 2, 3, 4, 5), 'n', 'n + 1')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		// The result should be 2, 3, 4, 5, 6
 		result.Should().NotBeNull();
@@ -19,7 +19,7 @@ public class SelectTests : NCalcTest
 	public void Select_IntoJObjects_Succeeds()
 	{
 		var result = new ExtendedExpression($"select(list(jObject('a', 1, 'b', '2'), jObject('a', 3, 'b', '4')), 'n', 'n', 'JObject')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		result.Should().BeOfType<List<JObject>>();
@@ -29,7 +29,7 @@ public class SelectTests : NCalcTest
 	[Fact]
 	public void Select_NullFirstParameter_ThrowsException()
 		=> new ExtendedExpression("select(null, 'n', 'n + 1')")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*First*must be an IList*");
@@ -37,7 +37,7 @@ public class SelectTests : NCalcTest
 	[Fact]
 	public void Select_NonListFirstParameter_ThrowsException()
 		=> new ExtendedExpression("select(123, 'n', 'n + 1')")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*First*must be an IList*");
@@ -45,7 +45,7 @@ public class SelectTests : NCalcTest
 	[Fact]
 	public void Select_NullSecondParameter_ThrowsException()
 		=> new ExtendedExpression("select(list(1,2,3), null, 'n + 1')")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*Second*must be a string*");
@@ -53,7 +53,7 @@ public class SelectTests : NCalcTest
 	[Fact]
 	public void Select_NullThirdParameter_ThrowsException()
 		=> new ExtendedExpression("select(list(1,2,3), 'n', null)")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*Third*must be a string*");
@@ -61,7 +61,7 @@ public class SelectTests : NCalcTest
 	[Fact]
 	public void Select_InvalidFourthParameter_ThrowsException()
 		=> new ExtendedExpression("select(list(1,2,3), 'n', 'n', 'InvalidType')")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*Fourth*must be either 'object'*or 'JObject'*");
@@ -69,7 +69,7 @@ public class SelectTests : NCalcTest
 	[Fact]
 	public void Select_NonStringFourthParameter_ThrowsException()
 		=> new ExtendedExpression("select(list(1,2,3), 'n', 'n', 123)")
-			.Invoking(e => e.Evaluate())
+			.Invoking(e => e.Evaluate(TestContext.Current.CancellationToken))
 			.Should()
 			.Throw<FormatException>()
 			.WithMessage("*Fourth*must be a string*");
@@ -79,7 +79,7 @@ public class SelectTests : NCalcTest
 	public void Select_EmptyList_ReturnsEmptyList()
 	{
 		var result = new ExtendedExpression("select(list(), 'n', 'n + 1')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new List<object>());
@@ -89,7 +89,7 @@ public class SelectTests : NCalcTest
 	public void Select_SingleElement_Works()
 	{
 		var result = new ExtendedExpression("select(list(5), 'n', 'n * 2')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new List<int> { 10 });
@@ -99,7 +99,7 @@ public class SelectTests : NCalcTest
 	public void Select_Strings_Works()
 	{
 		var result = new ExtendedExpression("select(list('a', 'b', 'c'), 's', 'toUpper(s)')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new List<string> { "A", "B", "C" });
@@ -109,7 +109,7 @@ public class SelectTests : NCalcTest
 	public void Select_WithNullInResult_Works()
 	{
 		var result = new ExtendedExpression("select(list(1, 2, 3), 'n', 'if(n == 2, null, n)')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		var list = result as List<object?>;
@@ -121,7 +121,7 @@ public class SelectTests : NCalcTest
 	public void Select_JObject_WithNullValue_Works()
 	{
 		var result = new ExtendedExpression("select(list(1, 2, 3), 'n', 'if(n == 2, null, jObject(\"value\", n))', 'JObject')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		result.Should().BeOfType<List<JObject?>>();
@@ -135,7 +135,7 @@ public class SelectTests : NCalcTest
 	{
 		// When converting non-JObject values, they need to be wrapped in an object first
 		var result = new ExtendedExpression("select(list(jObject('a', 1), jObject('a', 2)), 'obj', 'obj', 'JObject')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		result.Should().BeOfType<List<JObject?>>();
@@ -149,7 +149,7 @@ public class SelectTests : NCalcTest
 	public void Select_JObject_ExplicitObjectType_Works()
 	{
 		var result = new ExtendedExpression("select(list(1, 2, 3), 'n', 'n * 2', 'object')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new List<int> { 2, 4, 6 });
@@ -159,7 +159,7 @@ public class SelectTests : NCalcTest
 	public void Select_ComplexTransformation_Works()
 	{
 		var result = new ExtendedExpression("select(list(1, 2, 3, 4, 5), 'n', 'if(n % 2 == 0, n * 10, n)')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new List<int> { 1, 20, 3, 40, 5 });
@@ -169,7 +169,7 @@ public class SelectTests : NCalcTest
 	public void Select_Doubles_Works()
 	{
 		var result = new ExtendedExpression("select(list(1.5, 2.5, 3.5), 'n', 'n * 2')")
-			.Evaluate();
+			.Evaluate(TestContext.Current.CancellationToken);
 
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new List<double> { 3.0, 5.0, 7.0 });

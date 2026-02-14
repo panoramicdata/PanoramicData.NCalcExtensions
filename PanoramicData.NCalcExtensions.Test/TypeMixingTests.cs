@@ -6,7 +6,7 @@ public class TypeMixingTests
 	public void TextPlusInteger_Fails()
 	{
 		var expression = new ExtendedExpression($"'a' + 1");
-		((Action)(() => expression.Evaluate()))
+		((Action)(() => expression.Evaluate(TestContext.Current.CancellationToken)))
 			.Should()
 			.Throw<FormatException>();
 	}
@@ -15,7 +15,7 @@ public class TypeMixingTests
 	public void TextMinusInteger_Fails()
 	{
 		var expression = new ExtendedExpression($"'a' - 1");
-		((Action)(() => expression.Evaluate()))
+		((Action)(() => expression.Evaluate(TestContext.Current.CancellationToken)))
 			.Should()
 			.Throw<FormatException>();
 	}
@@ -24,7 +24,7 @@ public class TypeMixingTests
 	public void TextPlusFloat_Fails()
 	{
 		var expression = new ExtendedExpression($"'a' + 1.5");
-		((Action)(() => expression.Evaluate()))
+		((Action)(() => expression.Evaluate(TestContext.Current.CancellationToken)))
 			.Should()
 			.Throw<FormatException>();
 	}
@@ -33,7 +33,7 @@ public class TypeMixingTests
 	public void TextMinusFloat_Fails()
 	{
 		var expression = new ExtendedExpression($"'a' - 1.5");
-		((Action)(() => expression.Evaluate()))
+		((Action)(() => expression.Evaluate(TestContext.Current.CancellationToken)))
 			.Should()
 			.Throw<FormatException>();
 	}
@@ -42,7 +42,7 @@ public class TypeMixingTests
 	public void IntegerPlusText_Fails()
 	{
 		var expression = new ExtendedExpression($"1 + 'a'");
-		((Action)(() => expression.Evaluate()))
+		((Action)(() => expression.Evaluate(TestContext.Current.CancellationToken)))
 			.Should()
 			.Throw<FormatException>();
 	}
@@ -60,7 +60,7 @@ public class TypeMixingTests
 	{
 		var expression = new ExtendedExpression($"'a' + value");
 		expression.Parameters["value"] = Activator.CreateInstance(type);
-		((Action)(() => expression.Evaluate()))
+		((Action)(() => expression.Evaluate(TestContext.Current.CancellationToken)))
 			.Should()
 			.Throw<FormatException>();
 	}
