@@ -50,7 +50,7 @@ internal static class Switch
 
 			throw new FormatException($"Default {ExtensionFunction.Switch} condition occurred, but no default value was specified.");
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0].ExpressionString}'.", e);
 		}

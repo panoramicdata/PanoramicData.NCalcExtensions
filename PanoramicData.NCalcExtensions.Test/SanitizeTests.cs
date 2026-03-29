@@ -1,4 +1,4 @@
-﻿namespace PanoramicData.NCalcExtensions.Test;
+namespace PanoramicData.NCalcExtensions.Test;
 
 public class SanitizeTests
 {
@@ -13,7 +13,7 @@ public class SanitizeTests
 	{
 		var expression = new ExtendedExpression($"sanitize({inputString}, {allowedCharacters})");
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate();
 
 		action.Should().Throw<FormatException>();
 	}
@@ -27,7 +27,7 @@ public class SanitizeTests
 	{
 		var expression = new ExtendedExpression($"sanitize({inputString}, {allowedCharacters}, {replacementCharacters})");
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate();
 
 		action.Should().Throw<FormatException>();
 	}

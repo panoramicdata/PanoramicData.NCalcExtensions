@@ -41,7 +41,7 @@ internal static class Humanize
 
 			functionArgs.Result = Humanise(param1Double, param2TimeUnit);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.Humanize} function - The first number should be a valid floating-point number and the second should be a time unit ({string.Join(", ", Enum.GetNames<TimeUnit>())}).");
 		}

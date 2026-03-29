@@ -47,7 +47,7 @@ internal static class PadLeft
 			var paddingCharacter = paddingString[0];
 			functionArgs.Result = input.PadLeft(desiredStringLength, paddingCharacter);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.PadLeft}() requires a string Input, an integer DesiredStringLength, and a single Padding character.");
 		}

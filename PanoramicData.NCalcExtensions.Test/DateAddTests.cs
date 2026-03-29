@@ -1,4 +1,4 @@
-﻿namespace PanoramicData.NCalcExtensions.Test;
+namespace PanoramicData.NCalcExtensions.Test;
 
 public class DateAddTests : NCalcTest
 {
@@ -45,7 +45,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate();
 		action.Should().Throw<FormatException>();
 	}
 
@@ -61,7 +61,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate();
 		action.Should().Throw<ArgumentOutOfRangeException>();
 	}
 
@@ -77,7 +77,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate();
 		action.Should().Throw<FormatException>();
 	}
 
@@ -93,7 +93,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate();
 		action.Should().Throw<FormatException>();
 	}
 
@@ -109,7 +109,7 @@ public class DateAddTests : NCalcTest
 		expression.Parameters.Add("quantity", quantity);
 		expression.Parameters.Add("initialDateTime", initialDateTime);
 
-		var action = expression.Evaluate;
+		var action = () => expression.Evaluate();
 		action.Should().Throw<FormatException>();
 	}
 }

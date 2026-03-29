@@ -23,7 +23,7 @@ internal static class GetProperties
 			value = functionArgs.Parameters[0].Evaluate()
 				?? throw new FormatException($"{ExtensionFunction.GetProperties}() parameter cannot be null.");
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.GetProperties}() requires one parameter.", e);
 		}

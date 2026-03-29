@@ -6,19 +6,15 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<Company>Panoramic Data Limited</Company>
 		<Configuration>Release</Configuration>
-		<Copyright>Panoramic Data Limited 2025</Copyright>
 		<Description>Extensions for NCalc</Description>
 		<Product>PanoramicData.NCalcExtensions</Product>
 		<Title>PanoramicData NCalc Extensions</Title>
 		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
 		<LangVersion>latest</LangVersion>
-		<Nullable>enable</Nullable>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisMode>All</AnalysisMode>
 		<AnalysisLevel>latest-recommended</AnalysisLevel>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
@@ -45,15 +41,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NCalcSync" Version="5.8.0" />
-		<PackageReference Include="Nerdbank.GitVersioning" Version="3.9.50">
+		<PackageReference Include="NCalcSync" />
+		<PackageReference Include="Nerdbank.GitVersioning">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-		<PackageReference Include="TimeZoneConverter" Version="7.2.0" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-		<PackageReference Include="NuGet.Packaging" Version="7.0.0" PrivateAssets="All" />
-		<PackageReference Include="NuGet.Common" Version="7.0.0" />
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="TimeZoneConverter" />
+		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+		<PackageReference Include="NuGet.Packaging" PrivateAssets="All" />
+		<PackageReference Include="NuGet.Common" />
 	</ItemGroup>
 </Project>

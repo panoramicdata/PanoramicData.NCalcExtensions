@@ -29,7 +29,7 @@ internal static class Retrieve
 				? value
 				: throw new FormatException("Key not found");
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.Retrieve}() requires one string parameter.");
 		}

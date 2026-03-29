@@ -1,0 +1,12 @@
+<Project>
+
+	<PropertyGroup>
+		<Company>Panoramic Data Limited</Company>
+		<Authors>Panoramic Data Limited</Authors>
+		<Copyright>Copyright © $([System.DateTime]::Now.Year) Panoramic Data Limited</Copyright>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Nullable>enable</Nullable>
+		<NuGetAuditMode>All</NuGetAuditMode>
+	</PropertyGroup>
+
+</Project>

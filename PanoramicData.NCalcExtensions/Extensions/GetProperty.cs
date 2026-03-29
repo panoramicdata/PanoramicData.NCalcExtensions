@@ -105,7 +105,7 @@ internal static class GetProperty
 					}
 			}
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException or NotSupportedException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException or NotSupportedException))
 		{
 			throw new FormatException($"{ExtensionFunction.GetProperty}() error: {e.Message}", e);
 		}

@@ -26,7 +26,7 @@ internal static class Capitalize
 
 			functionArgs.Result = param1.ToLowerInvariant().UpperCaseFirst();
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.Capitalize} function - requires one string parameter.");
 		}
