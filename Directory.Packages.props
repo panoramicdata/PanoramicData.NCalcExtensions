@@ -13,7 +13,7 @@
 		<PackageVersion Include="NuGet.Packaging" Version="7.3.0" />
 		<PackageVersion Include="NuGet.Common" Version="7.3.0" />
 		<PackageVersion Include="AwesomeAssertions" Version="9.3.0" />
-		<PackageVersion Include="coverlet.collector" Version="6.0.4" />
+		<PackageVersion Include="coverlet.collector" Version="8.0.1" />
 		<PackageVersion Include="FluentAssertions.Analyzers" Version="0.34.1" />
 		<PackageVersion Include="Microsoft.Net.Compilers.Toolset" Version="5.0.0" />
 		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
