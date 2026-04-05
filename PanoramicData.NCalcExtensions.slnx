@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="COVERAGE_ASSESSMENT.md" />
+    <File Path="COVERAGE_PLAN.md" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="nuget-key.txt" />
+    <File Path="PanoramicData.NCalcExtensions.sln.vsspell.dic" />
+    <File Path="Publish.ps1" />
+    <File Path="README.md" />
+    <File Path="SECURITY.md" />
+    <File Path="version.json" />
+  </Folder>
+  <Project Path="PanoramicData.NCalcExtensions.Test/PanoramicData.NCalcExtensions.Test.csproj" />
+  <Project Path="PanoramicData.NCalcExtensions/PanoramicData.NCalcExtensions.csproj" />
+</Solution>
