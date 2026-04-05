@@ -32,7 +32,7 @@ internal static class Store
 
 			functionArgs.Result = true;
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.Store}() requires two parameters.");
 		}

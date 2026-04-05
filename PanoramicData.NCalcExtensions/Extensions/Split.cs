@@ -33,7 +33,7 @@ internal static class Split
 				_ => input.Split([splitString], StringSplitOptions.None).ToList()
 			};
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.Split}() requires two string parameters.");
 		}

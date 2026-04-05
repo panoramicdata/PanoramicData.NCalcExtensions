@@ -79,7 +79,7 @@ internal static class JPath
 				_ => JObject.FromObject(result)
 			};
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException(SyntaxMessage + " ... " + e.Message);
 		}

@@ -31,7 +31,7 @@ internal static class IsNullOrEmpty
 				(outputObject is string outputString && outputString == string.Empty) ||
 				(outputObject is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.String && jsonElement.GetString() == string.Empty);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException(e.Message);
 		}

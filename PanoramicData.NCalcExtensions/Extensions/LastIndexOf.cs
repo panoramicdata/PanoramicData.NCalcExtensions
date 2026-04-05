@@ -28,7 +28,7 @@ internal static class LastIndexOf
 
 			functionArgs.Result = param1.LastIndexOf(param2, StringComparison.InvariantCulture);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.LastIndexOf}() requires two string parameters.");
 		}

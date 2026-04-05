@@ -16,6 +16,7 @@ CoverageReport/
 *.coveragexml
 
 # Build results
+artifacts/
 
 [Dd]ebug/
 [Rr]elease/

@@ -47,7 +47,7 @@ internal static class RegexGroup
 					: group.Captures[regexCaptureIndex].Value;
 			}
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.RegexGroup}() requires string parameters.");
 		}

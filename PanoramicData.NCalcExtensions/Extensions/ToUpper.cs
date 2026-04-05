@@ -24,7 +24,7 @@ internal static class ToUpper
 
 			functionArgs.Result = param1.ToUpperInvariant();
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.ToUpper} function - requires one string parameter.");
 		}

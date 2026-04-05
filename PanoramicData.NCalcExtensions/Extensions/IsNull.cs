@@ -35,7 +35,7 @@ internal static class IsNull
 				or JsonElement { ValueKind: JsonValueKind.Null }
 				;
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException(e.Message);
 		}

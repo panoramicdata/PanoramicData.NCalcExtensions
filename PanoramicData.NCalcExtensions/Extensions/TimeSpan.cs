@@ -61,7 +61,7 @@ internal static class TimeSpan
 				? GetUnits(timeSpan, timeUnit)
 				: timeSpan.ToString(timeFormat, cultureInfo);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function - could not extract three parameters into strings: {e.Message}");
 		}

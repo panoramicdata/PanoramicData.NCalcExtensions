@@ -28,7 +28,7 @@ internal static class IndexOf
 
 			functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.IndexOf}() requires two string parameters.");
 		}

@@ -31,7 +31,7 @@ internal static class IsNullOrWhiteSpace
 				(outputObject is string outputString && string.IsNullOrWhiteSpace(outputString)) ||
 				(outputObject is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.String && string.IsNullOrWhiteSpace(jsonElement.GetString()));
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException(e.Message);
 		}

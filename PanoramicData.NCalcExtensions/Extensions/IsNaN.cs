@@ -34,7 +34,7 @@ internal static class IsNaN
 			};
 			return;
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException(e.Message);
 		}

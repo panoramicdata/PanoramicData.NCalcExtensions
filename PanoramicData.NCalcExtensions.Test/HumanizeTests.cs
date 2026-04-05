@@ -151,7 +151,7 @@ public class HumanizeTests
 		var expression = new ExtendedExpression("humanize('not a number', 'seconds')");
 		expression.Invoking(e => e.Evaluate())
 			.Should().Throw<FormatException>()
-			.WithMessage("*floating-point number*");
+			.WithMessage("*must be a number*");
 	}
 
 	[Fact]
@@ -162,7 +162,7 @@ public class HumanizeTests
 		expression.Parameters["theValue"] = double.MaxValue;
 		expression.Invoking(e => e.Evaluate())
 			.Should().Throw<FormatException>()
-			.WithMessage("*floating-point number*");
+			.WithMessage("*floating point number*");
 	}
 
 	// Test missing parameters

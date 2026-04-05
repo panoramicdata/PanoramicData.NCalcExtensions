@@ -13,7 +13,7 @@ internal static class LambdaFunction
 
 			functionArgs.Result = new Lambda(predicate, nCalcString, storageDictionary);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"Lambda function requires two parameters.");
 		}

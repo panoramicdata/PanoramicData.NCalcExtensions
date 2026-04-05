@@ -28,7 +28,7 @@ internal static class Contains
 
 			functionArgs.Result = haystack.Contains(needle);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.Contains}() requires two string parameters.");
 		}

@@ -33,7 +33,7 @@ internal static class StartsWith
 
 			functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);
 		}
-		catch (Exception e) when (e is not NCalcExtensionsException or FormatException)
+		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"Unexpected exception in {ExtensionFunction.StartsWith}(): {e.Message}", e);
 		}
