@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
@@ -12,6 +13,10 @@
     <File Path="README.md" />
     <File Path="SECURITY.md" />
     <File Path="version.json" />
+    <File Path=".codacy.yml" />
+    <File Path="CONTRIBUTING.md" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
   </Folder>
   <Project Path="PanoramicData.NCalcExtensions.Test/PanoramicData.NCalcExtensions.Test.csproj" />
   <Project Path="PanoramicData.NCalcExtensions/PanoramicData.NCalcExtensions.csproj" />

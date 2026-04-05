@@ -1,7 +1,9 @@
 {
-	"$schema": "https://raw.githubusercontent.com/AArnott/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json",
-	"version": "5.8",
-	"publicReleaseRefSpec": [
-		"^refs/heads/main"
-	]
+  "$schema": "https://raw.githubusercontent.com/AArnott/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json",
+  "version": "5.8",
+  "publicReleaseRefSpec": [
+    "^refs/heads/main",
+    "^refs/heads/main$",
+    "^refs/tags/\\d\u002B\\.\\d\u002B\\.\\d\u002B$"
+  ]
 }

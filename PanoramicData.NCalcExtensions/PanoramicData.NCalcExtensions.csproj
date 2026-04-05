@@ -1,55 +1,55 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFrameworks>net10.0</TargetFrameworks>
-		<ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<IncludeSymbols>true</IncludeSymbols>
-		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
-		<Configuration>Release</Configuration>
-		<Description>Extensions for NCalc</Description>
-		<Product>PanoramicData.NCalcExtensions</Product>
-		<Title>PanoramicData NCalc Extensions</Title>
-		<RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
-		<LangVersion>latest</LangVersion>
-		<EnableNETAnalyzers>true</EnableNETAnalyzers>
-		<AnalysisMode>All</AnalysisMode>
-		<AnalysisLevel>latest-recommended</AnalysisLevel>
-		<PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryType>git</RepositoryType>
-		<PackageIcon>Panoramic Data.png</PackageIcon>
-		<PackageTags>ncalc extensions</PackageTags>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<DebugType>portable</DebugType>
-		<PackageReleaseNotes>Major version update - see README for full details, including breaking changes.</PackageReleaseNotes>
-		<GenerateDocumentationFile>false</GenerateDocumentationFile>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<Content Include="Panoramic Data.ico" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="Panoramic Data.png" Pack="True" PackagePath="\" />
-		<None Include="../README.md" Pack="true" PackagePath="" />
-		<None Include="PanoramicData.NCalcExtensions.snk" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<InternalsVisibleTo Include="$(AssemblyName).Test" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="NCalcSync" />
-		<PackageReference Include="Nerdbank.GitVersioning">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Newtonsoft.Json" />
-		<PackageReference Include="TimeZoneConverter" />
-		<PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
-		<PackageReference Include="NuGet.Packaging" PrivateAssets="All" />
-		<PackageReference Include="NuGet.Common" />
-	</ItemGroup>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net10.0</TargetFrameworks>
+    <ApplicationIcon>Panoramic Data.ico</ApplicationIcon>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Configuration>Release</Configuration>
+    <Description>Extensions for NCalc</Description>
+    <Product>PanoramicData.NCalcExtensions</Product>
+    <Title>PanoramicData NCalc Extensions</Title>
+    <RepositoryUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</RepositoryUrl>
+    <LangVersion>latest</LangVersion>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisMode>All</AnalysisMode>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <PackageProjectUrl>https://github.com/panoramicdata/PanoramicData.NCalcExtensions</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>Panoramic Data.png</PackageIcon>
+    <PackageTags>ncalc extensions</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <DebugType>portable</DebugType>
+    <PackageReleaseNotes>Major version update - see README for full details, including breaking changes.</PackageReleaseNotes>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <PackageId>PanoramicData.NCalcExtensions</PackageId>
+    <NeutralResourcesLanguage>en</NeutralResourcesLanguage>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Panoramic Data.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Panoramic Data.png" Pack="True" PackagePath="\" />
+    <None Include="../README.md" Pack="true" PackagePath="" />
+    <None Include="PanoramicData.NCalcExtensions.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).Test" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NCalcSync" />
+    <PackageReference Include="Nerdbank.GitVersioning">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="TimeZoneConverter" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" PrivateAssets="All" />
+    <PackageReference Include="NuGet.Packaging" PrivateAssets="All" />
+    <PackageReference Include="NuGet.Common" />
+  </ItemGroup>
 </Project>

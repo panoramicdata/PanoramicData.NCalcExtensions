@@ -2,7 +2,7 @@
 
 [![Nuget](https://img.shields.io/nuget/v/PanoramicData.NCalcExtensions)](https://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
 [![Nuget](https://img.shields.io/nuget/dt/PanoramicData.NCalcExtensions)](https://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
-![License](https://img.shields.io/github/license/panoramicdata/PanoramicData.NCalcExtensions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5b0ad600b19d42e2b735e4199b795fa2)](https://www.codacy.com/gh/panoramicdata/PanoramicData.NCalcExtensions/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=panoramicdata/PanoramicData.NCalcExtensions&amp;utm_campaign=Badge_Grade)
 
 ## Introduction
