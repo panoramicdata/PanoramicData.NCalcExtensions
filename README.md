@@ -16,9 +16,11 @@ The NCalc documentation can be found [here (source code)](https://github.com/nca
 
 When using ExtendedExpression, you can:
 - use "//" comments
+- use "/* */" multi-line comments for documentation
 - split expressions over multiple lines
 - include empty lines
 - indent lines
+- define input parameters directly in comments using the format: `// parameterName:TypeName:value`
 
 For example:
 
@@ -34,6 +36,155 @@ contains(
 
 )
 ````
+
+### Parameter Definitions in Comments
+
+You can provide example input values by including parameter definitions in comment lines using the format:
+`// parameterName:TypeName:value`
+
+Multi-line documentation blocks (if used) should use markdown format:
+
+````NCalc
+// theAnswer:System.Int32:42
+// theAnswer2:System.Int32:2
+// theAnswer3:System.String:Blah
+// theAnswer4:System.Int32:23
+
+/*
+# The answer plus one plus one
+This adds one twice to theAnswer, which is a 32-bit integer in this example.
+*/
+
+theAnswer + 1 + 1
+````
+
+**Supported Types for Parameter Definitions:**
+- System.String
+- System.Int32
+- System.Int64 (long)
+- System.Double
+- System.Decimal
+- System.Single (float)
+- System.Boolean
+- System.DateTime
+- System.Guid
+- System.Byte
+- System.Int16 (short)
+- System.UInt32 (uint)
+- System.UInt64 (ulong)
+- System.UInt16 (ushort)
+- System.SByte (sbyte)
+
+**Example:**
+```csharp
+using PanoramicData.NCalcExtensions;
+
+var expression = new ExtendedExpression("""
+// count:System.Int32:5
+// multiplier:System.Decimal:2.5
+
+/*
+# Calculate total amount
+Multiplies the count by the multiplier value.
+*/
+
+count * multiplier
+""");
+
+var result = expression.Evaluate(); // Returns: 12.5 (5 * 2.5)
+```
+
+### ExtendedExpression Property Accessors
+
+`ExtendedExpression` parses the input once at construction time and exposes the results as properties:
+
+```csharp
+var expression = new ExtendedExpression("""
+// x:System.Int32:10
+
+/*
+# My expression
+Adds one to x.
+*/
+
+x + 1
+""");
+
+// Access parsed metadata
+string? docs = expression.Documentation;   // "# My expression\nAdds one to x."
+var parameters = expression.ParameterDefinitions; // { "x": ("System.Int32", "10") }
+var comments = expression.Comments;        // any non-parameter // comment lines
+var doc = expression.Document;             // full ExtendedExpressionDocument
+
+// Access a cached SimpleExtendedExpression for repeated evaluation
+var simple = expression.SimpleExtendedExpression; // lazy, same options/culture
+var result = simple.Evaluate(); // 11
+```
+
+The `SimpleExtendedExpression` accessor is created lazily on first access and reuses the same parsed document, so there is no double-parsing cost.
+
+## Parsing and Performance Optimization
+
+For advanced use cases where you need to:
+1. Extract documentation and parameters separately
+2. Reuse the same expression multiple times
+3. Cache tidied expressions for better performance
+
+Use `ExtendedExpressionDocumentParser` to parse the expression once, and then use `SimpleExtendedExpression` for evaluation:
+
+```csharp
+using PanoramicData.NCalcExtensions;
+
+// Step 1: Parse once (including documentation and parameter extraction)
+var multilineExpression = """
+// x:System.Int32:10
+// y:System.Int32:5
+
+/*
+# Add two numbers
+This demonstrates adding two pre-defined parameters.
+*/
+
+x + y
+""";
+
+var document = ExtendedExpressionDocumentParser.Parse(multilineExpression);
+
+// Step 2: Access parsed information
+Console.WriteLine("Documentation: " + document.Documentation);
+Console.WriteLine("Parameters: " + string.Join(", ", document.Parameters.Keys));
+
+// Step 3: Create a SimpleExtendedExpression for evaluation
+// (no re-parsing overhead)
+var expression = new SimpleExtendedExpression(document.TidiedExpression, document);
+var result = expression.Evaluate(); // Returns: 15
+```
+
+### ExtendedExpressionDocument Structure
+
+The parsed document contains:
+- **OriginalExpression**: The original multi-line input
+- **TidiedExpression**: The cleaned expression ready for evaluation
+- **Documentation**: Extracted from `/* */` comments (markdown format)
+- **Parameters**: Dictionary of parameter definitions from `// parameterName:TypeName:value` lines
+- **Comments**: Regular comment lines (not parameter definitions)
+
+### SimpleExtendedExpression
+
+Use `SimpleExtendedExpression` for performance-critical scenarios where you:
+- Have already parsed the expression with `ExtendedExpressionDocumentParser`
+- Need to evaluate the same expression multiple times
+- Want to avoid the overhead of re-parsing
+
+The main difference from `ExtendedExpression`:
+- Takes a pre-tidied expression (no parsing/tidying overhead)
+- Can be created from an `ExtendedExpressionDocument` for automatic parameter setup
+- Still supports all extension functions
+- Lightweight and optimized for repeated evaluations
+
+**Input contract**: `SimpleExtendedExpression` requires a pre-tidied expression. The constructor throws `FormatException` if:
+- The expression contains newline characters (`\n` or `\r`) — use `ExtendedExpression` or `ExtendedExpressionDocumentParser` to tidy multi-line input first
+- The expression (after trimming whitespace) starts with `//` or `/*` — comment markers must be stripped before constructing a `SimpleExtendedExpression`
 
 ## Breaking Changes in v5.8+
 

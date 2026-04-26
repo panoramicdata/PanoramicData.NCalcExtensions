@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>ExtendedExpressionBenchmarks-20260426-165406</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.14.0, Windows 11 (10.0.26200.8246)
+Unknown processor
+.NET SDK 10.0.300-preview.0.26177.108
+  [Host]   : .NET 10.0.7 (10.0.726.21808), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+  ShortRun : .NET 10.0.7 (10.0.726.21808), X64 RyuJIT AVX-512F+CD+BW+DQ+VL+VBMI
+</code></pre>
+<pre><code>Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  
+</code></pre>
+
+<table>
+<thead><tr><th>Method                                        </th><th>Mean</th><th>Error</th><th>StdDev</th><th>Gen0</th><th>Gen1</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>Construct_ExtendedExpression</td><td>3,394.9 ns</td><td>2,033.0 ns</td><td>111.44 ns</td><td>0.8163</td><td>-</td><td>6856 B</td>
+</tr><tr><td>Construct_And_Evaluate_ExtendedExpression</td><td>4,177.4 ns</td><td>7,588.0 ns</td><td>415.92 ns</td><td>0.8659</td><td>0.0038</td><td>7264 B</td>
+</tr><tr><td>Parse_Document_And_Evaluate_SimpleExtendedExpression</td><td>3,611.7 ns</td><td>5,663.5 ns</td><td>310.43 ns</td><td>0.8392</td><td>-</td><td>7048 B</td>
+</tr><tr><td>Evaluate_ExtendedExpression_Reused</td><td>117.2 ns</td><td>147.8 ns</td><td>8.10 ns</td><td>0.0488</td><td>-</td><td>408 B</td>
+</tr><tr><td>Evaluate_SimpleExtendedExpression_Reused</td><td>122.2 ns</td><td>124.4 ns</td><td>6.82 ns</td><td>0.0488</td><td>-</td><td>408 B</td>
+</tr></tbody></table>
+</body>
+</html>

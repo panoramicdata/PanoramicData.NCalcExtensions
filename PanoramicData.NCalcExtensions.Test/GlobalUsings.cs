@@ -1,5 +1,6 @@
 ﻿global using AwesomeAssertions;
 global using Newtonsoft.Json.Linq;
+global using NCalc;
 global using PanoramicData.NCalcExtensions.Exceptions;
 global using System;
 global using System.Diagnostics.CodeAnalysis;

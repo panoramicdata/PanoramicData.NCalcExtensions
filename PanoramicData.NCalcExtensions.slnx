@@ -19,5 +19,6 @@
     <File Path="Directory.Packages.props" />
   </Folder>
   <Project Path="PanoramicData.NCalcExtensions.Test/PanoramicData.NCalcExtensions.Test.csproj" />
+  <Project Path="PanoramicData.NCalcExtensions.Benchmarks/PanoramicData.NCalcExtensions.Benchmarks.csproj" />
   <Project Path="PanoramicData.NCalcExtensions/PanoramicData.NCalcExtensions.csproj" />
 </Solution>
