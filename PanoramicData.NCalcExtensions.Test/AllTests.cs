@@ -35,6 +35,13 @@ public class AllTests : NCalcTest
 	}
 
 	[Fact]
+	public void All_NoParameters_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("all()");
+		expression.Evaluate().Should().Be(true);
+	}
+
+	[Fact]
 	public void All_AllMatch_ReturnsTrue()
 	{
 		var expression = new ExtendedExpression("all(list(2, 4, 6, 8), 'n', 'n % 2 == 0')");
@@ -154,6 +161,14 @@ public class AllTests : NCalcTest
 	public void All_InvalidLambda_ThrowsException()
 	{
 		var expression = new ExtendedExpression("all(list(1, 2, 3), 'n', null)");
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>();
+	}
+
+	[Fact]
+	public void All_TwoParameters_ThrowsException()
+	{
+		var expression = new ExtendedExpression("all(list(1, 2, 3), 'n')");
 		expression.Invoking(e => e.Evaluate())
 			.Should().Throw<FormatException>();
 	}
