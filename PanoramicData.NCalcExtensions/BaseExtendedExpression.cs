@@ -289,7 +289,7 @@ public abstract class BaseExtendedExpression : Expression
 				IndexOf.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.If:
-				If.Evaluate(functionArgs);
+				Extensions.If.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.IsGuid:
 				IsGuid.Evaluate(functionArgs);
@@ -400,7 +400,7 @@ public abstract class BaseExtendedExpression : Expression
 				Sanitize.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Select:
-				Select.Evaluate(functionArgs);
+				Extensions.Select.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.SelectDistinct:
 				SelectDistinct.Evaluate(functionArgs);
