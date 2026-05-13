@@ -58,6 +58,15 @@ public class FormatTests
 		expression.Evaluate().Should().Be("2020-03-13 12:00");
 	}
 
+	[Theory]
+	[InlineData("Eastern Standard Time")]
+	[InlineData("America/New_York")]
+	public void Format_InlineToDateTimeWithTimeZone_Succeeds(string timeZoneId)
+	{
+		var expression = new ExtendedExpression($"format(toDateTime('2020-03-13 16:00:00', 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd HH:mm', '{timeZoneId}')");
+		expression.Evaluate().Should().Be("2020-03-13 12:00");
+	}
+
 	[Fact]
 	public void Format_StringFormat_Succeeds()
 	{
