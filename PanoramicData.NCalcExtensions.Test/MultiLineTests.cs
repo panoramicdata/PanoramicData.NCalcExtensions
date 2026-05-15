@@ -102,6 +102,61 @@ isActive
 	}
 
 	[Fact]
+	public void AnswerDefinition_Bool_SetsExpectedAnswer()
+	{
+		var expression = new ExtendedExpression("""
+// answer:bool:false
+all(list(true, false, true))
+""");
+
+		expression.HasExpectedAnswer.Should().BeTrue();
+		expression.HasExpectedAnswerValue.Should().BeTrue();
+		expression.AnswerDefinition.Should().Be(TypedDefinition.FromLiteral("bool", "false"));
+		expression.ExpectedAnswer.Should().Be(false);
+		expression.Evaluate().Should().Be(expression.ExpectedAnswer);
+	}
+
+	[Fact]
+	public void AnswerDefinition_ExplicitNull_HasExpectedAnswerIsStillTrue()
+	{
+		var expression = new ExtendedExpression("""
+// answer:string?:null
+null
+""");
+
+		expression.HasExpectedAnswer.Should().BeTrue();
+		expression.HasExpectedAnswerValue.Should().BeTrue();
+		expression.AnswerDefinition.Should().Be(TypedDefinition.FromNull("string?"));
+		expression.ExpectedAnswer.Should().BeNull();
+	}
+
+	[Fact]
+	public void AnswerDefinition_TypeOnly_HasExpectedAnswerButNoValue()
+	{
+		var expression = new ExtendedExpression("""
+// answer:string?
+'abc'
+""");
+
+		expression.HasExpectedAnswer.Should().BeTrue();
+		expression.HasExpectedAnswerValue.Should().BeFalse();
+		expression.AnswerDefinition.Should().Be(TypedDefinition.FromTypeOnly("string?"));
+		expression.ExpectedAnswer.Should().BeNull();
+	}
+
+	[Fact]
+	public void ParameterDefinition_AliasNullableWithoutValue_DoesNotAutoSetParameter()
+	{
+		var expression = new ExtendedExpression("""
+// x:int?
+canEvaluate(x)
+""");
+
+		expression.ParameterDefinitions["x"].Should().Be(TypedDefinition.FromTypeOnly("int?"));
+		expression.Evaluate().Should().Be(false);
+	}
+
+	[Fact]
 	public void MultiLineComment_WithParameterDefinition_Succeeds()
 	{
 		var expression = new ExtendedExpression("""
@@ -174,7 +229,8 @@ x + y
 	public void Document_Accessors_AreExposed()
 	{
 		var expression = new ExtendedExpression("""
-// x:System.Int32:10
+// x:int:10
+// answer:int:15
 // this is a regular comment
 /*
 # Sample documentation
@@ -182,9 +238,11 @@ x + y
 x + 5
 """);
 
-		expression.Document.OriginalExpression.Should().Contain("x:System.Int32:10");
+		expression.Document.OriginalExpression.Should().Contain("x:int:10");
 		expression.Documentation.Should().Contain("Sample documentation");
-		expression.ParameterDefinitions["x"].Should().Be(("System.Int32", "10"));
+		expression.ParameterDefinitions["x"].Should().Be(TypedDefinition.FromLiteral("int", "10"));
+		expression.AnswerDefinition.Should().Be(TypedDefinition.FromLiteral("int", "15"));
+		expression.ExpectedAnswer.Should().Be(15);
 		expression.Comments.Should().Contain("this is a regular comment");
 	}
 

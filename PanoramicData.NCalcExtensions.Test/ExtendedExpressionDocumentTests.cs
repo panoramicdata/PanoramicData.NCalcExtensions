@@ -26,9 +26,54 @@ x + y
 		var document = ExtendedExpressionDocumentParser.Parse(expression);
 
 		document.Parameters.Should().HaveCount(2);
-		document.Parameters["x"].Should().Be(("System.Int32", "10"));
-		document.Parameters["y"].Should().Be(("System.Int32", "5"));
+		document.Parameters["x"].Should().Be(TypedDefinition.FromLiteral("System.Int32", "10"));
+		document.Parameters["y"].Should().Be(TypedDefinition.FromLiteral("System.Int32", "5"));
 		document.TidiedExpression.Should().Be("x + y");
+	}
+
+	[Fact]
+	public void Parse_WithAnswer_ExtractsAnswer()
+	{
+		var expression = """
+// answer:bool:false
+all(list(true, false, true))
+""";
+		var document = ExtendedExpressionDocumentParser.Parse(expression);
+
+		document.HasAnswer.Should().BeTrue();
+		document.HasAnswerValue.Should().BeTrue();
+		document.Answer.Should().Be(TypedDefinition.FromLiteral("bool", "false"));
+		document.Parameters.Should().BeEmpty();
+		document.Comments.Should().BeEmpty();
+		document.TidiedExpression.Should().Be("all(list(true, false, true))");
+	}
+
+	[Fact]
+	public void Parse_WithTypeOnlyAnswer_ExtractsDefinitionWithoutValue()
+	{
+		var expression = """
+// answer:string?
+'fallback'
+""";
+		var document = ExtendedExpressionDocumentParser.Parse(expression);
+
+		document.HasAnswer.Should().BeTrue();
+		document.HasAnswerValue.Should().BeFalse();
+		document.Answer.Should().Be(TypedDefinition.FromTypeOnly("string?"));
+	}
+
+	[Fact]
+	public void Parse_WithExplicitNullAnswer_ExtractsNullDefinition()
+	{
+		var expression = """
+// answer:string?:null
+null
+""";
+		var document = ExtendedExpressionDocumentParser.Parse(expression);
+
+		document.HasAnswer.Should().BeTrue();
+		document.HasAnswerValue.Should().BeTrue();
+		document.Answer.Should().Be(TypedDefinition.FromNull("string?"));
 	}
 
 	[Fact]
@@ -64,8 +109,8 @@ x + y
 		var document = ExtendedExpressionDocumentParser.Parse(expression);
 
 		document.Parameters.Should().HaveCount(2);
-		document.Parameters["x"].Should().Be(("System.Int32", "10"));
-		document.Parameters["y"].Should().Be(("System.Int32", "5"));
+		document.Parameters["x"].Should().Be(TypedDefinition.FromLiteral("System.Int32", "10"));
+		document.Parameters["y"].Should().Be(TypedDefinition.FromLiteral("System.Int32", "5"));
 		document.Documentation.Should().Contain("Add two numbers");
 		document.TidiedExpression.Should().Be("x + y");
 	}
@@ -92,12 +137,14 @@ x + y
 		var expression = """
 // x:System.Int32:10
 // Just a comment
-// y:System.String:hello
+// y:string:hello
+// answer:string?:done
 x + y
 """;
 		var document = ExtendedExpressionDocumentParser.Parse(expression);
 
 		document.Parameters.Should().HaveCount(2);
+		document.Answer.Should().Be(TypedDefinition.FromLiteral("string?", "done"));
 		document.Comments.Should().HaveCount(1);
 		document.Comments[0].Should().Be("Just a comment");
 	}
@@ -119,7 +166,7 @@ x + 1
 		var document = ExtendedExpressionDocumentParser.Parse(expression);
 
 		document.Parameters.Should().HaveCount(1);
-		document.Parameters["x"].Should().Be(("System.Int32", "10"));
+		document.Parameters["x"].Should().Be(TypedDefinition.FromLiteral("System.Int32", "10"));
 		document.Documentation.Should().Contain("This line inside the comment");
 	}
 

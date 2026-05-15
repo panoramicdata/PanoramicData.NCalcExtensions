@@ -33,14 +33,21 @@ internal static class Where
 			?? throw new FormatException($"Third {ExtensionFunction.Where} parameter must be a string.");
 
 		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
+		var result = list switch
+		{
+			ICollection<object?> collection => new List<object?>(collection.Count),
+			ICollection collection => new List<object?>(collection.Count),
+			_ => new List<object?>()
+		};
 
-		functionArgs.Result = list
-			.Where(value =>
+		foreach (var value in list)
+		{
+			if (lambda.Evaluate(value) as bool? == true)
 			{
-				var result = lambda.Evaluate(value) as bool?;
-				return result == true;
-			})
-			.Select(value => JValueHelper.UnwrapJValue(value))
-			.ToList();
+				result.Add(JValueHelper.UnwrapJValue(value));
+			}
+		}
+
+		functionArgs.Result = result;
 	}
 }

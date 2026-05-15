@@ -10,6 +10,26 @@ namespace PanoramicData.NCalcExtensions;
 public class SimpleExtendedExpression : BaseExtendedExpression
 {
 	/// <summary>
+	/// Parsed answer definition in // answer:Type:value format.
+	/// </summary>
+	public TypedDefinition? AnswerDefinition { get; }
+
+	/// <summary>
+	/// Whether an answer definition is present.
+	/// </summary>
+	public bool HasExpectedAnswer => AnswerDefinition is not null;
+
+	/// <summary>
+	/// Whether the answer definition includes a value.
+	/// </summary>
+	public bool HasExpectedAnswerValue => AnswerDefinition?.HasValue == true;
+
+	/// <summary>
+	/// Parsed and typed expected answer, if an answer definition is present.
+	/// </summary>
+	public object? ExpectedAnswer { get; }
+
+	/// <summary>
 	/// Create a SimpleExtendedExpression from a pre-tidied expression.
 	/// </summary>
 	/// <param name="tidiedExpression">The expression with all comments and parameter definitions already removed.</param>
@@ -45,6 +65,10 @@ public class SimpleExtendedExpression : BaseExtendedExpression
 		CultureInfo.InvariantCulture)
 	{
 		SetParametersFromDefinitions(document.Parameters);
+		AnswerDefinition = document.Answer;
+		ExpectedAnswer = document.Answer is { HasValue: true } answer
+			? ConvertDefinitionValue("Answer", answer)
+			: null;
 	}
 
 	/// <summary>
@@ -62,6 +86,10 @@ public class SimpleExtendedExpression : BaseExtendedExpression
 		CultureInfo cultureInfo) : base(ValidateTidiedExpression(tidiedExpression), expressionOptions, cultureInfo)
 	{
 		SetParametersFromDefinitions(document.Parameters);
+		AnswerDefinition = document.Answer;
+		ExpectedAnswer = document.Answer is { HasValue: true } answer
+			? ConvertDefinitionValue("Answer", answer)
+			: null;
 	}
 
 	private static string ValidateTidiedExpression(string tidiedExpression)

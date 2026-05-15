@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.Collections.Concurrent;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
 
 /// <summary>
 /// Used to provide IntelliSense in Monaco editor
@@ -19,6 +21,8 @@ public partial interface IFunctionPrototypes
 
 internal static class RegexGroup
 {
+	private static readonly ConcurrentDictionary<string, Regex> RegexCache = new(StringComparer.Ordinal);
+
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		try
@@ -32,16 +36,15 @@ internal static class RegexGroup
 				? functionArgs.Parameters[2].Evaluate() as int? ?? 0
 				: 0;
 
-			var regex = new Regex(regexExpression);
-			if (!regex.IsMatch(input))
+			var regex = RegexCache.GetOrAdd(regexExpression, static pattern => new Regex(pattern));
+			var match = regex.Match(input);
+			if (!match.Success)
 			{
 				functionArgs.Result = null;
 			}
 			else
 			{
-				var group = regex
-					.Match(input)
-					.Groups[1];
+				var group = match.Groups[1];
 				functionArgs.Result = regexCaptureIndex >= group.Captures.Count
 					? null
 					: group.Captures[regexCaptureIndex].Value;

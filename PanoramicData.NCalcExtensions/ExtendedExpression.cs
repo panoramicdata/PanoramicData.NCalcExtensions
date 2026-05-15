@@ -4,7 +4,7 @@
 /// Extended NCalc expression that supports:
 /// - Multi-line expressions
 /// - Comments (// and /* */)
-/// - Parameter definitions in comments (// parameterName:TypeName:value)
+/// - Typed parameter and answer definitions in comments (for example // x:int:10, // y:string?, // answer:string?:null)
 /// - Automatic parameter extraction and type conversion
 /// - All extension functions
 /// 
@@ -15,6 +15,7 @@ public class ExtendedExpression : BaseExtendedExpression
 {
 	private readonly ExpressionOptions _expressionOptions;
 	private readonly Lazy<SimpleExtendedExpression> _simpleExtendedExpression;
+	private readonly Lazy<object?> _expectedAnswer;
 
 	/// <summary>
 	/// Parsed document containing original/tidied expression, documentation, parameters, and comments.
@@ -27,9 +28,29 @@ public class ExtendedExpression : BaseExtendedExpression
 	public string? Documentation => Document.Documentation;
 
 	/// <summary>
-	/// Parsed parameter definitions in // name:Type:value format.
+	/// Parsed parameter definitions from typed // name:type or // name:type:value comment lines.
 	/// </summary>
-	public IReadOnlyDictionary<string, (string TypeName, string Value)> ParameterDefinitions => Document.Parameters;
+	public IReadOnlyDictionary<string, TypedDefinition> ParameterDefinitions => Document.Parameters;
+
+	/// <summary>
+	/// Parsed answer definition from a typed // answer:type or // answer:type:value comment line.
+	/// </summary>
+	public TypedDefinition? AnswerDefinition => Document.Answer;
+
+	/// <summary>
+	/// Whether an answer definition is present.
+	/// </summary>
+	public bool HasExpectedAnswer => Document.HasAnswer;
+
+	/// <summary>
+	/// Whether the answer definition includes a value.
+	/// </summary>
+	public bool HasExpectedAnswerValue => Document.HasAnswerValue;
+
+	/// <summary>
+	/// Parsed and typed expected answer, if an answer definition is present.
+	/// </summary>
+	public object? ExpectedAnswer => _expectedAnswer.Value;
 
 	/// <summary>
 	/// Regular // comments that were not parameter definitions.
@@ -66,6 +87,10 @@ public class ExtendedExpression : BaseExtendedExpression
 		Document = document;
 		_expressionOptions = expressionOptions;
 		SetParametersFromDefinitions(document.Parameters);
+		_expectedAnswer = new Lazy<object?>(
+			() => Document.Answer is { HasValue: true } answer
+				? ConvertDefinitionValue("Answer", answer)
+				: null);
 		_simpleExtendedExpression = new Lazy<SimpleExtendedExpression>(
 			() => new SimpleExtendedExpression(Document.TidiedExpression, Document, _expressionOptions, CultureInfo)
 		);

@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.Collections.Concurrent;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
 
 /// <summary>
 /// Used to provide IntelliSense in Monaco editor
@@ -17,6 +19,8 @@ public partial interface IFunctionPrototypes
 
 internal static class RegexIsMatch
 {
+	private static readonly ConcurrentDictionary<string, Regex> RegexCache = new(StringComparer.Ordinal);
+
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		var inputString = functionArgs.Parameters[0].Evaluate() as string
@@ -25,7 +29,7 @@ internal static class RegexIsMatch
 		var regexExpressionString = functionArgs.Parameters[1].Evaluate() as string
 			?? throw new FormatException($"{ExtensionFunction.RegexIsMatch} function - second parameter should be a string.");
 
-		var regex = new Regex(regexExpressionString);
+		var regex = RegexCache.GetOrAdd(regexExpressionString, static pattern => new Regex(pattern));
 		functionArgs.Result = regex.IsMatch(inputString);
 	}
 }

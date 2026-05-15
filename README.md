@@ -11,6 +11,14 @@ This nuget package provides extension functions for NCalc.
 
 The NCalc documentation can be found [here (source code)](https://github.com/ncalc/ncalc) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
 
+## Release Process
+
+Use [RELEASE_NOTES.md](RELEASE_NOTES.md) to maintain upcoming changes under `## Unreleased`.
+
+- Run `Publish.ps1` when the next publish should use the version currently reported by NBGV and no extra release-notes commit is needed.
+- Run `PublishWithReleaseNote.ps1` when you want to finalize `RELEASE_NOTES.md` first. It stamps the current `## Unreleased` section with the next package version and date, creates a fresh `## Unreleased` section, commits that change, pushes `main`, verifies the NBGV increment, and then calls `Publish.ps1`.
+- `PublishWithReleaseNote.ps1` expects `main`, fetches `origin/main`, and only allows a clean working tree or changes limited to [RELEASE_NOTES.md](RELEASE_NOTES.md).
+
 
 ## Additional benefits
 
@@ -20,7 +28,7 @@ When using ExtendedExpression, you can:
 - split expressions over multiple lines
 - include empty lines
 - indent lines
-- define input parameters directly in comments using the format: `// parameterName:TypeName:value`
+- define typed parameters and answers directly in comments using formats like: `// parameterName:type:value`, `// parameterName:type`, and `// answer:type:value`
 
 For example:
 
@@ -39,16 +47,32 @@ contains(
 
 ### Parameter Definitions in Comments
 
-You can provide example input values by including parameter definitions in comment lines using the format:
-`// parameterName:TypeName:value`
+You can provide typed parameter definitions in comment lines using either of these formats:
+`// parameterName:type:value`
+`// parameterName:type`
+
+The legacy `// parameterName:TypeName:value` format is still supported.
+
+You can also provide a typed answer using:
+`// answer:type:value`
+`// answer:type`
+
+Examples:
+- `// count:int:5`
+- `// customerName:string:Ada`
+- `// optionalName:string?:null`
+- `// answer:string?`
+
+`null` is reserved as the explicit null marker for typed definitions. A literal string value of `"null"` is not supported in this format.
 
 Multi-line documentation blocks (if used) should use markdown format:
 
 ````NCalc
-// theAnswer:System.Int32:42
-// theAnswer2:System.Int32:2
-// theAnswer3:System.String:Blah
-// theAnswer4:System.Int32:23
+// theAnswer:int:42
+// theAnswer2:int:2
+// theAnswer3:string:Blah
+// theAnswer4:int:23
+// answer:int:44
 
 /*
 # The answer plus one plus one
@@ -58,30 +82,33 @@ This adds one twice to theAnswer, which is a 32-bit integer in this example.
 theAnswer + 1 + 1
 ````
 
-**Supported Types for Parameter Definitions:**
-- System.String
-- System.Int32
-- System.Int64 (long)
-- System.Double
-- System.Decimal
-- System.Single (float)
-- System.Boolean
-- System.DateTime
-- System.Guid
-- System.Byte
-- System.Int16 (short)
-- System.UInt32 (uint)
-- System.UInt64 (ulong)
-- System.UInt16 (ushort)
-- System.SByte (sbyte)
+**Supported simple types:**
+- `string`, `string?`
+- `bool`, `bool?`
+- `byte`, `byte?`
+- `sbyte`, `sbyte?`
+- `short`, `short?`
+- `ushort`, `ushort?`
+- `int`, `int?`
+- `uint`, `uint?`
+- `long`, `long?`
+- `ulong`, `ulong?`
+- `float`, `float?`
+- `double`, `double?`
+- `decimal`, `decimal?`
+- `DateTime`, `DateTime?`
+- `Guid`, `Guid?`
+
+Equivalent CLR type names such as `System.Int32` and `System.String?` are also supported.
 
 **Example:**
 ```csharp
 using PanoramicData.NCalcExtensions;
 
 var expression = new ExtendedExpression("""
-// count:System.Int32:5
-// multiplier:System.Decimal:2.5
+// count:int:5
+// multiplier:decimal:2.5
+// answer:decimal:12.5
 
 /*
 # Calculate total amount
@@ -100,7 +127,8 @@ var result = expression.Evaluate(); // Returns: 12.5 (5 * 2.5)
 
 ```csharp
 var expression = new ExtendedExpression("""
-// x:System.Int32:10
+// x:int:10
+// answer:int:11
 
 /*
 # My expression
@@ -112,7 +140,11 @@ x + 1
 
 // Access parsed metadata
 string? docs = expression.Documentation;   // "# My expression\nAdds one to x."
-var parameters = expression.ParameterDefinitions; // { "x": ("System.Int32", "10") }
+var parameters = expression.ParameterDefinitions; // { "x": TypedDefinition.FromLiteral("int", "10") }
+var answer = expression.AnswerDefinition;  // TypedDefinition.FromLiteral("int", "11")
+var hasExpectedAnswer = expression.HasExpectedAnswer; // true
+var hasExpectedAnswerValue = expression.HasExpectedAnswerValue; // true
+var expectedAnswer = expression.ExpectedAnswer; // 11
 var comments = expression.Comments;        // any non-parameter // comment lines
 var doc = expression.Document;             // full ExtendedExpressionDocument
 
@@ -137,8 +169,8 @@ using PanoramicData.NCalcExtensions;
 
 // Step 1: Parse once (including documentation and parameter extraction)
 var multilineExpression = """
-// x:System.Int32:10
-// y:System.Int32:5
+// x:int:10
+// y:int:5
 
 /*
 # Add two numbers
@@ -166,7 +198,8 @@ The parsed document contains:
 - **OriginalExpression**: The original multi-line input
 - **TidiedExpression**: The cleaned expression ready for evaluation
 - **Documentation**: Extracted from `/* */` comments (markdown format)
-- **Parameters**: Dictionary of parameter definitions from `// parameterName:TypeName:value` lines
+- **Parameters**: Dictionary of typed definitions from `// name:type` or `// name:type:value` lines
+- **Answer**: Optional typed definition from `// answer:type` or `// answer:type:value`
 - **Comments**: Regular comment lines (not parameter definitions)
 
 ### SimpleExtendedExpression

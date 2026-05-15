@@ -1,43 +1,33 @@
 ﻿namespace PanoramicData.NCalcExtensions;
-public class Lambda(
-	string predicate,
-	string nCalcString,
-	IDictionary<string, object?> parameters)
+public class Lambda
 {
+	private readonly string _predicate;
+	private readonly string _nCalcString;
+	private readonly IDictionary<string, object?> _parameters;
+	private readonly SimpleExtendedExpression _expression;
+
+	public Lambda(string predicate, string nCalcString, IDictionary<string, object?> parameters)
+	{
+		_predicate = predicate;
+		_nCalcString = nCalcString;
+		_parameters = parameters;
+
+		var document = ExtendedExpressionDocumentParser.Parse(nCalcString);
+		_expression = new SimpleExtendedExpression(document.TidiedExpression, document);
+		_expression.Parameters = _parameters;
+	}
+
 	public object? Evaluate<T>(T value)
 	{
-		parameters.Remove(predicate);
-		// Unwrap JValue objects before passing to the expression
-		var unwrappedValue = value switch
-		{
-			JValue jValue => jValue.Value,
-			_ => value
-		};
-		parameters.Add(predicate, unwrappedValue);
-		var ncalc = new ExtendedExpression(nCalcString)
-		{
-			Parameters = parameters
-		};
-
-		return ncalc.Evaluate();
+		_parameters[_predicate] = UnwrapValue(value);
+		return _expression.Evaluate();
 	}
 
 	public TResult EvaluateTo<TValue, TResult>(TValue value)
 	{
-		parameters.Remove(predicate);
-		// Unwrap JValue objects before passing to the expression
-		var unwrappedValue = value switch
-		{
-			JValue jValue => jValue.Value,
-			_ => value
-		};
-		parameters.Add(predicate, unwrappedValue);
-		var ncalc = new ExtendedExpression(nCalcString)
-		{
-			Parameters = parameters
-		};
+		_parameters[_predicate] = UnwrapValue(value);
 
-		var resultObject = ncalc.Evaluate();
+		var resultObject = _expression.Evaluate();
 
 		if (resultObject is TResult result)
 		{
@@ -57,7 +47,13 @@ public class Lambda(
 				return (TResult)Convert.ChangeType(resultObject, typeof(TResult), CultureInfo.InvariantCulture);
 			}
 
-			throw new InvalidCastException($"Could not cast result of expression '{nCalcString}' to type {typeof(TResult).FullName}.");
+			throw new InvalidCastException($"Could not cast result of expression '{_nCalcString}' to type {typeof(TResult).FullName}.");
 		}
 	}
+
+	private static object? UnwrapValue<T>(T value) => value switch
+	{
+		JValue jValue => jValue.Value,
+		_ => value
+	};
 }
