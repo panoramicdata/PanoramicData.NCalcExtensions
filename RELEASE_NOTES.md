@@ -6,6 +6,7 @@ creates a fresh `## Unreleased` section, commits the file, and then calls `Publi
 
 ## Unreleased
 
+## 5.8.37 - 2026-05-15
 - Breaking change: parameter metadata APIs now use `TypedDefinition` instead of `(string TypeName, string Value)` tuples, including `ExtendedExpressionDocument.Parameters` and related definition accessors.
 - Added typed parameter and answer definitions using colon-based syntax such as `// x:int:10`, `// y:string?`, and `// answer:string?:null`.
 - Added support for simple and nullable aliases including `string`, `string?`, `bool`, `bool?`, `int`, `int?`, `DateTime`, and `Guid`.
