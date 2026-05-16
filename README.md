@@ -904,13 +904,18 @@ Return one of two values, depending on the input function.
 #### Purpose
 Determines whether a value (the first parameter) is in a set of other values (the remaining parameters).
 
+The haystack can be provided as individual varargs values, a `list()` literal, or a variable containing a list.
+
 #### Parameters
-* item
-* list
+* item - the value to search for
+* list - either individual values (varargs) OR a single list value (list literal or list variable)
 
 #### Examples
 * in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
 * in('needle', 'haystack', 'with', 'only', 'hay') : false
+* in(ThingToFind, Haystack) : true (where ThingToFind='needle' and Haystack=list('haystack','with','needle','in','it'))
+* in(ThingToFind, Haystack) : false (where ThingToFind='needle' and Haystack=list('haystack','with','only','hay'))
+* in(ThingToFind, list('haystack', 'with', 'needle', 'in', 'it')) : true
 
 ---
 

@@ -27,7 +27,26 @@ internal static class In
 		try
 		{
 			var item = functionArgs.Parameters[0].Evaluate();
-			var list = functionArgs.Parameters.Skip(1).Select(p => p.Evaluate()).ToList();
+
+			// When exactly two parameters are provided and the second is a list, use it as the haystack directly.
+			// String is explicitly excluded as it implements IEnumerable<char> but should be treated as a scalar.
+			List<object?> list;
+			if (functionArgs.Parameters.Length == 2)
+			{
+				var secondArg = functionArgs.Parameters[1].Evaluate();
+				list = secondArg switch
+				{
+					string s => [s],
+					IEnumerable<object?> enumerable => enumerable.ToList(),
+					System.Collections.IEnumerable nonGenericEnumerable => nonGenericEnumerable.Cast<object?>().ToList(),
+					_ => [secondArg]
+				};
+			}
+			else
+			{
+				list = [.. functionArgs.Parameters.Skip(1).Select(p => p.Evaluate())];
+			}
+
 			functionArgs.Result = list.Contains(item);
 		}
 		catch (Exception e) when (e is not NCalcExtensionsException)
