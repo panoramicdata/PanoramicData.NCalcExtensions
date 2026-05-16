@@ -1396,8 +1396,9 @@ Emits a List\<T\>.
 #### Examples
    * orderBy(list(34, 33, 2, 1), 'n', 'n') : list(1, 2, 33, 34)
    * orderBy(list(34, 33, 2, 1), 'n', '-n') : list(34, 33, 2, 1)
-   * orderBy(list(34, 33, 2, 1), 'n % 32', 'n % 2') : list(34, 33, 1, 2)
-   * orderBy(list(34, 33, 2, 1), 'n % 2', 'n % 32') : list(33, 1, 34, 2)
+   * orderBy(list(34, 33, 2, 1), 'n', 'n % 32', 'n % 2') : list(33, 1, 34, 2)
+   * orderBy(list(34, 33, 2, 1), 'n', 'n % 2', 'n % 32') : list(34, 2, 33, 1)
+   * orderBy(list(jObject('Surname','Chen','Name','James'), jObject('Surname','Anderson','Name','Emily'), jObject('Surname','Chen','Name','Jennifer')), 'p', 'jPath(p, \'Surname\')', 'jPath(p, \'Name\')') : Anderson/Emily, Chen/James, Chen/Jennifer
 
 ---
 

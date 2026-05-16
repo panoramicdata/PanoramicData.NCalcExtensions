@@ -37,10 +37,11 @@ internal static class OrderBy
 
 		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
 
+		var capturedLambda = lambda;
 		var orderable = list
 			.OrderBy(value =>
 			{
-				var result = lambda.Evaluate(value);
+				var result = capturedLambda.Evaluate(value);
 				return result;
 			}, ObjectKeyComparer.Instance);
 
@@ -50,11 +51,11 @@ internal static class OrderBy
 		{
 			lambdaString = functionArgs.Parameters[parameterIndex++].Evaluate() as string
 				?? throw new FormatException($"{ExtensionFunction.OrderBy} parameter {parameterIndex + 1} must be a string.");
-			lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
+			var thenByLambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
 			orderable = orderable
 						.ThenBy(value =>
 						{
-							var result = lambda.Evaluate(value);
+							var result = thenByLambda.Evaluate(value);
 							return result;
 						}, ObjectKeyComparer.Instance);
 		}
