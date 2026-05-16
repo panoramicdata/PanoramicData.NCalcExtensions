@@ -1719,9 +1719,19 @@ Emits a List\<T\>.
    Retrieves part of a string.  If more characters are requested than available at the end of the string, just the available characters are returned.
 
 #### Parameters
-   * inputString
-   * startIndex
-   * length (optional)
+   * inputString - the original string
+   * startIndex - zero-based start position
+   * length (optional) - number of characters to return
+   * mode (optional) - out-of-bounds handling strategy when startIndex is negative or beyond the string length:
+     * 'Error' (default) - throws a bounds-specific error message
+     * 'Empty' - returns an empty string
+     * 'Null' - returns null
+     * 'Clip' - clamps startIndex to [0, length] and returns available characters
+
+   Mode values are case-insensitive. Unrecognised mode values fall back to 'Error' behavior.
+
+#### Notes
+   Macro Substring (RMScript) uses 'Skip'/'Take' parameter names and always errors on out-of-bounds with a meaningful message, equivalent to the default 'Error' mode here. Negative skip values are rejected at the macro parameter level. The optional mode parameter is a NCalc-only extension.
 
 #### Examples
    * substring('haystack', 3) : 'stack'
@@ -1729,6 +1739,12 @@ Emits a List\<T\>.
    * substring('haystack', 3, 100) : 'stack'
    * substring('haystack', 0, 100) : 'haystack'
    * substring('haystack', 0, 0) : ''
+   * substring('abcde', 6, 3) : error - start index 6 is out of bounds for a string of length 5
+   * substring('abcde', 6, 3, 'Empty') : ''
+   * substring('abcde', 6, 3, 'Null') : null
+   * substring('abcde', 6, 3, 'Clip') : ''
+   * substring('abcde', -1, 3, 'Clip') : 'abc'
+   * substring('abcde', -99, 3, 'Clip') : 'abc'
 
 ---
 

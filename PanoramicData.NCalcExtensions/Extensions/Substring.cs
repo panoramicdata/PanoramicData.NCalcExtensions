@@ -12,13 +12,20 @@ public partial interface IFunctionPrototypes
 		string inputString,
 		[Description("The starting index (Zero based).")]
 		int startIndex,
-		[Description("(Optional) Number of characters to returned.")]
-		int? length = null
+		[Description("(Optional) Number of characters to return.")]
+		int? length = null,
+		[Description("(Optional) Out-of-bounds handling strategy: 'Error' (default), 'Empty', 'Null', or 'Clip'.")]
+		string? mode = null
 	);
 }
 
 internal static class Substring
 {
+	private const string ModeError = "error";
+	private const string ModeEmpty = "empty";
+	private const string ModeNull = "null";
+	private const string ModeClip = "clip";
+
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		try
@@ -31,18 +38,56 @@ internal static class Substring
 				throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
 			}
 
+			int? length = null;
 			if (functionArgs.Parameters.Length > 2)
 			{
-				if (functionArgs.Parameters[2].Evaluate() is not int length)
+				var thirdArg = functionArgs.Parameters[2].Evaluate();
+				if (thirdArg is not int lengthValue)
 				{
 					throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
 				}
 
-				functionArgs.Result = input.Substring(startIndex, Math.Min(length, input.Length - startIndex));
-				return;
+				length = lengthValue;
 			}
 
-			functionArgs.Result = input[startIndex..];
+			var mode = functionArgs.Parameters.Length > 3
+				? functionArgs.Parameters[3].Evaluate() as string
+				: null;
+
+			var modeNormalised = mode?.Trim().ToLowerInvariant() ?? ModeError;
+
+			// Validate negative length regardless of mode
+			if (length < 0)
+			{
+				throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
+			}
+
+			// Check bounds
+			var outOfBounds = startIndex < 0 || startIndex > input.Length;
+			if (outOfBounds)
+			{
+				switch (modeNormalised)
+				{
+					case ModeEmpty:
+						functionArgs.Result = string.Empty;
+						return;
+					case ModeNull:
+						functionArgs.Result = null;
+						return;
+					case ModeClip:
+						startIndex = Math.Clamp(startIndex, 0, input.Length);
+						break;
+					case ModeError:
+					default:
+						throw new FormatException(
+							$"{ExtensionFunction.Substring}() start index {startIndex} is out of bounds for a string of length {input.Length}. " +
+							$"Use mode 'Clip', 'Empty' or 'Null' to handle out-of-bounds starts without error.");
+				}
+			}
+
+			functionArgs.Result = length.HasValue
+				? input.Substring(startIndex, Math.Min(length.Value, input.Length - startIndex))
+				: input[startIndex..];
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
@@ -50,3 +95,4 @@ internal static class Substring
 		}
 	}
 }
+
