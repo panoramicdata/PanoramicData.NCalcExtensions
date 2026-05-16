@@ -600,10 +600,13 @@ Counts the number of items, grouped by a calculation.
   * list - the original list
   * predicate - a string to represent the value to be evaluated
   * nCalcString - the string to evaluate.  Must emit a string containing one or more characters: A-Z, a-z, 0-9 or _.
+  * outputFormat (optional) - controls the return type: 'JObject' (default) returns a flat { key: count } object; 'JArray' returns an array of { name, count } objects. Case-insensitive. Omitting or using an unrecognized value defaults to 'JObject'.
 
 #### Examples
   * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toLower(toString(n > 1))') : { 'false': 1, 'true': 6 }
-  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)') : { '1': 1, '2': 2, '3', 3, '4', '1' }
+  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)') : { '1': 1, '2': 2, '3': 3, '4': 1 }
+  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)', 'JObject') : { '1': 1, '2': 2, '3': 3, '4': 1 }
+  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)', 'JArray') : [{ 'name': '1', 'count': 1 }, { 'name': '2', 'count': 2 }, { 'name': '3', 'count': 3 }, { 'name': '4', 'count': 1 }]
 
 ---
 

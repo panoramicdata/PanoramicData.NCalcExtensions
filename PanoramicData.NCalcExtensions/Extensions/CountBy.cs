@@ -13,7 +13,9 @@ public partial interface IFunctionPrototypes
 		[Description("A string to represent the value to be evaluated")]
 		string? predicate = null,
 		[Description("The string to evaluate. Must emit a string containing one or more characters: A-Z, a-z, 0-9 or _.")]
-		string? exprStr = null
+		string? exprStr = null,
+		[Description("Optional output format: 'JArray' returns [{name, count}] array; 'JObject' (default) returns flat {key: count} object.")]
+		string? outputFormat = null
 	);
 }
 
@@ -37,6 +39,10 @@ internal static class CountBy
 		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
 			?? throw new FormatException($"Third {ExtensionFunction.Count} parameter must be a string.");
 
+		var outputFormat = functionArgs.Parameters.Length > 3
+			? functionArgs.Parameters[3].Evaluate() as string
+			: null;
+
 		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
 
 		var dictionary = new Dictionary<string, int>();
@@ -50,6 +56,19 @@ internal static class CountBy
 			dictionary[key] = dictionary.TryGetValue(key, out var dictionaryValue) ? ++dictionaryValue : 1;
 		}
 
-		functionArgs.Result = JObject.FromObject(dictionary);
+		if (string.Equals(outputFormat, "JArray", StringComparison.OrdinalIgnoreCase))
+		{
+			var array = new JArray();
+			foreach (var kvp in dictionary)
+			{
+				array.Add(new JObject { ["name"] = kvp.Key, ["count"] = kvp.Value });
+			}
+
+			functionArgs.Result = array;
+		}
+		else
+		{
+			functionArgs.Result = JObject.FromObject(dictionary);
+		}
 	}
 }
