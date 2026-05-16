@@ -37,8 +37,8 @@ internal static class In
 				list = secondArg switch
 				{
 					string s => [s],
-					IEnumerable<object?> enumerable => enumerable.ToList(),
-					System.Collections.IEnumerable nonGenericEnumerable => nonGenericEnumerable.Cast<object?>().ToList(),
+					IEnumerable<object?> enumerable => [.. enumerable],
+					System.Collections.IEnumerable nonGenericEnumerable => [.. nonGenericEnumerable.Cast<object?>()],
 					_ => [secondArg]
 				};
 			}
