@@ -6,6 +6,12 @@ creates a fresh `## Unreleased` section, commits the file, and then calls `Publi
 
 ## Unreleased
 
+## 5.8.43 - 2026-05-16
+- Added optional `outputFormat` parameter to `countBy()` supporting `'JArray'` and `'JObject'` (case-insensitive); default behavior unchanged.
+- Enhanced `in()` to accept a list variable or `list()` literal as the haystack in the second parameter position; existing varargs behavior unchanged.
+- Added optional `mode` parameter to `substring()` (`'Error'`, `'Empty'`, `'Null'`, `'Clip'`) for out-of-bounds start index handling; default now throws a bounds-specific error instead of a generic type-validation message.
+- Fixed multi-key `orderBy()` closure capture bug where all sort keys incorrectly used the last lambda due to LINQ lazy evaluation; multi-key and `jPath`-based sorting now works correctly.
+
 ## 5.8.37 - 2026-05-15
 - Breaking change: parameter metadata APIs now use `TypedDefinition` instead of `(string TypeName, string Value)` tuples, including `ExtendedExpressionDocument.Parameters` and related definition accessors.
 - Added typed parameter and answer definitions using colon-based syntax such as `// x:int:10`, `// y:string?`, and `// answer:string?:null`.
