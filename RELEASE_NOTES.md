@@ -6,6 +6,7 @@ creates a fresh `## Unreleased` section, commits the file, and then calls `Publi
 
 ## Unreleased
 
+## 5.8.45 - 2026-05-17
 ## 5.8.43 - 2026-05-16
 - Added optional `outputFormat` parameter to `countBy()` supporting `'JArray'` and `'JObject'` (case-insensitive); default behavior unchanged.
 - Enhanced `in()` to accept a list variable or `list()` literal as the haystack in the second parameter position; existing varargs behavior unchanged.
