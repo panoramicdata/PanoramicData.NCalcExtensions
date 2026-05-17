@@ -37,18 +37,24 @@ internal static class RegexGroup
 				: 0;
 
 			var regex = RegexCache.GetOrAdd(regexExpression, static pattern => new Regex(pattern));
-			var match = regex.Match(input);
-			if (!match.Success)
-			{
-				functionArgs.Result = null;
-			}
-			else
-			{
-				var group = match.Groups[1];
-				functionArgs.Result = regexCaptureIndex >= group.Captures.Count
-					? null
-					: group.Captures[regexCaptureIndex].Value;
-			}
+				var match = regex.Match(input);
+				if (!match.Success)
+				{
+					functionArgs.Result = null;
+				}
+				else
+				{
+					// Flatten captures across all groups (1..N) in order so that
+					// multi-group patterns can be indexed across all their captures.
+					var allCaptures = Enumerable
+						.Range(1, match.Groups.Count - 1)
+						.SelectMany(i => match.Groups[i].Captures.Cast<Capture>())
+						.ToList();
+
+					functionArgs.Result = regexCaptureIndex >= allCaptures.Count
+						? null
+						: allCaptures[regexCaptureIndex].Value;
+				}
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{

@@ -1481,12 +1481,25 @@ Emits a List\<T\>.
    * regex
    * zero-based capture index (default: 0)
 
+#### Notes
+   Captures are flattened across all capturing groups in order (Group 1, Group 2, ...). For a pattern with a single capturing group this is identical to indexing into that group's captures directly. For patterns with multiple capturing groups, all captures from all groups are concatenated into a single flat list and indexed together.
+
 #### Examples
+
+Single capturing group:
    * regexGroup('abcdef', '^ab(.+?)f$') : 'cde'
    * regexGroup('abcdef', '^ab(.)+f$') : 'c'
    * regexGroup('abcdef', '^ab(.)+f$', 1) : 'd'
    * regexGroup('abcdef', '^ab(.)+f$', 2) : 'e'
    * regexGroup('abcdef', '^ab(.)+f$', 10) : null
+
+Multiple capturing groups (flat capture index across all groups):
+   * regexGroup('abcdef', '^ab((.)+(f))$', 0) : 'cdef'  // Group 1, capture 0
+   * regexGroup('abcdef', '^ab((.)+(f))$', 1) : 'c'     // Group 2, capture 0
+   * regexGroup('abcdef', '^ab((.)+(f))$', 2) : 'd'     // Group 2, capture 1
+   * regexGroup('abcdef', '^ab((.)+(f))$', 3) : 'e'     // Group 2, capture 2
+   * regexGroup('abcdef', '^ab((.)+(f))$', 4) : 'f'     // Group 3, capture 0
+   * regexGroup('abcdef', '^ab((.)+(f))$', 5) : null
 
 ---
 
