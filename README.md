@@ -515,8 +515,8 @@ For a list of supported TimeZone names, see https://docs.microsoft.com/en-us/dot
   * destination TimeZone name
 
 #### Examples
-  * changeTimeZone(theDateTime, 'UTC', 'Eastern Standard Time')
-  * changeTimeZone(theDateTime, 'Eastern Standard Time', 'UTC')
+  * changeTimeZone(toDateTime('2020-03-13 16:00:00', 'yyyy-MM-dd HH:mm:ss'), 'UTC', 'Eastern Standard Time') : 2020-03-13 12:00:00
+  * changeTimeZone(toDateTime('2020-03-13 12:00:00', 'yyyy-MM-dd HH:mm:ss'), 'Eastern Standard Time', 'UTC') : 2020-03-13 16:00:00
 
 ---
 
@@ -692,8 +692,8 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-0
 	* optionally, the name of the timezone that the date and time represents
 
 #### Examples
-   * dateTimeIsInFuture(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : false
-   * dateTimeIsInFuture(toDateTime('2201-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : true
+   * dateTimeIsInFuture(toDateTime('2001-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss')) : false
+   * dateTimeIsInFuture(toDateTime('2201-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss')) : true
    * dateTimeIsInFuture(now(), 'Africa/Luanda') : false; UTC is never ahead of West Africa Time
 
 ---
@@ -708,8 +708,8 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-0
 	* optionally, the name of the timezone that the date and time represents
 
 #### Examples
-   * dateTimeIsInPast(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : true
-   * dateTimeIsInPast(toDateTime('2201-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : false
+   * dateTimeIsInPast(toDateTime('2001-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss')) : true
+   * dateTimeIsInPast(toDateTime('2201-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss')) : false
    * dateTimeIsInPast(now(), 'Africa/Luanda') : true; UTC is always behind West Africa Time
 
 ---
@@ -947,8 +947,8 @@ Determines whether a value is a GUID, or is a string that can be converted to a 
 * value
 
 #### Examples
-* isGuid('9384EF0Z-38AD-4E8E-A24E-0ACD3273A401') : true
-* isGuid('{9384EF0Z-38AD-4E8E-A24E-0ACD3273A401}') : true
+* isGuid('9384EF0A-38AD-4E8E-A24E-0ACD3273A401') : true
+* isGuid('{9384EF0A-38AD-4E8E-A24E-0ACD3273A401}') : true
 * isGuid('abc') : false
 
 ---
@@ -1281,7 +1281,7 @@ Emits a List\<T\>.
    * listOf('object?', '', 1, '0')
    * listOf('object?', null, 1, '0')
    * listOf('int?', 1, null, 3)
-   * listOf('string', '1', '2', 3) : throws an exception
+   * listOf('string', '1', '2', '3') : List<string> containing '1', '2', '3'
 ---
 
 ### max()
@@ -1849,7 +1849,7 @@ Multiple capturing groups (flat capture index across all groups):
    * timeUnit
 
 #### Examples
-   * timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 3600
+   * timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 60
 
 ---
 
