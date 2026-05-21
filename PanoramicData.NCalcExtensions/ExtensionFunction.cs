@@ -87,6 +87,7 @@ internal static class ExtensionFunction
 	internal const string TimeSpan = "timespan";
 	internal const string TimeSpanCamel = "timeSpan";
 	internal const string ToDateTime = "toDateTime";
+	internal const string TitleCase = "titleCase";
 	internal const string ToLower = "toLower";
 	internal new const string ToString = "toString";
 	internal const string ToUpper = "toUpper";

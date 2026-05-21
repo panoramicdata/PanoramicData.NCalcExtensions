@@ -296,6 +296,7 @@ The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCal
 | [any()](#any) | Returns true if any values match the lambda expression, otherwise false. |
 | [canEvaluate()](#canevaluate) | Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set. |
 | [capitalize()](#capitalize) | Capitalizes a string. |
+| [titleCase()](#titlecase) | Converts a string to title case. |
 | [cast()](#cast) | Cast an object to another (e.g. float to decimal). |
 | [changeTimeZone()](#changetimezone) | Change a DateTime's time zone. |
 | [concat()](#concat) | Concatenates lists and objects. |
@@ -478,7 +479,7 @@ Capitalizes a string.
   * string
 
 #### Examples
-  * capitalize('new year') : 'New Year'
+  * capitalize('new year') : 'New year'
 
 ---
 
@@ -1849,6 +1850,21 @@ Multiple capturing groups (flat capture index across all groups):
 
 #### Examples
    * timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 3600
+
+---
+
+### titleCase()
+
+#### Purpose
+Converts a string to title case, capitalizing the first letter of each word.
+
+#### Parameters
+  * string
+
+#### Examples
+  * titleCase('new year') : 'New Year'
+  * titleCase('the quick brown fox') : 'The Quick Brown Fox'
+  * titleCase('ALL CAPS INPUT') : 'All Caps Input'
 
 ---
 

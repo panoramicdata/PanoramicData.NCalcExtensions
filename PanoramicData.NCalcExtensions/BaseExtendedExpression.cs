@@ -483,6 +483,9 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.ToDateTime:
 				ToDateTime.Evaluate(functionArgs, CultureInfo);
 				return;
+			case ExtensionFunction.TitleCase:
+				TitleCaseFunction.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.ToLower:
 				ToLower.Evaluate(functionArgs);
 				return;
