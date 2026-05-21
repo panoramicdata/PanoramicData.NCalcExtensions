@@ -296,7 +296,6 @@ The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCal
 | [any()](#any) | Returns true if any values match the lambda expression, otherwise false. |
 | [canEvaluate()](#canevaluate) | Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set. |
 | [capitalize()](#capitalize) | Capitalizes a string. |
-| [titleCase()](#titlecase) | Converts a string to title case. |
 | [cast()](#cast) | Cast an object to another (e.g. float to decimal). |
 | [changeTimeZone()](#changetimezone) | Change a DateTime's time zone. |
 | [concat()](#concat) | Concatenates lists and objects. |
@@ -374,6 +373,7 @@ The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCal
 | [take()](#take) | Takes a number of items from a list. |
 | [throw()](#throw) | Throws an NCalcExtensionsException. |
 | [timeSpan()](#timespan) | Determines the amount of time between two DateTimes. |
+| [titleCase()](#titlecase) | Converts a string to title case. |
 | [toDateTime()](#todatetime) | Converts a string to a UTC DateTime.  May take an optional inputTimeZone. |
 | [toLower()](#tolower) | Converts a string to lower case. |
 | [toString()](#tostring) | Converts any object to a string. |
