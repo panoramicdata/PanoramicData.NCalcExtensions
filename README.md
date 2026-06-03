@@ -294,10 +294,12 @@ The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCal
 | -------- | ------- | ----- |
 | [all()](#all) | Returns true if all values match the lambda expression, otherwise false. |
 | [any()](#any) | Returns true if any values match the lambda expression, otherwise false. |
+| [average()](#average) | Calculates the average of numeric items in a list. |
 | [canEvaluate()](#canevaluate) | Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set. |
 | [capitalize()](#capitalize) | Capitalizes a string. |
 | [cast()](#cast) | Cast an object to another (e.g. float to decimal). |
 | [changeTimeZone()](#changetimezone) | Change a DateTime's time zone. |
+| [clamp()](#clamp) | Clamps a numeric value between a minimum and maximum. |
 | [concat()](#concat) | Concatenates lists and objects. |
 | [contains()](#contains) | Determines whether one string contains another. |
 | [convert()](#convert) | Converts the output of parameter 1 into the result of parameter 2. |
@@ -314,6 +316,7 @@ The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCal
 | [endsWith()](#endswith) | Determines whether a string ends with another string. |
 | [extend()](#extend) | Extends an existing object into a JObject with both the original and additional properties. |
 | [first()](#first) | Returns the first item in a list that matches a lambda or throws a FormatException if no items match. |
+| [flatten()](#flatten) | Flattens a list of lists into a single flat list. |
 | [firstOrDefault()](#firstOrDefault) | Returns the first item in a list that matches a lambda or null if no items match. |
 | [format()](#format) | Formats strings and numbers as output strings with the specified format. |
 | [getProperties()](#getproperties) | Returns a list of property names for an object. |
@@ -350,11 +353,14 @@ The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCal
 | [nullCoalesce()](#nullcoalesce) | Returns the first parameter that is not null, otherwise: null. |
 | [orderBy()](#orderby) | Orders an IEnumerable by one or more lambda expressions. |
 | [padLeft()](#padleft) | Pad the left of a string with a character to a desired string length. |
+| [padRight()](#padright) | Pad the right of a string with a character to a desired string length. |
 | [parse()](#parse) | Returns the conversion of a string to a new type. |
 | [parseInt()](#parseint) | Returns an integer version of a string. | Deprecated - use parse() or tryParse() instead) |
 | [regexGroup()](#regexgroup) | Selects a regex group capture. |
 | [regexIsMatch()](#regexismatch) | Determine whether a string matches a regex. |
+| [regexReplace()](#regexreplace) | Replaces occurrences of a regex pattern in a string. |
 | [replace()](#replace) | Replace a string with another string. |
+| [repeat()](#repeat) | Repeats a string a specified number of times. |
 | [retrieve()](#retrieve) | Retrieves a value from storage. |
 | [reverse()](#reverse) | Reverses an IEnumerable and emits a List<object?>. |
 | [sanitize()](#sanitize) | Sanitizes a string, replacing any characters outside of the allowed set. |
@@ -379,6 +385,7 @@ The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCal
 | [toString()](#tostring) | Converts any object to a string. |
 | [toUpper()](#toupper) | Converts a string to upper case. |
 | [trim()](#trim) | Removed leading and trailing whitespace. |
+| [truncate()](#truncate) | Truncates a string to a maximum length. |
 | [try()](#try) | If a function throws an exception, return an alternate value. |
 | [tryParse()](#tryparse) | Returns a boolean result of an attempted cast |
 | [typeOf()](#typeof) | Determines the C# type of the object. |
@@ -455,6 +462,21 @@ Returns true if any values match the lambda expression, otherwise false.
 
 ---
 
+### average()
+
+#### Purpose
+
+Calculates the average of numeric items in a list. Returns NaN for an empty list.
+
+#### Parameters
+  * list - the list of numeric values
+
+#### Examples
+  * average(listOf('int', 1, 2, 3, 4, 5)) : 3.0
+  * average(listOf('double', 1.0, 2.0, 3.0)) : 2.0
+
+---
+
 ### canEvaluate()
 
 #### Purpose
@@ -517,6 +539,24 @@ For a list of supported TimeZone names, see https://docs.microsoft.com/en-us/dot
 #### Examples
   * changeTimeZone(toDateTime('2020-03-13 16:00:00', 'yyyy-MM-dd HH:mm:ss'), 'UTC', 'Eastern Standard Time') : 2020-03-13 12:00:00
   * changeTimeZone(toDateTime('2020-03-13 12:00:00', 'yyyy-MM-dd HH:mm:ss'), 'Eastern Standard Time', 'UTC') : 2020-03-13 16:00:00
+
+---
+
+### clamp()
+
+#### Purpose
+
+Clamps a numeric value between a minimum and maximum.
+
+#### Parameters
+  * value - the numeric value to clamp
+  * min - the minimum allowed value (must be <= max)
+  * max - the maximum allowed value
+
+#### Examples
+  * clamp(5.0, 1.0, 10.0) : 5.0
+  * clamp(-5.0, 0.0, 10.0) : 0.0
+  * clamp(15.0, 0.0, 10.0) : 10.0
 
 ---
 
@@ -797,6 +837,21 @@ Returns the first item in a list that matches a lambda or null if no items match
 #### Examples
 * firstOrDefault(list(1, 5, 2, 3), 'n', 'n % 2 == 0') : 2
 * firstOrDefault(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : null
+
+---
+
+### flatten()
+
+#### Purpose
+
+Flattens a list of lists into a single flat list. Non-list items are included as-is.
+
+#### Parameters
+  * listOfLists - the list of lists to flatten
+
+#### Examples
+  * flatten(list(list(1, 2), list(3, 4))) : list(1, 2, 3, 4)
+  * flatten(list(list(1, 2), list())) : list(1, 2)
 
 ---
 ### format()
@@ -1421,6 +1476,25 @@ Emits a List\<T\>.
 
 ---
 
+### padRight()
+
+#### Purpose
+
+Pad the right of a string with a character to a desired string length.
+
+#### Parameters
+  * stringToPad - the string to pad
+  * length - the desired string length (must be >= 1)
+  * paddingCharacter - the character used to pad (single character string)
+
+#### Examples
+   * padRight('', 1, '0') : '0'
+   * padRight('12', 5, '0') : '12000'
+   * padRight('12345', 5, '0') : '12345'
+   * padRight('12345', 3, '0') : '12345'
+
+---
+
 ### parse()
 
 #### Purpose
@@ -1515,25 +1589,60 @@ Multiple capturing groups (flat capture index across all groups):
 
 #### Examples
    * regexIsMatch('abcdef', '^ab.+') : true
-   * regexIsMatch('Zbcdef', '^ab.+') : false
+	* regexIsMatch('Zbcdef', '^ab.+') : false
+
+---
+
+### regexReplace()
+
+#### Purpose
+
+Replaces occurrences of a regex pattern in a string with a replacement string.
+
+#### Parameters
+  * input - the input string
+  * pattern - the regular expression pattern to match
+  * replacement - the replacement string (supports capture group references e.g. '$1')
+
+#### Examples
+	* regexReplace('hello world', 'world', 'there') : 'hello there'
+	* regexReplace('2024-01-15', '(\d{4})-(\d{2})-(\d{2})', '$3/$2/$1') : '15/01/2024'
+	* regexReplace('hello world', '\s+', '') : 'helloworld'
 
 ---
 
 ### replace()
 
 #### Purpose
-   Replace a string with another string
+	Replace a string with another string
 
 #### Parameters
-   * haystackString
-   * needleString
-   * betterNeedleString
+	* haystackString
+	* needleString
+	* betterNeedleString
 	* ... (optional) more needle/betterNeedle pairs
 
 #### Examples
-   * replace('abcdefg', 'cde', 'CDE') : 'abCDEfg'
-   * replace('abcdefg', 'cde', '') : 'abfg'
+	* replace('abcdefg', 'cde', 'CDE') : 'abCDEfg'
+	* replace('abcdefg', 'cde', '') : 'abfg'
 	* replace('abcdefg', 'a', '1', 'bc', '23') : '123defg'
+
+---
+
+### repeat()
+
+#### Purpose
+
+Repeats a string a specified number of times.
+
+#### Parameters
+  * text - the string to repeat
+  * count - the number of times to repeat (must be >= 0)
+
+#### Examples
+	* repeat('ab', 3) : 'ababab'
+	* repeat('hello', 1) : 'hello'
+	* repeat('hello', 0) : ''
 
 ---
 
@@ -1944,6 +2053,25 @@ Converts a string to title case, capitalizing the first letter of each word.
 
 #### Examples
    * trim(' xxx xxx\n') : 'xxx xxx'
+
+---
+
+### truncate()
+
+#### Purpose
+
+Truncates a string to a maximum length, optionally appending an ellipsis.
+
+#### Parameters
+  * text - the string to truncate
+  * maxLength - the maximum length of the output string (must be >= 0)
+  * ellipsis - (optional) string to append when truncated (e.g. '...'). Defaults to empty string.
+
+#### Examples
+   * truncate('hello world', 5) : 'hello'
+   * truncate('hello world', 8, '...') : 'hello...'
+   * truncate('hello', 10) : 'hello'
+   * truncate('hello', 0) : ''
 
 ---
 

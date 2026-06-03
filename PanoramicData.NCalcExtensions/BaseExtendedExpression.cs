@@ -241,6 +241,9 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.Any:
 				Any.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Average:
+				AverageFunction.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.CanEvaluate:
 				CanEvaluate.Evaluate(functionArgs);
 				return;
@@ -253,6 +256,9 @@ public abstract class BaseExtendedExpression : Expression
 				return;
 			case ExtensionFunction.ChangeTimeZone:
 				ChangeTimeZone.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Clamp:
+				ClampFunction.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Concat:
 				Concat.Evaluate(functionArgs);
@@ -304,6 +310,9 @@ public abstract class BaseExtendedExpression : Expression
 				return;
 			case ExtensionFunction.FirstOrDefault:
 				FirstOrDefault.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Flatten:
+				FlattenFunction.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Format:
 				Format.Evaluate(functionArgs, CultureInfo);
@@ -411,6 +420,9 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.PadLeft:
 				PadLeft.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.PadRight:
+				PadRight.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Parse:
 				Parse.Evaluate(functionArgs);
 				return;
@@ -423,8 +435,14 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.RegexIsMatch:
 				RegexIsMatch.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.RegexReplace:
+				RegexReplaceFunction.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Replace:
 				Replace.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Repeat:
+				RepeatFunction.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Retrieve:
 				Retrieve.Evaluate(functionArgs);
@@ -497,6 +515,9 @@ public abstract class BaseExtendedExpression : Expression
 				return;
 			case ExtensionFunction.Trim:
 				Trim.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Truncate:
+				TruncateFunction.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Try:
 				Try.Evaluate(functionArgs);
