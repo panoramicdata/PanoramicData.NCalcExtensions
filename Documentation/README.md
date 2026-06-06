@@ -1,9 +1,4 @@
-<table>
-  <tr>
-    <td><h1>Daria</h1></td>
-    <td align="right"><img src="../PanoramicData.NCalcExtensions/Panoramic%20Data.png" alt="Panoramic Data logo" width="96" /></td>
-  </tr>
-</table>
+<h1>PanoramicData.NCalcExtensions</h1>
 
 This index points to the generated documentation folders under `Documentation/<function>/`.
 
