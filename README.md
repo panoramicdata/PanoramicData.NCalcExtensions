@@ -11,6 +11,10 @@ This nuget package provides extension functions for NCalc.
 
 The NCalc documentation can be found [here (source code)](https://github.com/ncalc/ncalc) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
 
+## Function documentation
+
+Detailed per-function documentation is maintained in [Documentation/README.md](Documentation/README.md) and generated pages under [Documentation/](Documentation/).
+
 ## Release Process
 
 Use [RELEASE_NOTES.md](RELEASE_NOTES.md) to maintain upcoming changes under `## Unreleased`.
@@ -326,7 +330,3 @@ For this reason, we guarantee that we will never use the underscore character in
 
 Pull requests are welcome!
 Please submit your requests for new functions in the form of pull requests.
-
-## Function documentation
-
-Detailed per-function documentation is maintained in [Documentation/README.md](Documentation/README.md) and generated pages under [Documentation/](Documentation/).
