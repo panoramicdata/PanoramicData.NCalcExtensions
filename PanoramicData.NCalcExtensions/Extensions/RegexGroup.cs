@@ -1,4 +1,6 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.Collections.Concurrent;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
 
 /// <summary>
 /// Used to provide IntelliSense in Monaco editor
@@ -19,6 +21,8 @@ public partial interface IFunctionPrototypes
 
 internal static class RegexGroup
 {
+	private static readonly ConcurrentDictionary<string, Regex> RegexCache = new(StringComparer.Ordinal);
+
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		try
@@ -32,20 +36,25 @@ internal static class RegexGroup
 				? functionArgs.Parameters[2].Evaluate() as int? ?? 0
 				: 0;
 
-			var regex = new Regex(regexExpression);
-			if (!regex.IsMatch(input))
-			{
-				functionArgs.Result = null;
-			}
-			else
-			{
-				var group = regex
-					.Match(input)
-					.Groups[1];
-				functionArgs.Result = regexCaptureIndex >= group.Captures.Count
-					? null
-					: group.Captures[regexCaptureIndex].Value;
-			}
+			var regex = RegexCache.GetOrAdd(regexExpression, static pattern => new Regex(pattern));
+				var match = regex.Match(input);
+				if (!match.Success)
+				{
+					functionArgs.Result = null;
+				}
+				else
+				{
+					// Flatten captures across all groups (1..N) in order so that
+					// multi-group patterns can be indexed across all their captures.
+					var allCaptures = Enumerable
+						.Range(1, match.Groups.Count - 1)
+						.SelectMany(i => match.Groups[i].Captures.Cast<Capture>())
+						.ToList();
+
+					functionArgs.Result = regexCaptureIndex >= allCaptures.Count
+						? null
+						: allCaptures[regexCaptureIndex].Value;
+				}
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{

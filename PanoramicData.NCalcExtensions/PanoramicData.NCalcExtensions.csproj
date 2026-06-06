@@ -22,7 +22,7 @@
     <PackageTags>ncalc extensions</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <DebugType>portable</DebugType>
-    <PackageReleaseNotes>Major version update - see README for full details, including breaking changes.</PackageReleaseNotes>
+    <PackageReleaseNotes>See RELEASE_NOTES.md in the repository for version-specific notes.</PackageReleaseNotes>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <ImplicitUsings>enable</ImplicitUsings>
     <PackageId>PanoramicData.NCalcExtensions</PackageId>

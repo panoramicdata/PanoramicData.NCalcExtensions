@@ -250,4 +250,80 @@ public class CountByTests
 		result!["a-b"]!.Value<int>().Should().Be(2);
 		result["c_d"]!.Value<int>().Should().Be(1);
 	}
+
+	// AC-01: Default behavior (no fourth parameter) returns JObject
+	[Fact]
+	public void CountBy_NoFormatParameter_ReturnsJObject()
+	{
+		var expression = new ExtendedExpression("countBy(list(1, 2, 2, 3), 'n', 'toString(n)')");
+		var result = expression.Evaluate();
+		result.Should().BeOfType<JObject>();
+	}
+
+	// AC-02: JArray format returns array of {name, count} objects
+	[Theory]
+	[InlineData("'JArray'")]
+	[InlineData("'jarray'")]
+	[InlineData("'JARRAY'")]
+	public void CountBy_JArrayFormat_ReturnsJArray(string formatParam)
+	{
+		var expression = new ExtendedExpression($"countBy(list(1, 2, 2, 3, 3, 3), 'n', 'toString(n)', {formatParam})");
+		var result = expression.Evaluate();
+		result.Should().BeOfType<JArray>();
+		var array = (JArray)result;
+		array.Should().HaveCount(3);
+		array[0]["name"]!.Value<string>().Should().Be("1");
+		array[0]["count"]!.Value<int>().Should().Be(1);
+		array[1]["name"]!.Value<string>().Should().Be("2");
+		array[1]["count"]!.Value<int>().Should().Be(2);
+		array[2]["name"]!.Value<string>().Should().Be("3");
+		array[2]["count"]!.Value<int>().Should().Be(3);
+	}
+
+	// AC-03: Explicit JObject format returns flat JObject
+	[Theory]
+	[InlineData("'JObject'")]
+	[InlineData("'jobject'")]
+	[InlineData("'JOBJECT'")]
+	public void CountBy_JObjectFormat_ReturnsJObject(string formatParam)
+	{
+		var expression = new ExtendedExpression($"countBy(list(1, 2, 2, 3), 'n', 'toString(n)', {formatParam})");
+		var result = expression.Evaluate();
+		result.Should().BeOfType<JObject>();
+		var obj = (JObject)result;
+		obj["1"]!.Value<int>().Should().Be(1);
+		obj["2"]!.Value<int>().Should().Be(2);
+		obj["3"]!.Value<int>().Should().Be(1);
+	}
+
+	// AC-05: Insertion order preserved in JArray format
+	[Fact]
+	public void CountBy_JArrayFormat_PreservesInsertionOrder()
+	{
+		var expression = new ExtendedExpression("countBy(list('c', 'a', 'b', 'a', 'c', 'c'), 'n', 'n', 'JArray')");
+		var result = expression.Evaluate() as JArray;
+		result.Should().NotBeNull();
+		result![0]["name"]!.Value<string>().Should().Be("c");
+		result[1]["name"]!.Value<string>().Should().Be("a");
+		result[2]["name"]!.Value<string>().Should().Be("b");
+	}
+
+	// Unrecognized format falls back to JObject
+	[Fact]
+	public void CountBy_UnrecognizedFormat_ReturnsJObject()
+	{
+		var expression = new ExtendedExpression("countBy(list(1, 2), 'n', 'toString(n)', 'unknown')");
+		var result = expression.Evaluate();
+		result.Should().BeOfType<JObject>();
+	}
+
+	// JArray format with empty list returns empty array
+	[Fact]
+	public void CountBy_JArrayFormat_EmptyList_ReturnsEmptyArray()
+	{
+		var expression = new ExtendedExpression("countBy(list(), 'n', 'toString(n)', 'JArray')");
+		var result = expression.Evaluate() as JArray;
+		result.Should().NotBeNull();
+		result!.Should().BeEmpty();
+	}
 }

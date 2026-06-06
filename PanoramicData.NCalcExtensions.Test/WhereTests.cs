@@ -166,4 +166,22 @@ where(
 		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
 			.WithMessage("*Third*parameter must be a string*");
 	}
+
+	[Fact]
+	public void Where_WithGetPropertyInsideLambda_UsingDoubleQuotes_Succeeds()
+	{
+		// Verifies issue #19: getProperty() with a double-quoted string inside a where() lambda.
+		// Single-quoted outer string can contain double-quoted inner strings in NCalc.
+		var objects = new List<object?>
+		{
+			new { Level = 0 },
+			new { Level = 1 },
+			new { Level = 2 },
+		};
+		var expression = new ExtendedExpression("""where(myobjectarray, 'x', 'getProperty(x, "Level") > 0')""");
+		expression.Parameters["myobjectarray"] = objects;
+		var result = expression.Evaluate() as List<object?>;
+		result.Should().NotBeNull();
+		result!.Should().HaveCount(2);
+	}
 }

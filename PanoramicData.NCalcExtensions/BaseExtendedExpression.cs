@@ -51,101 +51,137 @@ public abstract class BaseExtendedExpression : Expression
 	}
 
 	/// <summary>
-	/// Set parameters from a dictionary of (typeName, valueString) tuples.
+	/// Set parameters from typed definitions.
 	/// Used by both ExtendedExpression and SimpleExtendedExpression.
 	/// </summary>
-	protected void SetParametersFromDefinitions(Dictionary<string, (string TypeName, string Value)> parameterDefinitions)
+	protected void SetParametersFromDefinitions(Dictionary<string, TypedDefinition> parameterDefinitions)
 	{
 		foreach (var kvp in parameterDefinitions)
 		{
 			var parameterName = kvp.Key;
-			var (typeName, valueString) = kvp.Value;
+			var definition = kvp.Value;
 
-			try
+			if (!definition.HasValue)
 			{
-				var type = Type.GetType(typeName);
-				if (type == null)
-				{
-					throw new FormatException($"Parameter '{parameterName}': Type '{typeName}' could not be resolved.");
-				}
+				continue;
+			}
 
-				// Convert the string value to the appropriate type
-				object? convertedValue;
-				if (type == typeof(string))
+			Parameters[parameterName] = ConvertDefinitionValue($"Parameter '{parameterName}'", definition);
+		}
+	}
+
+	protected object? ConvertDefinitionValue(string definitionName, TypedDefinition definition)
+	{
+		try
+		{
+			if (!TypedDefinitionTypeResolver.TryResolve(definition.TypeName, out var resolvedType))
+			{
+				throw new FormatException($"{definitionName}: Type '{definition.TypeName}' could not be resolved.");
+			}
+
+			if (!definition.HasValue)
+			{
+				return null;
+			}
+
+			if (definition.IsNull)
+			{
+				if (!resolvedType.AllowsNull)
 				{
-					convertedValue = valueString;
-				}
-				else if (type == typeof(int))
-				{
-					convertedValue = int.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(long))
-				{
-					convertedValue = long.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(double))
-				{
-					convertedValue = double.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(decimal))
-				{
-					convertedValue = decimal.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(float))
-				{
-					convertedValue = float.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(bool))
-				{
-					convertedValue = bool.Parse(valueString);
-				}
-				else if (type == typeof(DateTime))
-				{
-					convertedValue = DateTime.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(Guid))
-				{
-					convertedValue = Guid.Parse(valueString);
-				}
-				else if (type == typeof(byte))
-				{
-					convertedValue = byte.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(short))
-				{
-					convertedValue = short.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(uint))
-				{
-					convertedValue = uint.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(ulong))
-				{
-					convertedValue = ulong.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(ushort))
-				{
-					convertedValue = ushort.Parse(valueString, CultureInfo);
-				}
-				else if (type == typeof(sbyte))
-				{
-					convertedValue = sbyte.Parse(valueString, CultureInfo);
-				}
-				else
-				{
-					throw new FormatException($"Parameter '{parameterName}': Type '{typeName}' is not supported for parameter definition.");
+					throw new FormatException($"{definitionName}: Type '{definition.TypeName}' does not allow null values.");
 				}
 
-				Parameters[parameterName] = convertedValue;
+				return null;
 			}
-			catch (FormatException)
+
+			var valueString = definition.Value
+				?? throw new FormatException($"{definitionName}: A literal value was expected.");
+			var type = resolvedType.UnderlyingType;
+				
+			if (type == typeof(string))
 			{
-				throw;
+				return valueString;
 			}
-			catch (Exception ex)
+
+			if (type == typeof(int))
 			{
-				throw new FormatException($"Parameter '{parameterName}': Failed to parse value '{valueString}' as type '{typeName}'. {ex.Message}", ex);
+				return int.Parse(valueString, CultureInfo);
 			}
+
+			if (type == typeof(long))
+			{
+				return long.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(double))
+			{
+				return double.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(decimal))
+			{
+				return decimal.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(float))
+			{
+				return float.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(bool))
+			{
+				return bool.Parse(valueString);
+			}
+
+			if (type == typeof(DateTime))
+			{
+				return DateTime.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(Guid))
+			{
+				return Guid.Parse(valueString);
+			}
+
+			if (type == typeof(byte))
+			{
+				return byte.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(short))
+			{
+				return short.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(uint))
+			{
+				return uint.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(ulong))
+			{
+				return ulong.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(ushort))
+			{
+				return ushort.Parse(valueString, CultureInfo);
+			}
+
+			if (type == typeof(sbyte))
+			{
+				return sbyte.Parse(valueString, CultureInfo);
+			}
+
+			throw new FormatException($"{definitionName}: Type '{definition.TypeName}' is not supported for typed definitions.");
+		}
+		catch (FormatException)
+		{
+			throw;
+		}
+		catch (Exception ex)
+		{
+			throw new FormatException($"{definitionName}: Failed to parse value '{definition.Value}' as type '{definition.TypeName}'. {ex.Message}", ex);
 		}
 	}
 
@@ -205,6 +241,9 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.Any:
 				Any.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Average:
+				AverageFunction.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.CanEvaluate:
 				CanEvaluate.Evaluate(functionArgs);
 				return;
@@ -217,6 +256,9 @@ public abstract class BaseExtendedExpression : Expression
 				return;
 			case ExtensionFunction.ChangeTimeZone:
 				ChangeTimeZone.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Clamp:
+				ClampFunction.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Concat:
 				Concat.Evaluate(functionArgs);
@@ -269,6 +311,9 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.FirstOrDefault:
 				FirstOrDefault.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.Flatten:
+				FlattenFunction.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Format:
 				Format.Evaluate(functionArgs, CultureInfo);
 				return;
@@ -289,7 +334,7 @@ public abstract class BaseExtendedExpression : Expression
 				IndexOf.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.If:
-				If.Evaluate(functionArgs);
+				Extensions.If.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.IsGuid:
 				IsGuid.Evaluate(functionArgs);
@@ -375,6 +420,9 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.PadLeft:
 				PadLeft.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.PadRight:
+				PadRight.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Parse:
 				Parse.Evaluate(functionArgs);
 				return;
@@ -387,8 +435,14 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.RegexIsMatch:
 				RegexIsMatch.Evaluate(functionArgs);
 				return;
+			case ExtensionFunction.RegexReplace:
+				RegexReplaceFunction.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.Replace:
 				Replace.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Repeat:
+				RepeatFunction.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Retrieve:
 				Retrieve.Evaluate(functionArgs);
@@ -400,7 +454,7 @@ public abstract class BaseExtendedExpression : Expression
 				Sanitize.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Select:
-				Select.Evaluate(functionArgs);
+				Extensions.Select.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.SelectDistinct:
 				SelectDistinct.Evaluate(functionArgs);
@@ -447,6 +501,9 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.ToDateTime:
 				ToDateTime.Evaluate(functionArgs, CultureInfo);
 				return;
+			case ExtensionFunction.TitleCase:
+				TitleCaseFunction.Evaluate(functionArgs);
+				return;
 			case ExtensionFunction.ToLower:
 				ToLower.Evaluate(functionArgs);
 				return;
@@ -458,6 +515,9 @@ public abstract class BaseExtendedExpression : Expression
 				return;
 			case ExtensionFunction.Trim:
 				Trim.Evaluate(functionArgs);
+				return;
+			case ExtensionFunction.Truncate:
+				TruncateFunction.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Try:
 				Try.Evaluate(functionArgs);

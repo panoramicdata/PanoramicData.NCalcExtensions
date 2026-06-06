@@ -111,4 +111,137 @@ public class InTests
 		var expression = new ExtendedExpression("in(2.5, 1.5, 2.5, 3.5)");
 		expression.Evaluate().Should().Be(true);
 	}
+
+	// AC-01: Existing varargs behavior unchanged - positive case
+	[Fact]
+	public void In_Varargs_ExistingBehavior_PositiveCase()
+	{
+		var expression = new ExtendedExpression("in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it')");
+		expression.Evaluate().Should().Be(true);
+	}
+
+	// AC-01b: Existing varargs behavior unchanged - negative case
+	[Fact]
+	public void In_Varargs_ExistingBehavior_NegativeCase()
+	{
+		var expression = new ExtendedExpression("in('needle', 'haystack', 'with', 'only', 'hay')");
+		expression.Evaluate().Should().Be(false);
+	}
+
+	// AC-02: Variable list support - positive case
+	[Fact]
+	public void In_ListVariable_PositiveCase_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, Haystack)");
+		expression.Parameters["ThingToFind"] = "needle";
+		expression.Parameters["Haystack"] = new List<object?> { "haystack", "with", "needle", "in", "it" };
+		expression.Evaluate().Should().Be(true);
+	}
+
+	// AC-02: list() literal in second position - positive case
+	[Fact]
+	public void In_ListLiteral_PositiveCase_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, list('haystack', 'with', 'needle', 'in', 'it'))");
+		expression.Parameters["ThingToFind"] = "needle";
+		expression.Evaluate().Should().Be(true);
+	}
+
+	// AC-03: Variable list support - negative case
+	[Fact]
+	public void In_ListVariable_NegativeCase_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, HayOnly)");
+		expression.Parameters["ThingToFind"] = "needle";
+		expression.Parameters["HayOnly"] = new List<object?> { "haystack", "with", "only", "hay" };
+		expression.Evaluate().Should().Be(false);
+	}
+
+	// AC-04: Case-sensitive - wrong case returns false
+	[Fact]
+	public void In_ListVariable_CaseSensitive_WrongCase_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, Haystack)");
+		expression.Parameters["ThingToFind"] = "Needle";
+		expression.Parameters["Haystack"] = new List<object?> { "haystack", "with", "needle", "in", "it" };
+		expression.Evaluate().Should().Be(false);
+	}
+
+	// AC-05: Case-sensitive - exact case returns true
+	[Fact]
+	public void In_ListVariable_CaseSensitive_ExactCase_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, Haystack)");
+		expression.Parameters["ThingToFind"] = "Needle";
+		expression.Parameters["Haystack"] = new List<object?> { "haystack", "with", "Needle", "in", "it" };
+		expression.Evaluate().Should().Be(true);
+	}
+
+	// Typed List<string> variable works as haystack
+	[Fact]
+	public void In_TypedListStringVariable_Works()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, Haystack)");
+		expression.Parameters["ThingToFind"] = "needle";
+		expression.Parameters["Haystack"] = new List<string> { "haystack", "with", "needle" };
+		expression.Evaluate().Should().Be(true);
+	}
+
+	// Empty list variable returns false
+	[Fact]
+	public void In_EmptyListVariable_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, Haystack)");
+		expression.Parameters["ThingToFind"] = "needle";
+		expression.Parameters["Haystack"] = new List<object?>();
+		expression.Evaluate().Should().Be(false);
+	}
+
+	// Empty list() literal returns false
+	[Fact]
+	public void In_EmptyListLiteral_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, list())");
+		expression.Parameters["ThingToFind"] = "needle";
+		expression.Evaluate().Should().Be(false);
+	}
+
+	// list() literal - negative case
+	[Fact]
+	public void In_ListLiteral_NegativeCase_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, list('haystack', 'with', 'only', 'hay'))");
+		expression.Parameters["ThingToFind"] = "needle";
+		expression.Evaluate().Should().Be(false);
+	}
+
+	// Null needle found in list variable
+	[Fact]
+	public void In_NullNeedle_InListVariable_ReturnsTrue()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, Haystack)");
+		expression.Parameters["ThingToFind"] = null;
+		expression.Parameters["Haystack"] = new List<object?> { "a", null, "b" };
+		expression.Evaluate().Should().Be(true);
+	}
+
+	// Null needle not in list variable
+	[Fact]
+	public void In_NullNeedle_NotInListVariable_ReturnsFalse()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, Haystack)");
+		expression.Parameters["ThingToFind"] = null;
+		expression.Parameters["Haystack"] = new List<object?> { "a", "b", "c" };
+		expression.Evaluate().Should().Be(false);
+	}
+
+	// Typed int[] array variable works as haystack
+	[Fact]
+	public void In_TypedIntArrayVariable_Works()
+	{
+		var expression = new ExtendedExpression("in(ThingToFind, Haystack)");
+		expression.Parameters["ThingToFind"] = 3;
+		expression.Parameters["Haystack"] = new int[] { 1, 2, 3, 4 };
+		expression.Evaluate().Should().Be(true);
+	}
 }

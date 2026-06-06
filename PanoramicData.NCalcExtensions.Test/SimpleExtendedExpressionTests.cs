@@ -135,6 +135,39 @@ isActive
 	}
 
 	[Fact]
+	public void WithDocument_Answer_SetsExpectedAnswer()
+	{
+		var multilineExpression = """
+// answer:bool:false
+all(list(true, false, true))
+""";
+		var document = ExtendedExpressionDocumentParser.Parse(multilineExpression);
+		var expression = new SimpleExtendedExpression(document.TidiedExpression, document);
+
+		expression.HasExpectedAnswer.Should().BeTrue();
+		expression.HasExpectedAnswerValue.Should().BeTrue();
+		expression.AnswerDefinition.Should().Be(TypedDefinition.FromLiteral("bool", "false"));
+		expression.ExpectedAnswer.Should().Be(false);
+		expression.Evaluate().Should().Be(expression.ExpectedAnswer);
+	}
+
+	[Fact]
+	public void WithDocument_TypeOnlyAnswer_HasNoExpectedAnswerValue()
+	{
+		var multilineExpression = """
+// answer:string?
+'abc'
+""";
+		var document = ExtendedExpressionDocumentParser.Parse(multilineExpression);
+		var expression = new SimpleExtendedExpression(document.TidiedExpression, document);
+
+		expression.HasExpectedAnswer.Should().BeTrue();
+		expression.HasExpectedAnswerValue.Should().BeFalse();
+		expression.AnswerDefinition.Should().Be(TypedDefinition.FromTypeOnly("string?"));
+		expression.ExpectedAnswer.Should().BeNull();
+	}
+
+	[Fact]
 	public void WithDocument_DecimalParameter_Works()
 	{
 		var multilineExpression = """

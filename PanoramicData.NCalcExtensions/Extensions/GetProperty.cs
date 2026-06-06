@@ -1,4 +1,7 @@
-﻿namespace PanoramicData.NCalcExtensions.Extensions;
+﻿using System.Collections.Concurrent;
+using System.Reflection;
+
+namespace PanoramicData.NCalcExtensions.Extensions;
 
 /// <summary>
 /// Used to provide IntelliSense in Monaco editor
@@ -17,6 +20,8 @@ public partial interface IFunctionPrototypes
 
 internal static class GetProperty
 {
+	private static readonly ConcurrentDictionary<(Type Type, string PropertyName), PropertyInfo> PropertyCache = new();
+
 	internal static void Evaluate(FunctionArgs functionArgs)
 	{
 		try
@@ -35,18 +40,18 @@ internal static class GetProperty
 						functionArgs.Result = jToken?.Type switch
 						{
 							null or JTokenType.Null or JTokenType.Undefined => null,
-							JTokenType.Object => jToken!.ToObject<JObject>(),
-							JTokenType.Array => jToken!.ToObject<JArray>(),
-							JTokenType.Constructor => jToken!.ToObject<JConstructor>(),
-							JTokenType.Property => jToken!.ToObject<JProperty>(),
-							JTokenType.Comment => jToken!.ToObject<JValue>(),
-							JTokenType.Integer => jToken!.ToObject<int>(),
-							JTokenType.Float => jToken!.ToObject<float>(),
-							JTokenType.String => jToken!.ToObject<string>(),
-							JTokenType.Boolean => jToken!.ToObject<bool>(),
-							JTokenType.Date => jToken!.ToObject<DateTime>(),
-							JTokenType.Raw or JTokenType.Bytes => jToken!.ToObject<JValue>(),
-							JTokenType.Guid => jToken!.ToObject<Guid>(),
+							JTokenType.Object => (JObject)jToken!,
+							JTokenType.Array => (JArray)jToken!,
+							JTokenType.Constructor => (JConstructor)jToken!,
+							JTokenType.Property => (JProperty)jToken!,
+							JTokenType.Comment => (JValue)jToken!,
+							JTokenType.Integer => jToken!.Value<int>(),
+							JTokenType.Float => jToken!.Value<float>(),
+							JTokenType.String => jToken!.Value<string>(),
+							JTokenType.Boolean => jToken!.Value<bool>(),
+							JTokenType.Date => jToken!.Value<DateTime>(),
+							JTokenType.Raw or JTokenType.Bytes => (JValue)jToken!,
+							JTokenType.Guid => jToken!.Value<Guid>(),
 							_ => throw new NotSupportedException("Unsupported JTokenType: " + jToken!.Type)
 						};
 						break;
@@ -99,7 +104,10 @@ internal static class GetProperty
 				default:
 					{
 						var type = value.GetType();
-						var propertyInfo = type.GetProperty(property) ?? throw new FormatException($"Could not find property {property} on type {type.Name}");
+						var propertyInfo = PropertyCache.GetOrAdd(
+							(type, property),
+							static key => key.Type.GetProperty(key.PropertyName)
+								?? throw new FormatException($"Could not find property {key.PropertyName} on type {key.Type.Name}"));
 						functionArgs.Result = propertyInfo.GetValue(value);
 						break;
 					}

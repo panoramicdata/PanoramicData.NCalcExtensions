@@ -4,11 +4,13 @@ internal static class ExtensionFunction
 {
 	internal const string All = "all";
 	internal const string Any = "any";
+	internal const string Average = "average";
 	internal const string CanEvaluate = "canEvaluate";
 	internal const string Capitalise = "capitalise";
 	internal const string Capitalize = "capitalize";
 	internal const string Cast = "cast";
 	internal const string ChangeTimeZone = "changeTimeZone";
+	internal const string Clamp = "clamp";
 	internal const string Concat = "concat";
 	internal const string Contains = "contains";
 	internal const string Convert = "convert";
@@ -26,6 +28,7 @@ internal static class ExtensionFunction
 	internal const string Extend = "extend";
 	internal const string First = "first";
 	internal const string FirstOrDefault = "firstOrDefault";
+	internal const string Flatten = "flatten";
 	internal const string Format = "format";
 	internal const string GetProperty = "getProperty";
 	internal const string GetProperties = "getProperties";
@@ -62,11 +65,14 @@ internal static class ExtensionFunction
 	internal const string NullCoalesce = "nullCoalesce";
 	internal const string OrderBy = "orderBy";
 	internal const string PadLeft = "padLeft";
+	internal const string PadRight = "padRight";
 	internal const string Parse = "parse";
 	internal const string ParseInt = "parseInt";
 	internal const string RegexGroup = "regexGroup";
 	internal const string RegexIsMatch = "regexIsMatch";
+	internal const string RegexReplace = "regexReplace";
 	internal const string Replace = "replace";
+	internal const string Repeat = "repeat";
 	internal const string Retrieve = "retrieve";
 	internal const string Reverse = "reverse";
 	internal const string Sanitize = "sanitize";
@@ -87,10 +93,12 @@ internal static class ExtensionFunction
 	internal const string TimeSpan = "timespan";
 	internal const string TimeSpanCamel = "timeSpan";
 	internal const string ToDateTime = "toDateTime";
+	internal const string TitleCase = "titleCase";
 	internal const string ToLower = "toLower";
 	internal new const string ToString = "toString";
 	internal const string ToUpper = "toUpper";
 	internal const string Trim = "trim";
+	internal const string Truncate = "truncate";
 	internal const string Try = "try";
 	internal const string TryParse = "tryParse";
 	internal const string TypeOf = "typeOf";

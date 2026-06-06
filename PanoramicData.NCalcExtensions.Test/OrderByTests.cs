@@ -4,6 +4,59 @@ namespace PanoramicData.NCalcExtensions.Test;
 
 public class OrderByTests : NCalcTest
 {
+	// Regression test for closure capture bug: multi-key orderBy with jPath selectors
+	[Fact]
+	public void OrderBy_JObjectList_SurnameAscNameAsc_CorrectOrder()
+	{
+		var expression = new ExtendedExpression("orderBy(People, 'person', 'jPath(person, \\'Surname\\')', 'jPath(person, \\'Name\\')')");
+		expression.Parameters["People"] = new List<object?>
+		{
+			JObject.Parse("{\"Name\":\"James\",\"Surname\":\"Chen\"}"),
+			JObject.Parse("{\"Name\":\"Sarah\",\"Surname\":\"Martinez\"}"),
+			JObject.Parse("{\"Name\":\"David\",\"Surname\":\"Thompson\"}"),
+			JObject.Parse("{\"Name\":\"Emily\",\"Surname\":\"Anderson\"}"),
+			JObject.Parse("{\"Name\":\"Michael\",\"Surname\":\"Garcia\"}"),
+			JObject.Parse("{\"Name\":\"Jennifer\",\"Surname\":\"Chen\"}"),
+			JObject.Parse("{\"Name\":\"Robert\",\"Surname\":\"Thompson\"}"),
+			JObject.Parse("{\"Name\":\"Lisa\",\"Surname\":\"Brown\"}"),
+			JObject.Parse("{\"Name\":\"Christopher\",\"Surname\":\"Martinez\"}"),
+			JObject.Parse("{\"Name\":\"Amanda\",\"Surname\":\"Thompson\"}"),
+		};
+
+		var result = expression.Evaluate() as List<object?>;
+		result.Should().NotBeNull();
+		result.Should().HaveCount(10);
+
+		var names = result!.Cast<JObject>().Select(o => o["Name"]!.Value<string>()).ToList();
+		names.Should().Equal("Emily", "Lisa", "James", "Jennifer", "Michael", "Christopher", "Sarah", "Amanda", "David", "Robert");
+	}
+
+	// Verify first-key-only ordering still works (would silently fail with the closure bug if keys happened to match)
+	[Fact]
+	public void OrderBy_JObjectList_NameAscSurnameAsc_CorrectOrder()
+	{
+		var expression = new ExtendedExpression("orderBy(People, 'person', 'jPath(person, \\'Name\\')', 'jPath(person, \\'Surname\\')')");
+		expression.Parameters["People"] = new List<object?>
+		{
+			JObject.Parse("{\"Name\":\"James\",\"Surname\":\"Chen\"}"),
+			JObject.Parse("{\"Name\":\"Sarah\",\"Surname\":\"Martinez\"}"),
+			JObject.Parse("{\"Name\":\"David\",\"Surname\":\"Thompson\"}"),
+			JObject.Parse("{\"Name\":\"Emily\",\"Surname\":\"Anderson\"}"),
+			JObject.Parse("{\"Name\":\"Michael\",\"Surname\":\"Garcia\"}"),
+			JObject.Parse("{\"Name\":\"Jennifer\",\"Surname\":\"Chen\"}"),
+			JObject.Parse("{\"Name\":\"Robert\",\"Surname\":\"Thompson\"}"),
+			JObject.Parse("{\"Name\":\"Lisa\",\"Surname\":\"Brown\"}"),
+			JObject.Parse("{\"Name\":\"Christopher\",\"Surname\":\"Martinez\"}"),
+			JObject.Parse("{\"Name\":\"Amanda\",\"Surname\":\"Thompson\"}"),
+		};
+
+		var result = expression.Evaluate() as List<object?>;
+		result.Should().NotBeNull();
+
+		var names = result!.Cast<JObject>().Select(o => o["Name"]!.Value<string>()).ToList();
+		names.Should().Equal("Amanda", "Christopher", "David", "Emily", "James", "Jennifer", "Lisa", "Michael", "Robert", "Sarah");
+	}
+
 	[Theory]
 	[InlineData("n", new[] { 1, 2, 3 })]
 	[InlineData("-n", new[] { 3, 2, 1 })]
@@ -32,7 +85,7 @@ public class OrderByTests : NCalcTest
 		.BeEquivalentTo(expectedOrder, options => options.WithStrictOrdering());
 
 	[Theory]
-	[InlineData("n % 32", "n % 2", new[] { 34, 2, 33, 1 })]
+	[InlineData("n % 32", "n % 2", new[] { 33, 1, 34, 2 })]
 	public void OrderBy_MultipleTerms_Succeeds(string expression1, string expression2, int[] expectedOrder)
 		=> new ExtendedExpression($"orderBy(list(34, 33, 2, 1), 'n', '{expression1}', '{expression2}')")
 		.Evaluate()

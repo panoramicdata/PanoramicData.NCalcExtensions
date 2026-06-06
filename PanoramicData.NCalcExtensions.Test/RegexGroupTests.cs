@@ -73,4 +73,19 @@ public class RegexGroupTests : NCalcTest
 		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
 			.WithMessage("*requires string parameters*");
 	}
+
+	[Theory]
+	[InlineData(0, "cdef")]
+	[InlineData(1, "c")]
+	[InlineData(2, "d")]
+	[InlineData(3, "e")]
+	[InlineData(4, "f")]
+	[InlineData(5, null)]
+	public void RegexGroup_MultiGroup_FlatCaptureIndex_ReturnsExpected(int index, string? expected)
+	{
+		// AC-06: flat captures across all groups in order
+		var expression = new ExtendedExpression($"regexGroup('abcdef', '^ab((.)+(f))$', {index})");
+		var result = expression.Evaluate();
+		result.Should().Be(expected);
+	}
 }

@@ -12,111 +12,75 @@ public static class ExtendedExpressionDocumentParser
 	/// <returns>A document containing parsed documentation, parameters, and tidied expression.</returns>
 	public static ExtendedExpressionDocument Parse(string expression)
 	{
-		var documentation = ExtractDocumentation(expression);
-		var withoutMultilineComments = ExpressionCommentParsing.RemoveMultilineComments(expression);
-		var parameters = ExtractParameterDefinitions(withoutMultilineComments);
-		var comments = ExtractComments(withoutMultilineComments);
-		var tidiedExpression = TidyExpression(withoutMultilineComments);
+		var withoutMultilineComments = ExpressionCommentParsing.RemoveMultilineComments(expression, out var documentation);
+		var analysis = AnalyzeLines(withoutMultilineComments);
 
 		return new ExtendedExpressionDocument
 		{
 			OriginalExpression = expression,
-			TidiedExpression = tidiedExpression,
+			TidiedExpression = analysis.TidiedExpression,
 			Documentation = documentation,
-			Parameters = parameters,
-			Comments = comments
+			Parameters = analysis.Parameters,
+			Answer = analysis.Answer,
+			Comments = analysis.Comments
 		};
 	}
 
-	/// <summary>
-	/// Extract documentation from /* */ multi-line comments.
-	/// Returns the first multi-line comment block found, or null if none exists.
-	/// </summary>
-	private static string? ExtractDocumentation(string expression)
+	private static LineAnalysis AnalyzeLines(string expression)
 	{
-		var i = 0;
-		while (i < expression.Length - 1)
+		var parameters = new Dictionary<string, TypedDefinition>();
+		var comments = new List<string>();
+		var tidiedExpression = new StringBuilder(expression.Length);
+		TypedDefinition? answer = null;
+		var lineStart = 0;
+		var isFirstTidiedLine = true;
+		var expressionSpan = expression.AsSpan();
+
+		for (var i = 0; i <= expression.Length; i++)
 		{
-			if (expression[i] == '/' && expression[i + 1] == '*')
+			if (i < expression.Length && expression[i] != '\n')
 			{
-				i += 2;
-				var docStart = i;
-				
-				while (i < expression.Length - 1)
+				continue;
+			}
+
+			var lineLength = i - lineStart;
+			var lineWithoutCarriageReturn = expressionSpan.Slice(lineStart, lineLength).TrimEnd('\r');
+
+			if (!isFirstTidiedLine)
+			{
+				tidiedExpression.Append(' ');
+			}
+
+			if (ExpressionCommentParsing.TryGetCommentContent(lineWithoutCarriageReturn, out ReadOnlySpan<char> commentContent))
+			{
+				if (ExpressionCommentParsing.TryParseParameterDefinition(commentContent, out var parameterName, out var definition))
 				{
-					if (expression[i] == '*' && expression[i + 1] == '/')
-					{
-						var documentation = expression.Substring(docStart, i - docStart).Trim();
-						return string.IsNullOrWhiteSpace(documentation) ? null : documentation;
-					}
-					i++;
+					parameters[parameterName] = definition;
 				}
-				
-				// If we reach here, comment was not closed properly
-				if (i < expression.Length && expression[i] == '*')
+				else if (answer is null && ExpressionCommentParsing.TryParseAnswerDefinition(commentContent, out var answerDefinition))
 				{
-					i++;
+					answer = answerDefinition;
+				}
+				else
+				{
+					comments.Add(commentContent.ToString());
 				}
 			}
 			else
 			{
-				i++;
+				tidiedExpression.Append(lineWithoutCarriageReturn);
 			}
+
+			isFirstTidiedLine = false;
+			lineStart = i + 1;
 		}
 
-		return null;
+		return new LineAnalysis(parameters, answer, comments, tidiedExpression.ToString().Trim());
 	}
 
-	/// <summary>
-	/// Extract parameter definitions from comment lines in the format:
-	/// // parameterName:TypeName:value
-	/// </summary>
-	private static Dictionary<string, (string TypeName, string Value)> ExtractParameterDefinitions(string expression)
-	{
-		return ExpressionCommentParsing.ExtractParameterDefinitions(expression);
-	}
-
-	/// <summary>
-	/// Extract regular comment lines (// comments that are not parameter definitions).
-	/// </summary>
-	private static List<string> ExtractComments(string expression)
-	{
-		var comments = new List<string>();
-
-		foreach (var line in expression.Split('\n'))
-		{
-			if (ExpressionCommentParsing.TryGetCommentContent(line, out var commentContent)
-				&& !ExpressionCommentParsing.IsParameterDefinitionComment(commentContent))
-			{
-				comments.Add(commentContent);
-			}
-		}
-
-		return comments;
-	}
-
-	/// <summary>
-	/// Tidy the expression by removing all comments and parameter definitions.
-	/// </summary>
-	private static string TidyExpression(string expression)
-	{
-		return string.Join(
-			" ",
-			expression
-				.Split('\n')
-				.Select(line => line.TrimEnd('\r'))
-				.Where(line =>
-				{
-					var trimmedLine = line.TrimStart();
-					// Keep lines that don't start with //
-					if (!trimmedLine.StartsWith("//", StringComparison.Ordinal))
-					{
-						return true;
-					}
-
-					// Remove all comment lines
-					return false;
-				})
-		).Trim();  // Trim the final result to remove leading/trailing spaces
-	}
+	private sealed record LineAnalysis(
+		Dictionary<string, TypedDefinition> Parameters,
+		TypedDefinition? Answer,
+		List<string> Comments,
+		string TidiedExpression);
 }

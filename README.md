@@ -11,6 +11,14 @@ This nuget package provides extension functions for NCalc.
 
 The NCalc documentation can be found [here (source code)](https://github.com/ncalc/ncalc) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
 
+## Release Process
+
+Use [RELEASE_NOTES.md](RELEASE_NOTES.md) to maintain upcoming changes under `## Unreleased`.
+
+- Run `Publish.ps1` when the next publish should use the version currently reported by NBGV and no extra release-notes commit is needed.
+- Run `PublishWithReleaseNote.ps1` when you want to finalize `RELEASE_NOTES.md` first. It stamps the current `## Unreleased` section with the next package version and date, creates a fresh `## Unreleased` section, commits that change, pushes `main`, verifies the NBGV increment, and then calls `Publish.ps1`.
+- `PublishWithReleaseNote.ps1` expects `main`, fetches `origin/main`, and only allows a clean working tree or changes limited to [RELEASE_NOTES.md](RELEASE_NOTES.md).
+
 
 ## Additional benefits
 
@@ -20,7 +28,7 @@ When using ExtendedExpression, you can:
 - split expressions over multiple lines
 - include empty lines
 - indent lines
-- define input parameters directly in comments using the format: `// parameterName:TypeName:value`
+- define typed parameters and answers directly in comments using formats like: `// parameterName:type:value`, `// parameterName:type`, and `// answer:type:value`
 
 For example:
 
@@ -39,16 +47,32 @@ contains(
 
 ### Parameter Definitions in Comments
 
-You can provide example input values by including parameter definitions in comment lines using the format:
-`// parameterName:TypeName:value`
+You can provide typed parameter definitions in comment lines using either of these formats:
+`// parameterName:type:value`
+`// parameterName:type`
+
+The legacy `// parameterName:TypeName:value` format is still supported.
+
+You can also provide a typed answer using:
+`// answer:type:value`
+`// answer:type`
+
+Examples:
+- `// count:int:5`
+- `// customerName:string:Ada`
+- `// optionalName:string?:null`
+- `// answer:string?`
+
+`null` is reserved as the explicit null marker for typed definitions. A literal string value of `"null"` is not supported in this format.
 
 Multi-line documentation blocks (if used) should use markdown format:
 
 ````NCalc
-// theAnswer:System.Int32:42
-// theAnswer2:System.Int32:2
-// theAnswer3:System.String:Blah
-// theAnswer4:System.Int32:23
+// theAnswer:int:42
+// theAnswer2:int:2
+// theAnswer3:string:Blah
+// theAnswer4:int:23
+// answer:int:44
 
 /*
 # The answer plus one plus one
@@ -58,30 +82,33 @@ This adds one twice to theAnswer, which is a 32-bit integer in this example.
 theAnswer + 1 + 1
 ````
 
-**Supported Types for Parameter Definitions:**
-- System.String
-- System.Int32
-- System.Int64 (long)
-- System.Double
-- System.Decimal
-- System.Single (float)
-- System.Boolean
-- System.DateTime
-- System.Guid
-- System.Byte
-- System.Int16 (short)
-- System.UInt32 (uint)
-- System.UInt64 (ulong)
-- System.UInt16 (ushort)
-- System.SByte (sbyte)
+**Supported simple types:**
+- `string`, `string?`
+- `bool`, `bool?`
+- `byte`, `byte?`
+- `sbyte`, `sbyte?`
+- `short`, `short?`
+- `ushort`, `ushort?`
+- `int`, `int?`
+- `uint`, `uint?`
+- `long`, `long?`
+- `ulong`, `ulong?`
+- `float`, `float?`
+- `double`, `double?`
+- `decimal`, `decimal?`
+- `DateTime`, `DateTime?`
+- `Guid`, `Guid?`
+
+Equivalent CLR type names such as `System.Int32` and `System.String?` are also supported.
 
 **Example:**
 ```csharp
 using PanoramicData.NCalcExtensions;
 
 var expression = new ExtendedExpression("""
-// count:System.Int32:5
-// multiplier:System.Decimal:2.5
+// count:int:5
+// multiplier:decimal:2.5
+// answer:decimal:12.5
 
 /*
 # Calculate total amount
@@ -100,7 +127,8 @@ var result = expression.Evaluate(); // Returns: 12.5 (5 * 2.5)
 
 ```csharp
 var expression = new ExtendedExpression("""
-// x:System.Int32:10
+// x:int:10
+// answer:int:11
 
 /*
 # My expression
@@ -112,7 +140,11 @@ x + 1
 
 // Access parsed metadata
 string? docs = expression.Documentation;   // "# My expression\nAdds one to x."
-var parameters = expression.ParameterDefinitions; // { "x": ("System.Int32", "10") }
+var parameters = expression.ParameterDefinitions; // { "x": TypedDefinition.FromLiteral("int", "10") }
+var answer = expression.AnswerDefinition;  // TypedDefinition.FromLiteral("int", "11")
+var hasExpectedAnswer = expression.HasExpectedAnswer; // true
+var hasExpectedAnswerValue = expression.HasExpectedAnswerValue; // true
+var expectedAnswer = expression.ExpectedAnswer; // 11
 var comments = expression.Comments;        // any non-parameter // comment lines
 var doc = expression.Document;             // full ExtendedExpressionDocument
 
@@ -137,8 +169,8 @@ using PanoramicData.NCalcExtensions;
 
 // Step 1: Parse once (including documentation and parameter extraction)
 var multilineExpression = """
-// x:System.Int32:10
-// y:System.Int32:5
+// x:int:10
+// y:int:5
 
 /*
 # Add two numbers
@@ -166,7 +198,8 @@ The parsed document contains:
 - **OriginalExpression**: The original multi-line input
 - **TidiedExpression**: The cleaned expression ready for evaluation
 - **Documentation**: Extracted from `/* */` comments (markdown format)
-- **Parameters**: Dictionary of parameter definitions from `// parameterName:TypeName:value` lines
+- **Parameters**: Dictionary of typed definitions from `// name:type` or `// name:type:value` lines
+- **Answer**: Optional typed definition from `// answer:type` or `// answer:type:value`
 - **Comments**: Regular comment lines (not parameter definitions)
 
 ### SimpleExtendedExpression
@@ -335,6 +368,21 @@ Returns true if any values match the lambda expression, otherwise false.
 
 ---
 
+### average()
+
+#### Purpose
+
+Calculates the average of numeric items in a list. Returns NaN for an empty list.
+
+#### Parameters
+  * list - the list of numeric values
+
+#### Examples
+  * average(listOf('int', 1, 2, 3, 4, 5)) : 3.0
+  * average(listOf('double', 1.0, 2.0, 3.0)) : 2.0
+
+---
+
 ### canEvaluate()
 
 #### Purpose
@@ -359,7 +407,7 @@ Capitalizes a string.
   * string
 
 #### Examples
-  * capitalize('new year') : 'New Year'
+  * capitalize('new year') : 'New year'
 
 ---
 
@@ -395,8 +443,26 @@ For a list of supported TimeZone names, see https://docs.microsoft.com/en-us/dot
   * destination TimeZone name
 
 #### Examples
-  * changeTimeZone(theDateTime, 'UTC', 'Eastern Standard Time')
-  * changeTimeZone(theDateTime, 'Eastern Standard Time', 'UTC')
+  * changeTimeZone(toDateTime('2020-03-13 16:00:00', 'yyyy-MM-dd HH:mm:ss'), 'UTC', 'Eastern Standard Time') : 2020-03-13 12:00:00
+  * changeTimeZone(toDateTime('2020-03-13 12:00:00', 'yyyy-MM-dd HH:mm:ss'), 'Eastern Standard Time', 'UTC') : 2020-03-13 16:00:00
+
+---
+
+### clamp()
+
+#### Purpose
+
+Clamps a numeric value between a minimum and maximum.
+
+#### Parameters
+  * value - the numeric value to clamp
+  * min - the minimum allowed value (must be <= max)
+  * max - the maximum allowed value
+
+#### Examples
+  * clamp(5.0, 1.0, 10.0) : 5.0
+  * clamp(-5.0, 0.0, 10.0) : 0.0
+  * clamp(15.0, 0.0, 10.0) : 10.0
 
 ---
 
@@ -481,10 +547,13 @@ Counts the number of items, grouped by a calculation.
   * list - the original list
   * predicate - a string to represent the value to be evaluated
   * nCalcString - the string to evaluate.  Must emit a string containing one or more characters: A-Z, a-z, 0-9 or _.
+  * outputFormat (optional) - controls the return type: 'JObject' (default) returns a flat { key: count } object; 'JArray' returns an array of { name, count } objects. Case-insensitive. Omitting or using an unrecognized value defaults to 'JObject'.
 
 #### Examples
   * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toLower(toString(n > 1))') : { 'false': 1, 'true': 6 }
-  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)') : { '1': 1, '2': 2, '3', 3, '4', '1' }
+  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)') : { '1': 1, '2': 2, '3': 3, '4': 1 }
+  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)', 'JObject') : { '1': 1, '2': 2, '3': 3, '4': 1 }
+  * countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)', 'JArray') : [{ 'name': '1', 'count': 1 }, { 'name': '2', 'count': 2 }, { 'name': '3', 'count': 3 }, { 'name': '4', 'count': 1 }]
 
 ---
 
@@ -569,8 +638,8 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-0
 	* optionally, the name of the timezone that the date and time represents
 
 #### Examples
-   * dateTimeIsInFuture(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : false
-   * dateTimeIsInFuture(toDateTime('2201-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : true
+   * dateTimeIsInFuture(toDateTime('2001-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss')) : false
+   * dateTimeIsInFuture(toDateTime('2201-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss')) : true
    * dateTimeIsInFuture(now(), 'Africa/Luanda') : false; UTC is never ahead of West Africa Time
 
 ---
@@ -585,8 +654,8 @@ Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-0
 	* optionally, the name of the timezone that the date and time represents
 
 #### Examples
-   * dateTimeIsInPast(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : true
-   * dateTimeIsInPast(toDateTime('2201-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss')) : false
+   * dateTimeIsInPast(toDateTime('2001-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss')) : true
+   * dateTimeIsInPast(toDateTime('2201-01-01T00:00:00', 'yyyy-MM-ddTHH:mm:ss')) : false
    * dateTimeIsInPast(now(), 'Africa/Luanda') : true; UTC is always behind West Africa Time
 
 ---
@@ -674,6 +743,21 @@ Returns the first item in a list that matches a lambda or null if no items match
 #### Examples
 * firstOrDefault(list(1, 5, 2, 3), 'n', 'n % 2 == 0') : 2
 * firstOrDefault(list(1, 5, 7, 3), 'n', 'n % 2 == 0') : null
+
+---
+
+### flatten()
+
+#### Purpose
+
+Flattens a list of lists into a single flat list. Non-list items are included as-is.
+
+#### Parameters
+  * listOfLists - the list of lists to flatten
+
+#### Examples
+  * flatten(list(list(1, 2), list(3, 4))) : list(1, 2, 3, 4)
+  * flatten(list(list(1, 2), list())) : list(1, 2)
 
 ---
 ### format()
@@ -782,13 +866,18 @@ Return one of two values, depending on the input function.
 #### Purpose
 Determines whether a value (the first parameter) is in a set of other values (the remaining parameters).
 
+The haystack can be provided as individual varargs values, a `list()` literal, or a variable containing a list.
+
 #### Parameters
-* item
-* list
+* item - the value to search for
+* list - either individual values (varargs) OR a single list value (list literal or list variable)
 
 #### Examples
 * in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it') : true
 * in('needle', 'haystack', 'with', 'only', 'hay') : false
+* in(ThingToFind, Haystack) : true (where ThingToFind='needle' and Haystack=list('haystack','with','needle','in','it'))
+* in(ThingToFind, Haystack) : false (where ThingToFind='needle' and Haystack=list('haystack','with','only','hay'))
+* in(ThingToFind, list('haystack', 'with', 'needle', 'in', 'it')) : true
 
 ---
 
@@ -819,8 +908,8 @@ Determines whether a value is a GUID, or is a string that can be converted to a 
 * value
 
 #### Examples
-* isGuid('9384EF0Z-38AD-4E8E-A24E-0ACD3273A401') : true
-* isGuid('{9384EF0Z-38AD-4E8E-A24E-0ACD3273A401}') : true
+* isGuid('9384EF0A-38AD-4E8E-A24E-0ACD3273A401') : true
+* isGuid('{9384EF0A-38AD-4E8E-A24E-0ACD3273A401}') : true
 * isGuid('abc') : false
 
 ---
@@ -1153,7 +1242,7 @@ Emits a List\<T\>.
    * listOf('object?', '', 1, '0')
    * listOf('object?', null, 1, '0')
    * listOf('int?', 1, null, 3)
-   * listOf('string', '1', '2', 3) : throws an exception
+   * listOf('string', '1', '2', '3') : List<string> containing '1', '2', '3'
 ---
 
 ### max()
@@ -1269,8 +1358,9 @@ Emits a List\<T\>.
 #### Examples
    * orderBy(list(34, 33, 2, 1), 'n', 'n') : list(1, 2, 33, 34)
    * orderBy(list(34, 33, 2, 1), 'n', '-n') : list(34, 33, 2, 1)
-   * orderBy(list(34, 33, 2, 1), 'n % 32', 'n % 2') : list(34, 33, 1, 2)
-   * orderBy(list(34, 33, 2, 1), 'n % 2', 'n % 32') : list(33, 1, 34, 2)
+   * orderBy(list(34, 33, 2, 1), 'n', 'n % 32', 'n % 2') : list(33, 1, 34, 2)
+   * orderBy(list(34, 33, 2, 1), 'n', 'n % 2', 'n % 32') : list(34, 2, 33, 1)
+   * orderBy(list(jObject('Surname','Chen','Name','James'), jObject('Surname','Anderson','Name','Emily'), jObject('Surname','Chen','Name','Jennifer')), 'p', 'jPath(p, \'Surname\')', 'jPath(p, \'Name\')') : Anderson/Emily, Chen/James, Chen/Jennifer
 
 ---
 
@@ -1289,6 +1379,25 @@ Emits a List\<T\>.
    * padLeft('12', 5, '0') : '00012'
    * padLeft('12345', 5, '0') : '12345'
    * padLeft('12345', 3, '0') : '12345'
+
+---
+
+### padRight()
+
+#### Purpose
+
+Pad the right of a string with a character to a desired string length.
+
+#### Parameters
+  * stringToPad - the string to pad
+  * length - the desired string length (must be >= 1)
+  * paddingCharacter - the character used to pad (single character string)
+
+#### Examples
+   * padRight('', 1, '0') : '0'
+   * padRight('12', 5, '0') : '12000'
+   * padRight('12345', 5, '0') : '12345'
+   * padRight('12345', 3, '0') : '12345'
 
 ---
 
@@ -1353,12 +1462,25 @@ Emits a List\<T\>.
    * regex
    * zero-based capture index (default: 0)
 
+#### Notes
+   Captures are flattened across all capturing groups in order (Group 1, Group 2, ...). For a pattern with a single capturing group this is identical to indexing into that group's captures directly. For patterns with multiple capturing groups, all captures from all groups are concatenated into a single flat list and indexed together.
+
 #### Examples
+
+Single capturing group:
    * regexGroup('abcdef', '^ab(.+?)f$') : 'cde'
    * regexGroup('abcdef', '^ab(.)+f$') : 'c'
    * regexGroup('abcdef', '^ab(.)+f$', 1) : 'd'
    * regexGroup('abcdef', '^ab(.)+f$', 2) : 'e'
    * regexGroup('abcdef', '^ab(.)+f$', 10) : null
+
+Multiple capturing groups (flat capture index across all groups):
+   * regexGroup('abcdef', '^ab((.)+(f))$', 0) : 'cdef'  // Group 1, capture 0
+   * regexGroup('abcdef', '^ab((.)+(f))$', 1) : 'c'     // Group 2, capture 0
+   * regexGroup('abcdef', '^ab((.)+(f))$', 2) : 'd'     // Group 2, capture 1
+   * regexGroup('abcdef', '^ab((.)+(f))$', 3) : 'e'     // Group 2, capture 2
+   * regexGroup('abcdef', '^ab((.)+(f))$', 4) : 'f'     // Group 3, capture 0
+   * regexGroup('abcdef', '^ab((.)+(f))$', 5) : null
 
 ---
 
@@ -1373,25 +1495,60 @@ Emits a List\<T\>.
 
 #### Examples
    * regexIsMatch('abcdef', '^ab.+') : true
-   * regexIsMatch('Zbcdef', '^ab.+') : false
+	* regexIsMatch('Zbcdef', '^ab.+') : false
+
+---
+
+### regexReplace()
+
+#### Purpose
+
+Replaces occurrences of a regex pattern in a string with a replacement string.
+
+#### Parameters
+  * input - the input string
+  * pattern - the regular expression pattern to match
+  * replacement - the replacement string (supports capture group references e.g. '$1')
+
+#### Examples
+	* regexReplace('hello world', 'world', 'there') : 'hello there'
+	* regexReplace('2024-01-15', '(\d{4})-(\d{2})-(\d{2})', '$3/$2/$1') : '15/01/2024'
+	* regexReplace('hello world', '\s+', '') : 'helloworld'
 
 ---
 
 ### replace()
 
 #### Purpose
-   Replace a string with another string
+	Replace a string with another string
 
 #### Parameters
-   * haystackString
-   * needleString
-   * betterNeedleString
+	* haystackString
+	* needleString
+	* betterNeedleString
 	* ... (optional) more needle/betterNeedle pairs
 
 #### Examples
-   * replace('abcdefg', 'cde', 'CDE') : 'abCDEfg'
-   * replace('abcdefg', 'cde', '') : 'abfg'
+	* replace('abcdefg', 'cde', 'CDE') : 'abCDEfg'
+	* replace('abcdefg', 'cde', '') : 'abfg'
 	* replace('abcdefg', 'a', '1', 'bc', '23') : '123defg'
+
+---
+
+### repeat()
+
+#### Purpose
+
+Repeats a string a specified number of times.
+
+#### Parameters
+  * text - the string to repeat
+  * count - the number of times to repeat (must be >= 0)
+
+#### Examples
+	* repeat('ab', 3) : 'ababab'
+	* repeat('hello', 1) : 'hello'
+	* repeat('hello', 0) : ''
 
 ---
 
@@ -1592,9 +1749,19 @@ Emits a List\<T\>.
    Retrieves part of a string.  If more characters are requested than available at the end of the string, just the available characters are returned.
 
 #### Parameters
-   * inputString
-   * startIndex
-   * length (optional)
+   * inputString - the original string
+   * startIndex - zero-based start position
+   * length (optional) - number of characters to return
+   * mode (optional) - out-of-bounds handling strategy when startIndex is negative or beyond the string length:
+     * 'Error' (default) - throws a bounds-specific error message
+     * 'Empty' - returns an empty string
+     * 'Null' - returns null
+     * 'Clip' - clamps startIndex to [0, length] and returns available characters
+
+   Mode values are case-insensitive. Unrecognised mode values fall back to 'Error' behavior.
+
+#### Notes
+   Macro Substring (RMScript) uses 'Skip'/'Take' parameter names and always errors on out-of-bounds with a meaningful message, equivalent to the default 'Error' mode here. Negative skip values are rejected at the macro parameter level. The optional mode parameter is a NCalc-only extension.
 
 #### Examples
    * substring('haystack', 3) : 'stack'
@@ -1602,6 +1769,12 @@ Emits a List\<T\>.
    * substring('haystack', 3, 100) : 'stack'
    * substring('haystack', 0, 100) : 'haystack'
    * substring('haystack', 0, 0) : ''
+   * substring('abcde', 6, 3) : error - start index 6 is out of bounds for a string of length 5
+   * substring('abcde', 6, 3, 'Empty') : ''
+   * substring('abcde', 6, 3, 'Null') : null
+   * substring('abcde', 6, 3, 'Clip') : ''
+   * substring('abcde', -1, 3, 'Clip') : 'abc'
+   * substring('abcde', -99, 3, 'Clip') : 'abc'
 
 ---
 
@@ -1691,7 +1864,22 @@ Emits a List\<T\>.
    * timeUnit
 
 #### Examples
-   * timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 3600
+   * timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds') : 60
+
+---
+
+### titleCase()
+
+#### Purpose
+Converts a string to title case, capitalizing the first letter of each word.
+
+#### Parameters
+  * string
+
+#### Examples
+  * titleCase('new year') : 'New Year'
+  * titleCase('the quick brown fox') : 'The Quick Brown Fox'
+  * titleCase('ALL CAPS INPUT') : 'All Caps Input'
 
 ---
 
@@ -1771,6 +1959,25 @@ Emits a List\<T\>.
 
 #### Examples
    * trim(' xxx xxx\n') : 'xxx xxx'
+
+---
+
+### truncate()
+
+#### Purpose
+
+Truncates a string to a maximum length, optionally appending an ellipsis.
+
+#### Parameters
+  * text - the string to truncate
+  * maxLength - the maximum length of the output string (must be >= 0)
+  * ellipsis - (optional) string to append when truncated (e.g. '...'). Defaults to empty string.
+
+#### Examples
+   * truncate('hello world', 5) : 'hello'
+   * truncate('hello world', 8, '...') : 'hello...'
+   * truncate('hello', 10) : 'hello'
+   * truncate('hello', 0) : ''
 
 ---
 
