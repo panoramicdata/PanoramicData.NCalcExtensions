@@ -1,0 +1,11 @@
+/*
+# dateAdd()
+
+Generated documentation example 1 for dateAdd().
+
+**Expected result**
+90 days before (2018-12-05 05:09:00)
+*/
+
+dateAdd(toDateTime('2019-03-05 05:09', 'yyyy-MM-dd HH:mm'), -90, 'days')
+

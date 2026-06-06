@@ -1,0 +1,13 @@
+/*
+# dateTimeAsEpoch()
+
+Generated documentation example 1 for dateTimeAsEpoch().
+
+**Expected result**
+1562025600
+*/
+
+// theAnswer:System.Int32:1562025600
+
+dateTimeAsEpoch('20190702T000000', 'yyyyMMddTHHmmssK')
+

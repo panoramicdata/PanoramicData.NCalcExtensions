@@ -1,0 +1,13 @@
+/*
+# capitalize()
+
+Generated documentation example 1 for capitalize().
+
+**Expected result**
+'New Year'
+*/
+
+// theAnswer:System.String:New Year
+
+capitalize('new year')
+

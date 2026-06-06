@@ -1,0 +1,11 @@
+/*
+# parse()
+
+Generated documentation example 7 for parse().
+
+**Expected result**
+JsonDocument array [1, 2, 3]
+*/
+
+parse('JsonArray', '[ 1, 2, 3 ]', null)
+

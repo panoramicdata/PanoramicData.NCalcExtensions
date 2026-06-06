@@ -1,0 +1,13 @@
+/*
+# typeOf()
+
+Generated documentation example 3 for typeOf().
+
+**Expected result**
+'Double'
+*/
+
+// theAnswer:System.String:Double
+
+typeOf(1.1)
+

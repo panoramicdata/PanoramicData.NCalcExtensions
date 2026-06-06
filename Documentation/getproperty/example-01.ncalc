@@ -1,0 +1,11 @@
+/*
+# getProperty()
+
+Generated documentation example 1 for getProperty().
+
+**Expected result**
+2019 (int)
+*/
+
+getProperty(toDateTime('2019-01-01', 'yyyy-MM-dd'), 'Year')
+

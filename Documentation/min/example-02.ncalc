@@ -1,0 +1,13 @@
+/*
+# min()
+
+Generated documentation example 2 for min().
+
+**Expected result**
+2
+*/
+
+// theAnswer:System.Int32:2
+
+min(listOf('int', 1, 2, 3), 'x', 'x + 1')
+

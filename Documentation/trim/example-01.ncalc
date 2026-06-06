@@ -1,0 +1,13 @@
+/*
+# trim()
+
+Generated documentation example 1 for trim().
+
+**Expected result**
+'xxx xxx'
+*/
+
+// theAnswer:System.String:xxx xxx
+
+trim(' xxx xxx\n')
+

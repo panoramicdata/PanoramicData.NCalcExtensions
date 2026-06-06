@@ -1,0 +1,13 @@
+/*
+# timeSpan()
+
+Generated documentation example 1 for timeSpan().
+
+**Expected result**
+3600
+*/
+
+// theAnswer:System.Int32:3600
+
+timeSpan('2019-01-01 00:01:00', '2019-01-01 00:02:00', 'seconds')
+

@@ -1,0 +1,13 @@
+/*
+# padLeft()
+
+Generated documentation example 1 for padLeft().
+
+**Expected result**
+'0'
+*/
+
+// theAnswer:System.String:0
+
+padLeft('', 1, '0')
+

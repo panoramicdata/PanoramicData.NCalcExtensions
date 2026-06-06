@@ -1,0 +1,11 @@
+/*
+# select()
+
+Generated documentation example 1 for select().
+
+**Expected result**
+list(2, 3, 4, 5, 6)
+*/
+
+select(list(1, 2, 3, 4, 5), 'n', 'n + 1')
+

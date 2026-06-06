@@ -1,0 +1,13 @@
+/*
+# length()
+
+Generated documentation example 2 for length().
+
+**Expected result**
+4
+*/
+
+// theAnswer:System.Int32:4
+
+length(split('a piece of string', ' '))
+

@@ -1,0 +1,13 @@
+/*
+# if()
+
+Generated documentation example 2 for if().
+
+**Expected result**
+4
+*/
+
+// theAnswer:System.Int32:4
+
+if(1 == 2, 3, 4)
+

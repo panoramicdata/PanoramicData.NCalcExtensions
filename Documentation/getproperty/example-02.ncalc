@@ -1,0 +1,13 @@
+/*
+# getProperty()
+
+Generated documentation example 2 for getProperty().
+
+**Expected result**
+'John'
+*/
+
+// theAnswer:System.String:John
+
+getProperty(jsonDocument('name', 'John', 'age', 30), 'name')
+

@@ -1,0 +1,11 @@
+/*
+# sort()
+
+Generated documentation example 1 for sort().
+
+**Expected result**
+list(1, 2, 3)
+*/
+
+sort(list(2, 1, 3))
+

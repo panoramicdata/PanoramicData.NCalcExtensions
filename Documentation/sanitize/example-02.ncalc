@@ -1,0 +1,13 @@
+/*
+# sanitize()
+
+Generated documentation example 2 for sanitize().
+
+**Expected result**
+'abcd.'
+*/
+
+// theAnswer:System.String:abcd.
+
+sanitize('ab cd./', 'abcdefghi.')
+

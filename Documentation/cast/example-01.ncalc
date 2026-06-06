@@ -1,0 +1,8 @@
+/*
+# cast()
+
+Generated documentation example 1 for cast().
+*/
+
+cast(0.3, 'System.Decimal')
+

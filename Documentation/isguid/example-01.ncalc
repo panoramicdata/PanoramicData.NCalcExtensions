@@ -1,0 +1,13 @@
+/*
+# isGuid()
+
+Generated documentation example 1 for isGuid().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+isGuid('9384EF0Z-38AD-4E8E-A24E-0ACD3273A401')
+

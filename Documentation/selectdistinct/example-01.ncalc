@@ -1,0 +1,11 @@
+/*
+# selectDistinct()
+
+Generated documentation example 1 for selectDistinct().
+
+**Expected result**
+list(2, 3, 4)
+*/
+
+selectDistinct(list(1, 2, 3, 3, 3), 'n', 'n + 1')
+

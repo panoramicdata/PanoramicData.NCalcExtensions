@@ -1,0 +1,11 @@
+/*
+# jPath()
+
+Generated documentation example 4 for jPath().
+
+**Expected result**
+null is returned
+*/
+
+jPath(sourceJObject, 'size', True)
+

@@ -1,0 +1,13 @@
+/*
+# isNullOrWhiteSpace()
+
+Generated documentation example 6 for isNullOrWhiteSpace().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+isNullOrWhiteSpace('text')
+

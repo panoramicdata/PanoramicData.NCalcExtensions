@@ -1,0 +1,13 @@
+/*
+# max()
+
+Generated documentation example 1 for max().
+
+**Expected result**
+3
+*/
+
+// theAnswer:System.Int32:3
+
+max(listOf('int?', 1, null, 3))
+

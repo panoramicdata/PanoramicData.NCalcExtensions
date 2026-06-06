@@ -1,0 +1,8 @@
+/*
+# concat()
+
+Generated documentation example 5 for concat().
+*/
+
+concat(1, list(2, 3, 4))
+

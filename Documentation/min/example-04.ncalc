@@ -1,0 +1,13 @@
+/*
+# min()
+
+Generated documentation example 4 for min().
+
+**Expected result**
+'11'
+*/
+
+// theAnswer:System.String:11
+
+min(listOf('string', '1', '2', '3'), 'x', 'x + x')
+

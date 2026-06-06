@@ -1,0 +1,8 @@
+/*
+# skip()
+
+Generated documentation example 1 for skip().
+*/
+
+skip(list(1, 2, 3), 1): list(2, 3)
+

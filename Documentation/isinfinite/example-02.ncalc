@@ -1,0 +1,13 @@
+/*
+# isInfinite()
+
+Generated documentation example 2 for isInfinite().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+isInfinite(0/1)
+

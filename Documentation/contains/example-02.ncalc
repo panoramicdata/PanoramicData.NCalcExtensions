@@ -1,0 +1,13 @@
+/*
+# contains()
+
+Generated documentation example 2 for contains().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+contains('haystack containing only hay', 'needle')
+

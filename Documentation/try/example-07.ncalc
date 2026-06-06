@@ -1,0 +1,13 @@
+/*
+# try()
+
+Generated documentation example 7 for try().
+
+**Expected result**
+'NCalcExtensionsException'
+*/
+
+// theAnswer:System.String:NCalcExtensionsException
+
+try(throw('Woo'), exception_typeName)
+

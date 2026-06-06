@@ -1,0 +1,11 @@
+/*
+# jsonDocument()
+
+Generated documentation example 1 for jsonDocument().
+
+**Expected result**
+JsonDocument with properties a=1 and b=null
+*/
+
+jsonDocument('a', 1, 'b', null)
+

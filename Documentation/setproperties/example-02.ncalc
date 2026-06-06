@@ -1,0 +1,11 @@
+/*
+# setProperties()
+
+Generated documentation example 2 for setProperties().
+
+**Expected result**
+jObject('a', 1, 'b', null, 'c', 'X', 'd', 'Y')
+*/
+
+setProperties(jObject('a', 1, 'b', null), 'c', 'X', 'd', 'Y')
+

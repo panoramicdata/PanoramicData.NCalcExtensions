@@ -1,0 +1,13 @@
+/*
+# dateTimeIsInFuture()
+
+Generated documentation example 1 for dateTimeIsInFuture().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+dateTimeIsInFuture(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss'))
+

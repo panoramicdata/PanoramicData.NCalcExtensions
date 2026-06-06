@@ -1,0 +1,13 @@
+/*
+# dateTimeIsInPast()
+
+Generated documentation example 1 for dateTimeIsInPast().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+dateTimeIsInPast(toDateTime('2001-01-01T00:00:00', 'YYYY-MM-ddTHH:mm:ss'))
+

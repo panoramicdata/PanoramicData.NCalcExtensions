@@ -1,0 +1,11 @@
+/*
+# parse()
+
+Generated documentation example 6 for parse().
+
+**Expected result**
+1 }', null) : JsonDocument { "a": 1 }
+*/
+
+parse('JsonDocument', '{ "a"
+

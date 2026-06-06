@@ -1,0 +1,13 @@
+/*
+# humanize()
+
+Generated documentation example 1 for humanize().
+
+**Expected result**
+'1 hour'
+*/
+
+// theAnswer:System.String:1 hour
+
+humanize(3600, 'seconds')
+

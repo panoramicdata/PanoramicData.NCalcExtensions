@@ -1,0 +1,13 @@
+/*
+# first()
+
+Generated documentation example 1 for first().
+
+**Expected result**
+2
+*/
+
+// theAnswer:System.Int32:2
+
+first(list(1, 5, 2, 3), 'n', 'n % 2 == 0')
+

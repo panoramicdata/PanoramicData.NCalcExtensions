@@ -1,0 +1,13 @@
+/*
+# parse()
+
+Generated documentation example 3 for parse().
+
+**Expected result**
+null
+*/
+
+// theAnswer:System.Object:null
+
+parse('bool', 'x', null)
+

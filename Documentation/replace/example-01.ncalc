@@ -1,0 +1,13 @@
+/*
+# replace()
+
+Generated documentation example 1 for replace().
+
+**Expected result**
+'abCDEfg'
+*/
+
+// theAnswer:System.String:abCDEfg
+
+replace('abcdefg', 'cde', 'CDE')
+

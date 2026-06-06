@@ -1,0 +1,13 @@
+/*
+# isGuid()
+
+Generated documentation example 3 for isGuid().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+isGuid('abc')
+

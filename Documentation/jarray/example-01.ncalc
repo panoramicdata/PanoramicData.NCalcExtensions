@@ -1,0 +1,11 @@
+/*
+# jArray()
+
+Generated documentation example 1 for jArray().
+
+**Expected result**
+JArray [ { "a": 1, "b": null}, { "a": 2, "b": "2024-06-21T00:00:00"} ]
+*/
+
+jArray(jObject('a', 1, 'b', null), jObject('a', 2, 'b', #2024-06-21#))
+

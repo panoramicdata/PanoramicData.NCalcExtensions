@@ -1,0 +1,11 @@
+/*
+# toDateTime()
+
+Generated documentation example 1 for toDateTime().
+
+**Expected result**
+A date time representing 2019-01-01
+*/
+
+toDateTime('2019-01-01', 'yyyy-MM-dd')
+

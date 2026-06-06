@@ -1,0 +1,13 @@
+/*
+# count()
+
+Generated documentation example 2 for count().
+
+**Expected result**
+5
+*/
+
+// theAnswer:System.Int32:5
+
+count(list(1, 2, 3, 4, 5))
+

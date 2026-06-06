@@ -1,0 +1,13 @@
+/*
+# try()
+
+Generated documentation example 2 for try().
+
+**Expected result**
+null
+*/
+
+// theAnswer:System.Object:null
+
+try(throw('Woo'))
+

@@ -1,0 +1,11 @@
+/*
+# format()
+
+Generated documentation example 10 for format().
+
+**Expected result**
+'1' (can be controlled with CultureOptions, but defaults to CultureInfo.Invariant)
+*/
+
+format('2024-01-01', 'weekOfYear')
+

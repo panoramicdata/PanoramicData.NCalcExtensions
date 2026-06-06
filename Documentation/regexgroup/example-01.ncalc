@@ -1,0 +1,13 @@
+/*
+# regexGroup()
+
+Generated documentation example 1 for regexGroup().
+
+**Expected result**
+'cde'
+*/
+
+// theAnswer:System.String:cde
+
+regexGroup('abcdef', '^ab(.+?)f$')
+

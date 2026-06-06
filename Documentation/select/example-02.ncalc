@@ -1,0 +1,11 @@
+/*
+# select()
+
+Generated documentation example 2 for select().
+
+**Expected result**
+list of JObjects
+*/
+
+select(list(jObject('a', 1, 'b', '2'), jObject('a', 3, 'b', '4')), 'n', 'n', 'JObject')
+

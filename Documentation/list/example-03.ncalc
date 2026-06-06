@@ -1,0 +1,8 @@
+/*
+# list()
+
+Generated documentation example 3 for list().
+*/
+
+list(list(null, 1, '0'), 1, '0')
+

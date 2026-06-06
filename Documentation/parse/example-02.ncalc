@@ -1,0 +1,13 @@
+/*
+# parse()
+
+Generated documentation example 2 for parse().
+
+**Expected result**
+1
+*/
+
+// theAnswer:System.Int32:1
+
+parse('System.Int32', '1')
+

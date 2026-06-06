@@ -1,0 +1,13 @@
+/*
+# replace()
+
+Generated documentation example 3 for replace().
+
+**Expected result**
+'123defg'
+*/
+
+// theAnswer:System.String:123defg
+
+replace('abcdefg', 'a', '1', 'bc', '23')
+

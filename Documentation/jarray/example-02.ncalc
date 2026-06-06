@@ -1,0 +1,11 @@
+/*
+# jArray()
+
+Generated documentation example 2 for jArray().
+
+**Expected result**
+JArray [ 1, null, "woo" ]
+*/
+
+jArray(1, null, 'woo')
+

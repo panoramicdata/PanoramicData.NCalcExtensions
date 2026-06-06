@@ -1,0 +1,13 @@
+/*
+# toLower()
+
+Generated documentation example 1 for toLower().
+
+**Expected result**
+'pantomime'
+*/
+
+// theAnswer:System.String:pantomime
+
+toLower('PaNToMIMe')
+

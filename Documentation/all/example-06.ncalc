@@ -1,0 +1,13 @@
+/*
+# all()
+
+Generated documentation example 6 for all().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+all(list(1, 2, 3, 4, 5), 'n', 'n > 0 && n < 10')
+

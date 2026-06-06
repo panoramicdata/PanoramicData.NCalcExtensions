@@ -1,0 +1,11 @@
+/*
+# maxValue()
+
+Generated documentation example 1 for maxValue().
+
+**Expected result**
+(byte)255
+*/
+
+maxValue('byte')
+

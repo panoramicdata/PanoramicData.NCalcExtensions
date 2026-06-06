@@ -1,0 +1,13 @@
+/*
+# toString()
+
+Generated documentation example 3 for toString().
+
+**Expected result**
+'2023-02-17'
+*/
+
+// theAnswer:System.String:2023-02-17
+
+toString(DateTimeOffset, 'yyyy-MM-dd')
+

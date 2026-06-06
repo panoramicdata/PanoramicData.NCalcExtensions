@@ -1,0 +1,13 @@
+/*
+# jPath()
+
+Generated documentation example 5 for jPath().
+
+**Expected result**
+1
+*/
+
+// theAnswer:System.Int32:1
+
+jPath(sourceJObject, 'numbers[0]')
+

@@ -1,0 +1,11 @@
+/*
+# jPath()
+
+Generated documentation example 6 for jPath().
+
+**Expected result**
+"value1"
+*/
+
+jPath(sourceJObject, 'arrayList[?(@key==\\'key1\\')]')
+

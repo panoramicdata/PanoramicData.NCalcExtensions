@@ -1,0 +1,13 @@
+/*
+# in()
+
+Generated documentation example 1 for in().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it')
+

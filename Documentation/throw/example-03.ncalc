@@ -1,0 +1,8 @@
+/*
+# throw()
+
+Generated documentation example 3 for throw().
+*/
+
+if(problem, throw('There is a problem'), 5)
+

@@ -1,0 +1,13 @@
+/*
+# all()
+
+Generated documentation example 2 for all().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+all(list(false, false, false))
+

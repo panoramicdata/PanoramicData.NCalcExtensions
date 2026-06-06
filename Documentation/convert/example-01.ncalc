@@ -1,0 +1,8 @@
+/*
+# convert()
+
+Generated documentation example 1 for convert().
+*/
+
+convert(anyFunction(), 'XYZ'): 'XYZ'
+

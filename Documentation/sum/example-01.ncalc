@@ -1,0 +1,13 @@
+/*
+# sum()
+
+Generated documentation example 1 for sum().
+
+**Expected result**
+6
+*/
+
+// theAnswer:System.Int32:6
+
+sum(list(1, 2, 3))
+

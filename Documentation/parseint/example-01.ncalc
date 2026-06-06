@@ -1,0 +1,13 @@
+/*
+# parseInt()
+
+Generated documentation example 1 for parseInt().
+
+**Expected result**
+1
+*/
+
+// theAnswer:System.Int32:1
+
+parseInt('1')
+

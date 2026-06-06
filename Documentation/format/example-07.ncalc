@@ -1,0 +1,13 @@
+/*
+# format()
+
+Generated documentation example 7 for format().
+
+**Expected result**
+'last'
+*/
+
+// theAnswer:System.String:last
+
+format('2021-11-28', 'weekOfMonthText')
+

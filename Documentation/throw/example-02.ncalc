@@ -1,0 +1,8 @@
+/*
+# throw()
+
+Generated documentation example 2 for throw().
+*/
+
+throw('This is a message')
+

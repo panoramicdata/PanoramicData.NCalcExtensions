@@ -1,0 +1,13 @@
+/*
+# sum()
+
+Generated documentation example 2 for sum().
+
+**Expected result**
+14
+*/
+
+// theAnswer:System.Int32:14
+
+sum(list(1, 2, 3), 'n', 'n * n')
+

@@ -1,0 +1,13 @@
+/*
+# all()
+
+Generated documentation example 4 for all().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+all(list(true, true, true))
+

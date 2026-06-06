@@ -1,0 +1,11 @@
+/*
+# dateTime()
+
+Generated documentation example 1 for dateTime().
+
+**Expected result**
+90 days ago (e.g. '2019-03-14 05:09')
+*/
+
+dateTime('UTC', 'yyyy-MM-dd HH:mm:ss', -90, 0, 0, 0)
+

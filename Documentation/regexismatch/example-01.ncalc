@@ -1,0 +1,13 @@
+/*
+# regexIsMatch()
+
+Generated documentation example 1 for regexIsMatch().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+regexIsMatch('abcdef', '^ab.+')
+

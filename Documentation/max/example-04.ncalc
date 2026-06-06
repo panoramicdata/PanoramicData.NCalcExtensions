@@ -1,0 +1,13 @@
+/*
+# max()
+
+Generated documentation example 4 for max().
+
+**Expected result**
+'33'
+*/
+
+// theAnswer:System.String:33
+
+max(listOf('string', '1', '2', '3'), 'x', 'x + x')
+

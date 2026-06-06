@@ -1,0 +1,13 @@
+/*
+# any()
+
+Generated documentation example 2 for any().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+any(list(1, 2, 3))
+

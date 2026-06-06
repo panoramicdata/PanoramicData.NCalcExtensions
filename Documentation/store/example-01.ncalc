@@ -1,0 +1,13 @@
+/*
+# store()
+
+Generated documentation example 1 for store().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+store('thing', 1)
+

@@ -1,0 +1,13 @@
+/*
+# firstOrDefault()
+
+Generated documentation example 2 for firstOrDefault().
+
+**Expected result**
+null
+*/
+
+// theAnswer:System.Object:null
+
+firstOrDefault(list(1, 5, 7, 3), 'n', 'n % 2 == 0')
+

@@ -1,0 +1,13 @@
+/*
+# sanitize()
+
+Generated documentation example 6 for sanitize().
+
+**Expected result**
+'ab---'
+*/
+
+// theAnswer:System.String:ab---
+
+sanitize('ab cd', 'ab', '-')
+

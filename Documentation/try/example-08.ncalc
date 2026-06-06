@@ -1,0 +1,11 @@
+/*
+# try()
+
+Generated documentation example 8 for try().
+
+**Expected result**
+The Exception object thrown by the throw function.
+*/
+
+try(throw('Woo'), exception)
+

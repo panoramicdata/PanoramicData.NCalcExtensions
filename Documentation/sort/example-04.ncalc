@@ -1,0 +1,11 @@
+/*
+# sort()
+
+Generated documentation example 4 for sort().
+
+**Expected result**
+list('a', 'b', 'c')
+*/
+
+sort(list('b', 'a', 'c')))
+

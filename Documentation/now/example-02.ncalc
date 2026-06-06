@@ -1,0 +1,11 @@
+/*
+# now()
+
+Generated documentation example 2 for now().
+
+**Expected result**
+The current date and time in UTC
+*/
+
+now('UTC')
+

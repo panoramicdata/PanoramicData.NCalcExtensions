@@ -1,0 +1,13 @@
+/*
+# toUpper()
+
+Generated documentation example 1 for toUpper().
+
+**Expected result**
+'PANTOMIME'
+*/
+
+// theAnswer:System.String:PANTOMIME
+
+toUpper('PaNToMIMe')
+

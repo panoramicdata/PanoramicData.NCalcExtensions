@@ -1,0 +1,13 @@
+/*
+# try()
+
+Generated documentation example 6 for try().
+
+**Expected result**
+'PanoramicData.NCalcExtensions.Exceptions.NCalcExtensionsException'
+*/
+
+// theAnswer:System.String:PanoramicData.NCalcExtensions.Exceptions.NCalcExtensionsException
+
+try(throw('Woo'), exception_typeFullName)
+

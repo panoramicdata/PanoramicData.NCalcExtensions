@@ -1,0 +1,11 @@
+/*
+# dateTimeIsInFuture()
+
+Generated documentation example 3 for dateTimeIsInFuture().
+
+**Expected result**
+false; UTC is never ahead of West Africa Time
+*/
+
+dateTimeIsInFuture(now(), 'Africa/Luanda')
+

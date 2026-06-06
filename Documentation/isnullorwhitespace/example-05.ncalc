@@ -1,0 +1,13 @@
+/*
+# isNullOrWhiteSpace()
+
+Generated documentation example 5 for isNullOrWhiteSpace().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+isNullOrWhiteSpace(1)
+

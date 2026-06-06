@@ -1,0 +1,11 @@
+/*
+# isNull()
+
+Generated documentation example 3 for isNull().
+
+**Expected result**
+true if bob is null
+*/
+
+isNull(bob)
+

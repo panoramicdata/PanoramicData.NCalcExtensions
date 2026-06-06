@@ -1,0 +1,11 @@
+/*
+# jsonArray()
+
+Generated documentation example 1 for jsonArray().
+
+**Expected result**
+JsonDocument array containing [1, "test", null, true]
+*/
+
+jsonArray(1, 'test', null, true)
+

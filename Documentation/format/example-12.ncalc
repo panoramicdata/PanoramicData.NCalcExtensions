@@ -1,0 +1,13 @@
+/*
+# format()
+
+Generated documentation example 12 for format().
+
+**Expected result**
+'2019-01-01'
+*/
+
+// theAnswer:System.String:2019-01-01
+
+format('01/01/2019', 'yyyy-MM-dd')
+

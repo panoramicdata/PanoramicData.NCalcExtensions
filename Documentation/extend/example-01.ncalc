@@ -1,0 +1,11 @@
+/*
+# extend()
+
+Generated documentation example 1 for extend().
+
+**Expected result**
+JObject with a=1, b=null and c=5
+*/
+
+extend(jObject('a', 1, 'b', null), list('c', 5))
+

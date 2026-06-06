@@ -1,0 +1,11 @@
+/*
+# isNullOrEmpty()
+
+Generated documentation example 4 for isNullOrEmpty().
+
+**Expected result**
+true if bob is null or whitespace
+*/
+
+isNullOrEmpty(bob)
+

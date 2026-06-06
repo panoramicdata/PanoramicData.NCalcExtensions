@@ -1,0 +1,13 @@
+/*
+# isNaN()
+
+Generated documentation example 3 for isNaN().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+isNaN(1)
+

@@ -1,0 +1,11 @@
+/*
+# countBy()
+
+Generated documentation example 2 for countBy().
+
+**Expected result**
+{ '1': 1, '2': 2, '3', 3, '4', '1' }
+*/
+
+countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toString(n)')
+

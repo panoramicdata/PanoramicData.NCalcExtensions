@@ -1,0 +1,13 @@
+/*
+# maxValue()
+
+Generated documentation example 3 for maxValue().
+
+**Expected result**
+2147483647
+*/
+
+// theAnswer:System.Int32:2147483647
+
+maxValue('int')
+

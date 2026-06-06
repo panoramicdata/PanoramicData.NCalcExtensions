@@ -1,0 +1,11 @@
+/*
+# reverse()
+
+Generated documentation example 1 for reverse().
+
+**Expected result**
+5, 5, 4, 3, 2, 1
+*/
+
+reverse(list(1, 2, 3, 4, 5, 5)
+

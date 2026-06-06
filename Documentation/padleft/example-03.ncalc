@@ -1,0 +1,13 @@
+/*
+# padLeft()
+
+Generated documentation example 3 for padLeft().
+
+**Expected result**
+'12345'
+*/
+
+// theAnswer:System.String:12345
+
+padLeft('12345', 5, '0')
+

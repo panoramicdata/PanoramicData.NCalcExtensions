@@ -1,0 +1,13 @@
+/*
+# length()
+
+Generated documentation example 1 for length().
+
+**Expected result**
+17
+*/
+
+// theAnswer:System.Int32:17
+
+length('a piece of string')
+

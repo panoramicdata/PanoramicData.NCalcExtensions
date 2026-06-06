@@ -1,0 +1,11 @@
+/*
+# parse()
+
+Generated documentation example 5 for parse().
+
+**Expected result**
+1 } ]', null) : JArray [{ "a": 1 }]
+*/
+
+parse('jArray', '[ { "a"
+

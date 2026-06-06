@@ -255,100 +255,14 @@ The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCal
 - Improved standard compliance
 - Enhanced type safety options
 
-## Functions
+## Documentation
 
-| Function | Purpose | Notes |
-| -------- | ------- | ----- |
-| [all()](#all) | Returns true if all values match the lambda expression, otherwise false. |
-| [any()](#any) | Returns true if any values match the lambda expression, otherwise false. |
-| [canEvaluate()](#canevaluate) | Determines whether ALL of the parameters can be evaluated.  This can be used, for example, to test whether a parameter is set. |
-| [capitalize()](#capitalize) | Capitalizes a string. |
-| [cast()](#cast) | Cast an object to another (e.g. float to decimal). |
-| [changeTimeZone()](#changetimezone) | Change a DateTime's time zone. |
-| [concat()](#concat) | Concatenates lists and objects. |
-| [contains()](#contains) | Determines whether one string contains another. |
-| [convert()](#convert) | Converts the output of parameter 1 into the result of parameter 2. |
-| [count()](#count) | Counts the number of items.  Optionally, only count those that match a lambda. |
-| [countBy()](#count) | Counts the number of items by a calculated term. |
-| [dateAdd()](#dateAdd) | Add a specified interval to a DateTime. |
-| [dateTime()](#dateTime) | Return the DateTime in the specified format as a string, with an optional offset. |
-| [dateTimeAsEpoch()](#datetimeasepoch) | Parses the input DateTime and outputs as seconds since the Epoch (1970-01-01T00:00Z). |
-| [dateTimeAsEpochMs()](#datetimeasepochms) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). |
-| [dateTimeIsInFuture()](#dateTimeIsInFuture) | Whether a DateTime is in the future, with an optional timezone correction. |
-| [dateTimeIsInPast()](#dateTimeIsInPast) | Whether a DateTime is in the past, with an optional timezone correction. |
-| [dictionary()](#dictionary) | Builds a Dictionary\<string, object?\> from the parameters provided. |
-| [distinct()](#distinct) | Returns only distinct items from the input. |
-| [endsWith()](#endswith) | Determines whether a string ends with another string. |
-| [extend()](#extend) | Extends an existing object into a JObject with both the original and additional properties. |
-| [first()](#first) | Returns the first item in a list that matches a lambda or throws a FormatException if no items match. |
-| [firstOrDefault()](#firstOrDefault) | Returns the first item in a list that matches a lambda or null if no items match. |
-| [format()](#format) | Formats strings and numbers as output strings with the specified format. |
-| [getProperties()](#getproperties) | Returns a list of property names for an object. |
-| [getProperty()](#getproperty) | Returns the value of a given property. |
-| [humanize()](#humanize) | Converts a value to a more readable format. |
-| [if()](#if) | Return one of two values, depending on the input function. |
-| [in()](#in) | Determines whether a value is in a set of other values. |
-| [indexOf()](#indexof) | Determines the first position of a string within another string. |
-| [isGuid()](#isguid) | Determines whether a value is a GUID, or is a string that can be converted to a GUID. |
-| [isInfinite()](#isinfinite) | Determines whether a value is infinite. |
-| [isNaN()](#isnan) | Determines whether a value is not a number. |
-| [isNull()](#isnull) | Determines whether a value is null. |
-| [isNullOrEmpty()](#isnullorempty) | Determines whether a value is null or empty. |
-| [isNullOrWhiteSpace()](#isnullorwhitespace) | Determines whether a value is null, empty or white space. |
-| [isSet()](#isset) | Determines whether a parameter is set. |
-| [itemAtIndex()](#itematindex) | Determines the item at the given index. |
-| [jArray()](#jarray) | Creates a Newtonsoft JArray from input values. |
-| [jObject()](#jobject) | Creates a JObject from key/value pairs. |
-| [join()](#join) | Joins a list of strings into a single string. |
-| [jsonArray()](#jsonarray) | Creates a System.Text.Json JsonDocument array from input values. |
-| [jsonDocument()](#jsondocument) | Creates a System.Text.Json JsonDocument from key/value pairs. |
-| [jPath()](#jpath) | Selects a single value from a JObject using a [JPath](https://www.newtonsoft.com/json/help/html/QueryJsonSelectToken.htm) expression |
-| [last()](#last) | Determines the last value in an IEnumerable. Throws an Exception if no item matches. |
-| [lastIndexOf()](#lastindexof) | Determines the last position of a string within another string. |
-| [lastOrDefault()](#lastOrDefault) | Determines the last value in an IEnumerable. Returns null if no item matches. |
-| [length()](#length) | Determines length of a string or IList. |
-| [list()](#list) | Emits a List\<object?\> and collapses down lists of lists to a single list. |
-| [listOf()](#listof) | Emits a List\<T\>. |
-| [max()](#max) | Emits the maximum value, ignoring nulls. |
-| [maxValue()](#maxValue) | Emits the maximum possible value for a given numeric or date/time type. |
-| [min()](#min) | Emits the minimum value, ignoring nulls. |
-| [minValue()](#minValue) | Emits the minimum possible value for a given numeric or date/time type. |
-| [now()](#now) | Returns the current date and time, with optional timezone correction. |
-| [nullCoalesce()](#nullcoalesce) | Returns the first parameter that is not null, otherwise: null. |
-| [orderBy()](#orderby) | Orders an IEnumerable by one or more lambda expressions. |
-| [padLeft()](#padleft) | Pad the left of a string with a character to a desired string length. |
-| [parse()](#parse) | Returns the conversion of a string to a new type. |
-| [parseInt()](#parseint) | Returns an integer version of a string. | Deprecated - use parse() or tryParse() instead) |
-| [regexGroup()](#regexgroup) | Selects a regex group capture. |
-| [regexIsMatch()](#regexismatch) | Determine whether a string matches a regex. |
-| [replace()](#replace) | Replace a string with another string. |
-| [retrieve()](#retrieve) | Retrieves a value from storage. |
-| [reverse()](#reverse) | Reverses an IEnumerable and emits a List<object?>. |
-| [sanitize()](#sanitize) | Sanitizes a string, replacing any characters outside of the allowed set. |
-| [select()](#select) | Converts an IEnumerable using a lambda. |
-| [selectDistinct()](#selectdistinct) | Converts an IEnumerable using a lambda and removes duplicates. |
-| [setProperties()](#setproperties) | Sets properties on an existing object. |
-| [sha256()](#sha256) | Converts a string to a SHA256 hash. |
-| [skip()](#skip) | Skips a number of items in a list. |
-| [sort()](#sort) | Sorts an IComparable ascending or descending. |
-| [split()](#split) | Splits a string on a given character into a list of strings. |
-| [startsWith()](#startswith) | Determines whether a string starts with another string. |
-| [store()](#store) | Stores a value for use later in the pipeline. |
-| [substring()](#substring) | Retrieves part of a string. |
-| [sum()](#sum) | Sums numeric items. |
-| [switch()](#switch) | Return one of a number of values, depending on the input function. |
-| [take()](#take) | Takes a number of items from a list. |
-| [throw()](#throw) | Throws an NCalcExtensionsException. |
-| [timeSpan()](#timespan) | Determines the amount of time between two DateTimes. |
-| [toDateTime()](#todatetime) | Converts a string to a UTC DateTime.  May take an optional inputTimeZone. |
-| [toLower()](#tolower) | Converts a string to lower case. |
-| [toString()](#tostring) | Converts any object to a string. |
-| [toUpper()](#toupper) | Converts a string to upper case. |
-| [trim()](#trim) | Removed leading and trailing whitespace. |
-| [try()](#try) | If a function throws an exception, return an alternate value. |
-| [tryParse()](#tryparse) | Returns a boolean result of an attempted cast |
-| [typeOf()](#typeof) | Determines the C# type of the object. |
-| [where()](#where) | Filters an IEnumerable to bring back only those items that match a condition. |
+The generated documentation index is now on the dedicated page:
+
+- [Documentation/README.md](Documentation/README.md)
+- [Function documentation folder](Documentation/)
+
+That page contains the per-function indexes and the example links to NCalc101.
 
 ## Usage
 

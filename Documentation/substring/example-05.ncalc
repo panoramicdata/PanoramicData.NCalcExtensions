@@ -1,0 +1,13 @@
+/*
+# substring()
+
+Generated documentation example 5 for substring().
+
+**Expected result**
+''
+*/
+
+// theAnswer:System.String:
+
+substring('haystack', 0, 0)
+

@@ -1,0 +1,13 @@
+/*
+# tryParse()
+
+Generated documentation example 1 for tryParse().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+tryParse('int', '1', 'outputVariable')
+

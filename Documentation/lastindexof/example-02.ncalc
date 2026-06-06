@@ -1,0 +1,13 @@
+/*
+# lastIndexOf()
+
+Generated documentation example 2 for lastIndexOf().
+
+**Expected result**
+-1
+*/
+
+// theAnswer:System.Int32:-1
+
+lastIndexOf('#abcabc#', 'abcd')
+

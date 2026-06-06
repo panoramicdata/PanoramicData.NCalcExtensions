@@ -1,0 +1,11 @@
+/*
+# jPath()
+
+Generated documentation example 3 for jPath().
+
+**Expected result**
+an exception is thrown
+*/
+
+jPath(sourceJObject, 'size')
+

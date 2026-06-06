@@ -1,0 +1,8 @@
+/*
+# listOf()
+
+Generated documentation example 3 for listOf().
+*/
+
+listOf('int?', 1, null, 3)
+

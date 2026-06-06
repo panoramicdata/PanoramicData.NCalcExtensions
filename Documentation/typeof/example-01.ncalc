@@ -1,0 +1,13 @@
+/*
+# typeOf()
+
+Generated documentation example 1 for typeOf().
+
+**Expected result**
+'String'
+*/
+
+// theAnswer:System.String:String
+
+typeOf('text')
+

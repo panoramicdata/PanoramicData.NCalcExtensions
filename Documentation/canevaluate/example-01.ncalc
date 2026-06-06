@@ -1,0 +1,13 @@
+/*
+# canEvaluate()
+
+Generated documentation example 1 for canEvaluate().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+canEvaluate(nonExistent)
+

@@ -1,0 +1,13 @@
+/*
+# try()
+
+Generated documentation example 4 for try().
+
+**Expected result**
+'Woo'
+*/
+
+// theAnswer:System.String:Woo
+
+try(throw('Woo'), exception_message)
+

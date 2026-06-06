@@ -1,0 +1,11 @@
+/*
+# split()
+
+Generated documentation example 1 for split().
+
+**Expected result**
+list('a', 'bc', 'd')
+*/
+
+split('a bc d', ' ')
+

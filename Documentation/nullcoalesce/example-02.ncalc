@@ -1,0 +1,13 @@
+/*
+# nullCoalesce()
+
+Generated documentation example 2 for nullCoalesce().
+
+**Expected result**
+1
+*/
+
+// theAnswer:System.Int32:1
+
+nullCoalesce(1, null)
+

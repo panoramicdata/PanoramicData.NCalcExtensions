@@ -1,0 +1,13 @@
+/*
+# indexOf()
+
+Generated documentation example 1 for indexOf().
+
+**Expected result**
+1
+*/
+
+// theAnswer:System.Int32:1
+
+indexOf('#abcabc#', 'abc')
+

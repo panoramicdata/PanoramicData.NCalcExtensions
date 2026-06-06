@@ -1,0 +1,11 @@
+/*
+# jObject()
+
+Generated documentation example 1 for jObject().
+
+**Expected result**
+JObject{ "a": 1, "b": null}
+*/
+
+jObject('a', 1, 'b', null)
+

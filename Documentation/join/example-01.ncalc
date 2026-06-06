@@ -1,0 +1,13 @@
+/*
+# join()
+
+Generated documentation example 1 for join().
+
+**Expected result**
+'a, b, c'
+*/
+
+// theAnswer:System.String:a, b, c
+
+join(split('a b c', ' '), ', ')
+

@@ -1,0 +1,13 @@
+/*
+# startsWith()
+
+Generated documentation example 1 for startsWith().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+startsWith('abcdefg', 'ab')
+

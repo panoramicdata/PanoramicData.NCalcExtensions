@@ -1,0 +1,11 @@
+/*
+# jsonArray()
+
+Generated documentation example 3 for jsonArray().
+
+**Expected result**
+JsonDocument array containing two objects
+*/
+
+jsonArray(jsonDocument('a', 1), jsonDocument('b', 2))
+

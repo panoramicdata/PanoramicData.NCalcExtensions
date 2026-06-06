@@ -1,0 +1,13 @@
+/*
+# lastOrDefault()
+
+Generated documentation example 1 for lastOrDefault().
+
+**Expected result**
+4
+*/
+
+// theAnswer:System.Int32:4
+
+lastOrDefault(list(1, 5, 2, 3, 4, 1), 'n', 'n % 2 == 0')
+

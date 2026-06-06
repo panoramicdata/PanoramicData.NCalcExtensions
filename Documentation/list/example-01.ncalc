@@ -1,0 +1,8 @@
+/*
+# list()
+
+Generated documentation example 1 for list().
+*/
+
+list('', 1, '0')
+

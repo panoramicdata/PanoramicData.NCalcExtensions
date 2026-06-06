@@ -1,0 +1,13 @@
+/*
+# jPath()
+
+Generated documentation example 2 for jPath().
+
+**Expected result**
+'woo'
+*/
+
+// theAnswer:System.String:woo
+
+jPath(sourceJObject, 'details.[\'this.thing\']')
+

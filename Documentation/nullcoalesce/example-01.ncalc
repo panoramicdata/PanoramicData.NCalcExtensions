@@ -1,0 +1,13 @@
+/*
+# nullCoalesce()
+
+Generated documentation example 1 for nullCoalesce().
+
+**Expected result**
+null
+*/
+
+// theAnswer:System.Object:null
+
+nullCoalesce()
+

@@ -1,0 +1,13 @@
+/*
+# format()
+
+Generated documentation example 1 for format().
+
+**Expected result**
+'01'
+*/
+
+// theAnswer:System.String:01
+
+format(1, '00')
+

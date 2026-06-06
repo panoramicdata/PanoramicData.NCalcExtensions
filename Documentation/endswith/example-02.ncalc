@@ -1,0 +1,13 @@
+/*
+# endsWith()
+
+Generated documentation example 2 for endsWith().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+endsWith('abcdefg', 'fgh')
+

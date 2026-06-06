@@ -1,0 +1,11 @@
+/*
+# try()
+
+Generated documentation example 5 for try().
+
+**Expected result**
+typeof(PanoramicData.NCalcExtensions.Exceptions.NCalcExtensionsException)
+*/
+
+try(throw('Woo'), exception_type)
+

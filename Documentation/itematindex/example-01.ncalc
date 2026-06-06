@@ -1,0 +1,13 @@
+/*
+# itemAtIndex()
+
+Generated documentation example 1 for itemAtIndex().
+
+**Expected result**
+'b'
+*/
+
+// theAnswer:System.String:b
+
+itemAtIndex(split('a b c', ' '), 1)
+

@@ -1,0 +1,8 @@
+/*
+# take()
+
+Generated documentation example 1 for take().
+*/
+
+take(list(1, 2, 3), 2): list(1, 2)
+

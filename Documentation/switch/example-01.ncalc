@@ -1,0 +1,13 @@
+/*
+# switch()
+
+Generated documentation example 1 for switch().
+
+**Expected result**
+1
+*/
+
+// theAnswer:System.Int32:1
+
+switch('yes', 'yes', 1, 'no', 2)
+

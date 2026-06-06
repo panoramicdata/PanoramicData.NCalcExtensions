@@ -1,0 +1,11 @@
+/*
+# getProperties()
+
+Generated documentation example 3 for getProperties().
+
+**Expected result**
+[ 'Date', 'Day', 'DayOfWeek', 'DayOfYear', 'Hour', 'Kind', 'Millisecond', 'Microsecond', 'Nanosecond', 'Minute', 'Month', 'Now', 'Second', 'Ticks', 'TimeOfDay', 'Today', 'Year', 'UtcNow' ]
+*/
+
+getProperties(toDateTime('2019-01-01', 'yyyy-MM-dd'))
+

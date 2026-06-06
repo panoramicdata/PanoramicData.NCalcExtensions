@@ -1,0 +1,11 @@
+/*
+# dictionary()
+
+Generated documentation example 2 for dictionary().
+
+**Expected result**
+a dictionary containing 2 values with keys TRUE and FALSE, and boolean values
+*/
+
+dictionary('TRUE', true, 'FALSE', false)
+

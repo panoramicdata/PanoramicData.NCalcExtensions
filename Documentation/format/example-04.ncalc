@@ -1,0 +1,13 @@
+/*
+# format()
+
+Generated documentation example 4 for format().
+
+**Expected result**
+1
+*/
+
+// theAnswer:System.Int32:1
+
+format('2021-11-01', 'weekOfMonth')
+

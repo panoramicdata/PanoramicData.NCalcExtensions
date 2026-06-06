@@ -1,0 +1,13 @@
+/*
+# count()
+
+Generated documentation example 1 for count().
+
+**Expected result**
+17
+*/
+
+// theAnswer:System.Int32:17
+
+count('a piece of string')
+

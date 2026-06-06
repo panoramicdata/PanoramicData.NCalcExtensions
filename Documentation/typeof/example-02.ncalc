@@ -1,0 +1,13 @@
+/*
+# typeOf()
+
+Generated documentation example 2 for typeOf().
+
+**Expected result**
+'Int32'
+*/
+
+// theAnswer:System.String:Int32
+
+typeOf(1)
+

@@ -1,0 +1,13 @@
+/*
+# minValue()
+
+Generated documentation example 3 for minValue().
+
+**Expected result**
+-2147483648
+*/
+
+// theAnswer:System.Int32:-2147483648
+
+minValue('int')
+

@@ -1,0 +1,11 @@
+/*
+# switch()
+
+Generated documentation example 2 for switch().
+
+**Expected result**
+throws exception
+*/
+
+switch('blah', 'yes', 1, 'no', 2)
+

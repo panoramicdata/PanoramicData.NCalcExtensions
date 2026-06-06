@@ -1,0 +1,11 @@
+/*
+# dateTimeIsInPast()
+
+Generated documentation example 3 for dateTimeIsInPast().
+
+**Expected result**
+true; UTC is always behind West Africa Time
+*/
+
+dateTimeIsInPast(now(), 'Africa/Luanda')
+

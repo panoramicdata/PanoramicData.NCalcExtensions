@@ -1,0 +1,11 @@
+/*
+# isSet()
+
+Generated documentation example 1 for isSet().
+
+**Expected result**
+true/false depending on whether a is an available variable
+*/
+
+isSet('a')
+

@@ -1,0 +1,11 @@
+/*
+# orderBy()
+
+Generated documentation example 2 for orderBy().
+
+**Expected result**
+list(34, 33, 2, 1)
+*/
+
+orderBy(list(34, 33, 2, 1), 'n', '-n')
+

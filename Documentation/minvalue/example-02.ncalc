@@ -1,0 +1,11 @@
+/*
+# minValue()
+
+Generated documentation example 2 for minValue().
+
+**Expected result**
+(ushort)0
+*/
+
+minValue('ushort')
+

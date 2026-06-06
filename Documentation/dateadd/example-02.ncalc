@@ -1,0 +1,11 @@
+/*
+# dateAdd()
+
+Generated documentation example 2 for dateAdd().
+
+**Expected result**
+2 hours later (2019-03-05 03:03:05)
+*/
+
+dateAdd(toDateTime('2019-03-05 01:03:05', 'yyyy-MM-dd HH:mm:ss'), 2, 'hours')
+

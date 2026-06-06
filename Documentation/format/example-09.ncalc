@@ -1,0 +1,13 @@
+/*
+# format()
+
+Generated documentation example 9 for format().
+
+**Expected result**
+'forth'
+*/
+
+// theAnswer:System.String:forth
+
+format('2021-11-28', 'weekDayOfMonthText')
+

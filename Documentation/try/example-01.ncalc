@@ -1,0 +1,13 @@
+/*
+# try()
+
+Generated documentation example 1 for try().
+
+**Expected result**
+1
+*/
+
+// theAnswer:System.Int32:1
+
+try(1, 'Failed')
+

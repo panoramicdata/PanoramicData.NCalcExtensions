@@ -1,0 +1,13 @@
+/*
+# isNullOrEmpty()
+
+Generated documentation example 6 for isNullOrEmpty().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+isNullOrEmpty('text')
+

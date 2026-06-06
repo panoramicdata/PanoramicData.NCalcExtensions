@@ -1,0 +1,13 @@
+/*
+# typeOf()
+
+Generated documentation example 4 for typeOf().
+
+**Expected result**
+null
+*/
+
+// theAnswer:System.Object:null
+
+typeOf(null)
+

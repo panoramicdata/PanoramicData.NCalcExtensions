@@ -1,0 +1,13 @@
+/*
+# sanitize()
+
+Generated documentation example 3 for sanitize().
+
+**Expected result**
+'a'
+*/
+
+// theAnswer:System.String:a
+
+sanitize('ab cd./', 'CBa')
+

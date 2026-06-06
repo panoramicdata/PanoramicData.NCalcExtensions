@@ -1,0 +1,11 @@
+/*
+# maxValue()
+
+Generated documentation example 2 for maxValue().
+
+**Expected result**
+(ushort)65535
+*/
+
+maxValue('ushort')
+

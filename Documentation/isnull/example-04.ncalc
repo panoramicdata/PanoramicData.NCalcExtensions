@@ -1,0 +1,13 @@
+/*
+# isNull()
+
+Generated documentation example 4 for isNull().
+
+**Expected result**
+true
+*/
+
+// theAnswer:System.Boolean:true
+
+isNull(null)
+

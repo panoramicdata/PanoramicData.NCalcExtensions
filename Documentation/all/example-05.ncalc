@@ -1,0 +1,13 @@
+/*
+# all()
+
+Generated documentation example 5 for all().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+all(list(1, 2, 3, 4, 5), 'n', 'n < 3')
+

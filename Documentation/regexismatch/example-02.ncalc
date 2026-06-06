@@ -1,0 +1,13 @@
+/*
+# regexIsMatch()
+
+Generated documentation example 2 for regexIsMatch().
+
+**Expected result**
+false
+*/
+
+// theAnswer:System.Boolean:false
+
+regexIsMatch('Zbcdef', '^ab.+')
+

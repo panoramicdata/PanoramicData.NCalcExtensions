@@ -1,0 +1,11 @@
+/*
+# toDateTime()
+
+Generated documentation example 4 for toDateTime().
+
+**Expected result**
+A date time representing 1975-02-17 00:00:00 UTC
+*/
+
+toDateTime(161827200.0, 's', 'UTC')
+

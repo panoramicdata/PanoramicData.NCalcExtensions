@@ -1,0 +1,11 @@
+/*
+# maxValue()
+
+Generated documentation example 5 for maxValue().
+
+**Expected result**
+DateTimeOffset.MaxValue (9999-12-31T23:59:59.9999999+00:00)
+*/
+
+maxValue('DateTimeOffset')
+

@@ -1,0 +1,11 @@
+/*
+# getProperties()
+
+Generated documentation example 1 for getProperties().
+
+**Expected result**
+[ 'A', 'B' ]
+*/
+
+getProperties(parse('jObject', '{ "A": 1, "B": 2 }'))
+

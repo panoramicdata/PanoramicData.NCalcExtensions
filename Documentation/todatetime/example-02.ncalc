@@ -1,0 +1,11 @@
+/*
+# toDateTime()
+
+Generated documentation example 2 for toDateTime().
+
+**Expected result**
+A date time representing 2020-02-29 17:00:00 UTC
+*/
+
+toDateTime('2020-02-29 12:00', 'yyyy-MM-dd HH:mm', 'Eastern Standard Time')
+

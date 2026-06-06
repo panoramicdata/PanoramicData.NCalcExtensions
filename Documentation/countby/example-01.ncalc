@@ -1,0 +1,11 @@
+/*
+# countBy()
+
+Generated documentation example 1 for countBy().
+
+**Expected result**
+{ 'false': 1, 'true': 6 }
+*/
+
+countBy(list(1, 2, 2, 3, 3, 3, 4), 'n', 'toLower(toString(n > 1))')
+

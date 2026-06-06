@@ -1,0 +1,13 @@
+/*
+# toString()
+
+Generated documentation example 2 for toString().
+
+**Expected result**
+'1,000.00'
+*/
+
+// theAnswer:System.String:1,000.00
+
+toString(1000, 'N2')
+

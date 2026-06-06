@@ -1,0 +1,11 @@
+/*
+# listOf()
+
+Generated documentation example 4 for listOf().
+
+**Expected result**
+throws an exception
+*/
+
+listOf('string', '1', '2', 3)
+

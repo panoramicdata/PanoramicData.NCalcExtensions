@@ -1,0 +1,8 @@
+/*
+# listOf()
+
+Generated documentation example 1 for listOf().
+*/
+
+listOf('object?', '', 1, '0')
+

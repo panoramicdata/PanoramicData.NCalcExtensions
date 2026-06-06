@@ -1,0 +1,11 @@
+/*
+# minValue()
+
+Generated documentation example 1 for minValue().
+
+**Expected result**
+(byte)0
+*/
+
+minValue('byte')
+

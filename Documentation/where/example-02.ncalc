@@ -1,0 +1,11 @@
+/*
+# where()
+
+Generated documentation example 2 for where().
+
+**Expected result**
+list(1, 2, 5)
+*/
+
+where(list(1, 2, 3, 4, 5), 'n', 'n < 3 || n > 4')
+

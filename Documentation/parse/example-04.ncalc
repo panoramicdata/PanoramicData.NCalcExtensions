@@ -1,0 +1,11 @@
+/*
+# parse()
+
+Generated documentation example 4 for parse().
+
+**Expected result**
+1 }', null) : JObject { "a": 1 }
+*/
+
+parse('jObject', '{ "a"
+

@@ -1,0 +1,11 @@
+/*
+# dateTime()
+
+Generated documentation example 2 for dateTime().
+
+**Expected result**
+now (e.g. '2019-03-14 05:09')
+*/
+
+dateTime('UTC', 'yyyy-MM-dd HH:mm:ss')
+

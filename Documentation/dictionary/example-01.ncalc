@@ -1,0 +1,11 @@
+/*
+# dictionary()
+
+Generated documentation example 1 for dictionary().
+
+**Expected result**
+a dictionary containing 2 values with keys KEY1 and KEY2, and string values
+*/
+
+dictionary('KEY1', 'Hello', 'KEY2', 'Goodbye')
+

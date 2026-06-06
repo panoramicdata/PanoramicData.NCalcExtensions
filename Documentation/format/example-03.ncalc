@@ -1,0 +1,13 @@
+/*
+# format()
+
+Generated documentation example 3 for format().
+
+**Expected result**
+'333'
+*/
+
+// theAnswer:System.String:333
+
+format('2021-11-29', 'dayOfYear')
+

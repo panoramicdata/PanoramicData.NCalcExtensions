@@ -1,0 +1,8 @@
+/*
+# changeTimeZone()
+
+Generated documentation example 2 for changeTimeZone().
+*/
+
+changeTimeZone(theDateTime, 'Eastern Standard Time', 'UTC')
+

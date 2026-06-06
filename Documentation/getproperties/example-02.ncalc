@@ -1,0 +1,11 @@
+/*
+# getProperties()
+
+Generated documentation example 2 for getProperties().
+
+**Expected result**
+[ 'name', 'age' ]
+*/
+
+getProperties(jsonDocument('name', 'John', 'age', 30))
+

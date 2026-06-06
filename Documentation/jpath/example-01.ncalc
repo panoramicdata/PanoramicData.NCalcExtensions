@@ -1,0 +1,13 @@
+/*
+# jPath()
+
+Generated documentation example 1 for jPath().
+
+**Expected result**
+'bob'
+*/
+
+// theAnswer:System.String:bob
+
+jPath(sourceJObject, 'name')
+
