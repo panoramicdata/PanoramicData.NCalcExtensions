@@ -6,7 +6,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageVersion Include="NCalcSync" Version="5.13.0" />
+		<PackageVersion Include="NCalcSync" Version="6.1.1" />
 		<PackageVersion Include="Nerdbank.GitVersioning" Version="3.9.50" />
 		<PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageVersion Include="TimeZoneConverter" Version="7.2.0" />
