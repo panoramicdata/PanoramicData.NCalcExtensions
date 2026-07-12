@@ -5,6 +5,8 @@ Keep upcoming changes under `## Unreleased`.
 creates a fresh `## Unreleased` section, commits the file, and then calls `Publish.ps1`.
 
 ## Unreleased
+
+## 5.8.64 - 2026-07-12
 - Added an optional `TimeProvider` parameter to `ExtendedExpression` and `SimpleExtendedExpression` constructors (default `TimeProvider.System`). When supplied, the time-dependent functions `now()`, `dateTimeIsInPast()` and `dateTimeIsInFuture()` resolve the current instant from the provider instead of `DateTime.UtcNow`, enabling deterministic evaluation at a fixed instant. Behaviour is unchanged when no provider is supplied.
 
 ## 5.8.53 - 2026-06-03
