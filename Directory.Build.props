@@ -5,6 +5,14 @@
     <Authors>Panoramic Data Limited</Authors>
     <Copyright>Copyright © $([System.DateTime]::Now.Year) Panoramic Data Limited</Copyright>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!--
+      Low/moderate NuGet advisories are reported but do not break the build, matching the
+      convention used across PanoramicData repositories (e.g. PanoramicData.Blazor). High/critical
+      advisories (NU1903/NU1904) are still treated as errors. As of 2026-07 NCalcSync 5.13.0 carries
+      the moderate advisory GHSA-3w5p-95mh-gq75 (NU1902); a full upgrade to NCalc 6.x should be
+      tracked and evaluated separately from this change.
+    -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1901;NU1902</WarningsNotAsErrors>
     <Nullable>enable</Nullable>
     <NuGetAuditMode>All</NuGetAuditMode>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

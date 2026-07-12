@@ -15,7 +15,7 @@ public partial interface IFunctionPrototypes
 
 internal static class Now
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs, TimeProvider timeProvider)
 	{
 		var destinationTimeZoneInfo = TimeZoneInfo.Utc;
 
@@ -34,6 +34,6 @@ internal static class Now
 		}
 		// Time zone has been determined
 
-		functionArgs.Result = TimeZoneInfo.ConvertTime(DateTime.UtcNow, destinationTimeZoneInfo);
+		functionArgs.Result = TimeZoneInfo.ConvertTime(timeProvider.GetUtcNow().UtcDateTime, destinationTimeZoneInfo);
 	}
 }

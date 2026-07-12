@@ -17,7 +17,7 @@ public partial interface IFunctionPrototypes
 
 internal static class DateTimeIsInFuture
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionArgs functionArgs, TimeProvider timeProvider)
 	{
 		var destinationTimeZoneInfo = TimeZoneInfo.Utc;
 		if (functionArgs.Parameters.Length < 1)
@@ -48,7 +48,7 @@ internal static class DateTimeIsInFuture
 		}
 		// Time zone has been determined
 
-		var currentDateTime = TimeZoneInfo.ConvertTime(DateTime.UtcNow, destinationTimeZoneInfo);
+		var currentDateTime = TimeZoneInfo.ConvertTime(timeProvider.GetUtcNow().UtcDateTime, destinationTimeZoneInfo);
 		functionArgs.Result = dateTimeUnderTest > currentDateTime;
 	}
 }

@@ -14,6 +14,7 @@
 public class ExtendedExpression : BaseExtendedExpression
 {
 	private readonly ExpressionOptions _expressionOptions;
+	private readonly TimeProvider? _timeProvider;
 	private readonly Lazy<SimpleExtendedExpression> _simpleExtendedExpression;
 	private readonly Lazy<object?> _expectedAnswer;
 
@@ -72,27 +73,31 @@ public class ExtendedExpression : BaseExtendedExpression
 	public ExtendedExpression(
 		string expression,
 		ExpressionOptions expressionOptions,
-		CultureInfo cultureInfo) : this(
+		CultureInfo cultureInfo,
+		TimeProvider? timeProvider = null) : this(
 		ExtendedExpressionDocumentParser.Parse(expression),
 		expressionOptions,
-		cultureInfo)
+		cultureInfo,
+		timeProvider)
 	{
 	}
 
 	private ExtendedExpression(
 		ExtendedExpressionDocument document,
 		ExpressionOptions expressionOptions,
-		CultureInfo cultureInfo) : base(document.TidiedExpression, expressionOptions, cultureInfo)
+		CultureInfo cultureInfo,
+		TimeProvider? timeProvider = null) : base(document.TidiedExpression, expressionOptions, cultureInfo, timeProvider)
 	{
 		Document = document;
 		_expressionOptions = expressionOptions;
+		_timeProvider = timeProvider;
 		SetParametersFromDefinitions(document.Parameters);
 		_expectedAnswer = new Lazy<object?>(
 			() => Document.Answer is { HasValue: true } answer
 				? ConvertDefinitionValue("Answer", answer)
 				: null);
 		_simpleExtendedExpression = new Lazy<SimpleExtendedExpression>(
-			() => new SimpleExtendedExpression(Document.TidiedExpression, Document, _expressionOptions, CultureInfo)
+			() => new SimpleExtendedExpression(Document.TidiedExpression, Document, _expressionOptions, CultureInfo, _timeProvider)
 		);
 	}
 

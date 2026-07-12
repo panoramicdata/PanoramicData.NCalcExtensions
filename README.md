@@ -33,6 +33,26 @@ When using ExtendedExpression, you can:
 - include empty lines
 - indent lines
 - define typed parameters and answers directly in comments using formats like: `// parameterName:type:value`, `// parameterName:type`, and `// answer:type:value`
+- inject a `TimeProvider` so time-dependent functions evaluate deterministically (see below)
+
+### Deterministic time (injectable TimeProvider)
+
+The time-dependent functions `now()`, `dateTimeIsInPast()` and `dateTimeIsInFuture()` normally read the live system clock. Pass a `System.TimeProvider` to the constructor to pin the current instant instead - useful for unit tests and for replaying time-sensitive expressions at a chosen moment:
+
+````csharp
+var fixedInstant = new DateTimeOffset(2026, 7, 10, 3, 20, 0, TimeSpan.Zero);
+var timeProvider = new FakeTimeProvider(fixedInstant); // e.g. Microsoft.Extensions.Time.Testing
+
+var expression = new ExtendedExpression(
+    "now('Central Standard Time')",
+    ExpressionOptions.None,
+    CultureInfo.InvariantCulture,
+    timeProvider);
+
+var result = expression.Evaluate(); // 2026-07-09T22:20:00 (DST-correct CDT)
+````
+
+When no `TimeProvider` is supplied, the default `TimeProvider.System` is used and behaviour is unchanged.
 
 For example:
 

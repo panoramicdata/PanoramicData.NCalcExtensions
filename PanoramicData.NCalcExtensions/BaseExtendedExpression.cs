@@ -11,15 +11,23 @@ public abstract class BaseExtendedExpression : Expression
 	protected new readonly CultureInfo CultureInfo;
 #pragma warning restore CA1051 // Do not declare visible instance fields
 
+	/// <summary>
+	/// The time source used by time-dependent functions (now, dateTimeIsInPast, dateTimeIsInFuture).
+	/// Defaults to <see cref="System.TimeProvider.System"/> so behaviour is unchanged unless a provider is supplied.
+	/// </summary>
+	private readonly TimeProvider _timeProvider;
+
 	internal const string StorageDictionaryParameterName = "__storageDictionary";
 	public static readonly ExpressionOptions ExtendedExpressionDefaults = ExpressionOptions.None;
 
 	protected BaseExtendedExpression(
 		string expression,
 		ExpressionOptions expressionOptions,
-		CultureInfo cultureInfo) : base(expression, expressionOptions, cultureInfo)
+		CultureInfo cultureInfo,
+		TimeProvider? timeProvider = null) : base(expression, expressionOptions, cultureInfo)
 	{
 		CultureInfo = cultureInfo;
+		_timeProvider = timeProvider ?? TimeProvider.System;
 		Parameters[StorageDictionaryParameterName] = StorageDictionary;
 		EvaluateFunction += Extend;
 		InitializeBuiltInParameters();
@@ -288,10 +296,10 @@ public abstract class BaseExtendedExpression : Expression
 				DateTimeAsEpochMs.Evaluate(functionArgs, CultureInfo);
 				return;
 			case ExtensionFunction.DateTimeIsInPast:
-				DateTimeIsInPast.Evaluate(functionArgs);
+				DateTimeIsInPast.Evaluate(functionArgs, _timeProvider);
 				return;
 			case ExtensionFunction.DateTimeIsInFuture:
-				DateTimeIsInFuture.Evaluate(functionArgs);
+				DateTimeIsInFuture.Evaluate(functionArgs, _timeProvider);
 				return;
 			case ExtensionFunction.Dictionary:
 				Dictionary.Evaluate(functionArgs);
@@ -397,7 +405,7 @@ public abstract class BaseExtendedExpression : Expression
 				MinValue.Evaluate(functionArgs);
 				return;
 			case ExtensionFunction.Now:
-				Now.Evaluate(functionArgs);
+				Now.Evaluate(functionArgs, _timeProvider);
 				return;
 			case ExtensionFunction.NullCoalesce:
 				NullCoalesce.Evaluate(functionArgs);
