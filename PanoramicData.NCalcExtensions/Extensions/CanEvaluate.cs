@@ -16,13 +16,13 @@ public partial interface IFunctionPrototypes
 
 internal static class CanEvaluate
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			foreach (var parameter in functionArgs.Parameters)
+			for (var parameterIndex = 0; parameterIndex < functionArgs.Parameters.Count; parameterIndex++)
 			{
-				parameter.Evaluate();
+				functionArgs.Parameters.Evaluate(parameterIndex);
 			}
 
 			functionArgs.Result = true;

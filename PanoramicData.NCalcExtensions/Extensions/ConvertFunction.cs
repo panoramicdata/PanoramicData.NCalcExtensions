@@ -17,16 +17,16 @@ public partial interface IFunctionPrototypes
 
 internal static class ConvertFunction
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length != 2)
+		if (functionArgs.Parameters.Count != 2)
 		{
 			throw new FormatException($"{ExtensionFunction.Convert}() requires two parameters.");
 		}
 
 		// Feed the result of the first parameter into the variables available to the second parameter
-		var param1 = functionArgs.Parameters[0].Evaluate();
-		functionArgs.Parameters[1].Parameters["value"] = param1;
-		functionArgs.Result = functionArgs.Parameters[1].Evaluate();
+		var param1 = functionArgs.Parameters.Evaluate(0);
+		functionArgs.Context.StaticParameters["value"] = param1;
+		functionArgs.Result = functionArgs.Parameters.Evaluate(1);
 	}
 }

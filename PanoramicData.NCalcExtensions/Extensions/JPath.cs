@@ -17,30 +17,30 @@ public partial interface IFunctionPrototypes
 
 internal static class JPath
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		var returnNullIfNotFound = false; // False default
 
 		const string SyntaxMessage = ExtensionFunction.JPath + " function - first parameter should be an object capable of being converted to a JObject and second a string jPath expression with optional third parameter " + nameof(returnNullIfNotFound) + ".";
 
-		if (functionArgs.Parameters.Length > 3)
+		if (functionArgs.Parameters.Count > 3)
 		{
 			throw new FormatException(SyntaxMessage);
 		}
 
 		try
 		{
-			var jPathSourceObject = functionArgs.Parameters[0].Evaluate()
+			var jPathSourceObject = functionArgs.Parameters.Evaluate(0)
 				?? throw new NCalcExtensionsException($"{ExtensionFunction.JPath} function - parameter 1 should not be null.");
 
 			var jObject = jPathSourceObject is JObject jObj ? jObj : JObject.FromObject(jPathSourceObject);
 
-			var jPathExpression = functionArgs.Parameters[1].Evaluate() as string
+			var jPathExpression = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException(SyntaxMessage);
 
-			if (functionArgs.Parameters.Length >= 3)
+			if (functionArgs.Parameters.Count >= 3)
 			{
-				if (functionArgs.Parameters[2].Evaluate() is bool returnNullValue)
+				if (functionArgs.Parameters.Evaluate(2) is bool returnNullValue)
 				{
 					returnNullIfNotFound = returnNullValue;
 				}

@@ -17,9 +17,9 @@ public partial interface IFunctionPrototypes
 
 internal static class FlattenFunction
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var raw = functionArgs.Parameters[0].Evaluate()
+		var raw = functionArgs.Parameters.Evaluate(0)
 			?? throw new FormatException($"First {ExtensionFunction.Flatten} parameter cannot be null.");
 
 		if (raw is not IEnumerable<object?> outerList)

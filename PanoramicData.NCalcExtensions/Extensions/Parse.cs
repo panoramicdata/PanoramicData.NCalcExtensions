@@ -37,17 +37,17 @@ public partial interface IFunctionPrototypes
 
 internal static class Parse
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length < 2)
+		if (functionArgs.Parameters.Count < 2)
 		{
 			throw new FormatException($"{ExtensionFunction.Parse} function - requires at least two string parameters.");
 		}
 
 		var parameterIndex = 0;
-		var typeString = functionArgs.Parameters[parameterIndex++].Evaluate() as string
+		var typeString = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 			?? throw new FormatException($"{ExtensionFunction.Parse} function - first parameter should be a string.");
-		var text = functionArgs.Parameters[parameterIndex++].Evaluate() as string
+		var text = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 			?? throw new FormatException($"{ExtensionFunction.Parse} function - second parameter should be a string.");
 		try
 		{
@@ -88,9 +88,9 @@ internal static class Parse
 		}
 		catch (FormatException e)
 		{
-			if (functionArgs.Parameters.Length >= 3)
+			if (functionArgs.Parameters.Count >= 3)
 			{
-				functionArgs.Result = functionArgs.Parameters[parameterIndex].Evaluate();
+				functionArgs.Result = functionArgs.Parameters.Evaluate(parameterIndex);
 				return;
 			}
 

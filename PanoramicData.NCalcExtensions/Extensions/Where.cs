@@ -21,18 +21,18 @@ public partial interface IFunctionPrototypes
 
 internal static class Where
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
+		var list = functionArgs.Parameters.Evaluate(0) as IEnumerable<object?>
 			?? throw new FormatException($"First {ExtensionFunction.Where} parameter must be an IEnumerable.");
 
-		var predicate = functionArgs.Parameters[1].Evaluate() as string
+		var predicate = functionArgs.Parameters.Evaluate(1) as string
 			?? throw new FormatException($"Second {ExtensionFunction.Where} parameter must be a string.");
 
-		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
+		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
 			?? throw new FormatException($"Third {ExtensionFunction.Where} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
 		var result = list switch
 		{
 			ICollection<object?> collection => new List<object?>(collection.Count),

@@ -19,17 +19,17 @@ public partial interface IFunctionPrototypes
 
 internal static class RegexReplaceFunction
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var input = functionArgs.Parameters[0].Evaluate() as string
+			var input = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.RegexReplace}() requires a string input, a string pattern, and a string replacement.");
 
-			var pattern = functionArgs.Parameters[1].Evaluate() as string
+			var pattern = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"{ExtensionFunction.RegexReplace}() requires a string input, a string pattern, and a string replacement.");
 
-			var replacement = functionArgs.Parameters[2].Evaluate() as string
+			var replacement = functionArgs.Parameters.Evaluate(2) as string
 				?? throw new FormatException($"{ExtensionFunction.RegexReplace}() requires a string input, a string pattern, and a string replacement.");
 
 			functionArgs.Result = System.Text.RegularExpressions.Regex.Replace(input, pattern, replacement);

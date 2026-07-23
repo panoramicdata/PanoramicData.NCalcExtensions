@@ -25,12 +25,12 @@ public partial interface IFunctionPrototypes
 
 internal static class DateTimeMethods
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
-		if (functionArgs.Parameters.Length > 0)
+		if (functionArgs.Parameters.Count > 0)
 		{
 			// Time Zone
-			if (functionArgs.Parameters[0].Evaluate() is not string timeZone)
+			if (functionArgs.Parameters.Evaluate(0) is not string timeZone)
 			{
 				throw new FormatException($"{ExtensionFunction.DateTime} function - The first argument should be a string, e.g. 'UTC'");
 			}
@@ -43,16 +43,16 @@ internal static class DateTimeMethods
 		// Time zone has been determined
 
 		// Format
-		var format = functionArgs.Parameters.Length > 1
-			? functionArgs.Parameters[1].Evaluate() as string
+		var format = functionArgs.Parameters.Count > 1
+			? functionArgs.Parameters.Evaluate(1) as string
 			: "yyyy-MM-dd HH:mm:ss";
 		// Format has been determined
 
 		// Days to add
 		double daysToAdd = 0;
-		if (functionArgs.Parameters.Length > 2)
+		if (functionArgs.Parameters.Count > 2)
 		{
-			var daysToAddNullable = GetNullableDouble(functionArgs.Parameters[2]);
+			var daysToAddNullable = GetNullableDouble(functionArgs.Parameters.Evaluate(2));
 			if (!daysToAddNullable.HasValue)
 			{
 				throw new FormatException($"{ExtensionFunction.DateTime} function - Days to add must be a number.");
@@ -63,9 +63,9 @@ internal static class DateTimeMethods
 
 		// Hours to add
 		double hoursToAdd = 0;
-		if (functionArgs.Parameters.Length > 3)
+		if (functionArgs.Parameters.Count > 3)
 		{
-			var hoursToAddNullable = GetNullableDouble(functionArgs.Parameters[3]);
+			var hoursToAddNullable = GetNullableDouble(functionArgs.Parameters.Evaluate(3));
 			if (!hoursToAddNullable.HasValue)
 			{
 				throw new FormatException($"{ExtensionFunction.DateTime} function - Hours to add must be a number.");
@@ -76,9 +76,9 @@ internal static class DateTimeMethods
 
 		// Minutes to add
 		double minutesToAdd = 0;
-		if (functionArgs.Parameters.Length > 4)
+		if (functionArgs.Parameters.Count > 4)
 		{
-			var minutesToAddNullable = GetNullableDouble(functionArgs.Parameters[4]);
+			var minutesToAddNullable = GetNullableDouble(functionArgs.Parameters.Evaluate(4));
 			if (!minutesToAddNullable.HasValue)
 			{
 				throw new FormatException($"{ExtensionFunction.DateTime} function - Minutes to add must be a number.");
@@ -89,9 +89,9 @@ internal static class DateTimeMethods
 
 		// Seconds to add
 		double secondsToAdd = 0;
-		if (functionArgs.Parameters.Length > 5)
+		if (functionArgs.Parameters.Count > 5)
 		{
-			var secondsToAddNullable = GetNullableDouble(functionArgs.Parameters[5]);
+			var secondsToAddNullable = GetNullableDouble(functionArgs.Parameters.Evaluate(5));
 			if (!secondsToAddNullable.HasValue)
 			{
 				throw new FormatException($"{ExtensionFunction.DateTime} function - Seconds to add must be a number.");
@@ -109,8 +109,8 @@ internal static class DateTimeMethods
 			.ToString(format, cultureInfo);
 	}
 
-	private static double? GetNullableDouble(Expression expression)
-		=> expression.Evaluate() switch
+	private static double? GetNullableDouble(object? value)
+		=> value switch
 		{
 			double doubleResult => doubleResult,
 			int intResult => intResult,

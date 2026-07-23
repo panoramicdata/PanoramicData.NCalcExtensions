@@ -17,16 +17,16 @@ public partial interface IFunctionPrototypes
 
 internal static class IsNull
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length != 1)
+		if (functionArgs.Parameters.Count != 1)
 		{
 			throw new FormatException($"{ExtensionFunction.IsNull}() requires one parameter.");
 		}
 
 		try
 		{
-			var outputObject = functionArgs.Parameters[0].Evaluate();
+			var outputObject = functionArgs.Parameters.Evaluate(0);
 			functionArgs.Result = outputObject is
 				null
 				// Newtonsoft.Json.Linq.JToken of type null

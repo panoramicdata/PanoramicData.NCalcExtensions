@@ -18,13 +18,13 @@ public partial interface IFunctionPrototypes
 
 internal static class Sha256
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var parameterCount = functionArgs.Parameters.Length;
+		var parameterCount = functionArgs.Parameters.Count;
 		switch (parameterCount)
 		{
 			case 1:
-				var parameter1 = functionArgs.Parameters[0].Evaluate();
+				var parameter1 = functionArgs.Parameters.Evaluate(0);
 				functionArgs.Result = parameter1 switch
 				{
 					// The SHA 256 of the string

@@ -17,12 +17,12 @@ public partial interface IFunctionPrototypes
 
 internal static class Concat
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		var list = new List<object?>();
-		foreach (var parameter in functionArgs.Parameters)
+		for (var parameterIndex = 0; parameterIndex < functionArgs.Parameters.Count; parameterIndex++)
 		{
-			var parameterValue = parameter.Evaluate();
+			var parameterValue = functionArgs.Parameters.Evaluate(parameterIndex);
 			if (parameterValue is IList parameterValueAsIList)
 			{
 				foreach (var value in parameterValueAsIList)

@@ -17,15 +17,15 @@ public partial interface IFunctionPrototypes
 
 internal static class Store
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var key = functionArgs.Parameters[0].Evaluate() as string
+			var key = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.Store}() requires two parameters.");
-			var value = functionArgs.Parameters[1].Evaluate();
+			var value = functionArgs.Parameters.Evaluate(1);
 
-			var storageDictionary = functionArgs.Parameters[0].Parameters[ExtendedExpression.StorageDictionaryParameterName] as Dictionary<string, object?>
+			var storageDictionary = functionArgs.Context.StaticParameters[ExtendedExpression.StorageDictionaryParameterName] as Dictionary<string, object?>
 				?? throw new FormatException($"{ExtensionFunction.Store}() requires a storage dictionary.");
 
 			storageDictionary[key] = value;

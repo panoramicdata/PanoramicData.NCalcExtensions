@@ -23,17 +23,17 @@ public partial interface IFunctionPrototypes
 
 internal static class Replace
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		// Input checks
-		switch (functionArgs.Parameters.Length)
+		switch (functionArgs.Parameters.Count)
 		{
 			case 0:
 			case 1:
 			case 2:
 				throw new FormatException($"{ExtensionFunction.Replace}() requires at least three string parameters.");
 			default:
-				if (functionArgs.Parameters.Length % 2 == 0)
+				if (functionArgs.Parameters.Count % 2 == 0)
 				{
 					throw new FormatException($"{ExtensionFunction.Replace}() requires an odd number of string parameters.");
 				}
@@ -41,15 +41,15 @@ internal static class Replace
 				break;
 		}
 
-		var haystackString = functionArgs.Parameters[0].Evaluate() as string
+		var haystackString = functionArgs.Parameters.Evaluate(0) as string
 			?? throw new NCalcExtensionsException($"{ExtensionFunction.Replace}() requires a string parameter.");
 
 		var needleIndex = 1;
-		while (needleIndex < functionArgs.Parameters.Length)
+		while (needleIndex < functionArgs.Parameters.Count)
 		{
-			var needle = functionArgs.Parameters[needleIndex++].Evaluate() as string
+			var needle = functionArgs.Parameters.Evaluate(needleIndex++) as string
 				?? throw new FormatException($"{ExtensionFunction.Replace}() requires string parameters.");
-			var replacementNeedle = functionArgs.Parameters[needleIndex++].Evaluate() as string
+			var replacementNeedle = functionArgs.Parameters.Evaluate(needleIndex++) as string
 				?? throw new FormatException($"{ExtensionFunction.Replace}() requires string parameters.");
 
 			haystackString = haystackString.Replace(needle, replacementNeedle);

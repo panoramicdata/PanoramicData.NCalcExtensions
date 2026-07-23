@@ -21,9 +21,9 @@ public partial interface IFunctionPrototypes
 
 internal static class CountBy
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var listObject = functionArgs.Parameters[0].Evaluate();
+		var listObject = functionArgs.Parameters.Evaluate(0);
 
 		// Convert typed collections (like List<int>) to IEnumerable<object?>
 		var listEnumerable = listObject switch
@@ -33,17 +33,17 @@ internal static class CountBy
 			_ => null
 		} ?? throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
 
-		var predicate = functionArgs.Parameters[1].Evaluate() as string
+		var predicate = functionArgs.Parameters.Evaluate(1) as string
 			?? throw new FormatException($"Second {ExtensionFunction.Count} parameter must be a string.");
 
-		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
+		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
 			?? throw new FormatException($"Third {ExtensionFunction.Count} parameter must be a string.");
 
-		var outputFormat = functionArgs.Parameters.Length > 3
-			? functionArgs.Parameters[3].Evaluate() as string
+		var outputFormat = functionArgs.Parameters.Count > 3
+			? functionArgs.Parameters.Evaluate(3) as string
 			: null;
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
 
 		var dictionary = new Dictionary<string, int>();
 		foreach (var value in listEnumerable)

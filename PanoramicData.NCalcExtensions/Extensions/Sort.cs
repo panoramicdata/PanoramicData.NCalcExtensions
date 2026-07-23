@@ -17,14 +17,14 @@ public partial interface IFunctionPrototypes
 
 internal static class Sort
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		var parameterIndex = 0;
-		var list = functionArgs.Parameters[parameterIndex++].Evaluate() as IEnumerable<object?>
+		var list = functionArgs.Parameters.Evaluate(parameterIndex++) as IEnumerable<object?>
 			?? throw new FormatException($"First {ExtensionFunction.Sort} parameter must be an IEnumerable.");
 
-		var direction = functionArgs.Parameters.Length > 1
-			? functionArgs.Parameters[parameterIndex].Evaluate() as string ?? throw new FormatException($"Second {ExtensionFunction.Where} parameter must be a string.")
+		var direction = functionArgs.Parameters.Count > 1
+			? functionArgs.Parameters.Evaluate(parameterIndex) as string ?? throw new FormatException($"Second {ExtensionFunction.Where} parameter must be a string.")
 			: "asc";
 
 		functionArgs.Result = direction.ToUpperInvariant() switch

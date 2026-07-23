@@ -26,22 +26,22 @@ internal static class Substring
 	private const string ModeNull = "null";
 	private const string ModeClip = "clip";
 
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var input = functionArgs.Parameters[0].Evaluate() as string
+			var input = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
 
-			if (functionArgs.Parameters[1].Evaluate() is not int startIndex)
+			if (functionArgs.Parameters.Evaluate(1) is not int startIndex)
 			{
 				throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
 			}
 
 			int? length = null;
-			if (functionArgs.Parameters.Length > 2)
+			if (functionArgs.Parameters.Count > 2)
 			{
-				var thirdArg = functionArgs.Parameters[2].Evaluate();
+				var thirdArg = functionArgs.Parameters.Evaluate(2);
 				if (thirdArg is not int lengthValue)
 				{
 					throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
@@ -50,8 +50,8 @@ internal static class Substring
 				length = lengthValue;
 			}
 
-			var mode = functionArgs.Parameters.Length > 3
-				? functionArgs.Parameters[3].Evaluate() as string
+			var mode = functionArgs.Parameters.Count > 3
+				? functionArgs.Parameters.Evaluate(3) as string
 				: null;
 
 			var modeNormalised = mode?.Trim().ToLowerInvariant() ?? ModeError;

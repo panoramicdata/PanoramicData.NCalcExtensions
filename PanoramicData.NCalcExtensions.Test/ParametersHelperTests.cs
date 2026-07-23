@@ -21,7 +21,7 @@ public class ParametersHelperTests
 		var param2 = new ExtendedExpression("2");
 		Expression[] parameters = [param1, param2];
 		
-		var act = () => Parameters.CheckParameterCount(2, 2, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(2, 2, parameters.Length, "TestFunc");
 		
 		act.Should().NotThrow();
 	}
@@ -32,7 +32,7 @@ public class ParametersHelperTests
 		var param1 = new ExtendedExpression("1");
 		Expression[] parameters = [param1];
 		
-		var act = () => Parameters.CheckParameterCount(2, 5, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(2, 5, parameters.Length, "TestFunc");
 		
 		act.Should().Throw<FormatException>()
 			.WithMessage("TestFunc requires at least 2 parameters.");
@@ -49,7 +49,7 @@ public class ParametersHelperTests
 			new ExtendedExpression("4")
 		];
 		
-		var act = () => Parameters.CheckParameterCount(1, 3, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(1, 3, parameters.Length, "TestFunc");
 		
 		act.Should().Throw<FormatException>()
 			.WithMessage("TestFunc requires at most 3 parameters.");
@@ -60,7 +60,7 @@ public class ParametersHelperTests
 	{
 		var parameters = Array.Empty<Expression>();
 		
-		var act = () => Parameters.CheckParameterCount(null, 2, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(null, 2, parameters.Length, "TestFunc");
 		
 		act.Should().NotThrow();
 	}
@@ -77,7 +77,7 @@ public class ParametersHelperTests
 			new ExtendedExpression("5")
 		];
 		
-		var act = () => Parameters.CheckParameterCount(2, null, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(2, null, parameters.Length, "TestFunc");
 		
 		act.Should().NotThrow();
 	}
@@ -87,7 +87,7 @@ public class ParametersHelperTests
 	{
 		Expression[] parameters = [new ExtendedExpression("1")];
 		
-		var act = () => Parameters.CheckParameterCount(null, null, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(null, null, parameters.Length, "TestFunc");
 		
 		act.Should().NotThrow();
 	}
@@ -97,7 +97,7 @@ public class ParametersHelperTests
 	{
 		Expression[] parameters = [new ExtendedExpression("1"), new ExtendedExpression("2")];
 		
-		var act = () => Parameters.CheckParameterCount(2, 5, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(2, 5, parameters.Length, "TestFunc");
 		
 		act.Should().NotThrow();
 	}
@@ -112,7 +112,7 @@ public class ParametersHelperTests
 			new ExtendedExpression("3")
 		];
 		
-		var act = () => Parameters.CheckParameterCount(1, 3, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(1, 3, parameters.Length, "TestFunc");
 		
 		act.Should().NotThrow();
 	}
@@ -122,7 +122,7 @@ public class ParametersHelperTests
 	{
 		var parameters = Array.Empty<Expression>();
 		
-		var act = () => Parameters.CheckParameterCount(1, 5, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(1, 5, parameters.Length, "TestFunc");
 		
 		act.Should().Throw<FormatException>()
 			.WithMessage("TestFunc requires at least 1 parameters.");
@@ -134,7 +134,7 @@ public class ParametersHelperTests
 		// When both constraints are violated, minimum check happens first
 		Expression[] parameters = [new ExtendedExpression("1")];
 		
-		var act = () => Parameters.CheckParameterCount(5, 3, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(5, 3, parameters.Length, "TestFunc");
 		
 		act.Should().Throw<FormatException>()
 			.WithMessage("TestFunc requires at least 5 parameters.");
@@ -157,7 +157,7 @@ public class ParametersHelperTests
 
 	private static void TestMethodForCallerName(Expression[] parameters)
 	{
-		Parameters.CheckParameterCount(1, 5, parameters);
+		Parameters.CheckParameterCount(1, 5, parameters.Length);
 	}
 
 	[Fact]
@@ -165,7 +165,7 @@ public class ParametersHelperTests
 	{
 		var parameters = Array.Empty<Expression>();
 		
-		var act = () => Parameters.CheckParameterCount(1, 5, parameters, "MyCustomFunction");
+		var act = () => Parameters.CheckParameterCount(1, 5, parameters.Length, "MyCustomFunction");
 		
 		act.Should().Throw<FormatException>()
 			.WithMessage("MyCustomFunction requires at least 1 parameters.");
@@ -180,7 +180,7 @@ public class ParametersHelperTests
 	{
 		var parameters = Enumerable.Range(0, 100).Select(i => new ExtendedExpression(i.ToString(System.Globalization.CultureInfo.InvariantCulture)) as Expression).ToArray();
 		
-		var act = () => Parameters.CheckParameterCount(50, 150, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(50, 150, parameters.Length, "TestFunc");
 		
 		act.Should().NotThrow();
 	}
@@ -190,7 +190,7 @@ public class ParametersHelperTests
 	{
 		var parameters = Array.Empty<Expression>();
 		
-		var act = () => Parameters.CheckParameterCount(0, 5, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(0, 5, parameters.Length, "TestFunc");
 		
 		act.Should().NotThrow();
 	}
@@ -200,7 +200,7 @@ public class ParametersHelperTests
 	{
 		Expression[] parameters = [new ExtendedExpression("1"), new ExtendedExpression("2"), new ExtendedExpression("3")];
 		
-		var act = () => Parameters.CheckParameterCount(3, 3, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(3, 3, parameters.Length, "TestFunc");
 		
 		act.Should().NotThrow();
 	}
@@ -210,7 +210,7 @@ public class ParametersHelperTests
 	{
 		Expression[] parameters = [new ExtendedExpression("1"), new ExtendedExpression("2")];
 		
-		var act = () => Parameters.CheckParameterCount(3, 3, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(3, 3, parameters.Length, "TestFunc");
 		
 		act.Should().Throw<FormatException>()
 			.WithMessage("TestFunc requires at least 3 parameters.");
@@ -227,7 +227,7 @@ public class ParametersHelperTests
 			new ExtendedExpression("4")
 		];
 		
-		var act = () => Parameters.CheckParameterCount(3, 3, parameters, "TestFunc");
+		var act = () => Parameters.CheckParameterCount(3, 3, parameters.Length, "TestFunc");
 		
 		act.Should().Throw<FormatException>()
 			.WithMessage("TestFunc requires at most 3 parameters.");
@@ -295,7 +295,7 @@ public class ParametersHelperTests
 		method.Should().NotBeNull();
 		var parameters = method!.GetParameters();
 		parameters.Should().HaveCount(2, "GetParameter should have 2 parameters: FunctionArgs and callerName");
-		parameters[0].ParameterType.Name.Should().Be("FunctionArgs");
+		parameters[0].ParameterType.Name.Should().Be("FunctionEventArgs");
 		parameters[1].ParameterType.Should().Be<string>();
 		parameters[1].HasDefaultValue.Should().BeTrue("callerName should have a default value");
 	}

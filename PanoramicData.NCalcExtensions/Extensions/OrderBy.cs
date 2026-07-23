@@ -23,19 +23,19 @@ public partial interface IFunctionPrototypes
 
 internal static class OrderBy
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		var parameterIndex = 0;
-		var list = functionArgs.Parameters[parameterIndex++].Evaluate() as IEnumerable<object?>
+		var list = functionArgs.Parameters.Evaluate(parameterIndex++) as IEnumerable<object?>
 			?? throw new FormatException($"First {ExtensionFunction.OrderBy} parameter must be an IEnumerable.");
 
-		var predicate = functionArgs.Parameters[parameterIndex++].Evaluate() as string
+		var predicate = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 			?? throw new FormatException($"Second {ExtensionFunction.OrderBy} parameter must be a string.");
 
-		var lambdaString = functionArgs.Parameters[parameterIndex++].Evaluate() as string
+		var lambdaString = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 			?? throw new FormatException($"Third {ExtensionFunction.OrderBy} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
 
 		var capturedLambda = lambda;
 		var orderable = list
@@ -45,13 +45,13 @@ internal static class OrderBy
 				return result;
 			}, ObjectKeyComparer.Instance);
 
-		var parameterCount = functionArgs.Parameters.Length;
+		var parameterCount = functionArgs.Parameters.Count;
 
 		while (parameterIndex < parameterCount)
 		{
-			lambdaString = functionArgs.Parameters[parameterIndex++].Evaluate() as string
+			lambdaString = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 				?? throw new FormatException($"{ExtensionFunction.OrderBy} parameter {parameterIndex + 1} must be a string.");
-			var thenByLambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
+			var thenByLambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
 			orderable = orderable
 						.ThenBy(value =>
 						{

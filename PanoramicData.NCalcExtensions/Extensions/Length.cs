@@ -17,11 +17,11 @@ public partial interface IFunctionPrototypes
 
 internal static class Length
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var value = functionArgs.Parameters[0].Evaluate()
+			var value = functionArgs.Parameters.Evaluate(0)
 				?? throw new FormatException($"{ExtensionFunction.Length}() requires one non-null string or IList parameter.");
 
 			functionArgs.Result = value is string a ? a.Length : GetLength(value);

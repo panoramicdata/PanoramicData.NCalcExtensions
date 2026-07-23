@@ -17,9 +17,9 @@ public partial interface IFunctionPrototypes
 
 internal static class NewJsonDocument
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length % 2 != 0)
+		if (functionArgs.Parameters.Count % 2 != 0)
 		{
 			throw new FormatException($"{ExtensionFunction.NewJsonDocument}() requires an even number of parameters.");
 		}
@@ -28,9 +28,9 @@ internal static class NewJsonDocument
 
 		// Create a dictionary to hold the key-value pairs
 		var properties = new Dictionary<string, object?>();
-		while (parameterIndex < functionArgs.Parameters.Length)
+		while (parameterIndex < functionArgs.Parameters.Count)
 		{
-			if (functionArgs.Parameters[parameterIndex++].Evaluate() is not string key)
+			if (functionArgs.Parameters.Evaluate(parameterIndex++) is not string key)
 			{
 				throw new FormatException($"{ExtensionFunction.NewJsonDocument}() requires a string key.");
 			}
@@ -40,7 +40,7 @@ internal static class NewJsonDocument
 				throw new FormatException($"{ExtensionFunction.NewJsonDocument}() can only define property {key} once.");
 			}
 
-			var value = functionArgs.Parameters[parameterIndex++].Evaluate();
+			var value = functionArgs.Parameters.Evaluate(parameterIndex++);
 			properties.Add(key, value);
 		}
 

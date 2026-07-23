@@ -17,15 +17,15 @@ public partial interface IFunctionPrototypes
 
 internal static class NewJsonArray
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		var parameterIndex = 0;
 
 		// Create a list to hold the items
 		var items = new List<object?>();
-		while (parameterIndex < functionArgs.Parameters.Length)
+		while (parameterIndex < functionArgs.Parameters.Count)
 		{
-			var item = functionArgs.Parameters[parameterIndex++].Evaluate();
+			var item = functionArgs.Parameters.Evaluate(parameterIndex++);
 			items.Add(item);
 		}
 

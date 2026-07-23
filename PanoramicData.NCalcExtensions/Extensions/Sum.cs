@@ -21,12 +21,12 @@ public partial interface IFunctionPrototypes
 
 internal static class Sum
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var originalList = functionArgs.Parameters[0].Evaluate()
+		var originalList = functionArgs.Parameters.Evaluate(0)
 			?? throw new FormatException($"First {ExtensionFunction.Sum} parameter cannot be null.");
 
-		if (functionArgs.Parameters.Length == 1)
+		if (functionArgs.Parameters.Count == 1)
 		{
 			functionArgs.Result = originalList switch
 			{
@@ -43,13 +43,13 @@ internal static class Sum
 			return;
 		}
 
-		var predicate = functionArgs.Parameters[1].Evaluate() as string
+		var predicate = functionArgs.Parameters.Evaluate(1) as string
 			?? throw new FormatException($"Second {ExtensionFunction.Sum} parameter must be a string.");
 
-		var lambdaString = functionArgs.Parameters[2].Evaluate() as string
+		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
 			?? throw new FormatException($"Third {ExtensionFunction.Sum} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
 
 		functionArgs.Result = originalList switch
 		{

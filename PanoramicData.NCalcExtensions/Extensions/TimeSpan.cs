@@ -28,20 +28,20 @@ public partial interface IFunctionPrototypes
 
 internal static class TimeSpan
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
-		if (functionArgs.Parameters.Length != 3)
+		if (functionArgs.Parameters.Count != 3)
 		{
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function - requires three parameters.");
 		}
 
 		try
 		{
-			var fromString = functionArgs.Parameters[0].Evaluate()?.ToString()
+			var fromString = functionArgs.Parameters.Evaluate(0)?.ToString()
 				?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - first parameter cannot be null.");
-			var toString = functionArgs.Parameters[1].Evaluate()?.ToString()
+			var toString = functionArgs.Parameters.Evaluate(1)?.ToString()
 				?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - second parameter cannot be null.");
-			var timeFormat = functionArgs.Parameters[2].Evaluate()?.ToString()
+			var timeFormat = functionArgs.Parameters.Evaluate(2)?.ToString()
 				?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - third parameter cannot be null.");
 
 			if (!DateTime.TryParse(fromString, out var fromDateTime))

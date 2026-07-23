@@ -8,13 +8,13 @@
 	 "CA1308:Normalize strings to uppercase",
 	 Justification = "This is a toLower function.",
 	 Scope = "member",
-	 Target = "~M:PanoramicData.NCalcExtensions.Extensions.ToLower.Evaluate(NCalc.FunctionArgs)")]
+	 Target = "~M:PanoramicData.NCalcExtensions.Extensions.ToLower.Evaluate(NCalc.FunctionEventArgs)")]
 [assembly: SuppressMessage(
 	 "Globalization",
 	 "CA1308:Normalize strings to uppercase",
 	 Justification = "This is the purpose of the function",
 	 Scope = "member",
-	 Target = "~M:PanoramicData.NCalcExtensions.Extensions.Capitalize.Evaluate(NCalc.FunctionArgs)")]
+	 Target = "~M:PanoramicData.NCalcExtensions.Extensions.Capitalize.Evaluate(NCalc.FunctionEventArgs)")]
 [assembly: SuppressMessage(
 	 "Globalization",
 	 "CA1303:Do not pass literals as localized parameters",

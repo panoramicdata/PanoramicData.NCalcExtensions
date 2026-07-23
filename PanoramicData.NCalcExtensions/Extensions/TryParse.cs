@@ -21,19 +21,19 @@ public partial interface IFunctionPrototypes
 
 internal static class TryParse
 {
-	internal static void Evaluate(FunctionArgs functionArgs, Dictionary<string, object?> dictionary)
+	internal static void Evaluate(FunctionEventArgs functionArgs, Dictionary<string, object?> dictionary)
 	{
-		if (functionArgs.Parameters.Length != 3)
+		if (functionArgs.Parameters.Count != 3)
 		{
 			throw new FormatException($"{ExtensionFunction.Parse} function - requires exactly three string parameters.");
 		}
 
 		var parameterIndex = 0;
-		var typeString = functionArgs.Parameters[parameterIndex++].Evaluate() as string
+		var typeString = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 			?? throw new FormatException($"{ExtensionFunction.Parse} function - first parameter should be a string.");
-		var text = functionArgs.Parameters[parameterIndex++].Evaluate() as string
+		var text = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 			?? throw new FormatException($"{ExtensionFunction.Parse} function - second parameter should be a string.");
-		var outputVariableName = functionArgs.Parameters[parameterIndex++].Evaluate() as string
+		var outputVariableName = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 			?? throw new FormatException($"{ExtensionFunction.Parse} function - third parameter should be a string.");
 		try
 		{
@@ -174,9 +174,9 @@ internal static class TryParse
 		}
 		catch (FormatException e)
 		{
-			if (functionArgs.Parameters.Length >= 3)
+			if (functionArgs.Parameters.Count >= 3)
 			{
-				functionArgs.Result = functionArgs.Parameters[parameterIndex].Evaluate();
+				functionArgs.Result = functionArgs.Parameters.Evaluate(parameterIndex);
 				return;
 			}
 

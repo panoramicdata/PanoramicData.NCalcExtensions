@@ -19,11 +19,11 @@ public partial interface IFunctionPrototypes
 
 internal static class Humanize
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var param1Obj = functionArgs.Parameters[0].Evaluate()
+			var param1Obj = functionArgs.Parameters.Evaluate(0)
 				?? throw new FormatException($"{ExtensionFunction.Humanize}() first parameter cannot be null.");
 
 			if (!double.TryParse(param1Obj.ToString(), out var param1Double))
@@ -31,7 +31,7 @@ internal static class Humanize
 				throw new FormatException($"{ExtensionFunction.Humanize}() first parameter must be a number.");
 			}
 
-			var param2 = functionArgs.Parameters[1].Evaluate() as string
+			var param2 = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"{ExtensionFunction.Humanize}() second parameter must be a string.");
 
 			if (!Enum.TryParse<TimeUnit>(param2, true, out var param2TimeUnit))

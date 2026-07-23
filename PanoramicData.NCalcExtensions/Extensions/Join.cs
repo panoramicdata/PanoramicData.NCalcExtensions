@@ -15,18 +15,18 @@ public partial interface IFunctionPrototypes
 
 internal static class Join
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var firstParam = functionArgs.Parameters[0].Evaluate();
+			var firstParam = functionArgs.Parameters.Evaluate(0);
 			var input = firstParam == null
 				? new List<string>()
 				: firstParam is List<object> objList
 					? [.. objList.Select(u => u?.ToString() ?? string.Empty)]
 					: [.. ((IEnumerable<string>)firstParam)];
 
-			var joinString = functionArgs.Parameters[1].Evaluate() as string
+			var joinString = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"{ExtensionFunction.Join}() requires that the first parameter is a list or enumerable and that the second parameter is a string.");
 
 			functionArgs.Result = string.Join(joinString, input);

@@ -2,13 +2,13 @@
 
 internal static class LambdaFunction
 {
-	internal static void Evaluate(FunctionArgs functionArgs, Dictionary<string, object?> storageDictionary)
+	internal static void Evaluate(FunctionEventArgs functionArgs, Dictionary<string, object?> storageDictionary)
 	{
 		try
 		{
-			var predicate = functionArgs.Parameters[0].Evaluate() as string
+			var predicate = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"Lambda function requires two string parameters.");
-			var nCalcString = functionArgs.Parameters[1].Evaluate() as string
+			var nCalcString = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"Lambda function requires two string parameters.");
 
 			functionArgs.Result = new Lambda(predicate, nCalcString, storageDictionary);

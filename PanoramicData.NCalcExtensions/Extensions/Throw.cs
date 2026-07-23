@@ -16,14 +16,14 @@ public partial interface IFunctionPrototypes
 
 internal static class Throw
 {
-	internal static Exception Evaluate(FunctionArgs functionArgs)
+	internal static Exception Evaluate(FunctionEventArgs functionArgs)
 	{
-		switch (functionArgs.Parameters.Length)
+		switch (functionArgs.Parameters.Count)
 		{
 			case 0:
 				return new NCalcExtensionsException();
 			case 1:
-				if (functionArgs.Parameters[0].Evaluate() is not string exceptionMessageText)
+				if (functionArgs.Parameters.Evaluate(0) is not string exceptionMessageText)
 				{
 					return new FormatException($"{ExtensionFunction.Throw} function - parameter must be a string.");
 				}

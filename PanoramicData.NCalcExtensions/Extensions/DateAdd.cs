@@ -22,27 +22,27 @@ public partial interface IFunctionPrototypes
 /// </summary>
 internal static class DateAddMethods
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length < 3)
+		if (functionArgs.Parameters.Count < 3)
 		{
 			throw new FormatException($"{ExtensionFunction.DateTime} function - you must pass 3 parameters.");
 		}
 
 		// The date and time
-		if (functionArgs.Parameters[0].Evaluate() is not DateTime initialDateTime)
+		if (functionArgs.Parameters.Evaluate(0) is not DateTime initialDateTime)
 		{
 			throw new FormatException($"{ExtensionFunction.DateAdd} function - The first argument should be a DateTime");
 		}
 
 		// The quantity
-		if (functionArgs.Parameters[1].Evaluate() is not int quantity)
+		if (functionArgs.Parameters.Evaluate(1) is not int quantity)
 		{
 			throw new FormatException($"{ExtensionFunction.DateAdd} function - The second argument should be an integer");
 		}
 
 		// The units
-		if (functionArgs.Parameters[2].Evaluate() is not string unitsString)
+		if (functionArgs.Parameters.Evaluate(2) is not string unitsString)
 		{
 			throw new FormatException($"{ExtensionFunction.DateAdd} function - The third argument should be a string, e.g. 'days'");
 		}

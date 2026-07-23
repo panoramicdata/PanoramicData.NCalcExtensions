@@ -17,24 +17,24 @@ public partial interface IFunctionPrototypes
 
 internal static class Try
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		ExtendedExpression.CheckParameterCount(nameof(Try), functionArgs, 1, 2);
 
 		try
 		{
-			functionArgs.Result = functionArgs.Parameters[0].Evaluate();
+			functionArgs.Result = functionArgs.Parameters.Evaluate(0);
 		}
 		catch (Exception e)
 		{
-			if (functionArgs.Parameters.Length >= 2)
+			if (functionArgs.Parameters.Count >= 2)
 			{
-				functionArgs.Parameters[1].Parameters["exception"] = e;
-				functionArgs.Parameters[1].Parameters["exception_message"] = e.Message;
-				functionArgs.Parameters[1].Parameters["exception_typeName"] = e.GetType().Name;
-				functionArgs.Parameters[1].Parameters["exception_typeFullName"] = e.GetType().FullName;
-				functionArgs.Parameters[1].Parameters["exception_type"] = e.GetType();
-				functionArgs.Result = functionArgs.Parameters[1].Evaluate();
+				functionArgs.Context.StaticParameters["exception"] = e;
+				functionArgs.Context.StaticParameters["exception_message"] = e.Message;
+				functionArgs.Context.StaticParameters["exception_typeName"] = e.GetType().Name;
+				functionArgs.Context.StaticParameters["exception_typeFullName"] = e.GetType().FullName;
+				functionArgs.Context.StaticParameters["exception_type"] = e.GetType();
+				functionArgs.Result = functionArgs.Parameters.Evaluate(1);
 			}
 			else
 			{

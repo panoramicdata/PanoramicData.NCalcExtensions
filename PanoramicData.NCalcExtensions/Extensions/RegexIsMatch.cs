@@ -21,12 +21,12 @@ internal static class RegexIsMatch
 {
 	private static readonly ConcurrentDictionary<string, Regex> RegexCache = new(StringComparer.Ordinal);
 
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var inputString = functionArgs.Parameters[0].Evaluate() as string
+		var inputString = functionArgs.Parameters.Evaluate(0) as string
 			?? throw new FormatException($"{ExtensionFunction.RegexIsMatch} function - first parameter should be a string.");
 
-		var regexExpressionString = functionArgs.Parameters[1].Evaluate() as string
+		var regexExpressionString = functionArgs.Parameters.Evaluate(1) as string
 			?? throw new FormatException($"{ExtensionFunction.RegexIsMatch} function - second parameter should be a string.");
 
 		var regex = RegexCache.GetOrAdd(regexExpressionString, static pattern => new Regex(pattern));

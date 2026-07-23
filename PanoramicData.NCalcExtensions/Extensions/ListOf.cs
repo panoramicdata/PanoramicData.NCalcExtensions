@@ -19,12 +19,15 @@ public partial interface IFunctionPrototypes
 
 internal static class ListOf
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
-		var typeString = functionArgs.Parameters[0].Evaluate() as string
+		var typeString = functionArgs.Parameters.Evaluate(0) as string
 			?? throw new FormatException($"First {ExtensionFunction.ListOf} parameter must be a string.");
 
-		var remainingParameters = functionArgs.Parameters.Skip(1).ToArray();
+		var remainingParameters = Enumerable
+			.Range(1, functionArgs.Parameters.Count - 1)
+			.Select(functionArgs.Parameters.Evaluate)
+			.ToArray();
 		switch (typeString)
 		{
 			case "sbyte":
@@ -110,17 +113,16 @@ internal static class ListOf
 		}
 	}
 
-	private static List<T> GetListOf<T>(Expression[] remainingParameters, CultureInfo cultureInfo)
+	private static List<T> GetListOf<T>(object?[] remainingParameters, CultureInfo cultureInfo)
 	{
 		var list = new List<T>();
 		var targetType = typeof(T);
 		var underlyingType = Nullable.GetUnderlyingType(targetType);
 		var actualTargetType = underlyingType ?? targetType;
 
-		foreach (var parameter in remainingParameters)
+		foreach (var value in remainingParameters)
 		{
-			var value = parameter.Evaluate();
-			
+
 			if (targetType == typeof(object))
 			{
 				list.Add((T)value!);

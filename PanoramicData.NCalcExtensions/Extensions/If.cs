@@ -19,45 +19,45 @@ public partial interface IFunctionPrototypes
 
 internal static class If
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length != 3)
+		if (functionArgs.Parameters.Count != 3)
 		{
 			throw new FormatException($"{ExtensionFunction.If}() requires three parameters.");
 		}
 
 		try
 		{
-			if (functionArgs.Parameters[0].Evaluate() is not bool boolParam1)
+			if (functionArgs.Parameters.Evaluate(0) is not bool boolParam1)
 			{
-				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ExpressionString}' as boolean.");
+				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0]}' as boolean.");
 			}
 
 			if (boolParam1)
 			{
 				try
 				{
-					functionArgs.Result = functionArgs.Parameters[1].Evaluate();
+					functionArgs.Result = functionArgs.Parameters.Evaluate(1);
 					return;
 				}
 				catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 				{
-					throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 2 '{functionArgs.Parameters[1].ExpressionString}' due to {e.Message}.", e);
+					throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 2 '{functionArgs.Parameters[1]}' due to {e.Message}.", e);
 				}
 			}
 
 			try
 			{
-				functionArgs.Result = functionArgs.Parameters[2].Evaluate();
+				functionArgs.Result = functionArgs.Parameters.Evaluate(2);
 			}
 			catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 			{
-				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 3 '{functionArgs.Parameters[2].ExpressionString}' due to {e.Message}.", e);
+				throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 3 '{functionArgs.Parameters[2]}' due to {e.Message}.", e);
 			}
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
-			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0].ExpressionString}'.", e);
+			throw new FormatException($"Could not evaluate {ExtensionFunction.If} function parameter 1 '{functionArgs.Parameters[0]}'.", e);
 		}
 	}
 }

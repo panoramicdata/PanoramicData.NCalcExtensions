@@ -15,14 +15,14 @@ public partial interface IFunctionPrototypes
 
 internal static class ParseInt
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length != 1)
+		if (functionArgs.Parameters.Count != 1)
 		{
 			throw new FormatException($"{ExtensionFunction.ParseInt} function - requires one string parameter.");
 		}
 
-		var param1 = functionArgs.Parameters[0].Evaluate() as string
+		var param1 = functionArgs.Parameters.Evaluate(0) as string
 			?? throw new FormatException($"{ExtensionFunction.ParseInt} function - requires one string parameter.");
 		if (!int.TryParse(param1, out var result))
 		{

@@ -15,13 +15,13 @@ public partial interface IFunctionPrototypes
 
 internal static class IsSet
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length != 1)
+		if (functionArgs.Parameters.Count != 1)
 		{
 			throw new FormatException($"{ExtensionFunction.IsSet}() requires one parameter.");
 		}
 
-		functionArgs.Result = functionArgs.Parameters[0].Parameters.Keys.Any(p => p == functionArgs.Parameters[0].Evaluate() as string);
+		functionArgs.Result = functionArgs.Context.StaticParameters.Keys.Any(p => p == functionArgs.Parameters.Evaluate(0) as string);
 	}
 }

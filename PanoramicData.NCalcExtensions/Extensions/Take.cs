@@ -19,12 +19,12 @@ public partial interface IFunctionPrototypes
 
 internal static class Take
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var list = functionArgs.Parameters[0].Evaluate() as IList
+		var list = functionArgs.Parameters.Evaluate(0) as IList
 			?? throw new FormatException($"{ExtensionFunction.Take}() requires an IList and an integer parameter.");
 
-		if (functionArgs.Parameters[1].Evaluate() is not int numberToTake)
+		if (functionArgs.Parameters.Evaluate(1) is not int numberToTake)
 		{
 			throw new FormatException($"{ExtensionFunction.Take}() requires an IList and an integer parameter.");
 		}

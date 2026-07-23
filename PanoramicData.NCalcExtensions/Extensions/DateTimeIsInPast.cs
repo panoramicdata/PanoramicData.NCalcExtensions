@@ -17,16 +17,16 @@ public partial interface IFunctionPrototypes
 
 internal static class DateTimeIsInPast
 {
-	internal static void Evaluate(FunctionArgs functionArgs, TimeProvider timeProvider)
+	internal static void Evaluate(FunctionEventArgs functionArgs, TimeProvider timeProvider)
 	{
 		var destinationTimeZoneInfo = TimeZoneInfo.Utc;
 
-		if (functionArgs.Parameters.Length < 1)
+		if (functionArgs.Parameters.Count < 1)
 		{
 			throw new FormatException($"{ExtensionFunction.DateTimeIsInPast} function - The first argument must be a DateTime");
 		}
 
-		var parameter1Value = functionArgs.Parameters[0].Evaluate();
+		var parameter1Value = functionArgs.Parameters.Evaluate(0);
 		if (parameter1Value is not DateTime)
 		{
 			throw new FormatException($"{ExtensionFunction.DateTimeIsInPast} function - The first argument must be a DateTime");
@@ -34,10 +34,10 @@ internal static class DateTimeIsInPast
 
 		var dateTimeUnderTest = (DateTime)parameter1Value;
 
-		if (functionArgs.Parameters.Length > 1)
+		if (functionArgs.Parameters.Count > 1)
 		{
 			// Time Zone
-			if (functionArgs.Parameters[1].Evaluate() is not string timeZoneName)
+			if (functionArgs.Parameters.Evaluate(1) is not string timeZoneName)
 			{
 				throw new FormatException($"{ExtensionFunction.DateTimeIsInPast} function - The second argument should be a string, e.g. 'UTC'");
 			}

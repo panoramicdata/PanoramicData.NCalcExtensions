@@ -8,9 +8,8 @@
     <!--
       Low/moderate NuGet advisories are reported but do not break the build, matching the
       convention used across PanoramicData repositories (e.g. PanoramicData.Blazor). High/critical
-      advisories (NU1903/NU1904) are still treated as errors. As of 2026-07 NCalcSync 5.13.0 carries
-      the moderate advisory GHSA-3w5p-95mh-gq75 (NU1902); a full upgrade to NCalc 6.x should be
-      tracked and evaluated separately from this change.
+      advisories (NU1903/NU1904) are still treated as errors. The previously-suppressed NCalcSync
+      advisory GHSA-3w5p-95mh-gq75 was resolved by upgrading to NCalc 6.1.1.
     -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);NU1901;NU1902</WarningsNotAsErrors>
     <Nullable>enable</Nullable>

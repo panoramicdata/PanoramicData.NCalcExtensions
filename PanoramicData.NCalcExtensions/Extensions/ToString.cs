@@ -17,13 +17,13 @@ public partial interface IFunctionPrototypes
 
 internal static class ToString
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
-		var parameterCount = functionArgs.Parameters.Length;
+		var parameterCount = functionArgs.Parameters.Count;
 		switch (parameterCount)
 		{
 			case 1:
-				var parameter1 = functionArgs.Parameters[0].Evaluate();
+				var parameter1 = functionArgs.Parameters.Evaluate(0);
 				functionArgs.Result = parameter1 switch
 				{
 					null => null,
@@ -31,8 +31,8 @@ internal static class ToString
 				};
 				break;
 			case 2:
-				var parameter1a = functionArgs.Parameters[0].Evaluate();
-				var parameter2 = functionArgs.Parameters[1].Evaluate() as string
+				var parameter1a = functionArgs.Parameters.Evaluate(0);
+				var parameter2 = functionArgs.Parameters.Evaluate(1) as string
 					?? throw new FormatException($"{ExtensionFunction.ToString} function -  requires a string as the second parameter.");
 				functionArgs.Result = parameter1a switch
 				{

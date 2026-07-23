@@ -19,31 +19,31 @@ public partial interface IFunctionPrototypes
 
 internal static class All
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		switch (functionArgs.Parameters.Length)
+		switch (functionArgs.Parameters.Count)
 		{
 			case 0:
 				// Vacuous truth: all() is true when no values are provided.
 				functionArgs.Result = true;
 				return;
 			case 1:
-				var list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
+				var list = functionArgs.Parameters.Evaluate(0) as IEnumerable<object?>
 					?? throw new FormatException($"First {ExtensionFunction.All} parameter must be an IEnumerable.");
 
 				functionArgs.Result = list.All(value => JValueHelper.UnwrapJValue(value) as bool? == true);
 				return;
 			case 3:
-				list = functionArgs.Parameters[0].Evaluate() as IEnumerable<object?>
+				list = functionArgs.Parameters.Evaluate(0) as IEnumerable<object?>
 					?? throw new FormatException($"First {ExtensionFunction.All} parameter must be an IEnumerable.");
 
-				var predicate = functionArgs.Parameters[1].Evaluate() as string
+				var predicate = functionArgs.Parameters.Evaluate(1) as string
 					?? throw new FormatException($"Second {ExtensionFunction.All} parameter must be a string.");
 
-				var lambdaString = functionArgs.Parameters[2].Evaluate() as string
+				var lambdaString = functionArgs.Parameters.Evaluate(2) as string
 					?? throw new FormatException($"Third {ExtensionFunction.All} parameter must be a string.");
 
-				var lambda = new Lambda(predicate, lambdaString, functionArgs.Parameters[0].Parameters);
+				var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
 
 				functionArgs.Result = list
 					.All(value =>

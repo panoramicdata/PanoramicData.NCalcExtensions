@@ -17,18 +17,18 @@ public partial interface IFunctionPrototypes
 
 internal static class StartsWith
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length != 2)
+		if (functionArgs.Parameters.Count != 2)
 		{
 			throw new FormatException($"{ExtensionFunction.StartsWith}() requires two parameters.");
 		}
 
 		try
 		{
-			var param1 = functionArgs.Parameters[0].Evaluate() as string
+			var param1 = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 1 is not a string");
-			var param2 = functionArgs.Parameters[1].Evaluate() as string
+			var param2 = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"{ExtensionFunction.StartsWith}() parameter 2 is not a string");
 
 			functionArgs.Result = param1.StartsWith(param2, StringComparison.InvariantCulture);

@@ -21,16 +21,16 @@ public partial interface IFunctionPrototypes
 
 internal static class Sanitize
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		var replacementCharacters = string.Empty;
 
-		if (functionArgs.Parameters.Length < 2)
+		if (functionArgs.Parameters.Count < 2)
 		{
 			throw new FormatException($"{ExtensionFunction.Sanitize}() requires at least two parameters.");
 		}
 
-		var inputObject = functionArgs.Parameters[0].Evaluate();
+		var inputObject = functionArgs.Parameters.Evaluate(0);
 		if (inputObject is null)
 		{
 			functionArgs.Result = null;
@@ -42,15 +42,15 @@ internal static class Sanitize
 			throw new FormatException($"{ExtensionFunction.Sanitize}() first parameter must be a string.");
 		}
 
-		var allowedCharactersObject = functionArgs.Parameters[1].Evaluate();
+		var allowedCharactersObject = functionArgs.Parameters.Evaluate(1);
 		if (allowedCharactersObject is not string allowedCharacters)
 		{
 			throw new FormatException($"{ExtensionFunction.Sanitize}() second parameter must be a string.");
 		}
 
-		if (functionArgs.Parameters.Length > 2)
+		if (functionArgs.Parameters.Count > 2)
 		{
-			var replacementCharactersObject = functionArgs.Parameters[2].Evaluate();
+			var replacementCharactersObject = functionArgs.Parameters.Evaluate(2);
 			if (replacementCharactersObject is not string replacementCharactersString)
 			{
 				throw new FormatException($"{ExtensionFunction.Sanitize}() third parameter must be a string.");

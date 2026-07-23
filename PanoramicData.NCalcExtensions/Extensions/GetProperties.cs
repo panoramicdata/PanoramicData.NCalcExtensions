@@ -15,12 +15,12 @@ public partial interface IFunctionPrototypes
 
 internal static class GetProperties
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		object value;
 		try
 		{
-			value = functionArgs.Parameters[0].Evaluate()
+			value = functionArgs.Parameters.Evaluate(0)
 				?? throw new FormatException($"{ExtensionFunction.GetProperties}() parameter cannot be null.");
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))

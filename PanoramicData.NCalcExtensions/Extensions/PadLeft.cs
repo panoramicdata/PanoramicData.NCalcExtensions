@@ -19,14 +19,14 @@ public partial interface IFunctionPrototypes
 
 internal static class PadLeft
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var input = functionArgs.Parameters[0].Evaluate() as string
+			var input = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.PadLeft}() requires a string Input, an integer DesiredStringLength, and a single Padding character.");
 
-			if (functionArgs.Parameters[1].Evaluate() is not int desiredStringLength)
+			if (functionArgs.Parameters.Evaluate(1) is not int desiredStringLength)
 			{
 				throw new FormatException($"{ExtensionFunction.PadLeft}() requires a string Input, an integer DesiredStringLength, and a single Padding character.");
 			}
@@ -36,7 +36,7 @@ internal static class PadLeft
 				throw new NCalcExtensionsException($"{ExtensionFunction.PadLeft}() requires a DesiredStringLength for parameter 2 that is >= 1.");
 			}
 
-			var paddingString = functionArgs.Parameters[2].Evaluate() as string
+			var paddingString = functionArgs.Parameters.Evaluate(2) as string
 				?? throw new NCalcExtensionsException($"{ExtensionFunction.PadLeft}() requires that parameter 3 be a string.");
 
 			if (paddingString.Length != 1)

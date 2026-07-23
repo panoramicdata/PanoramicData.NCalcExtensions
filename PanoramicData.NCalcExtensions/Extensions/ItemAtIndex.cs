@@ -21,11 +21,11 @@ public partial interface IFunctionPrototypes
 
 internal static class ItemAtIndex
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var input = functionArgs.Parameters[0].Evaluate() as IList
+			var input = functionArgs.Parameters.Evaluate(0) as IList
 				?? throw new FormatException($"{ExtensionFunction.ItemAtIndex}() requires two parameters. The first should be an IList and the second should be a non-negative integer.");
 
 			// Use Convert.ToInt32 instead of (int) cast because otherwise this would fail with
@@ -33,7 +33,7 @@ internal static class ItemAtIndex
 			int index;
 			try
 			{
-				index = Convert.ToInt32(functionArgs.Parameters[1].Evaluate(), CultureInfo.InvariantCulture);
+				index = Convert.ToInt32(functionArgs.Parameters.Evaluate(1), CultureInfo.InvariantCulture);
 			}
 			catch (OverflowException)
 			{

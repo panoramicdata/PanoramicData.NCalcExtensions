@@ -15,6 +15,9 @@ public partial interface IFunctionPrototypes
 
 internal static class List
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
-		=> functionArgs.Result = functionArgs.Parameters.Select(p => p.Evaluate()).ToList();
+	internal static void Evaluate(FunctionEventArgs functionArgs)
+		=> functionArgs.Result = Enumerable
+			.Range(0, functionArgs.Parameters.Count)
+			.Select(functionArgs.Parameters.Evaluate)
+			.ToList();
 }

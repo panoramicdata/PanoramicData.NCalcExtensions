@@ -17,9 +17,9 @@ public partial interface IFunctionPrototypes
 
 internal static class AverageFunction
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var originalList = functionArgs.Parameters[0].Evaluate()
+		var originalList = functionArgs.Parameters.Evaluate(0)
 			?? throw new FormatException($"First {ExtensionFunction.Average} parameter cannot be null.");
 
 		functionArgs.Result = originalList switch

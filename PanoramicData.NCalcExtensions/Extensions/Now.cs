@@ -15,14 +15,14 @@ public partial interface IFunctionPrototypes
 
 internal static class Now
 {
-	internal static void Evaluate(FunctionArgs functionArgs, TimeProvider timeProvider)
+	internal static void Evaluate(FunctionEventArgs functionArgs, TimeProvider timeProvider)
 	{
 		var destinationTimeZoneInfo = TimeZoneInfo.Utc;
 
-		if (functionArgs.Parameters.Length > 0)
+		if (functionArgs.Parameters.Count > 0)
 		{
 			// Time Zone
-			if (functionArgs.Parameters[0].Evaluate() is not string timeZoneName)
+			if (functionArgs.Parameters.Evaluate(0) is not string timeZoneName)
 			{
 				throw new FormatException($"{ExtensionFunction.Now} function - The first argument should be a string, e.g. 'UTC'");
 			}

@@ -17,13 +17,13 @@ public partial interface IFunctionPrototypes
 
 internal static class Contains
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var haystack = functionArgs.Parameters[0].Evaluate() as string
+			var haystack = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.Contains}() requires two string parameters.");
-			var needle = functionArgs.Parameters[1].Evaluate() as string
+			var needle = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"{ExtensionFunction.Contains}() requires two string parameters.");
 
 			functionArgs.Result = haystack.Contains(needle);

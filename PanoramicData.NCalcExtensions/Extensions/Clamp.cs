@@ -19,15 +19,15 @@ public partial interface IFunctionPrototypes
 
 internal static class ClampFunction
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var rawValue = functionArgs.Parameters[0].Evaluate()
+			var rawValue = functionArgs.Parameters.Evaluate(0)
 				?? throw new FormatException($"{ExtensionFunction.Clamp}() requires a numeric value, a numeric min, and a numeric max.");
-			var rawMin = functionArgs.Parameters[1].Evaluate()
+			var rawMin = functionArgs.Parameters.Evaluate(1)
 				?? throw new FormatException($"{ExtensionFunction.Clamp}() requires a numeric value, a numeric min, and a numeric max.");
-			var rawMax = functionArgs.Parameters[2].Evaluate()
+			var rawMax = functionArgs.Parameters.Evaluate(2)
 				?? throw new FormatException($"{ExtensionFunction.Clamp}() requires a numeric value, a numeric min, and a numeric max.");
 
 			var value = Convert.ToDouble(rawValue, CultureInfo.InvariantCulture);

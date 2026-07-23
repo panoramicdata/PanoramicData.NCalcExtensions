@@ -17,13 +17,13 @@ public partial interface IFunctionPrototypes
 
 internal static class Split
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var input = functionArgs.Parameters[0].Evaluate() as string
+			var input = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.Split}() requires two string parameters.");
-			var splitString = functionArgs.Parameters[1].Evaluate() as string
+			var splitString = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"{ExtensionFunction.Split}() requires two string parameters.");
 
 			functionArgs.Result = splitString.Length switch

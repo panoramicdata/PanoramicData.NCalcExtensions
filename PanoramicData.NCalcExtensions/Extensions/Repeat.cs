@@ -17,14 +17,14 @@ public partial interface IFunctionPrototypes
 
 internal static class RepeatFunction
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var text = functionArgs.Parameters[0].Evaluate() as string
+			var text = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.Repeat}() requires a string parameter 1 and an integer parameter 2.");
 
-			if (functionArgs.Parameters[1].Evaluate() is not int count)
+			if (functionArgs.Parameters.Evaluate(1) is not int count)
 			{
 				throw new FormatException($"{ExtensionFunction.Repeat}() requires a string parameter 1 and an integer parameter 2.");
 			}

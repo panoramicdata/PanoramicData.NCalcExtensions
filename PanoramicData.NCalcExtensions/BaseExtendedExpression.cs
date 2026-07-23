@@ -222,22 +222,22 @@ public abstract class BaseExtendedExpression : Expression
 
 	internal static void CheckParameterCount(
 		string functionName,
-		FunctionArgs functionArgs,
+		FunctionEventArgs functionArgs,
 		int? minPropertyCount,
 		int? maxPropertyCount)
 	{
-		if (minPropertyCount is not null && functionArgs.Parameters.Length < minPropertyCount)
+		if (minPropertyCount is not null && functionArgs.Parameters.Count < minPropertyCount)
 		{
 			throw new FormatException($"{functionName}: At least {minPropertyCount} parameter{(minPropertyCount == 1 ? "" : "s")} required.");
 		}
 
-		if (maxPropertyCount is not null && functionArgs.Parameters.Length > maxPropertyCount)
+		if (maxPropertyCount is not null && functionArgs.Parameters.Count > maxPropertyCount)
 		{
 			throw new FormatException($"{functionName}: No more than {maxPropertyCount} parameter{(maxPropertyCount == 1 ? "" : "s")} permitted.");
 		}
 	}
 
-	internal void Extend(string functionName, FunctionArgs functionArgs)
+	internal void Extend(string functionName, FunctionEventArgs functionArgs)
 	{
 		ArgumentNullException.ThrowIfNull(functionArgs);
 

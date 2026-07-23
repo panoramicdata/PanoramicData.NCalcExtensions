@@ -23,17 +23,17 @@ internal static class RegexGroup
 {
 	private static readonly ConcurrentDictionary<string, Regex> RegexCache = new(StringComparer.Ordinal);
 
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var input = functionArgs.Parameters[0].Evaluate() as string
+			var input = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.RegexGroup}() requires string parameters.");
-			var regexExpression = functionArgs.Parameters[1].Evaluate() as string
+			var regexExpression = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"{ExtensionFunction.RegexGroup}() requires string parameters.");
 
-			var regexCaptureIndex = functionArgs.Parameters.Length == 3
-				? functionArgs.Parameters[2].Evaluate() as int? ?? 0
+			var regexCaptureIndex = functionArgs.Parameters.Count == 3
+				? functionArgs.Parameters.Evaluate(2) as int? ?? 0
 				: 0;
 
 			var regex = RegexCache.GetOrAdd(regexExpression, static pattern => new Regex(pattern));

@@ -22,11 +22,11 @@ public partial interface IFunctionPrototypes
 
 internal static class ToDateTime
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
-		var argument1 = functionArgs.Parameters.Length >= 1 ? functionArgs.Parameters[0]?.Evaluate() : null;
-		var argument2 = functionArgs.Parameters.Length >= 2 ? functionArgs.Parameters[1]?.Evaluate() : null;
-		var argument3 = functionArgs.Parameters.Length >= 3 ? functionArgs.Parameters[2]?.Evaluate() : null;
+		var argument1 = functionArgs.Parameters.Count >= 1 ? functionArgs.Parameters.Evaluate(0) : null;
+		var argument2 = functionArgs.Parameters.Count >= 2 ? functionArgs.Parameters.Evaluate(1) : null;
+		var argument3 = functionArgs.Parameters.Count >= 3 ? functionArgs.Parameters.Evaluate(2) : null;
 
 		functionArgs.Result = argument1 == null
 			? null

@@ -17,13 +17,13 @@ public partial interface IFunctionPrototypes
 
 internal static class IndexOf
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var param1 = functionArgs.Parameters[0].Evaluate() as string
+			var param1 = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.IndexOf}() requires two string parameters.");
-			var param2 = functionArgs.Parameters[1].Evaluate() as string
+			var param2 = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"{ExtensionFunction.IndexOf}() requires two string parameters.");
 
 			functionArgs.Result = param1.IndexOf(param2, StringComparison.InvariantCulture);

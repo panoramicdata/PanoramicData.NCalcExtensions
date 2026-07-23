@@ -15,16 +15,16 @@ public partial interface IFunctionPrototypes
 
 internal static class IsNullOrWhiteSpace
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length != 1)
+		if (functionArgs.Parameters.Count != 1)
 		{
 			throw new FormatException($"{ExtensionFunction.IsNullOrWhiteSpace}() requires one parameter.");
 		}
 
 		try
 		{
-			var outputObject = functionArgs.Parameters[0].Evaluate();
+			var outputObject = functionArgs.Parameters.Evaluate(0);
 			functionArgs.Result = outputObject is null ||
 				outputObject is JToken { Type: JTokenType.Null } ||
 				outputObject is JsonElement { ValueKind: JsonValueKind.Null } ||

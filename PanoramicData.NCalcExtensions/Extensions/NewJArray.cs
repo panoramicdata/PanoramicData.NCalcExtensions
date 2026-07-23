@@ -15,15 +15,15 @@ public partial interface IFunctionPrototypes
 
 internal static class NewJArray
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		var parameterIndex = 0;
 
 		// Create an empty JArray
 		var jArray = new JArray();
-		while (parameterIndex < functionArgs.Parameters.Length)
+		while (parameterIndex < functionArgs.Parameters.Count)
 		{
-			var item = functionArgs.Parameters[parameterIndex++].Evaluate();
+			var item = functionArgs.Parameters.Evaluate(parameterIndex++);
 			jArray.Add(item is null ? JValue.CreateNull() : JToken.FromObject(item));
 		}
 

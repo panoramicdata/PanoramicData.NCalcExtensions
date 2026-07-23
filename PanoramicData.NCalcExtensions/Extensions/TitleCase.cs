@@ -19,11 +19,11 @@ internal static class TitleCaseFunction
 {
    private static readonly TextInfo TextInfo = CultureInfo.InvariantCulture.TextInfo;
 
-   internal static void Evaluate(FunctionArgs functionArgs)
+   internal static void Evaluate(FunctionEventArgs functionArgs)
    {
       try
       {
-         var param1 = functionArgs.Parameters[0].Evaluate() as string
+         var param1 = functionArgs.Parameters.Evaluate(0) as string
             ?? throw new FormatException($"{ExtensionFunction.TitleCase} function - requires one string parameter.");
 
          functionArgs.Result = TextInfo.ToTitleCase(param1.ToLowerInvariant());

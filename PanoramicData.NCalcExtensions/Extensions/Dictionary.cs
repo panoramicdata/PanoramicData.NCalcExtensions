@@ -20,19 +20,19 @@ internal static class Dictionary
 	/// </summary>
 	/// <param name="functionArgs">The arguments from the user, provided to us by NCalc</param>
 	/// <exception cref="FormatException">An odd number of parameters were provided, or one of the keys is not a string</exception>
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		ExtendedExpression.CheckParameterCount(ExtensionFunction.Dictionary, functionArgs, 2, int.MaxValue - 1);          // Between 2 and a lot
-		if (functionArgs.Parameters.Length % 2 != 0)
+		if (functionArgs.Parameters.Count % 2 != 0)
 		{
 			throw new FormatException($"{ExtensionFunction.Dictionary}: An even number of parameters must be provided.");
 		}
 
 		string? key = null;
 		var dictionary = new Dictionary<string, object?>();
-		for (var index = 0; index < functionArgs.Parameters.Length; index++)
+		for (var index = 0; index < functionArgs.Parameters.Count; index++)
 		{
-			var parameterValue = functionArgs.Parameters[index].Evaluate();
+			var parameterValue = functionArgs.Parameters.Evaluate(index);
 			if (index % 2 == 0)
 			{
 				// Even parameter numbers are the key

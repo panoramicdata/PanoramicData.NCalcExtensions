@@ -19,14 +19,14 @@ public partial interface IFunctionPrototypes
 
 internal static class TruncateFunction
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var text = functionArgs.Parameters[0].Evaluate() as string
+			var text = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.Truncate}() requires a string parameter 1 and an integer parameter 2.");
 
-			if (functionArgs.Parameters[1].Evaluate() is not int maxLength)
+			if (functionArgs.Parameters.Evaluate(1) is not int maxLength)
 			{
 				throw new FormatException($"{ExtensionFunction.Truncate}() requires a string parameter 1 and an integer parameter 2.");
 			}
@@ -36,8 +36,8 @@ internal static class TruncateFunction
 				throw new NCalcExtensionsException($"{ExtensionFunction.Truncate}() requires a maxLength >= 0.");
 			}
 
-			var ellipsis = functionArgs.Parameters.Length > 2
-				? functionArgs.Parameters[2].Evaluate() as string
+			var ellipsis = functionArgs.Parameters.Count > 2
+				? functionArgs.Parameters.Evaluate(2) as string
 					?? throw new FormatException($"{ExtensionFunction.Truncate}() parameter 3 must be a string.")
 				: string.Empty;
 

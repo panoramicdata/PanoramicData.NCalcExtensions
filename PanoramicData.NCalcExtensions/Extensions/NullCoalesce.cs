@@ -15,11 +15,11 @@ public partial interface IFunctionPrototypes
 
 internal static class NullCoalesce
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		foreach (var parameter in functionArgs.Parameters)
+		for (var parameterIndex = 0; parameterIndex < functionArgs.Parameters.Count; parameterIndex++)
 		{
-			var result = parameter.Evaluate();
+			var result = functionArgs.Parameters.Evaluate(parameterIndex);
 			if (result is not null)
 			{
 				functionArgs.Result = result;

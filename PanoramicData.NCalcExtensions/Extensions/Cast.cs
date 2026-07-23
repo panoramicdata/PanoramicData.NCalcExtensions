@@ -17,16 +17,16 @@ public partial interface IFunctionPrototypes
 
 internal static class Cast
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
 		const int castParameterCount = 2;
-		if (functionArgs.Parameters.Length != castParameterCount)
+		if (functionArgs.Parameters.Count != castParameterCount)
 		{
 			throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected {castParameterCount} arguments");
 		}
 
-		var inputObject = functionArgs.Parameters[0].Evaluate();
-		if (functionArgs.Parameters[1].Evaluate() is not string castTypeString)
+		var inputObject = functionArgs.Parameters.Evaluate(0);
+		if (functionArgs.Parameters.Evaluate(1) is not string castTypeString)
 		{
 			throw new ArgumentException($"{ExtensionFunction.Cast} function - Expected second argument to be a string.");
 		}

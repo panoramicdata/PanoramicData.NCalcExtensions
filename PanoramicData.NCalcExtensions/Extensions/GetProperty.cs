@@ -22,13 +22,13 @@ internal static class GetProperty
 {
 	private static readonly ConcurrentDictionary<(Type Type, string PropertyName), PropertyInfo> PropertyCache = new();
 
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
-			var value = functionArgs.Parameters[0].Evaluate()
+			var value = functionArgs.Parameters.Evaluate(0)
 				?? throw new FormatException($"{ExtensionFunction.GetProperty}() first parameter cannot be null.");
-			var property = functionArgs.Parameters[1].Evaluate() as string
+			var property = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"{ExtensionFunction.GetProperty}() requires two parameters.");
 
 			switch (value)

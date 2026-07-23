@@ -17,11 +17,11 @@ public partial interface IFunctionPrototypes
 
 internal static class DateTimeAsEpochMs
 {
-	internal static void Evaluate(FunctionArgs functionArgs, CultureInfo cultureInfo)
+	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
-		var input = functionArgs.Parameters[0].Evaluate() as string
+		var input = functionArgs.Parameters.Evaluate(0) as string
 			?? throw new FormatException($"{ExtensionFunction.DateTimeAsEpochMs}() requires two string parameters.");
-		var format = functionArgs.Parameters[1].Evaluate() as string
+		var format = functionArgs.Parameters.Evaluate(1) as string
 			?? throw new FormatException($"{ExtensionFunction.DateTimeAsEpochMs}() requires two string parameters.");
 
 		var dateTimeOffset = DateTimeOffset.ParseExact(

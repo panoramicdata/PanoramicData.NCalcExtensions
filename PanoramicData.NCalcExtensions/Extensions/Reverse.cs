@@ -17,9 +17,9 @@ public partial interface IFunctionPrototypes
 
 internal static class Reverse
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var enumerable = functionArgs.Parameters[0].Evaluate() as IList
+		var enumerable = functionArgs.Parameters.Evaluate(0) as IList
 			?? throw new FormatException($"First {ExtensionFunction.Reverse} parameter must be an IEnumerable.");
 
 		functionArgs.Result = enumerable.Cast<object?>()

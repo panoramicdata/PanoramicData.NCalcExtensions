@@ -17,23 +17,23 @@ public partial interface IFunctionPrototypes
 
 internal static class In
 {
-	internal static void Evaluate(FunctionArgs functionArgs)
+	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Length < 2)
+		if (functionArgs.Parameters.Count < 2)
 		{
 			throw new FormatException($"{ExtensionFunction.In}() requires at least two parameters.");
 		}
 
 		try
 		{
-			var item = functionArgs.Parameters[0].Evaluate();
+			var item = functionArgs.Parameters.Evaluate(0);
 
 			// When exactly two parameters are provided and the second is a list, use it as the haystack directly.
 			// String is explicitly excluded as it implements IEnumerable<char> but should be treated as a scalar.
 			List<object?> list;
-			if (functionArgs.Parameters.Length == 2)
+			if (functionArgs.Parameters.Count == 2)
 			{
-				var secondArg = functionArgs.Parameters[1].Evaluate();
+				var secondArg = functionArgs.Parameters.Evaluate(1);
 				list = secondArg switch
 				{
 					string s => [s],
@@ -44,7 +44,7 @@ internal static class In
 			}
 			else
 			{
-				list = [.. functionArgs.Parameters.Skip(1).Select(p => p.Evaluate())];
+				list = [.. Enumerable.Range(1, functionArgs.Parameters.Count - 1).Select(functionArgs.Parameters.Evaluate)];
 			}
 
 			functionArgs.Result = list.Contains(item);
