@@ -5,6 +5,8 @@ Keep upcoming changes under `## Unreleased`.
 creates a fresh `## Unreleased` section, commits the file, and then calls `Publish.ps1`.
 
 ## Unreleased
+
+## 6.1.3 - 2026-08-07
 - Added `dateTimeIsInWindow('CRON', durationSeconds, 'TimeZone')` returning whether the current instant is within a recurring window that starts at each CRON fire time and lasts `durationSeconds` (start inclusive, end exclusive). Supports 5-field CRON expressions, or 6 fields when including seconds; `'?'` is accepted as `'*'`. The optional timezone (IANA or Windows form) defaults to UTC. Honours the injectable `TimeProvider` for deterministic evaluation. Adds a dependency on Cronos.
 
 ## 5.8.64 - 2026-07-12

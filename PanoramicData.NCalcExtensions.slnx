@@ -10,7 +10,9 @@
     <File Path="nuget-key.txt" />
     <File Path="PanoramicData.NCalcExtensions.sln.vsspell.dic" />
     <File Path="Publish.ps1" />
+    <File Path="PublishWithReleaseNote.ps1" />
     <File Path="README.md" />
+    <File Path="RELEASE_NOTES.md" />
     <File Path="SECURITY.md" />
     <File Path="version.json" />
     <File Path=".codacy.yml" />
