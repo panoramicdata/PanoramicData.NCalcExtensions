@@ -301,6 +301,9 @@ public abstract class BaseExtendedExpression : Expression
 			case ExtensionFunction.DateTimeIsInFuture:
 				DateTimeIsInFuture.Evaluate(functionArgs, _timeProvider);
 				return;
+			case ExtensionFunction.DateTimeIsInWindow:
+				DateTimeIsInWindow.Evaluate(functionArgs, _timeProvider);
+				return;
 			case ExtensionFunction.Dictionary:
 				Dictionary.Evaluate(functionArgs);
 				break;

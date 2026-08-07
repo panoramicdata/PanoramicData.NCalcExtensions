@@ -41,6 +41,7 @@
     <InternalsVisibleTo Include="$(AssemblyName).Test" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Cronos" />
     <PackageReference Include="NCalcSync" />
     <PackageReference Include="Nerdbank.GitVersioning">
       <PrivateAssets>all</PrivateAssets>

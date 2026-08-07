@@ -22,6 +22,7 @@ internal static class ExtensionFunction
 	internal const string DateTimeAsEpochMs = "dateTimeAsEpochMs";
 	internal const string DateTimeIsInPast = "dateTimeIsInPast";
 	internal const string DateTimeIsInFuture = "dateTimeIsInFuture";
+	internal const string DateTimeIsInWindow = "dateTimeIsInWindow";
 	internal const string Dictionary = "dictionary";
 	internal const string Distinct = "distinct";
 	internal const string EndsWith = "endsWith";

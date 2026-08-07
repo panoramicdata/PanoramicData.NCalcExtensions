@@ -1,0 +1,12 @@
+/*
+# dateTimeIsInWindow()
+
+Generated documentation example 1 for dateTimeIsInWindow().
+
+**Expected result**
+true; every minute starts a 60-second window, so the current time is always inside one
+*/
+
+// theAnswer:System.Boolean:true
+
+dateTimeIsInWindow('* * * * *', 60)
