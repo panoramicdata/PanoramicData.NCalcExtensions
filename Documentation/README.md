@@ -21,6 +21,7 @@ This index points to the generated documentation folders under `Documentation/<f
 | [dateTimeAsEpochMs()](datetimeasepochms/README.md) | Parses the input DateTime and outputs as milliseconds since the Epoch (1970-01-01T00:00Z). | 1 |
 | [dateTimeIsInFuture()](datetimeisinfuture/README.md) | Returns whether a date and time is in the future, with optional timezone correction. | 3 |
 | [dateTimeIsInPast()](datetimeisinpast/README.md) | Returns whether a date and time is in the past, with optional timezone correction. | 3 |
+| [dateTimeIsInWindow()](datetimeisinwindow/README.md) | Returns whether the current time is within a recurring time window that starts at each fire time of a CRON expression and lasts for a duration in seconds, with an optional timezone. | 2 |
 | [dictionary()](dictionary/README.md) | Emits a Dictionary<string, object?>. | 2 |
 | [distinct()](distinct/README.md) | Returns only distinct items from the input. | 1 |
 | [endsWith()](endswith/README.md) | Determines whether a string ends with another string. | 2 |

@@ -1,0 +1,10 @@
+/*
+# dateTimeIsInWindow()
+
+Generated documentation example 2 for dateTimeIsInWindow().
+
+**Expected result**
+true only between 02:00 and 04:00 on Sunday, Amsterdam time
+*/
+
+dateTimeIsInWindow('0 0 2 * * SUN', 7200, 'Europe/Amsterdam')
