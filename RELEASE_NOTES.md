@@ -5,6 +5,7 @@ Keep upcoming changes under `## Unreleased`.
 creates a fresh `## Unreleased` section, commits the file, and then calls `Publish.ps1`.
 
 ## Unreleased
+- Fixed `isNull()`, `isNullOrEmpty()`, `isNullOrWhiteSpace()`, `isNaN()` and `isInfinite()` discarding the original exception when converting an unexpected evaluation failure into a `FormatException`. The original is now passed through as `InnerException`, so a caller can distinguish an unbound parameter (`NCalcParameterNotDefinedException`) from a genuine formatting failure such as parsing a non-numeric string. The exception type and message are unchanged, so existing callers are unaffected.
 
 ## 6.1.3 - 2026-08-07
 - Added `dateTimeIsInWindow('CRON', durationSeconds, 'TimeZone')` returning whether the current instant is within a recurring window that starts at each CRON fire time and lasts `durationSeconds` (start inclusive, end exclusive). Supports 5-field CRON expressions, or 6 fields when including seconds; `'?'` is accepted as `'*'`. The optional timezone (IANA or Windows form) defaults to UTC. Honours the injectable `TimeProvider` for deterministic evaluation. Adds a dependency on Cronos.
