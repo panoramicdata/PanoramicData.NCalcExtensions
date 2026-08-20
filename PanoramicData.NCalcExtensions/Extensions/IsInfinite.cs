@@ -33,7 +33,7 @@ internal static class IsInfinite
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
-			throw new FormatException(e.Message);
+			throw new FormatException(e.Message, e);
 		}
 	}
 }
