@@ -19,159 +19,121 @@ public partial interface IFunctionPrototypes
 
 internal static class ListOf
 {
+	/// <summary>
+	/// The element type names listOf() accepts, mapped to the builder for each.
+	/// </summary>
+	/// <remarks>
+	/// A lookup table rather than a 26-case switch: selecting the generic instantiation by name is
+	/// all the dispatch ever did. Matching is case-sensitive and ordinal, as the switch was.
+	/// </remarks>
+	private static readonly FrozenDictionary<string, Func<object?[], CultureInfo, object>> ListBuilders =
+		new Dictionary<string, Func<object?[], CultureInfo, object>>(StringComparer.Ordinal)
+		{
+			["sbyte"] = static (values, culture) => GetListOf<sbyte>(values, culture),
+			["sbyte?"] = static (values, culture) => GetListOf<sbyte?>(values, culture),
+			["byte"] = static (values, culture) => GetListOf<byte>(values, culture),
+			["byte?"] = static (values, culture) => GetListOf<byte?>(values, culture),
+			["short"] = static (values, culture) => GetListOf<short>(values, culture),
+			["short?"] = static (values, culture) => GetListOf<short?>(values, culture),
+			["ushort"] = static (values, culture) => GetListOf<ushort>(values, culture),
+			["ushort?"] = static (values, culture) => GetListOf<ushort?>(values, culture),
+			["int"] = static (values, culture) => GetListOf<int>(values, culture),
+			["int?"] = static (values, culture) => GetListOf<int?>(values, culture),
+			["uint"] = static (values, culture) => GetListOf<uint>(values, culture),
+			["uint?"] = static (values, culture) => GetListOf<uint?>(values, culture),
+			["long"] = static (values, culture) => GetListOf<long>(values, culture),
+			["long?"] = static (values, culture) => GetListOf<long?>(values, culture),
+			["ulong"] = static (values, culture) => GetListOf<ulong>(values, culture),
+			["ulong?"] = static (values, culture) => GetListOf<ulong?>(values, culture),
+			["float"] = static (values, culture) => GetListOf<float>(values, culture),
+			["float?"] = static (values, culture) => GetListOf<float?>(values, culture),
+			["double"] = static (values, culture) => GetListOf<double>(values, culture),
+			["double?"] = static (values, culture) => GetListOf<double?>(values, culture),
+			["decimal"] = static (values, culture) => GetListOf<decimal>(values, culture),
+			["decimal?"] = static (values, culture) => GetListOf<decimal?>(values, culture),
+			["string"] = static (values, culture) => GetListOf<string>(values, culture),
+			["string?"] = static (values, culture) => GetListOf<string?>(values, culture),
+			["object"] = static (values, culture) => GetListOf<object>(values, culture),
+			["object?"] = static (values, culture) => GetListOf<object?>(values, culture),
+		}.ToFrozenDictionary(StringComparer.Ordinal);
+
+	/// <summary>
+	/// Types that convert from a double via their own Convert method rather than through
+	/// Convert.ChangeType. Preserved from the original implementation.
+	/// </summary>
+	private static readonly FrozenDictionary<Type, Func<double, object>> DoubleConverters =
+		new Dictionary<Type, Func<double, object>>
+		{
+			[typeof(ulong)] = static value => Convert.ToUInt64(value),
+			[typeof(uint)] = static value => Convert.ToUInt32(value),
+			[typeof(ushort)] = static value => Convert.ToUInt16(value),
+			[typeof(sbyte)] = static value => Convert.ToSByte(value),
+		}.ToFrozenDictionary();
+
 	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
 		var typeString = functionArgs.Parameters.Evaluate(0) as string
 			?? throw new FormatException($"First {ExtensionFunction.ListOf} parameter must be a string.");
 
+		// The remaining parameters are evaluated before the type name is checked, as they were when
+		// this was a switch, so a parameter's side effects still happen for an unsupported type.
 		var remainingParameters = Enumerable
 			.Range(1, functionArgs.Parameters.Count - 1)
 			.Select(functionArgs.Parameters.Evaluate)
 			.ToArray();
-		switch (typeString)
+
+		if (!ListBuilders.TryGetValue(typeString, out var build))
 		{
-			case "sbyte":
-				functionArgs.Result = GetListOf<sbyte>(remainingParameters, cultureInfo);
-				return;
-			case "sbyte?":
-				functionArgs.Result = GetListOf<sbyte?>(remainingParameters, cultureInfo);
-				return;
-			case "byte":
-				functionArgs.Result = GetListOf<byte>(remainingParameters, cultureInfo);
-				return;
-			case "byte?":
-				functionArgs.Result = GetListOf<byte?>(remainingParameters, cultureInfo);
-				return;
-			case "short":
-				functionArgs.Result = GetListOf<short>(remainingParameters, cultureInfo);
-				return;
-			case "short?":
-				functionArgs.Result = GetListOf<short?>(remainingParameters, cultureInfo);
-				return;
-			case "ushort":
-				functionArgs.Result = GetListOf<ushort>(remainingParameters, cultureInfo);
-				return;
-			case "ushort?":
-				functionArgs.Result = GetListOf<ushort?>(remainingParameters, cultureInfo);
-				return;
-			case "int":
-				functionArgs.Result = GetListOf<int>(remainingParameters, cultureInfo);
-				return;
-			case "int?":
-				functionArgs.Result = GetListOf<int?>(remainingParameters, cultureInfo);
-				return;
-			case "uint":
-				functionArgs.Result = GetListOf<uint>(remainingParameters, cultureInfo);
-				return;
-			case "uint?":
-				functionArgs.Result = GetListOf<uint?>(remainingParameters, cultureInfo);
-				return;
-			case "long":
-				functionArgs.Result = GetListOf<long>(remainingParameters, cultureInfo);
-				return;
-			case "long?":
-				functionArgs.Result = GetListOf<long?>(remainingParameters, cultureInfo);
-				return;
-			case "ulong":
-				functionArgs.Result = GetListOf<ulong>(remainingParameters, cultureInfo);
-				return;
-			case "ulong?":
-				functionArgs.Result = GetListOf<ulong?>(remainingParameters, cultureInfo);
-				return;
-			case "float":
-				functionArgs.Result = GetListOf<float>(remainingParameters, cultureInfo);
-				return;
-			case "float?":
-				functionArgs.Result = GetListOf<float?>(remainingParameters, cultureInfo);
-				return;
-			case "double":
-				functionArgs.Result = GetListOf<double>(remainingParameters, cultureInfo);
-				return;
-			case "double?":
-				functionArgs.Result = GetListOf<double?>(remainingParameters, cultureInfo);
-				return;
-			case "decimal":
-				functionArgs.Result = GetListOf<decimal>(remainingParameters, cultureInfo);
-				return;
-			case "decimal?":
-				functionArgs.Result = GetListOf<decimal?>(remainingParameters, cultureInfo);
-				return;
-			case "string":
-				functionArgs.Result = GetListOf<string>(remainingParameters, cultureInfo);
-				return;
-			case "string?":
-				functionArgs.Result = GetListOf<string?>(remainingParameters, cultureInfo);
-				return;
-			case "object":
-				functionArgs.Result = GetListOf<object>(remainingParameters, cultureInfo);
-				return;
-			case "object?":
-				functionArgs.Result = GetListOf<object?>(remainingParameters, cultureInfo);
-				return;
-			default:
-				throw new FormatException($"First {ExtensionFunction.ListOf} parameter must be a string of a numeric or string type.");
+			throw new FormatException($"First {ExtensionFunction.ListOf} parameter must be a string of a numeric or string type.");
 		}
+
+		functionArgs.Result = build(remainingParameters, cultureInfo);
 	}
 
 	private static List<T> GetListOf<T>(object?[] remainingParameters, CultureInfo cultureInfo)
 	{
-		var list = new List<T>();
-		var targetType = typeof(T);
-		var underlyingType = Nullable.GetUnderlyingType(targetType);
-		var actualTargetType = underlyingType ?? targetType;
-
+		var list = new List<T>(remainingParameters.Length);
 		foreach (var value in remainingParameters)
 		{
-
-			if (targetType == typeof(object))
-			{
-				list.Add((T)value!);
-			}
-			else if (value == null)
-			{
-				if (underlyingType != null || !targetType.IsValueType)
-				{
-					list.Add(default!);
-				}
-				else
-				{
-					throw new FormatException($"Cannot convert null to non-nullable type {TypeHelper.AsHumanString<T>()}.");
-				}
-			}
-			else if (value is T tValue)
-			{
-				list.Add(tValue);
-			}
-			else
-			{
-				// Special handling for large unsigned types
-				if (actualTargetType == typeof(ulong) && value is double doubleValue)
-				{
-					list.Add((T)(object)Convert.ToUInt64(doubleValue));
-				}
-				else if (actualTargetType == typeof(uint) && value is double doubleValue2)
-				{
-					list.Add((T)(object)Convert.ToUInt32(doubleValue2));
-				}
-				else if (actualTargetType == typeof(ushort) && value is double doubleValue3)
-				{
-					list.Add((T)(object)Convert.ToUInt16(doubleValue3));
-				}
-				else if (actualTargetType == typeof(sbyte) && value is double doubleValue4)
-				{
-					list.Add((T)(object)Convert.ToSByte(doubleValue4));
-				}
-				else if (Convert.ChangeType(value, actualTargetType, cultureInfo) is var convertedValue)
-				{
-					list.Add((T)convertedValue!);
-				}
-				else
-				{
-					throw new FormatException($"Parameter must be of type {TypeHelper.AsHumanString<T>()}.");
-				}
-			}
+			list.Add(ConvertTo<T>(value, cultureInfo));
 		}
 
 		return list;
+	}
+
+	/// <summary>
+	/// Converts a single listOf() parameter to the list's element type.
+	/// </summary>
+	private static T ConvertTo<T>(object? value, CultureInfo cultureInfo)
+	{
+		var targetType = typeof(T);
+
+		// object and object? are the same type at runtime, and take any value unchanged.
+		if (targetType == typeof(object))
+		{
+			return (T)value!;
+		}
+
+		var underlyingType = Nullable.GetUnderlyingType(targetType);
+		if (value is null)
+		{
+			return underlyingType is not null || !targetType.IsValueType
+				? default!
+				: throw new FormatException($"Cannot convert null to non-nullable type {TypeHelper.AsHumanString<T>()}.");
+		}
+
+		if (value is T typedValue)
+		{
+			return typedValue;
+		}
+
+		var actualTargetType = underlyingType ?? targetType;
+		if (value is double doubleValue && DoubleConverters.TryGetValue(actualTargetType, out var convert))
+		{
+			return (T)convert(doubleValue);
+		}
+
+		// Convert.ChangeType throws for a value it cannot convert, which is the reported failure.
+		return (T)Convert.ChangeType(value, actualTargetType, cultureInfo)!;
 	}
 }
