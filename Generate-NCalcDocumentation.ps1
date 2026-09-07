@@ -7,7 +7,7 @@ $readmePath = Join-Path $repoRoot 'README.md'
 $docRoot = Join-Path $repoRoot 'Documentation'
 $mainReadme = Join-Path $docRoot 'README.md'
 
-function Normalize-Text {
+function ConvertTo-NormalizedText {
     param([string[]]$Lines)
 
     $text = ($Lines | ForEach-Object { if ($null -eq $_) { '' } else { $_.Trim() } } | Where-Object { $_ -ne '' }) -join ' '
@@ -124,11 +124,6 @@ function Get-ReturnTypeDisplay {
     }
 }
 
-if (Test-Path $docRoot) {
-    Remove-Item $docRoot -Recurse -Force
-}
-New-Item -ItemType Directory -Path $docRoot | Out-Null
-
 $lines = Get-Content $readmePath
 $functionStart = [Array]::FindIndex($lines, [Predicate[string]]{ param($line) $line.Trim() -eq '## Function documentation' })
 if ($functionStart -lt 0) {
@@ -167,6 +162,18 @@ if ($null -ne $currentName) {
     })
 }
 
+# Regenerating from zero sections would replace the whole Documentation folder with an empty
+# index, so treat it as an error rather than quietly deleting the documentation.
+if ($sections.Count -eq 0) {
+    throw "Found no '### <function>()' sections under '## Function documentation' in $readmePath. Documentation was left untouched."
+}
+
+# Only now that there is something to write is it safe to clear the output folder.
+if (Test-Path $docRoot) {
+    Remove-Item $docRoot -Recurse -Force
+}
+New-Item -ItemType Directory -Path $docRoot | Out-Null
+
 $frontIndex = New-Object System.Text.StringBuilder
 [void]$frontIndex.AppendLine('<table>')
 [void]$frontIndex.AppendLine('  <tr>')
@@ -186,9 +193,9 @@ foreach ($section in $sections) {
     $functionFolder = Join-Path $docRoot $functionFolderName
     New-Item -ItemType Directory -Path $functionFolder -Force | Out-Null
 
-    $purpose = Normalize-Text (Get-SectionBlock -Lines $section.Lines -Heading '#### Purpose')
-    $notes = Normalize-Text (Get-SectionBlock -Lines $section.Lines -Heading '#### Notes')
-    $parameters = Normalize-Text (Get-SectionBlock -Lines $section.Lines -Heading '#### Parameters')
+    $purpose = ConvertTo-NormalizedText (Get-SectionBlock -Lines $section.Lines -Heading '#### Purpose')
+    $notes = ConvertTo-NormalizedText (Get-SectionBlock -Lines $section.Lines -Heading '#### Notes')
+    $parameters = ConvertTo-NormalizedText (Get-SectionBlock -Lines $section.Lines -Heading '#### Parameters')
     $exampleBullets = Get-Bullets (Get-SectionBlock -Lines $section.Lines -Heading '#### Examples')
 
     $exampleRows = New-Object System.Collections.Generic.List[object]
@@ -275,4 +282,4 @@ foreach ($section in $sections) {
 
 Set-Content -Path $mainReadme -Value $frontIndex.ToString() -Encoding UTF8
 
-Write-Host "Generated documentation for $($sections.Count) functions under $docRoot"
+Write-Information "Generated documentation for $($sections.Count) functions under $docRoot" -InformationAction Continue

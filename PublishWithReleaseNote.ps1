@@ -49,7 +49,7 @@ function Assert-OnlyReleaseNotesChanges([string]$allowedRelativePath) {
 	}
 }
 
-function Update-ReleaseNotes([string]$path, [string]$targetVersion) {
+function Get-UpdatedReleaseNotes([string]$path, [string]$targetVersion) {
 	$content = Get-Content -Raw $path
 	$unreleasedPattern = '(?m)^## Unreleased\s*$'
 	if (-not [regex]::IsMatch($content, $unreleasedPattern)) {
@@ -84,10 +84,10 @@ try {
 
 	$currentVersion = Get-CurrentPackageVersion
 	$targetVersion = Get-NextPackageVersion $currentVersion
-	Write-Host "Current version: $currentVersion"
-	Write-Host "Target publish version after release notes commit: $targetVersion"
+	Write-Information "Current version: $currentVersion" -InformationAction Continue
+	Write-Information "Target publish version after release notes commit: $targetVersion" -InformationAction Continue
 
-	$updatedReleaseNotes = Update-ReleaseNotes $resolvedReleaseNotesPath $targetVersion
+	$updatedReleaseNotes = Get-UpdatedReleaseNotes $resolvedReleaseNotesPath $targetVersion
 	Set-Content -Path $resolvedReleaseNotesPath -Value $updatedReleaseNotes -NoNewline
 
 	git add -- $releaseNotesRelativePath
