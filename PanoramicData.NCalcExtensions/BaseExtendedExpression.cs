@@ -78,6 +78,33 @@ public abstract class BaseExtendedExpression : Expression
 		}
 	}
 
+	/// <summary>
+	/// Parses a typed definition's literal value, keyed by the definition's underlying type.
+	/// </summary>
+	/// <remarks>
+	/// A lookup table rather than a chain of 15 type tests, which carried no logic beyond choosing
+	/// the parser to call.
+	/// </remarks>
+	private static readonly FrozenDictionary<Type, Func<string, CultureInfo, object>> DefinitionValueParsers =
+		new Dictionary<Type, Func<string, CultureInfo, object>>
+		{
+			[typeof(string)] = static (value, _) => value,
+			[typeof(bool)] = static (value, _) => bool.Parse(value),
+			[typeof(Guid)] = static (value, _) => Guid.Parse(value),
+			[typeof(sbyte)] = static (value, culture) => sbyte.Parse(value, culture),
+			[typeof(byte)] = static (value, culture) => byte.Parse(value, culture),
+			[typeof(short)] = static (value, culture) => short.Parse(value, culture),
+			[typeof(ushort)] = static (value, culture) => ushort.Parse(value, culture),
+			[typeof(int)] = static (value, culture) => int.Parse(value, culture),
+			[typeof(uint)] = static (value, culture) => uint.Parse(value, culture),
+			[typeof(long)] = static (value, culture) => long.Parse(value, culture),
+			[typeof(ulong)] = static (value, culture) => ulong.Parse(value, culture),
+			[typeof(float)] = static (value, culture) => float.Parse(value, culture),
+			[typeof(double)] = static (value, culture) => double.Parse(value, culture),
+			[typeof(decimal)] = static (value, culture) => decimal.Parse(value, culture),
+			[typeof(DateTime)] = static (value, culture) => DateTime.Parse(value, culture),
+		}.ToFrozenDictionary();
+
 	protected object? ConvertDefinitionValue(string definitionName, TypedDefinition definition)
 	{
 		try
@@ -94,94 +121,20 @@ public abstract class BaseExtendedExpression : Expression
 
 			if (definition.IsNull)
 			{
-				if (!resolvedType.AllowsNull)
-				{
-					throw new FormatException($"{definitionName}: Type '{definition.TypeName}' does not allow null values.");
-				}
-
-				return null;
+				return resolvedType.AllowsNull
+					? null
+					: throw new FormatException($"{definitionName}: Type '{definition.TypeName}' does not allow null values.");
 			}
 
 			var valueString = definition.Value
 				?? throw new FormatException($"{definitionName}: A literal value was expected.");
-			var type = resolvedType.UnderlyingType;
-				
-			if (type == typeof(string))
+
+			if (!DefinitionValueParsers.TryGetValue(resolvedType.UnderlyingType, out var parse))
 			{
-				return valueString;
+				throw new FormatException($"{definitionName}: Type '{definition.TypeName}' is not supported for typed definitions.");
 			}
 
-			if (type == typeof(int))
-			{
-				return int.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(long))
-			{
-				return long.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(double))
-			{
-				return double.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(decimal))
-			{
-				return decimal.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(float))
-			{
-				return float.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(bool))
-			{
-				return bool.Parse(valueString);
-			}
-
-			if (type == typeof(DateTime))
-			{
-				return DateTime.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(Guid))
-			{
-				return Guid.Parse(valueString);
-			}
-
-			if (type == typeof(byte))
-			{
-				return byte.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(short))
-			{
-				return short.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(uint))
-			{
-				return uint.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(ulong))
-			{
-				return ulong.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(ushort))
-			{
-				return ushort.Parse(valueString, CultureInfo);
-			}
-
-			if (type == typeof(sbyte))
-			{
-				return sbyte.Parse(valueString, CultureInfo);
-			}
-
-			throw new FormatException($"{definitionName}: Type '{definition.TypeName}' is not supported for typed definitions.");
+			return parse(valueString, CultureInfo);
 		}
 		catch (Exception ex) when (ex is not FormatException)
 		{
@@ -233,313 +186,174 @@ public abstract class BaseExtendedExpression : Expression
 		}
 	}
 
+	/// <summary>
+	/// Evaluates one extension function, writing its result to <paramref name="functionArgs"/>.
+	/// </summary>
+	private delegate void FunctionHandler(BaseExtendedExpression expression, FunctionEventArgs functionArgs);
+
+	/// <summary>
+	/// Maps each extension function name to the handler that evaluates it.
+	/// </summary>
+	/// <remarks>
+	/// A lookup table rather than a switch statement: the dispatch carries no logic of its own, and
+	/// a table cannot fall through or omit a return the way a 100-case switch can. Entries are
+	/// grouped by what the function operates on, and alphabetical within each group.
+	/// </remarks>
+	private static readonly FrozenDictionary<string, FunctionHandler> FunctionHandlers = BuildFunctionHandlers();
+
+	private static FrozenDictionary<string, FunctionHandler> BuildFunctionHandlers()
+	{
+		var handlers = new Dictionary<string, FunctionHandler>(StringComparer.Ordinal);
+		AddSequenceHandlers(handlers);
+		AddTextHandlers(handlers);
+		AddDateAndTimeHandlers(handlers);
+		AddJsonAndObjectHandlers(handlers);
+		AddValueAndTypeHandlers(handlers);
+		AddControlFlowHandlers(handlers);
+		return handlers.ToFrozenDictionary(StringComparer.Ordinal);
+	}
+
+	/// <summary>Handlers for functions over sequences and collections.</summary>
+	private static void AddSequenceHandlers(Dictionary<string, FunctionHandler> handlers)
+	{
+		handlers[ExtensionFunction.All] = static (_, args) => All.Evaluate(args);
+		handlers[ExtensionFunction.Any] = static (_, args) => Any.Evaluate(args);
+		handlers[ExtensionFunction.Average] = static (_, args) => AverageFunction.Evaluate(args);
+		handlers[ExtensionFunction.Concat] = static (_, args) => Concat.Evaluate(args);
+		handlers[ExtensionFunction.Contains] = static (_, args) => Contains.Evaluate(args);
+		handlers[ExtensionFunction.Count] = static (_, args) => Count.Evaluate(args);
+		handlers[ExtensionFunction.CountBy] = static (_, args) => CountBy.Evaluate(args);
+		handlers[ExtensionFunction.Distinct] = static (_, args) => Distinct.Evaluate(args);
+		handlers[ExtensionFunction.First] = static (_, args) => First.Evaluate(args);
+		handlers[ExtensionFunction.FirstOrDefault] = static (_, args) => FirstOrDefault.Evaluate(args);
+		handlers[ExtensionFunction.Flatten] = static (_, args) => FlattenFunction.Evaluate(args);
+		handlers[ExtensionFunction.In] = static (_, args) => In.Evaluate(args);
+		handlers[ExtensionFunction.ItemAtIndex] = static (_, args) => ItemAtIndex.Evaluate(args);
+		handlers[ExtensionFunction.Join] = static (_, args) => Join.Evaluate(args);
+		handlers[ExtensionFunction.Last] = static (_, args) => Last.Evaluate(args);
+		handlers[ExtensionFunction.LastOrDefault] = static (_, args) => LastOrDefault.Evaluate(args);
+		handlers[ExtensionFunction.Length] = static (_, args) => Length.Evaluate(args);
+		handlers[ExtensionFunction.List] = static (_, args) => List.Evaluate(args);
+		handlers[ExtensionFunction.ListOf] = static (expression, args) => ListOf.Evaluate(args, expression.CultureInfo);
+		handlers[ExtensionFunction.Max] = static (_, args) => Max.Evaluate(args);
+		handlers[ExtensionFunction.Min] = static (_, args) => Min.Evaluate(args);
+		handlers[ExtensionFunction.OrderBy] = static (_, args) => OrderBy.Evaluate(args);
+		handlers[ExtensionFunction.Reverse] = static (_, args) => Reverse.Evaluate(args);
+		handlers[ExtensionFunction.Select] = static (_, args) => Extensions.Select.Evaluate(args);
+		handlers[ExtensionFunction.SelectDistinct] = static (_, args) => SelectDistinct.Evaluate(args);
+		handlers[ExtensionFunction.Skip] = static (_, args) => Skip.Evaluate(args);
+		handlers[ExtensionFunction.Sort] = static (_, args) => Sort.Evaluate(args);
+		handlers[ExtensionFunction.Sum] = static (_, args) => Sum.Evaluate(args);
+		handlers[ExtensionFunction.Take] = static (_, args) => Take.Evaluate(args);
+		handlers[ExtensionFunction.Where] = static (_, args) => Where.Evaluate(args);
+	}
+
+	/// <summary>Handlers for functions over strings and text.</summary>
+	private static void AddTextHandlers(Dictionary<string, FunctionHandler> handlers)
+	{
+		handlers[ExtensionFunction.Capitalise] = static (_, args) => Capitalize.Evaluate(args);
+		handlers[ExtensionFunction.Capitalize] = static (_, args) => Capitalize.Evaluate(args);
+		handlers[ExtensionFunction.EndsWith] = static (_, args) => EndsWith.Evaluate(args);
+		handlers[ExtensionFunction.Format] = static (expression, args) => Format.Evaluate(args, expression.CultureInfo);
+		handlers[ExtensionFunction.Humanise] = static (_, args) => Humanize.Evaluate(args);
+		handlers[ExtensionFunction.Humanize] = static (_, args) => Humanize.Evaluate(args);
+		handlers[ExtensionFunction.IndexOf] = static (_, args) => IndexOf.Evaluate(args);
+		handlers[ExtensionFunction.LastIndexOf] = static (_, args) => LastIndexOf.Evaluate(args);
+		handlers[ExtensionFunction.PadLeft] = static (_, args) => PadLeft.Evaluate(args);
+		handlers[ExtensionFunction.PadRight] = static (_, args) => PadRight.Evaluate(args);
+		handlers[ExtensionFunction.RegexGroup] = static (_, args) => RegexGroup.Evaluate(args);
+		handlers[ExtensionFunction.RegexIsMatch] = static (_, args) => RegexIsMatch.Evaluate(args);
+		handlers[ExtensionFunction.RegexReplace] = static (_, args) => RegexReplaceFunction.Evaluate(args);
+		handlers[ExtensionFunction.Repeat] = static (_, args) => RepeatFunction.Evaluate(args);
+		handlers[ExtensionFunction.Replace] = static (_, args) => Replace.Evaluate(args);
+		handlers[ExtensionFunction.Sanitize] = static (_, args) => Sanitize.Evaluate(args);
+		handlers[ExtensionFunction.Sha256] = static (_, args) => Sha256.Evaluate(args);
+		handlers[ExtensionFunction.Split] = static (_, args) => Split.Evaluate(args);
+		handlers[ExtensionFunction.StartsWith] = static (_, args) => StartsWith.Evaluate(args);
+		handlers[ExtensionFunction.Substring] = static (_, args) => Substring.Evaluate(args);
+		handlers[ExtensionFunction.TitleCase] = static (_, args) => TitleCaseFunction.Evaluate(args);
+		handlers[ExtensionFunction.ToLower] = static (_, args) => ToLower.Evaluate(args);
+		handlers[ExtensionFunction.ToString] = static (expression, args) => Extensions.ToString.Evaluate(args, expression.CultureInfo);
+		handlers[ExtensionFunction.ToUpper] = static (_, args) => ToUpper.Evaluate(args);
+		handlers[ExtensionFunction.Trim] = static (_, args) => Trim.Evaluate(args);
+		handlers[ExtensionFunction.Truncate] = static (_, args) => TruncateFunction.Evaluate(args);
+	}
+
+	/// <summary>Handlers for functions over dates, times and durations.</summary>
+	private static void AddDateAndTimeHandlers(Dictionary<string, FunctionHandler> handlers)
+	{
+		handlers[ExtensionFunction.ChangeTimeZone] = static (_, args) => ChangeTimeZone.Evaluate(args);
+		handlers[ExtensionFunction.DateAdd] = static (_, args) => DateAddMethods.Evaluate(args);
+		handlers[ExtensionFunction.DateTime] = static (expression, args) => DateTimeMethods.Evaluate(args, expression.CultureInfo);
+		handlers[ExtensionFunction.DateTimeAsEpoch] = static (expression, args) => DateTimeAsEpoch.Evaluate(args, expression.CultureInfo);
+		handlers[ExtensionFunction.DateTimeAsEpochMs] = static (expression, args) => DateTimeAsEpochMs.Evaluate(args, expression.CultureInfo);
+		handlers[ExtensionFunction.DateTimeIsInFuture] = static (expression, args) => DateTimeIsInFuture.Evaluate(args, expression._timeProvider);
+		handlers[ExtensionFunction.DateTimeIsInPast] = static (expression, args) => DateTimeIsInPast.Evaluate(args, expression._timeProvider);
+		handlers[ExtensionFunction.DateTimeIsInWindow] = static (expression, args) => DateTimeIsInWindow.Evaluate(args, expression._timeProvider);
+		handlers[ExtensionFunction.Now] = static (expression, args) => Now.Evaluate(args, expression._timeProvider);
+		handlers[ExtensionFunction.TimeSpan] = static (expression, args) => Extensions.TimeSpan.Evaluate(args, expression.CultureInfo);
+		handlers[ExtensionFunction.TimeSpanCamel] = static (expression, args) => Extensions.TimeSpan.Evaluate(args, expression.CultureInfo);
+		handlers[ExtensionFunction.ToDateTime] = static (expression, args) => ToDateTime.Evaluate(args, expression.CultureInfo);
+	}
+
+	/// <summary>Handlers for functions over JSON documents and object properties.</summary>
+	private static void AddJsonAndObjectHandlers(Dictionary<string, FunctionHandler> handlers)
+	{
+		handlers[ExtensionFunction.Dictionary] = static (_, args) => Dictionary.Evaluate(args);
+		handlers[ExtensionFunction.Extend] = static (_, args) => ExtendObject.Evaluate(args);
+		handlers[ExtensionFunction.GetProperties] = static (_, args) => GetProperties.Evaluate(args);
+		handlers[ExtensionFunction.GetProperty] = static (_, args) => GetProperty.Evaluate(args);
+		handlers[ExtensionFunction.JPath] = static (_, args) => JPath.Evaluate(args);
+		handlers[ExtensionFunction.NewJArray] = static (_, args) => NewJArray.Evaluate(args);
+		handlers[ExtensionFunction.NewJObject] = static (_, args) => NewJObject.Evaluate(args);
+		handlers[ExtensionFunction.NewJsonArray] = static (_, args) => NewJsonArray.Evaluate(args);
+		handlers[ExtensionFunction.NewJsonDocument] = static (_, args) => NewJsonDocument.Evaluate(args);
+		handlers[ExtensionFunction.SetProperties] = static (_, args) => SetProperties.Evaluate(args);
+	}
+
+	/// <summary>Handlers for functions over individual values, their types and conversions between them.</summary>
+	private static void AddValueAndTypeHandlers(Dictionary<string, FunctionHandler> handlers)
+	{
+		handlers[ExtensionFunction.Cast] = static (expression, args) => Cast.Evaluate(args, expression.CultureInfo);
+		handlers[ExtensionFunction.Clamp] = static (_, args) => ClampFunction.Evaluate(args);
+		handlers[ExtensionFunction.Convert] = static (_, args) => ConvertFunction.Evaluate(args);
+		handlers[ExtensionFunction.IsGuid] = static (_, args) => IsGuid.Evaluate(args);
+		handlers[ExtensionFunction.IsInfinite] = static (_, args) => IsInfinite.Evaluate(args);
+		handlers[ExtensionFunction.IsNaN] = static (_, args) => IsNaN.Evaluate(args);
+		handlers[ExtensionFunction.IsNull] = static (_, args) => IsNull.Evaluate(args);
+		handlers[ExtensionFunction.IsNullOrEmpty] = static (_, args) => IsNullOrEmpty.Evaluate(args);
+		handlers[ExtensionFunction.IsNullOrWhiteSpace] = static (_, args) => IsNullOrWhiteSpace.Evaluate(args);
+		handlers[ExtensionFunction.IsSet] = static (_, args) => IsSet.Evaluate(args);
+		handlers[ExtensionFunction.MaxValue] = static (_, args) => MaxValue.Evaluate(args);
+		handlers[ExtensionFunction.MinValue] = static (_, args) => MinValue.Evaluate(args);
+		handlers[ExtensionFunction.NullCoalesce] = static (_, args) => NullCoalesce.Evaluate(args);
+		handlers[ExtensionFunction.Parse] = static (_, args) => Parse.Evaluate(args);
+		handlers[ExtensionFunction.ParseInt] = static (_, args) => ParseInt.Evaluate(args);
+		handlers[ExtensionFunction.TryParse] = static (expression, args) => TryParse.Evaluate(args, expression.StorageDictionary);
+		handlers[ExtensionFunction.TypeOf] = static (_, args) => TypeOf.Evaluate(args);
+	}
+
+	/// <summary>Handlers for functions over control flow and stored state.</summary>
+	private static void AddControlFlowHandlers(Dictionary<string, FunctionHandler> handlers)
+	{
+		handlers[ExtensionFunction.CanEvaluate] = static (_, args) => CanEvaluate.Evaluate(args);
+		handlers[ExtensionFunction.If] = static (_, args) => Extensions.If.Evaluate(args);
+		handlers[ExtensionFunction.Retrieve] = static (_, args) => Retrieve.Evaluate(args);
+		handlers[ExtensionFunction.Store] = static (_, args) => Store.Evaluate(args);
+		handlers[ExtensionFunction.Switch] = static (_, args) => Switch.Evaluate(args);
+		handlers[ExtensionFunction.Throw] = static (_, args) => throw Throw.Evaluate(args);
+		handlers[ExtensionFunction.Try] = static (_, args) => Try.Evaluate(args);
+	}
+
 	internal void Extend(string functionName, FunctionEventArgs functionArgs)
 	{
 		ArgumentNullException.ThrowIfNull(functionArgs);
 
-		switch (functionName)
+		// A name with no handler is one of NCalc's own built-in functions. Leaving Result unset
+		// is what tells NCalc to evaluate it itself, so an unknown name is not an error here.
+		if (FunctionHandlers.TryGetValue(functionName, out var handler))
 		{
-			case ExtensionFunction.All:
-				All.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Any:
-				Any.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Average:
-				AverageFunction.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.CanEvaluate:
-				CanEvaluate.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Capitalise:
-			case ExtensionFunction.Capitalize:
-				Capitalize.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Cast:
-				Cast.Evaluate(functionArgs, CultureInfo);
-				return;
-			case ExtensionFunction.ChangeTimeZone:
-				ChangeTimeZone.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Clamp:
-				ClampFunction.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Concat:
-				Concat.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Contains:
-				Contains.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Convert:
-				ConvertFunction.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Count:
-				Count.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.CountBy:
-				CountBy.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.DateAdd:
-				DateAddMethods.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.DateTime:
-				DateTimeMethods.Evaluate(functionArgs, CultureInfo);
-				return;
-			case ExtensionFunction.DateTimeAsEpoch:
-				DateTimeAsEpoch.Evaluate(functionArgs, CultureInfo);
-				return;
-			case ExtensionFunction.DateTimeAsEpochMs:
-				DateTimeAsEpochMs.Evaluate(functionArgs, CultureInfo);
-				return;
-			case ExtensionFunction.DateTimeIsInPast:
-				DateTimeIsInPast.Evaluate(functionArgs, _timeProvider);
-				return;
-			case ExtensionFunction.DateTimeIsInFuture:
-				DateTimeIsInFuture.Evaluate(functionArgs, _timeProvider);
-				return;
-			case ExtensionFunction.DateTimeIsInWindow:
-				DateTimeIsInWindow.Evaluate(functionArgs, _timeProvider);
-				return;
-			case ExtensionFunction.Dictionary:
-				Dictionary.Evaluate(functionArgs);
-				break;
-			case ExtensionFunction.Distinct:
-				Distinct.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.EndsWith:
-				EndsWith.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Extend:
-				ExtendObject.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.First:
-				First.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.FirstOrDefault:
-				FirstOrDefault.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Flatten:
-				FlattenFunction.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Format:
-				Format.Evaluate(functionArgs, CultureInfo);
-				return;
-			case ExtensionFunction.GetProperty:
-				GetProperty.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.GetProperties:
-				GetProperties.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Humanise:
-			case ExtensionFunction.Humanize:
-				Humanize.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.In:
-				In.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.IndexOf:
-				IndexOf.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.If:
-				Extensions.If.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.IsGuid:
-				IsGuid.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.IsInfinite:
-				IsInfinite.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.IsNaN:
-				IsNaN.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.IsNull:
-				IsNull.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.IsNullOrEmpty:
-				IsNullOrEmpty.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.IsNullOrWhiteSpace:
-				IsNullOrWhiteSpace.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.IsSet:
-				IsSet.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.ItemAtIndex:
-				ItemAtIndex.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Join:
-				Join.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.JPath:
-				JPath.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Last:
-				Last.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.LastIndexOf:
-				LastIndexOf.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.LastOrDefault:
-				LastOrDefault.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Length:
-				Length.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.List:
-				List.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.ListOf:
-				ListOf.Evaluate(functionArgs, CultureInfo);
-				return;
-			case ExtensionFunction.Max:
-				Max.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.MaxValue:
-				MaxValue.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Min:
-				Min.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.MinValue:
-				MinValue.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Now:
-				Now.Evaluate(functionArgs, _timeProvider);
-				return;
-			case ExtensionFunction.NullCoalesce:
-				NullCoalesce.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.NewJArray:
-				NewJArray.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.NewJObject:
-				NewJObject.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.NewJsonDocument:
-				NewJsonDocument.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.NewJsonArray:
-				NewJsonArray.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.OrderBy:
-				OrderBy.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.PadLeft:
-				PadLeft.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.PadRight:
-				PadRight.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Parse:
-				Parse.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.ParseInt:
-				ParseInt.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.RegexGroup:
-				RegexGroup.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.RegexIsMatch:
-				RegexIsMatch.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.RegexReplace:
-				RegexReplaceFunction.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Replace:
-				Replace.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Repeat:
-				RepeatFunction.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Retrieve:
-				Retrieve.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Reverse:
-				Reverse.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Sanitize:
-				Sanitize.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Select:
-				Extensions.Select.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.SelectDistinct:
-				SelectDistinct.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.SetProperties:
-				SetProperties.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Sha256:
-				Sha256.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Skip:
-				Skip.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Sort:
-				Sort.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Split:
-				Split.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.StartsWith:
-				StartsWith.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Store:
-				Store.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Substring:
-				Substring.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Sum:
-				Sum.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Switch:
-				Switch.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Take:
-				Take.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Throw:
-				throw Throw.Evaluate(functionArgs);
-			case ExtensionFunction.TimeSpan:
-			case ExtensionFunction.TimeSpanCamel:
-				Extensions.TimeSpan.Evaluate(functionArgs, CultureInfo);
-				return;
-			case ExtensionFunction.ToDateTime:
-				ToDateTime.Evaluate(functionArgs, CultureInfo);
-				return;
-			case ExtensionFunction.TitleCase:
-				TitleCaseFunction.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.ToLower:
-				ToLower.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.ToString:
-				Extensions.ToString.Evaluate(functionArgs, CultureInfo);
-				return;
-			case ExtensionFunction.ToUpper:
-				ToUpper.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Trim:
-				Trim.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Truncate:
-				TruncateFunction.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Try:
-				Try.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.TryParse:
-				TryParse.Evaluate(functionArgs, StorageDictionary);
-				return;
-			case ExtensionFunction.TypeOf:
-				TypeOf.Evaluate(functionArgs);
-				return;
-			case ExtensionFunction.Where:
-				Where.Evaluate(functionArgs);
-				return;
-			default:
-				return;
+			handler(this, functionArgs);
 		}
 	}
 }
