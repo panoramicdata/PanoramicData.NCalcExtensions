@@ -20,40 +20,34 @@ public partial interface IFunctionPrototypes
 internal static class All
 {
 	internal static void Evaluate(FunctionEventArgs functionArgs)
-	{
-		switch (functionArgs.Parameters.Count)
+		=> functionArgs.Result = functionArgs.Parameters.Count switch
 		{
-			case 0:
-				// Vacuous truth: all() is true when no values are provided.
-				functionArgs.Result = true;
-				return;
-			case 1:
-				var list = functionArgs.Parameters.Evaluate(0) as IEnumerable<object?>
-					?? throw new FormatException($"First {ExtensionFunction.All} parameter must be an IEnumerable.");
+			// Vacuous truth: all() is true when no values are provided.
+			0 => true,
+			1 => GetList(functionArgs).All(value => JValueHelper.UnwrapJValue(value) as bool? == true),
+			3 => AllMatchLambda(functionArgs),
+			_ => throw new FormatException($"{ExtensionFunction.All} takes either 0, 1 or 3 parameters.")
+		};
 
-				functionArgs.Result = list.All(value => JValueHelper.UnwrapJValue(value) as bool? == true);
-				return;
-			case 3:
-				list = functionArgs.Parameters.Evaluate(0) as IEnumerable<object?>
-					?? throw new FormatException($"First {ExtensionFunction.All} parameter must be an IEnumerable.");
+	private static IEnumerable<object?> GetList(FunctionEventArgs functionArgs)
+		=> functionArgs.Parameters.Evaluate(0) as IEnumerable<object?>
+			?? throw new FormatException($"First {ExtensionFunction.All} parameter must be an IEnumerable.");
 
-				var predicate = functionArgs.Parameters.Evaluate(1) as string
-					?? throw new FormatException($"Second {ExtensionFunction.All} parameter must be a string.");
+	/// <summary>
+	/// Whether the lambda in parameters 2 and 3 evaluates to true for every value in the list.
+	/// </summary>
+	private static bool AllMatchLambda(FunctionEventArgs functionArgs)
+	{
+		var list = GetList(functionArgs);
 
-				var lambdaString = functionArgs.Parameters.Evaluate(2) as string
-					?? throw new FormatException($"Third {ExtensionFunction.All} parameter must be a string.");
+		var predicate = functionArgs.Parameters.Evaluate(1) as string
+			?? throw new FormatException($"Second {ExtensionFunction.All} parameter must be a string.");
 
-				var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
+			?? throw new FormatException($"Third {ExtensionFunction.All} parameter must be a string.");
 
-				functionArgs.Result = list
-					.All(value =>
-					{
-						var result = lambda.Evaluate(value) as bool?;
-						return result == true;
-					});
-				return;
-			default:
-				throw new FormatException($"{ExtensionFunction.All} takes either 0, 1 or 3 parameters.");
-		}
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+
+		return list.All(value => lambda.Evaluate(value) as bool? == true);
 	}
 }

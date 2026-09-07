@@ -72,25 +72,26 @@ internal sealed class ObjectKeyComparer : IComparer<object?>
 		=> ReferenceEquals(x, y) ? 0
 		: x is null ? -1
 		: y is null ? 1
-		: (TryToDouble(x, out var dx) && TryToDouble(y, out var dy)) ? dx.CompareTo(dy)
+		: AsDouble(x) is double dx && AsDouble(y) is double dy ? dx.CompareTo(dy)
 		: Comparer<object>.Default.Compare(x, y);
 
-	private static bool TryToDouble(object value, out double result)
+	/// <summary>
+	/// The value of <paramref name="value"/> as a double, or null if it is not a number. Numbers
+	/// are compared numerically; anything else falls back to the default comparer.
+	/// </summary>
+	private static double? AsDouble(object value) => value switch
 	{
-		switch (value)
-		{
-			case byte b: result = b; return true;
-			case sbyte sb: result = sb; return true;
-			case short s: result = s; return true;
-			case ushort us: result = us; return true;
-			case int i: result = i; return true;
-			case uint ui: result = ui; return true;
-			case long l: result = l; return true;
-			case ulong ul: result = ul; return true;
-			case float f: result = f; return true;
-			case double d: result = d; return true;
-			case decimal m: result = (double)m; return true;
-			default: result = 0; return false;
-		}
-	}
+		byte number => number,
+		sbyte number => number,
+		short number => number,
+		ushort number => number,
+		int number => number,
+		uint number => number,
+		long number => number,
+		ulong number => number,
+		float number => number,
+		double number => number,
+		decimal number => (double)number,
+		_ => null,
+	};
 }

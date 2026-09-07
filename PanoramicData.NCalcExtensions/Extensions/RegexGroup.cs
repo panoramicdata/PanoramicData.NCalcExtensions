@@ -37,28 +37,36 @@ internal static class RegexGroup
 				: 0;
 
 			var regex = RegexCache.GetOrAdd(regexExpression, static pattern => new Regex(pattern));
-				var match = regex.Match(input);
-				if (!match.Success)
-				{
-					functionArgs.Result = null;
-				}
-				else
-				{
-					// Flatten captures across all groups (1..N) in order so that
-					// multi-group patterns can be indexed across all their captures.
-					var allCaptures = Enumerable
-						.Range(1, match.Groups.Count - 1)
-						.SelectMany(i => match.Groups[i].Captures.Cast<Capture>())
-						.ToList();
-
-					functionArgs.Result = regexCaptureIndex >= allCaptures.Count
-						? null
-						: allCaptures[regexCaptureIndex].Value;
-				}
+			functionArgs.Result = GetCapture(regex.Match(input), regexCaptureIndex);
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.RegexGroup}() requires string parameters.");
 		}
+	}
+
+	/// <summary>
+	/// The capture at <paramref name="captureIndex"/>, or null if the match failed or there is no
+	/// capture at that index.
+	/// </summary>
+	/// <remarks>
+	/// Captures are flattened across all groups (1..N) in order, so that multi-group patterns can
+	/// be indexed across all their captures.
+	/// </remarks>
+	private static string? GetCapture(Match match, int captureIndex)
+	{
+		if (!match.Success)
+		{
+			return null;
+		}
+
+		var allCaptures = Enumerable
+			.Range(1, match.Groups.Count - 1)
+			.SelectMany(groupIndex => match.Groups[groupIndex].Captures.Cast<Capture>())
+			.ToList();
+
+		return captureIndex >= allCaptures.Count
+			? null
+			: allCaptures[captureIndex].Value;
 	}
 }

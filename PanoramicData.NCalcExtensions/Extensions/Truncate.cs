@@ -41,21 +41,29 @@ internal static class TruncateFunction
 					?? throw new FormatException($"{ExtensionFunction.Truncate}() parameter 3 must be a string.")
 				: string.Empty;
 
-			if (text.Length <= maxLength)
-			{
-				functionArgs.Result = text;
-				return;
-			}
-
-			// If ellipsis is longer than maxLength, just clip without ellipsis
-			var trimmedLength = maxLength - ellipsis.Length;
-			functionArgs.Result = trimmedLength <= 0
-				? text[..maxLength]
-				: text[..trimmedLength] + ellipsis;
+			functionArgs.Result = Shorten(text, maxLength, ellipsis);
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.Truncate}() requires a string parameter 1 and an integer parameter 2.");
 		}
+	}
+
+	/// <summary>
+	/// Shortens <paramref name="text"/> to at most <paramref name="maxLength"/> characters,
+	/// appending <paramref name="ellipsis"/> within that budget.
+	/// </summary>
+	private static string Shorten(string text, int maxLength, string ellipsis)
+	{
+		if (text.Length <= maxLength)
+		{
+			return text;
+		}
+
+		// If the ellipsis is longer than maxLength, just clip without the ellipsis.
+		var trimmedLength = maxLength - ellipsis.Length;
+		return trimmedLength <= 0
+			? text[..maxLength]
+			: text[..trimmedLength] + ellipsis;
 	}
 }

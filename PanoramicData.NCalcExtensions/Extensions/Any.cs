@@ -20,38 +20,33 @@ public partial interface IFunctionPrototypes
 internal static class Any
 {
 	internal static void Evaluate(FunctionEventArgs functionArgs)
-	{
-		switch (functionArgs.Parameters.Count)
+		=> functionArgs.Result = functionArgs.Parameters.Count switch
 		{
-			case 0:
-				throw new FormatException($"At least one parameter must be provided for {ExtensionFunction.Any}.");
-			case 1:
-				var list = functionArgs.Parameters.Evaluate(0) as IEnumerable<object?>
-					?? throw new FormatException($"First {ExtensionFunction.Any} parameter must be an IEnumerable.");
+			0 => throw new FormatException($"At least one parameter must be provided for {ExtensionFunction.Any}."),
+			1 => GetList(functionArgs).Any(),
+			3 => AnyMatchesLambda(functionArgs),
+			_ => throw new FormatException($"{ExtensionFunction.Any} takes either 1 or 3 parameters.")
+		};
 
-				functionArgs.Result = list.Any();
-				return;
-			case 3:
-				list = functionArgs.Parameters.Evaluate(0) as IEnumerable<object?>
-					?? throw new FormatException($"First {ExtensionFunction.Any} parameter must be an IEnumerable.");
+	private static IEnumerable<object?> GetList(FunctionEventArgs functionArgs)
+		=> functionArgs.Parameters.Evaluate(0) as IEnumerable<object?>
+			?? throw new FormatException($"First {ExtensionFunction.Any} parameter must be an IEnumerable.");
 
-				var predicate = functionArgs.Parameters.Evaluate(1) as string
-					?? throw new FormatException($"Second {ExtensionFunction.Any} parameter must be a string.");
+	/// <summary>
+	/// Whether the lambda in parameters 2 and 3 evaluates to true for any value in the list.
+	/// </summary>
+	private static bool AnyMatchesLambda(FunctionEventArgs functionArgs)
+	{
+		var list = GetList(functionArgs);
 
-				var lambdaString = functionArgs.Parameters.Evaluate(2) as string
-					?? throw new FormatException($"Third {ExtensionFunction.Any} parameter must be a string.");
+		var predicate = functionArgs.Parameters.Evaluate(1) as string
+			?? throw new FormatException($"Second {ExtensionFunction.Any} parameter must be a string.");
 
-				var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
+			?? throw new FormatException($"Third {ExtensionFunction.Any} parameter must be a string.");
 
-				functionArgs.Result = list
-					.Any(value =>
-					{
-						var result = lambda.Evaluate(value) as bool?;
-						return result == true;
-					});
-				return;
-			default:
-				throw new FormatException($"{ExtensionFunction.Any} takes either 1 or 3 parameters.");
-		}
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+
+		return list.Any(value => lambda.Evaluate(value) as bool? == true);
 	}
 }

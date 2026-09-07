@@ -25,20 +25,15 @@ internal static class Replace
 {
 	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		// Input checks
-		switch (functionArgs.Parameters.Count)
+		// Input checks: a haystack plus one or more needle/replacement pairs.
+		if (functionArgs.Parameters.Count < 3)
 		{
-			case 0:
-			case 1:
-			case 2:
-				throw new FormatException($"{ExtensionFunction.Replace}() requires at least three string parameters.");
-			default:
-				if (functionArgs.Parameters.Count % 2 == 0)
-				{
-					throw new FormatException($"{ExtensionFunction.Replace}() requires an odd number of string parameters.");
-				}
-				// All good
-				break;
+			throw new FormatException($"{ExtensionFunction.Replace}() requires at least three string parameters.");
+		}
+
+		if (functionArgs.Parameters.Count % 2 == 0)
+		{
+			throw new FormatException($"{ExtensionFunction.Replace}() requires an odd number of string parameters.");
 		}
 
 		var haystackString = functionArgs.Parameters.Evaluate(0) as string

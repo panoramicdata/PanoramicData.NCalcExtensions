@@ -117,9 +117,7 @@ internal static class ListOf
 		var underlyingType = Nullable.GetUnderlyingType(targetType);
 		if (value is null)
 		{
-			return underlyingType is not null || !targetType.IsValueType
-				? default!
-				: throw new FormatException($"Cannot convert null to non-nullable type {TypeHelper.AsHumanString<T>()}.");
+			return DefaultOrThrow<T>(targetType, underlyingType);
 		}
 
 		if (value is T typedValue)
@@ -136,4 +134,12 @@ internal static class ListOf
 		// Convert.ChangeType throws for a value it cannot convert, which is the reported failure.
 		return (T)Convert.ChangeType(value, actualTargetType, cultureInfo)!;
 	}
+
+	/// <summary>
+	/// The default value for a nullable element type. A null is not convertible to anything else.
+	/// </summary>
+	private static T DefaultOrThrow<T>(Type targetType, Type? underlyingType)
+		=> underlyingType is not null || !targetType.IsValueType
+			? default!
+			: throw new FormatException($"Cannot convert null to non-nullable type {TypeHelper.AsHumanString<T>()}.");
 }
