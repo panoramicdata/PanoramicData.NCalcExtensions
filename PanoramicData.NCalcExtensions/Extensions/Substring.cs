@@ -26,73 +26,90 @@ internal static class Substring
 	private const string ModeNull = "null";
 	private const string ModeClip = "clip";
 
+	private const string SyntaxMessage =
+		ExtensionFunction.Substring + "() requires a string parameter and one or two numeric parameters.";
+
 	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		try
 		{
 			var input = functionArgs.Parameters.Evaluate(0) as string
-				?? throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
+				?? throw new FormatException(SyntaxMessage);
 
 			if (functionArgs.Parameters.Evaluate(1) is not int startIndex)
 			{
-				throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
+				throw new FormatException(SyntaxMessage);
 			}
 
-			int? length = null;
-			if (functionArgs.Parameters.Count > 2)
-			{
-				var thirdArg = functionArgs.Parameters.Evaluate(2);
-				if (thirdArg is not int lengthValue)
-				{
-					throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
-				}
+			var length = ReadLength(functionArgs);
+			var mode = ReadMode(functionArgs);
 
-				length = lengthValue;
-			}
-
-			var mode = functionArgs.Parameters.Count > 3
-				? functionArgs.Parameters.Evaluate(3) as string
-				: null;
-
-			var modeNormalised = mode?.Trim().ToLowerInvariant() ?? ModeError;
-
-			// Validate negative length regardless of mode
+			// A negative length is rejected regardless of mode.
 			if (length < 0)
 			{
-				throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
+				throw new FormatException(SyntaxMessage);
 			}
 
-			// Check bounds
-			var outOfBounds = startIndex < 0 || startIndex > input.Length;
-			if (outOfBounds)
-			{
-				switch (modeNormalised)
-				{
-					case ModeEmpty:
-						functionArgs.Result = string.Empty;
-						return;
-					case ModeNull:
-						functionArgs.Result = null;
-						return;
-					case ModeClip:
-						startIndex = Math.Clamp(startIndex, 0, input.Length);
-						break;
-					case ModeError:
-					default:
-						throw new FormatException(
-							$"{ExtensionFunction.Substring}() start index {startIndex} is out of bounds for a string of length {input.Length}. " +
-							$"Use mode 'Clip', 'Empty' or 'Null' to handle out-of-bounds starts without error.");
-				}
-			}
-
-			functionArgs.Result = length.HasValue
-				? input.Substring(startIndex, Math.Min(length.Value, input.Length - startIndex))
-				: input[startIndex..];
+			functionArgs.Result = Cut(input, startIndex, length, mode);
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
-			throw new FormatException($"{ExtensionFunction.Substring}() requires a string parameter and one or two numeric parameters.");
+			throw new FormatException(SyntaxMessage);
 		}
 	}
+
+	/// <summary>
+	/// The optional length parameter, or null if it was not supplied.
+	/// </summary>
+	private static int? ReadLength(FunctionEventArgs functionArgs)
+	{
+		if (functionArgs.Parameters.Count <= 2)
+		{
+			return null;
+		}
+
+		return functionArgs.Parameters.Evaluate(2) is int lengthValue
+			? lengthValue
+			: throw new FormatException(SyntaxMessage);
+	}
+
+	/// <summary>
+	/// The optional out-of-bounds mode, normalised, defaulting to <see cref="ModeError"/>.
+	/// </summary>
+	private static string ReadMode(FunctionEventArgs functionArgs)
+	{
+		var mode = functionArgs.Parameters.Count > 3
+			? functionArgs.Parameters.Evaluate(3) as string
+			: null;
+
+		return mode?.Trim().ToLowerInvariant() ?? ModeError;
+	}
+
+	private static string? Cut(string input, int startIndex, int? length, string mode)
+		=> startIndex < 0 || startIndex > input.Length
+			? OutOfBounds(input, startIndex, length, mode)
+			: Slice(input, startIndex, length);
+
+	/// <summary>
+	/// Applies the out-of-bounds mode for a start index outside the string.
+	/// </summary>
+	private static string? OutOfBounds(string input, int startIndex, int? length, string mode) => mode switch
+	{
+		ModeEmpty => string.Empty,
+		ModeNull => null,
+		ModeClip => Slice(input, Math.Clamp(startIndex, 0, input.Length), length),
+		_ => throw new FormatException(
+			$"{ExtensionFunction.Substring}() start index {startIndex} is out of bounds for a string of length {input.Length}. " +
+			$"Use mode 'Clip', 'Empty' or 'Null' to handle out-of-bounds starts without error."),
+	};
+
+	/// <summary>
+	/// The substring from <paramref name="startIndex"/>, clamped to the characters available.
+	/// </summary>
+	private static string Slice(string input, int startIndex, int? length)
+		=> length.HasValue
+			? input.Substring(startIndex, Math.Min(length.Value, input.Length - startIndex))
+			: input[startIndex..];
+
 }
 

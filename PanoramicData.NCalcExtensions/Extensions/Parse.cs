@@ -37,6 +37,71 @@ public partial interface IFunctionPrototypes
 
 internal static class Parse
 {
+	/// <summary>
+	/// A type's TryParse method, as used by <see cref="AddValueType{T}"/>.
+	/// </summary>
+	private delegate bool TryParseValue<T>(string? text, out T value);
+
+	/// <summary>
+	/// The type names parse() accepts, mapped to the parser for each. Every parser throws
+	/// FormatException for text it cannot parse, which is what selects the fallback value.
+	/// </summary>
+	/// <remarks>
+	/// A lookup table rather than a 17-arm switch that repeated the same failure message once
+	/// per supported type. Matching is case-sensitive and ordinal, as the switch was.
+	/// </remarks>
+	private static readonly FrozenDictionary<string, Func<string, object?>> Parsers = BuildParsers();
+
+	private static FrozenDictionary<string, Func<string, object?>> BuildParsers()
+	{
+		var parsers = new Dictionary<string, Func<string, object?>>(StringComparer.Ordinal);
+		AddValueType<bool>(parsers, bool.TryParse, "bool", "System.Boolean");
+		AddValueType<sbyte>(parsers, sbyte.TryParse, "sbyte", "System.SByte");
+		AddValueType<byte>(parsers, byte.TryParse, "byte", "System.Byte");
+		AddValueType<short>(parsers, short.TryParse, "short", "System.Int16");
+		AddValueType<ushort>(parsers, ushort.TryParse, "ushort", "System.UInt16");
+		AddValueType<int>(parsers, int.TryParse, "int", "System.Int32");
+		AddValueType<uint>(parsers, uint.TryParse, "uint", "System.UInt32");
+		AddValueType<long>(parsers, long.TryParse, "long", "System.Int64");
+		AddValueType<ulong>(parsers, ulong.TryParse, "ulong", "System.UInt64");
+		AddValueType<double>(parsers, double.TryParse, "double", "System.Double");
+		AddValueType<float>(parsers, float.TryParse, "float", "System.Single");
+		AddValueType<decimal>(parsers, decimal.TryParse, "decimal", "System.Decimal");
+		AddValueType<Guid>(parsers, Guid.TryParse, "Guid", "System.Guid");
+		parsers["JObject"] = ParseJObject;
+		parsers["jObject"] = ParseJObject;
+		parsers["Newtonsoft.Json.Linq.JObject"] = ParseJObject;
+		parsers["JArray"] = ParseJArray;
+		parsers["jArray"] = ParseJArray;
+		parsers["Newtonsoft.Json.Linq.JArray"] = ParseJArray;
+		parsers["JsonDocument"] = ParseJsonDocument;
+		parsers["jsonDocument"] = ParseJsonDocument;
+		parsers["System.Text.Json.JsonDocument"] = ParseJsonDocument;
+		parsers["JsonArray"] = ParseJsonArray;
+		parsers["jsonArray"] = ParseJsonArray;
+		return parsers.ToFrozenDictionary(StringComparer.Ordinal);
+	}
+
+	/// <summary>
+	/// Registers <paramref name="tryParse"/> under each of <paramref name="typeNames"/>.
+	/// </summary>
+	/// <remarks>
+	/// The failure message names the type as the caller spelled it, so each alias gets its own
+	/// parser rather than sharing one.
+	/// </remarks>
+	private static void AddValueType<T>(
+		Dictionary<string, Func<string, object?>> parsers,
+		TryParseValue<T> tryParse,
+		params string[] typeNames)
+	{
+		foreach (var typeName in typeNames)
+		{
+			parsers[typeName] = text => tryParse(text, out var value)
+				? value
+				: throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeName}'.");
+		}
+	}
+
 	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		if (functionArgs.Parameters.Count < 2)
@@ -44,53 +109,23 @@ internal static class Parse
 			throw new FormatException($"{ExtensionFunction.Parse} function - requires at least two string parameters.");
 		}
 
-		var parameterIndex = 0;
-		var typeString = functionArgs.Parameters.Evaluate(parameterIndex++) as string
+		var typeString = functionArgs.Parameters.Evaluate(0) as string
 			?? throw new FormatException($"{ExtensionFunction.Parse} function - first parameter should be a string.");
-		var text = functionArgs.Parameters.Evaluate(parameterIndex++) as string
+		var text = functionArgs.Parameters.Evaluate(1) as string
 			?? throw new FormatException($"{ExtensionFunction.Parse} function - second parameter should be a string.");
+
 		try
 		{
-			functionArgs.Result = typeString switch
-			{
-				"bool" or "System.Boolean" => bool.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"sbyte" or "System.SByte" => sbyte.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"byte" or "System.Byte" => byte.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"short" or "System.Int16" => short.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"ushort" or "System.UInt16" => ushort.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"int" or "System.Int32" => int.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"uint" or "System.UInt32" => uint.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"long" or "System.Int64" => long.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"ulong" or "System.UInt64" => ulong.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"double" or "System.Double" => double.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"float" or "System.Single" => float.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"decimal" or "System.Decimal" => decimal.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"Guid" or "System.Guid" => Guid.TryParse(text, out var result) ? result
-					 : throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeString}'."),
-				"JObject" or "jObject" or "Newtonsoft.Json.Linq.JObject" => ParseJObject(text),
-				"JArray" or "jArray" or "Newtonsoft.Json.Linq.JArray" => ParseJArray(text),
-				"JsonDocument" or "jsonDocument" or "System.Text.Json.JsonDocument" => ParseJsonDocument(text),
-				"JsonArray" or "jsonArray" => ParseJsonArray(text),
-				_ => throw new FormatException($"type '{typeString}' not supported.")
-			};
+			functionArgs.Result = Parsers.TryGetValue(typeString, out var parse)
+				? parse(text)
+				: throw new FormatException($"type '{typeString}' not supported.");
 		}
 		catch (FormatException e)
 		{
+			// A third parameter is the value to fall back to when the text does not parse.
 			if (functionArgs.Parameters.Count >= 3)
 			{
-				functionArgs.Result = functionArgs.Parameters.Evaluate(parameterIndex);
+				functionArgs.Result = functionArgs.Parameters.Evaluate(2);
 				return;
 			}
 
