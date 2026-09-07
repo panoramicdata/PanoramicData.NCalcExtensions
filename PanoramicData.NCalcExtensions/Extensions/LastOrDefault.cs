@@ -22,37 +22,9 @@ public partial interface IFunctionPrototypes
 internal static class LastOrDefault
 {
 	internal static void Evaluate(FunctionEventArgs functionArgs)
-	{
-		var enumerable = functionArgs.Parameters.Evaluate(0) as IList
-			?? throw new FormatException($"First {ExtensionFunction.LastOrDefault} parameter must be an IEnumerable.");
-
-		// If there is only 1 parameter, return the last element of the enumerable
-		if (functionArgs.Parameters.Count == 1)
-		{
-			functionArgs.Result = enumerable.Count == 0 ? null : JValueHelper.UnwrapJValue(enumerable[enumerable.Count - 1]);
-			return;
-		}
-
-		var predicate = functionArgs.Parameters.Evaluate(1) as string
-			?? throw new FormatException($"Second {ExtensionFunction.LastOrDefault} parameter must be a string.");
-
-		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
-			?? throw new FormatException($"Third {ExtensionFunction.LastOrDefault} parameter must be a string.");
-
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
-
-		var reversedEnumerable = enumerable.Cast<object?>().Reverse();
-
-		foreach (var value in reversedEnumerable)
-		{
-			if (lambda.Evaluate(value) as bool? == true)
-			{
-				functionArgs.Result = JValueHelper.UnwrapJValue(value);
-				return;
-			}
-		}
-
-		functionArgs.Result = null;
-	}
+		=> ElementSelection.Evaluate(
+			functionArgs,
+			ExtensionFunction.LastOrDefault,
+			fromEnd: true,
+			allowMissing: true);
 }
-
