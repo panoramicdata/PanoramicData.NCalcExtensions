@@ -2,6 +2,24 @@ namespace PanoramicData.NCalcExtensions.Test;
 
 public class DateAddTests : NCalcTest
 {
+	/// <summary>
+	/// A valid initial DateTime, for the tests that vary one of the other arguments.
+	/// </summary>
+	private static readonly DateTime InitialDateTime = new(2023, 12, 05, 05, 00, 01);
+
+	/// <summary>
+	/// Evaluates dateAdd() with the given arguments supplied as parameters.
+	/// </summary>
+	private static object? DateAdd(object initialDateTime, object quantity, object units)
+	{
+		var expression = new ExtendedExpression("dateAdd(initialDateTime, quantity, units)");
+		expression.Parameters.Add("units", units);
+		expression.Parameters.Add("quantity", quantity);
+		expression.Parameters.Add("initialDateTime", initialDateTime);
+
+		return expression.Evaluate();
+	}
+
 	[Theory]
 	[InlineData("2023-12-05T05:00:01Z", 250, "milliseconds", "2023-12-05T05:00:01.250Z")]
 	[InlineData("2023-12-05T05:00:01Z", 250, "Milliseconds", "2023-12-05T05:00:01.250Z")]
@@ -15,18 +33,11 @@ public class DateAddTests : NCalcTest
 	[InlineData("2023-12-05T05:00:01Z", 1, "years", "2024-12-05T05:00:01Z")]
 	public void DateAdd_ParameterizedInput_GivesExpectedOutput(string initialDateAndTime, int quantity, string units, string expectedDateAndTime)
 	{
-		var recognised = DateTime.TryParse(initialDateAndTime, out var initialDateTime);
-		recognised.Should().BeTrue();
+		DateTime.TryParse(initialDateAndTime, out var initialDateTime).Should().BeTrue();
+		DateTime.TryParse(expectedDateAndTime, out var expectedDateTime).Should().BeTrue();
 
-		recognised = DateTime.TryParse(expectedDateAndTime, out var expectedDateTime);
-		recognised.Should().BeTrue();
+		var result = DateAdd(initialDateTime, quantity, units);
 
-		var expression = new ExtendedExpression("dateAdd(initialDateTime, quantity, units)");
-		expression.Parameters.Add("units", units);
-		expression.Parameters.Add("quantity", quantity);
-		expression.Parameters.Add("initialDateTime", initialDateTime);
-
-		var result = expression.Evaluate();
 		result.Should().BeOfType<DateTime>();
 		result.Should().Be(expectedDateTime);
 	}
@@ -37,79 +48,42 @@ public class DateAddTests : NCalcTest
 	[InlineData("2023-12-05T05:00:01Z", 1, "weeks")]
 	public void DateAdd_UnknownUnits_ThrowsFormatException(string initialDateAndTime, int quantity, string units)
 	{
-		var recognised = DateTime.TryParse(initialDateAndTime, out var initialDateTime);
-		recognised.Should().BeTrue();
+		DateTime.TryParse(initialDateAndTime, out var initialDateTime).Should().BeTrue();
 
-		var expression = new ExtendedExpression("dateAdd(initialDateTime, quantity, units)");
-		expression.Parameters.Add("units", units);
-		expression.Parameters.Add("quantity", quantity);
-		expression.Parameters.Add("initialDateTime", initialDateTime);
+		var action = () => DateAdd(initialDateTime, quantity, units);
 
-		var action = () => expression.Evaluate();
 		action.Should().Throw<FormatException>();
 	}
 
 	[Fact]
 	public void DateAdd_SubtractionBeyondMinDateTime_ThrowsArgumentOutOfRangeException()
 	{
-		var units = "Years";
-		var quantity = -1000000;
-		var initialDateTime = new DateTime(2023, 12, 05, 05, 00, 01);
+		var action = () => DateAdd(InitialDateTime, -1000000, "Years");
 
-		var expression = new ExtendedExpression("dateAdd(initialDateTime, quantity, units)");
-		expression.Parameters.Add("units", units);
-		expression.Parameters.Add("quantity", quantity);
-		expression.Parameters.Add("initialDateTime", initialDateTime);
-
-		var action = () => expression.Evaluate();
 		action.Should().Throw<ArgumentOutOfRangeException>();
 	}
 
 	[Fact]
 	public void DateAdd_IncorrectUnitsDataType_ThrowsFormatException()
 	{
-		var units = 1;
-		var quantity = 1;
-		var initialDateTime = new DateTime(2023, 12, 05, 05, 00, 01);
+		var action = () => DateAdd(InitialDateTime, 1, 1);
 
-		var expression = new ExtendedExpression("dateAdd(initialDateTime, quantity, units)");
-		expression.Parameters.Add("units", units);
-		expression.Parameters.Add("quantity", quantity);
-		expression.Parameters.Add("initialDateTime", initialDateTime);
-
-		var action = () => expression.Evaluate();
 		action.Should().Throw<FormatException>();
 	}
 
 	[Fact]
 	public void DateAdd_IncorrectQuantityDataType_ThrowsFormatException()
 	{
-		var units = "Hours";
-		var quantity = "Hours";
-		var initialDateTime = new DateTime(2023, 12, 05, 05, 00, 01);
+		var action = () => DateAdd(InitialDateTime, "Hours", "Hours");
 
-		var expression = new ExtendedExpression("dateAdd(initialDateTime, quantity, units)");
-		expression.Parameters.Add("units", units);
-		expression.Parameters.Add("quantity", quantity);
-		expression.Parameters.Add("initialDateTime", initialDateTime);
-
-		var action = () => expression.Evaluate();
 		action.Should().Throw<FormatException>();
 	}
 
 	[Fact]
 	public void DateAdd_IncorrectDateTimeDataType_ThrowsFormatException()
 	{
-		var units = "Hours";
-		var quantity = 1;
-		var initialDateTime = new DateTime(2023, 12, 05, 05, 00, 01).ToString(CultureInfo.InvariantCulture);
+		var action = () => DateAdd(InitialDateTime.ToString(CultureInfo.InvariantCulture), 1, "Hours");
 
-		var expression = new ExtendedExpression("dateAdd(initialDateTime, quantity, units)");
-		expression.Parameters.Add("units", units);
-		expression.Parameters.Add("quantity", quantity);
-		expression.Parameters.Add("initialDateTime", initialDateTime);
-
-		var action = () => expression.Evaluate();
 		action.Should().Throw<FormatException>();
 	}
 }
