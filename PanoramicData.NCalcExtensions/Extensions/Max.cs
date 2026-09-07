@@ -31,81 +31,90 @@ internal static class Max
 			return;
 		}
 
-		var originalList = originalListUntyped as IEnumerable ?? throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable.");
+		var originalList = originalListUntyped as IEnumerable
+			?? throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable.");
 
 		if (functionArgs.Parameters.Count == 1)
 		{
-			functionArgs.Result = originalList switch
-			{
-				IEnumerable<sbyte> list => list.Max(),
-				IEnumerable<sbyte?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<byte> list => list.Max(),
-				IEnumerable<byte?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<short> list => list.Max(),
-				IEnumerable<short?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<ushort> list => list.Max(),
-				IEnumerable<ushort?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<int> list => list.Max(),
-				IEnumerable<int?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<uint> list => list.Max(),
-				IEnumerable<uint?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<long> list => list.Max(),
-				IEnumerable<long?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<ulong> list => list.Max(),
-				IEnumerable<ulong?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<float> list => list.Max(),
-				IEnumerable<float?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<double> list => list.Max(),
-				IEnumerable<double?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<decimal> list => list.Max(),
-				IEnumerable<decimal?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<string?> list => list.DefaultIfEmpty(null).Max(),
-				IEnumerable<object?> list when list.All(x => x is string or null) => list.DefaultIfEmpty(null).Max(x => x as string),
-				IEnumerable<object?> list => GetMax(list),
-				_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a numeric or string type if only one parameter is present.")
-			};
-
+			functionArgs.Result = MaxOf(originalList);
 			return;
 		}
 
 		var predicate = functionArgs.Parameters.Evaluate(1) as string
-			 ?? throw new FormatException($"Second {ExtensionFunction.Max} parameter must be a string.");
+			?? throw new FormatException($"Second {ExtensionFunction.Max} parameter must be a string.");
 
 		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
-			 ?? throw new FormatException($"Third {ExtensionFunction.Max} parameter must be a string.");
+			?? throw new FormatException($"Third {ExtensionFunction.Max} parameter must be a string.");
 
 		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
 
-		functionArgs.Result = originalList switch
-		{
-			IEnumerable<sbyte> list => list.Max(lambda.EvaluateTo<sbyte, sbyte>),
-			IEnumerable<sbyte?> list => list.Max(lambda.EvaluateTo<sbyte?, sbyte?>),
-			IEnumerable<byte> list => list.Max(lambda.EvaluateTo<byte, byte>),
-			IEnumerable<byte?> list => list.Max(lambda.EvaluateTo<byte?, byte?>),
-			IEnumerable<short> list => list.Max(lambda.EvaluateTo<short, short>),
-			IEnumerable<short?> list => list.Max(lambda.EvaluateTo<short?, short?>),
-			IEnumerable<ushort> list => list.Max(lambda.EvaluateTo<ushort, ushort>),
-			IEnumerable<ushort?> list => list.Max(lambda.EvaluateTo<ushort?, ushort?>),
-			IEnumerable<int> list => list.Max(lambda.EvaluateTo<int, int>),
-			IEnumerable<int?> list => list.Max(lambda.EvaluateTo<int?, int?>),
-			IEnumerable<uint> list => list.Max(lambda.EvaluateTo<uint, uint>),
-			IEnumerable<uint?> list => list.Max(lambda.EvaluateTo<uint?, uint?>),
-			IEnumerable<long> list => list.Max(lambda.EvaluateTo<long, long>),
-			IEnumerable<long?> list => list.Max(lambda.EvaluateTo<long?, long?>),
-			IEnumerable<ulong> list => list.Max(lambda.EvaluateTo<ulong, ulong>),
-			IEnumerable<ulong?> list => list.Max(lambda.EvaluateTo<ulong?, ulong?>),
-			IEnumerable<float> list => list.Max(lambda.EvaluateTo<float, float>),
-			IEnumerable<float?> list => list.Max(lambda.EvaluateTo<float?, float?>),
-			IEnumerable<double> list => list.Max(lambda.EvaluateTo<double, double>),
-			IEnumerable<double?> list => list.Max(lambda.EvaluateTo<double?, double?>),
-			IEnumerable<decimal> list => list.Max(lambda.EvaluateTo<decimal, decimal>),
-			IEnumerable<decimal?> list => list.Max(lambda.EvaluateTo<decimal?, decimal?>),
-			IEnumerable<string?> list => list.Max(lambda.EvaluateTo<string?, string?>),
-			IEnumerable<object?> list => GetMax(list.Select(value => lambda.Evaluate(value))),
-			_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a string or numeric type when processing as a lambda.")
-		};
-
+		functionArgs.Result = MaxOf(originalList, lambda);
 	}
+
+	/// <summary>
+	/// The maximum of the list's own values.
+	/// </summary>
+	private static object? MaxOf(IEnumerable originalList) => originalList switch
+	{
+		IEnumerable<sbyte> list => list.Max(),
+		IEnumerable<sbyte?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<byte> list => list.Max(),
+		IEnumerable<byte?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<short> list => list.Max(),
+		IEnumerable<short?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<ushort> list => list.Max(),
+		IEnumerable<ushort?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<int> list => list.Max(),
+		IEnumerable<int?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<uint> list => list.Max(),
+		IEnumerable<uint?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<long> list => list.Max(),
+		IEnumerable<long?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<ulong> list => list.Max(),
+		IEnumerable<ulong?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<float> list => list.Max(),
+		IEnumerable<float?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<double> list => list.Max(),
+		IEnumerable<double?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<decimal> list => list.Max(),
+		IEnumerable<decimal?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<string?> list => list.DefaultIfEmpty(null).Max(),
+		IEnumerable<object?> list when list.All(x => x is string or null) => list.DefaultIfEmpty(null).Max(x => x as string),
+		IEnumerable<object?> list => GetMax(list),
+		_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a numeric or string type if only one parameter is present.")
+	};
+
+	/// <summary>
+	/// The maximum of <paramref name="lambda"/> applied to each of the list's values.
+	/// </summary>
+	private static object? MaxOf(IEnumerable originalList, Lambda lambda) => originalList switch
+	{
+		IEnumerable<sbyte> list => list.Max(lambda.EvaluateTo<sbyte, sbyte>),
+		IEnumerable<sbyte?> list => list.Max(lambda.EvaluateTo<sbyte?, sbyte?>),
+		IEnumerable<byte> list => list.Max(lambda.EvaluateTo<byte, byte>),
+		IEnumerable<byte?> list => list.Max(lambda.EvaluateTo<byte?, byte?>),
+		IEnumerable<short> list => list.Max(lambda.EvaluateTo<short, short>),
+		IEnumerable<short?> list => list.Max(lambda.EvaluateTo<short?, short?>),
+		IEnumerable<ushort> list => list.Max(lambda.EvaluateTo<ushort, ushort>),
+		IEnumerable<ushort?> list => list.Max(lambda.EvaluateTo<ushort?, ushort?>),
+		IEnumerable<int> list => list.Max(lambda.EvaluateTo<int, int>),
+		IEnumerable<int?> list => list.Max(lambda.EvaluateTo<int?, int?>),
+		IEnumerable<uint> list => list.Max(lambda.EvaluateTo<uint, uint>),
+		IEnumerable<uint?> list => list.Max(lambda.EvaluateTo<uint?, uint?>),
+		IEnumerable<long> list => list.Max(lambda.EvaluateTo<long, long>),
+		IEnumerable<long?> list => list.Max(lambda.EvaluateTo<long?, long?>),
+		IEnumerable<ulong> list => list.Max(lambda.EvaluateTo<ulong, ulong>),
+		IEnumerable<ulong?> list => list.Max(lambda.EvaluateTo<ulong?, ulong?>),
+		IEnumerable<float> list => list.Max(lambda.EvaluateTo<float, float>),
+		IEnumerable<float?> list => list.Max(lambda.EvaluateTo<float?, float?>),
+		IEnumerable<double> list => list.Max(lambda.EvaluateTo<double, double>),
+		IEnumerable<double?> list => list.Max(lambda.EvaluateTo<double?, double?>),
+		IEnumerable<decimal> list => list.Max(lambda.EvaluateTo<decimal, decimal>),
+		IEnumerable<decimal?> list => list.Max(lambda.EvaluateTo<decimal?, decimal?>),
+		IEnumerable<string?> list => list.Max(lambda.EvaluateTo<string?, string?>),
+		IEnumerable<object?> list => GetMax(list.Select(value => lambda.Evaluate(value))),
+		_ => throw new FormatException($"First {ExtensionFunction.Max} parameter must be an IEnumerable of a string or numeric type when processing as a lambda.")
+	};
 
 	private static IComparable GetMax(IEnumerable<object?> objectList)
 	{

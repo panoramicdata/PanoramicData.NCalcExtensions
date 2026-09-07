@@ -28,18 +28,7 @@ internal static class Sum
 
 		if (functionArgs.Parameters.Count == 1)
 		{
-			functionArgs.Result = originalList switch
-			{
-				IEnumerable<byte> list => (byte)list.Select(l => (int)l).Sum(),
-				IEnumerable<short> list => (short)list.Select(l => (int)l).Sum(),
-				IEnumerable<int> list => list.Sum(),
-				IEnumerable<long> list => list.Sum(),
-				IEnumerable<float> list => list.Sum(),
-				IEnumerable<double> list => list.Sum(),
-				IEnumerable<decimal> list => list.Sum(),
-				IEnumerable<object?> list => GetSum(list),
-				_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type if only one parameter is present. Received a {originalList.GetType().Name}.")
-			};
+			functionArgs.Result = SumOf(originalList);
 			return;
 		}
 
@@ -51,19 +40,40 @@ internal static class Sum
 
 		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
 
-		functionArgs.Result = originalList switch
-		{
-			IEnumerable<byte> byteList => byteList.Select(l => (int)l).Sum(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<short> shortList => shortList.Select(l => (int)l).Sum(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<int> intList => intList.Sum(value => (int?)lambda.Evaluate(value)),
-			IEnumerable<long> longList => longList.Sum(value => (long?)lambda.Evaluate(value)),
-			IEnumerable<float> floatList => floatList.Sum(value => (float?)lambda.Evaluate(value)),
-			IEnumerable<double> doubleList => doubleList.Sum(value => (double?)lambda.Evaluate(value)),
-			IEnumerable<decimal> decimalList => decimalList.Sum(value => (decimal?)lambda.Evaluate(value)),
-			IEnumerable<object?> list => GetSum(list.Select(value => lambda.Evaluate(value))),
-			_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.   Received a {originalList.GetType().Name}<{string.Join(", ", originalList.GetType().GetGenericArguments().Select(t => t.Name))}>.")
-		};
+		functionArgs.Result = SumOf(originalList, lambda);
 	}
+
+	/// <summary>
+	/// The sum of the list's own values.
+	/// </summary>
+	private static object? SumOf(object originalList) => originalList switch
+	{
+		IEnumerable<byte> list => (byte)list.Select(l => (int)l).Sum(),
+		IEnumerable<short> list => (short)list.Select(l => (int)l).Sum(),
+		IEnumerable<int> list => list.Sum(),
+		IEnumerable<long> list => list.Sum(),
+		IEnumerable<float> list => list.Sum(),
+		IEnumerable<double> list => list.Sum(),
+		IEnumerable<decimal> list => list.Sum(),
+		IEnumerable<object?> list => GetSum(list),
+		_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type if only one parameter is present. Received a {originalList.GetType().Name}.")
+	};
+
+	/// <summary>
+	/// The sum of <paramref name="lambda"/> applied to each of the list's values.
+	/// </summary>
+	private static object? SumOf(object originalList, Lambda lambda) => originalList switch
+	{
+		IEnumerable<byte> byteList => byteList.Select(l => (int)l).Sum(value => (int?)lambda.Evaluate(value)),
+		IEnumerable<short> shortList => shortList.Select(l => (int)l).Sum(value => (int?)lambda.Evaluate(value)),
+		IEnumerable<int> intList => intList.Sum(value => (int?)lambda.Evaluate(value)),
+		IEnumerable<long> longList => longList.Sum(value => (long?)lambda.Evaluate(value)),
+		IEnumerable<float> floatList => floatList.Sum(value => (float?)lambda.Evaluate(value)),
+		IEnumerable<double> doubleList => doubleList.Sum(value => (double?)lambda.Evaluate(value)),
+		IEnumerable<decimal> decimalList => decimalList.Sum(value => (decimal?)lambda.Evaluate(value)),
+		IEnumerable<object?> list => GetSum(list.Select(value => lambda.Evaluate(value))),
+		_ => throw new FormatException($"First {ExtensionFunction.Sum} parameter must be an IEnumerable of a numeric type.   Received a {originalList.GetType().Name}<{string.Join(", ", originalList.GetType().GetGenericArguments().Select(t => t.Name))}>.")
+	};
 
 	private static double GetSum(IEnumerable<object?> objectList)
 	{
