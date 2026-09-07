@@ -183,11 +183,7 @@ public abstract class BaseExtendedExpression : Expression
 
 			throw new FormatException($"{definitionName}: Type '{definition.TypeName}' is not supported for typed definitions.");
 		}
-		catch (FormatException)
-		{
-			throw;
-		}
-		catch (Exception ex)
+		catch (Exception ex) when (ex is not FormatException)
 		{
 			throw new FormatException($"{definitionName}: Failed to parse value '{definition.Value}' as type '{definition.TypeName}'. {ex.Message}", ex);
 		}

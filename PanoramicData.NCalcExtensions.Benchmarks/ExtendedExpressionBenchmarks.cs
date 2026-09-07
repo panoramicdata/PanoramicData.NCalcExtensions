@@ -37,8 +37,6 @@ length(
 	private ExtendedExpression? _whereExpression;
 	private ExtendedExpression? _regexExpression;
 	private ExtendedExpression? _getPropertyExpression;
-	private JsonDocument? _getPropertyDocument;
-	private ExtendedExpressionDocument? _document;
 
 	[GlobalSetup(Target = nameof(Evaluate_ExtendedExpression_Reused))]
 	public void SetupExtendedExpression()
@@ -49,10 +47,10 @@ length(
 	[GlobalSetup(Target = nameof(Evaluate_SimpleExtendedExpression_Reused))]
 	public void SetupSimpleExtendedExpression()
 	{
-		_document = ExtendedExpressionDocumentParser.Parse(ExpressionText);
+		var document = ExtendedExpressionDocumentParser.Parse(ExpressionText);
 		_simpleExtendedExpression = new SimpleExtendedExpression(
-			_document.TidiedExpression,
-			_document,
+			document.TidiedExpression,
+			document,
 			ExpressionOptions.None,
 			CultureInfo.InvariantCulture);
 	}
@@ -63,8 +61,7 @@ length(
 		_whereExpression = new ExtendedExpression(WhereExpressionText, ExpressionOptions.None, CultureInfo.InvariantCulture);
 		_regexExpression = new ExtendedExpression(RegexExpressionText, ExpressionOptions.None, CultureInfo.InvariantCulture);
 		_getPropertyExpression = new ExtendedExpression("getProperty(doc, 'age')", ExpressionOptions.None, CultureInfo.InvariantCulture);
-		_getPropertyDocument = JsonDocument.Parse("{\"name\":\"John\",\"age\":30,\"active\":true}");
-		_getPropertyExpression.Parameters["doc"] = _getPropertyDocument;
+		_getPropertyExpression.Parameters["doc"] = JsonDocument.Parse("{\"name\":\"John\",\"age\":30,\"active\":true}");
 	}
 
 	[Benchmark]

@@ -223,7 +223,7 @@ public class CountByTests
 	public void CountBy_WithArray_Works()
 	{
 		var expression = new ExtendedExpression("countBy(myArray, 'n', 'toString(n)')");
-		expression.Parameters["myArray"] = new int[] { 1, 2, 2, 3 };
+		expression.Parameters["myArray"] = new[] { 1, 2, 2, 3 };
 		var result = expression.Evaluate() as JObject;
 		result.Should().NotBeNull();
 		result!["1"]!.Value<int>().Should().Be(1);

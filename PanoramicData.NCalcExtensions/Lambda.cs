@@ -36,7 +36,7 @@ public class Lambda
 		else
 		{
 			// If the result is null and TResult is a nullable type, return default
-			if (resultObject == null && (default(TResult) == null || Nullable.GetUnderlyingType(typeof(TResult)) != null))
+			if (resultObject == null && (!typeof(TResult).IsValueType || Nullable.GetUnderlyingType(typeof(TResult)) != null))
 			{
 				return default!;
 			}
@@ -51,9 +51,5 @@ public class Lambda
 		}
 	}
 
-	private static object? UnwrapValue<T>(T value) => value switch
-	{
-		JValue jValue => jValue.Value,
-		_ => value
-	};
+	private static object? UnwrapValue<T>(T value) => value is JValue jValue ? jValue.Value : value;
 }

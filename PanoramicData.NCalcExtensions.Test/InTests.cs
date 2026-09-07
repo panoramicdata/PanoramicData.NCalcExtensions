@@ -241,7 +241,7 @@ public class InTests
 	{
 		var expression = new ExtendedExpression("in(ThingToFind, Haystack)");
 		expression.Parameters["ThingToFind"] = 3;
-		expression.Parameters["Haystack"] = new int[] { 1, 2, 3, 4 };
+		expression.Parameters["Haystack"] = new[] { 1, 2, 3, 4 };
 		expression.Evaluate().Should().Be(true);
 	}
 }

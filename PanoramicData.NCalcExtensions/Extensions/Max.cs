@@ -37,7 +37,6 @@ internal static class Max
 		{
 			functionArgs.Result = originalList switch
 			{
-				null => null,
 				IEnumerable<sbyte> list => list.Max(),
 				IEnumerable<sbyte?> list => list.DefaultIfEmpty(null).Max(),
 				IEnumerable<byte> list => list.Max(),

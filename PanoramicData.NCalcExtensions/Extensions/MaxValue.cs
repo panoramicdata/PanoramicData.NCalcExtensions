@@ -43,7 +43,5 @@ internal static class MaxValue
 			"DateTimeOffset" => DateTimeOffset.MaxValue,
 			_ => throw new FormatException(ErrorMessage)
 		};
-
-		return;
 	}
 }

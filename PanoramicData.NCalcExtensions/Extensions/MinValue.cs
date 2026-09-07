@@ -43,7 +43,5 @@ internal static class MinValue
 			"DateTimeOffset" => DateTimeOffset.MinValue,
 			_ => throw new FormatException(ErrorMessage)
 		};
-
-		return;
 	}
 }

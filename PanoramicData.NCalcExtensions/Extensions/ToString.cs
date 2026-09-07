@@ -23,20 +23,20 @@ internal static class ToString
 		switch (parameterCount)
 		{
 			case 1:
-				var parameter1 = functionArgs.Parameters.Evaluate(0);
-				functionArgs.Result = parameter1 switch
-				{
-					null => null,
-					object @object => @object.ToString()
-				};
+				functionArgs.Result = functionArgs.Parameters.Evaluate(0)?.ToString();
 				break;
 			case 2:
 				var parameter1a = functionArgs.Parameters.Evaluate(0);
 				var parameter2 = functionArgs.Parameters.Evaluate(1) as string
 					?? throw new FormatException($"{ExtensionFunction.ToString} function -  requires a string as the second parameter.");
+				if (parameter1a is null)
+				{
+					functionArgs.Result = null;
+					break;
+				}
+
 				functionArgs.Result = parameter1a switch
 				{
-					null => null,
 					byte value => value.ToString(parameter2, cultureInfo),
 					int value => value.ToString(parameter2, cultureInfo),
 					uint value => value.ToString(parameter2, cultureInfo),

@@ -50,7 +50,7 @@ internal static class SetProperties
 {
 	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		if (functionArgs.Parameters.Count % 2 != 1)
+		if (functionArgs.Parameters.Count % 2 == 0)
 		{
 			throw new FormatException($"{ExtensionFunction.SetProperties}() requires an odd number of parameters.");
 		}

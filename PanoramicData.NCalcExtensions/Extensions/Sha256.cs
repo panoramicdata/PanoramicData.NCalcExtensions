@@ -20,21 +20,13 @@ internal static class Sha256
 {
 	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
-		var parameterCount = functionArgs.Parameters.Count;
-		switch (parameterCount)
+		if (functionArgs.Parameters.Count != 1 || functionArgs.Parameters.Evaluate(0) is not string text)
 		{
-			case 1:
-				var parameter1 = functionArgs.Parameters.Evaluate(0);
-				functionArgs.Result = parameter1 switch
-				{
-					// The SHA 256 of the string
-					string text => GetSha256(text),
-					_ => throw new FormatException($"{ExtensionFunction.Sha256} function -  requires one string parameter")
-				};
-				break;
-			default:
-				throw new FormatException($"{ExtensionFunction.Sha256} function -  requires one string parameter");
+			throw new FormatException($"{ExtensionFunction.Sha256} function -  requires one string parameter");
 		}
+
+		// The SHA 256 of the string
+		functionArgs.Result = GetSha256(text);
 	}
 
 	private static string GetSha256(string text)

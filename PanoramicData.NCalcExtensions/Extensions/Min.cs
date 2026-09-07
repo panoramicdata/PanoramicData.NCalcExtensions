@@ -37,7 +37,6 @@ internal static class Min
 		{
 			functionArgs.Result = originalList switch
 			{
-				null => null,
 				IEnumerable<sbyte> list => list.Min(),
 				IEnumerable<sbyte?> list => list.DefaultIfEmpty(null).Min(),
 				IEnumerable<byte> list => list.Min(),

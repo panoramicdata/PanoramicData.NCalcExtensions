@@ -12,9 +12,5 @@ internal static class JValueHelper
 	/// </summary>
 	/// <param name="value">The value to potentially unwrap</param>
 	/// <returns>The unwrapped value or the original value</returns>
-	internal static object? UnwrapJValue(object? value) => value switch
-	{
-		JValue jValue => jValue.Value,
-		_ => value
-	};
+	internal static object? UnwrapJValue(object? value) => value is JValue jValue ? jValue.Value : value;
 }

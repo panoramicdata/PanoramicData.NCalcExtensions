@@ -37,22 +37,27 @@ internal static class GetProperty
 					{
 						var jToken = jObject[property];
 
-						functionArgs.Result = jToken?.Type switch
+						if (jToken is null || jToken.Type is JTokenType.Null or JTokenType.Undefined)
 						{
-							null or JTokenType.Null or JTokenType.Undefined => null,
-							JTokenType.Object => (JObject)jToken!,
-							JTokenType.Array => (JArray)jToken!,
-							JTokenType.Constructor => (JConstructor)jToken!,
-							JTokenType.Property => (JProperty)jToken!,
-							JTokenType.Comment => (JValue)jToken!,
-							JTokenType.Integer => jToken!.Value<int>(),
-							JTokenType.Float => jToken!.Value<float>(),
-							JTokenType.String => jToken!.Value<string>(),
-							JTokenType.Boolean => jToken!.Value<bool>(),
-							JTokenType.Date => jToken!.Value<DateTime>(),
-							JTokenType.Raw or JTokenType.Bytes => (JValue)jToken!,
-							JTokenType.Guid => jToken!.Value<Guid>(),
-							_ => throw new NotSupportedException("Unsupported JTokenType: " + jToken!.Type)
+							functionArgs.Result = null;
+							break;
+						}
+
+						functionArgs.Result = jToken.Type switch
+						{
+							JTokenType.Object => (JObject)jToken,
+							JTokenType.Array => (JArray)jToken,
+							JTokenType.Constructor => (JConstructor)jToken,
+							JTokenType.Property => (JProperty)jToken,
+							JTokenType.Comment => (JValue)jToken,
+							JTokenType.Integer => jToken.Value<int>(),
+							JTokenType.Float => jToken.Value<float>(),
+							JTokenType.String => jToken.Value<string>(),
+							JTokenType.Boolean => jToken.Value<bool>(),
+							JTokenType.Date => jToken.Value<DateTime>(),
+							JTokenType.Raw or JTokenType.Bytes => (JValue)jToken,
+							JTokenType.Guid => jToken.Value<Guid>(),
+							_ => throw new NotSupportedException("Unsupported JTokenType: " + jToken.Type)
 						};
 						break;
 					}
