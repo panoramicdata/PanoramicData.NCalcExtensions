@@ -15,6 +15,20 @@ public class TryParseTests
 			.Should()
 			.ThrowExactly<FormatException>();
 
+	// An unsupported type name used to surface as IndexOutOfRangeException: the 'not supported'
+	// FormatException was caught by a fallback handler that then read a fourth parameter tryParse()
+	// does not have.
+	[Theory]
+	[InlineData("xxx")]
+	[InlineData("System.Object")]
+	[InlineData("INT")]
+	public void TryParse_UnsupportedType_ThrowsFormatException(string typeName)
+		=> new ExtendedExpression($"tryParse('{typeName}', '1', 'outputVariable')")
+			.Invoking(e => e.Evaluate())
+			.Should()
+			.ThrowExactly<FormatException>()
+			.WithMessage($"type '{typeName}' not supported.");
+
 	[Theory]
 	[InlineData("short")]
 	[InlineData("ushort")]
