@@ -27,8 +27,12 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
 
+    # xunit.v3 4.x test projects are self-hosting Microsoft.Testing.Platform apps. `dotnet test`
+    # on the .NET 10 SDK drives them over the MTP server protocol, which this MTP version does
+    # not negotiate correctly (it reports "Zero tests ran", exit code 5). Running the test app
+    # directly uses the in-process runner and reports real results and exit codes.
     - name: Test
-      run: dotnet test --configuration Release --no-build --verbosity normal
+      run: dotnet run --project PanoramicData.NCalcExtensions.Test/PanoramicData.NCalcExtensions.Test.csproj --configuration Release --no-build
 
     - name: Pack
       run: dotnet pack --configuration Release --no-build --output ./artifacts
