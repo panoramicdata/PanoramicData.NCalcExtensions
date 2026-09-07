@@ -6,23 +6,17 @@ namespace PanoramicData.NCalcExtensions.Test;
 /// Tests to verify that JValue objects are properly unwrapped to their underlying values
 /// across all functions that work with JArrays
 /// </summary>
-public class JValueUnwrappingTests
+public class JValueUnwrappingTests : NCalcTest
 {
 	#region itemAtIndex Tests
 
 	[Fact]
 	public void ItemAtIndex_JArrayWithEmptyString_ReturnsString()
-	{
-		var expression = new ExtendedExpression("itemAtIndex(jArray('a', ''), 1)");
-		expression.Evaluate().Should().BeOfType<string>();
-	}
+		=> Test("itemAtIndex(jArray('a', ''), 1)").Should().BeOfType<string>();
 
 	[Fact]
 	public void ItemAtIndex_JArrayWithEmptyString_EqualsEmptyString()
-	{
-		var expression = new ExtendedExpression("itemAtIndex(jArray('a', ''), 1) == ''");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("itemAtIndex(jArray('a', ''), 1) == ''").Should().Be(true);
 
 	[Fact]
 	public void ItemAtIndex_JArrayWithString_ReturnsString()
@@ -44,10 +38,7 @@ public class JValueUnwrappingTests
 
 	[Fact]
 	public void ItemAtIndex_JArrayWithNull_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("itemAtIndex(jArray('a', null, 'c'), 1)");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("itemAtIndex(jArray('a', null, 'c'), 1)").Should().BeNull();
 
 	[Fact]
 	public void ItemAtIndex_JArrayWithBoolean_ReturnsBoolean()
@@ -73,10 +64,7 @@ public class JValueUnwrappingTests
 
 	[Fact]
 	public void First_JArrayWithEmptyString_ReturnsEmptyString()
-	{
-		var expression = new ExtendedExpression("first(jArray('', 'b'))");
-		expression.Evaluate().Should().Be("");
-	}
+		=> Test("first(jArray('', 'b'))").Should().Be("");
 
 	[Fact]
 	public void First_JArrayWithLambda_ReturnsUnwrappedValue()
@@ -98,17 +86,11 @@ public class JValueUnwrappingTests
 
 	[Fact]
 	public void FirstOrDefault_JArrayNoMatch_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(jArray(1, 2, 3), 'n', 'n > 10')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("firstOrDefault(jArray(1, 2, 3), 'n', 'n > 10')").Should().BeNull();
 
 	[Fact]
 	public void FirstOrDefault_EmptyJArray_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(jArray())");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("firstOrDefault(jArray())").Should().BeNull();
 
 	#endregion
 
@@ -125,10 +107,7 @@ public class JValueUnwrappingTests
 
 	[Fact]
 	public void Last_JArrayWithEmptyString_ReturnsEmptyString()
-	{
-		var expression = new ExtendedExpression("last(jArray('a', ''))");
-		expression.Evaluate().Should().Be("");
-	}
+		=> Test("last(jArray('a', ''))").Should().Be("");
 
 	[Fact]
 	public void Last_JArrayWithLambda_ReturnsUnwrappedValue()
@@ -150,17 +129,11 @@ public class JValueUnwrappingTests
 
 	[Fact]
 	public void LastOrDefault_JArrayNoMatch_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("lastOrDefault(jArray(1, 2, 3), 'n', 'n > 10')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("lastOrDefault(jArray(1, 2, 3), 'n', 'n > 10')").Should().BeNull();
 
 	[Fact]
 	public void LastOrDefault_EmptyJArray_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("lastOrDefault(jArray())");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("lastOrDefault(jArray())").Should().BeNull();
 
 	#endregion
 
@@ -307,31 +280,19 @@ public class JValueUnwrappingTests
 
 	[Fact]
 	public void All_JArrayOfBooleans_ReturnsCorrectResult()
-	{
-		var expression = new ExtendedExpression("all(jArray(true, true, true))");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(jArray(true, true, true))").Should().Be(true);
 
 	[Fact]
 	public void All_JArrayWithLambda_WorksCorrectly()
-	{
-		var expression = new ExtendedExpression("all(jArray(2, 4, 6), 'n', 'n % 2 == 0')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(jArray(2, 4, 6), 'n', 'n % 2 == 0')").Should().Be(true);
 
 	[Fact]
 	public void Any_JArrayOfNumbers_WorksCorrectly()
-	{
-		var expression = new ExtendedExpression("any(jArray(1, 3, 5, 6), 'n', 'n % 2 == 0')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("any(jArray(1, 3, 5, 6), 'n', 'n % 2 == 0')").Should().Be(true);
 
 	[Fact]
 	public void Any_JArrayOfStrings_WorksCorrectly()
-	{
-		var expression = new ExtendedExpression("any(jArray('cat', 'dog', 'bird'), 's', 'startsWith(s, \"d\")')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("any(jArray('cat', 'dog', 'bird'), 's', 'startsWith(s, \"d\")')").Should().Be(true);
 
 	#endregion
 
@@ -339,17 +300,11 @@ public class JValueUnwrappingTests
 
 	[Fact]
 	public void Count_JArray_ReturnsCorrectCount()
-	{
-		var expression = new ExtendedExpression("count(jArray(1, 2, 3, 4, 5))");
-		expression.Evaluate().Should().Be(5);
-	}
+		=> Test("count(jArray(1, 2, 3, 4, 5))").Should().Be(5);
 
 	[Fact]
 	public void Count_JArrayWithLambda_ReturnsCorrectCount()
-	{
-		var expression = new ExtendedExpression("count(jArray(1, 2, 3, 4, 5), 'n', 'n > 3')");
-		expression.Evaluate().Should().Be(2);
-	}
+		=> Test("count(jArray(1, 2, 3, 4, 5), 'n', 'n > 3')").Should().Be(2);
 
 	#endregion
 
@@ -478,8 +433,7 @@ public class JValueUnwrappingTests
 
 	[Fact]
 	public void EmptyString_ThroughMultipleOperations_PreservesValue()
-	{
-		var expression = new ExtendedExpression(@"
+		=> Test(@"
 			itemAtIndex(
 				select(
 					where(
@@ -491,30 +445,19 @@ public class JValueUnwrappingTests
 					's'
 				),
 				0
-			)");
-		expression.Evaluate().Should().Be("");
-	}
+			)").Should().Be("");
 
 	[Fact]
 	public void StringComparison_WithJArrayElements_Works()
-	{
-		var expression = new ExtendedExpression("first(jArray('test', 'value')) == 'test'");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("first(jArray('test', 'value')) == 'test'").Should().Be(true);
 
 	[Fact]
 	public void NumericComparison_WithJArrayElements_Works()
-	{
-		var expression = new ExtendedExpression("first(jArray(42, 100)) > 40");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("first(jArray(42, 100)) > 40").Should().Be(true);
 
 	[Fact]
 	public void NullHandling_ThroughOperations_WorksCorrectly()
-	{
-		var expression = new ExtendedExpression("count(where(jArray(1, null, 3, null, 5), 'n', 'n != null'))");
-		expression.Evaluate().Should().Be(3);
-	}
+		=> Test("count(where(jArray(1, null, 3, null, 5), 'n', 'n != null'))").Should().Be(3);
 
 	#endregion
 }

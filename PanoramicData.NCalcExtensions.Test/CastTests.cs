@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class CastTests
+public class CastTests : NCalcTest
 {
 	[Theory]
 	[InlineData("1", "System.Int32", 1)]
@@ -14,59 +14,35 @@ public class CastTests
 	[InlineData("42", "System.Int64", 42L)]
 	[InlineData("42", "System.Double", 42.0)]
 	public void Cast_CommonTypes_MatchesExpectedValue(string input, string type, object expected)
-	{
-		var expression = new ExtendedExpression($"cast({input},'{type}')");
-		expression.Evaluate().Should().Be(expected);
-	}
+		=> Test($"cast({input},'{type}')").Should().Be(expected);
 
 	[Fact]
 	public void Cast_ToDecimal_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast(1, 'System.Decimal')");
-		expression.Evaluate().Should().Be(1.0m);
-	}
+		=> Test("cast(1, 'System.Decimal')").Should().Be(1.0m);
 
 	[Fact]
 	public void Cast_ToUInt32_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast(42, 'System.UInt32')");
-		expression.Evaluate().Should().Be(42u);
-	}
+		=> Test("cast(42, 'System.UInt32')").Should().Be(42u);
 
 	[Fact]
 	public void Cast_ToUInt64_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast(42, 'System.UInt64')");
-		expression.Evaluate().Should().Be(42UL);
-	}
+		=> Test("cast(42, 'System.UInt64')").Should().Be(42UL);
 
 	[Fact]
 	public void Cast_ToInt16_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast(42, 'System.Int16')");
-		expression.Evaluate().Should().Be((short)42);
-	}
+		=> Test("cast(42, 'System.Int16')").Should().Be((short)42);
 
 	[Fact]
 	public void Cast_ToByte_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast(42, 'System.Byte')");
-		expression.Evaluate().Should().Be((byte)42);
-	}
+		=> Test("cast(42, 'System.Byte')").Should().Be((byte)42);
 
 	[Fact]
 	public void Cast_ToSByte_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast(-42, 'System.SByte')");
-		expression.Evaluate().Should().Be((sbyte)-42);
-	}
+		=> Test("cast(-42, 'System.SByte')").Should().Be((sbyte)-42);
 
 	[Fact]
 	public void Cast_ToUInt16_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast(42, 'System.UInt16')");
-		expression.Evaluate().Should().Be((ushort)42);
-	}
+		=> Test("cast(42, 'System.UInt16')").Should().Be((ushort)42);
 
 	[Fact]
 	public void Cast_ToFloat_Succeeds()
@@ -81,31 +57,19 @@ public class CastTests
 	[InlineData("1", true)]
 	[InlineData("99", true)]
 	public void Cast_ToBool_ReturnsExpected(string input, bool expected)
-	{
-		var expression = new ExtendedExpression($"cast({input}, 'System.Boolean')");
-		expression.Evaluate().Should().Be(expected);
-	}
+		=> Test($"cast({input}, 'System.Boolean')").Should().Be(expected);
 
 	[Fact]
 	public void Cast_StringToDouble_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast('3.14', 'System.Double')");
-		expression.Evaluate().Should().Be(3.14);
-	}
+		=> Test("cast('3.14', 'System.Double')").Should().Be(3.14);
 
 	[Fact]
 	public void Cast_MaxValue_Int_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast(2147483647, 'System.Int32')");
-		expression.Evaluate().Should().Be(int.MaxValue);
-	}
+		=> Test("cast(2147483647, 'System.Int32')").Should().Be(int.MaxValue);
 
 	[Fact]
 	public void Cast_MinValue_Int_Succeeds()
-	{
-		var expression = new ExtendedExpression("cast(-2147483648, 'System.Int32')");
-		expression.Evaluate().Should().Be(int.MinValue);
-	}
+		=> Test("cast(-2147483648, 'System.Int32')").Should().Be(int.MinValue);
 
 	[Fact]
 	public void Cast_WithVariable_Succeeds()
@@ -132,22 +96,13 @@ public class CastTests
 
 	[Fact]
 	public void Cast_ChainedCasts_Works()
-	{
-		var expression = new ExtendedExpression("cast(cast(42.7, 'System.Int32'), 'System.String')");
-		expression.Evaluate().Should().Be("43");
-	}
+		=> Test("cast(cast(42.7, 'System.Int32'), 'System.String')").Should().Be("43");
 
 	[Fact]
 	public void Cast_InArithmetic_Works()
-	{
-		var expression = new ExtendedExpression("cast(5, 'System.Double') / 2");
-		expression.Evaluate().Should().Be(2.5);
-	}
+		=> Test("cast(5, 'System.Double') / 2").Should().Be(2.5);
 
 	[Fact]
 	public void Cast_InComparison_Works()
-	{
-		var expression = new ExtendedExpression("cast('42', 'System.Int32') > 40");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("cast('42', 'System.Int32') > 40").Should().Be(true);
 }

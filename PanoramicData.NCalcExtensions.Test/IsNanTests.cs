@@ -6,24 +6,15 @@ public class IsNanTests : NCalcTest
 {
 	[Fact]
 	public void IsNan_Example1_Succeeds()
-	{
-		var expression = new ExtendedExpression("isNaN(1)");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("isNaN(1)").Should().Be(false);
 
 	[Fact]
 	public void IsNan_Example2_Succeeds()
-	{
-		var expression = new ExtendedExpression("isNaN(null)");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("isNaN(null)").Should().Be(true);
 
 	[Fact]
 	public void IsNan_Example3_Succeeds()
-	{
-		var expression = new ExtendedExpression("isNaN('text')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("isNaN('text')").Should().Be(true);
 
 	// Additional comprehensive tests
 
@@ -43,10 +34,7 @@ public class IsNanTests : NCalcTest
 
 	[Fact]
 	public void IsNaN_ActualNaN_ReturnsTrue()
-	{
-		var expression = new ExtendedExpression("isNaN(0.0 / 0.0)");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("isNaN(0.0 / 0.0)").Should().Be(true);
 
 	[Theory]
 	[InlineData("isNaN()")]
@@ -64,29 +52,17 @@ public class IsNanTests : NCalcTest
 	[InlineData("Int16")]
 	[InlineData("Byte")]
 	public void IsNaN_IntegerTypes_ReturnsFalse(string systemType)
-	{
-		var expression = new ExtendedExpression($"isNaN(cast(1, 'System.{systemType}'))");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test($"isNaN(cast(1, 'System.{systemType}'))").Should().Be(false);
 
 	[Fact]
 	public void IsNaN_Float_HandlesCorrectly()
-	{
-		var expression = new ExtendedExpression("isNaN(cast(1.5, 'System.Single'))");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("isNaN(cast(1.5, 'System.Single'))").Should().Be(false);
 
 	[Fact]
 	public void IsNaN_Double_HandlesCorrectly()
-	{
-		var expression = new ExtendedExpression("isNaN(1.5)");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("isNaN(1.5)").Should().Be(false);
 
 	[Fact]
 	public void IsNaN_Decimal_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("isNaN(cast(1.5, 'System.Decimal'))");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("isNaN(cast(1.5, 'System.Decimal'))").Should().Be(false);
 }

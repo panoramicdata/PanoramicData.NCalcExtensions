@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class MaxValueTests
+public class MaxValueTests : NCalcTest
 {
 	[Theory]
 	[InlineData("sbyte", sbyte.MaxValue)]
@@ -14,31 +14,19 @@ public class MaxValueTests
 	[InlineData("float", float.MaxValue)]
 	[InlineData("double", double.MaxValue)]
 	public void MaxValue_ReturnsExpectedValue(string type, object expectedOutput)
-	{
-		var expression = new ExtendedExpression($"maxValue('{type}')");
-		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);
-	}
+		=> Test($"maxValue('{type}')").Should().BeEquivalentTo(expectedOutput);
 
 	[Fact]
 	public void MaxValue_ForDecimal_ReturnsExpectedValue()
-	{
-		var expression = new ExtendedExpression($"maxValue('decimal')");
-		expression.Evaluate().Should().BeEquivalentTo(decimal.MaxValue);
-	}
+		=> Test($"maxValue('decimal')").Should().BeEquivalentTo(decimal.MaxValue);
 
 	[Fact]
 	public void MaxValue_ForDateTime_ReturnsExpectedValue()
-	{
-		var expression = new ExtendedExpression($"maxValue('DateTime')");
-		expression.Evaluate().Should().BeEquivalentTo(DateTime.MaxValue);
-	}
+		=> Test($"maxValue('DateTime')").Should().BeEquivalentTo(DateTime.MaxValue);
 
 	[Fact]
 	public void MaxValue_ForDateTimeOffset_ReturnsExpectedValue()
-	{
-		var expression = new ExtendedExpression($"maxValue('DateTimeOffset')");
-		expression.Evaluate().Should().BeEquivalentTo(DateTimeOffset.MaxValue);
-	}
+		=> Test($"maxValue('DateTimeOffset')").Should().BeEquivalentTo(DateTimeOffset.MaxValue);
 
 	[Fact]
 	public void MaxValue_ForUnsupportedType_ThrowsFormatException()
@@ -116,17 +104,11 @@ public class MaxValueTests
 
 	[Fact]
 	public void MaxValue_UsedInComparison_Works()
-	{
-		var expression = new ExtendedExpression("1000 < maxValue('int')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("1000 < maxValue('int')").Should().Be(true);
 
 	[Fact]
 	public void MaxValue_UsedInArithmetic_Works()
-	{
-		var expression = new ExtendedExpression("maxValue('byte') + 1");
-		expression.Evaluate().Should().Be(256);
-	}
+		=> Test("maxValue('byte') + 1").Should().Be(256);
 
 	[Fact]
 	public void MaxValue_ComparingWithVariable_Works()
@@ -146,38 +128,23 @@ public class MaxValueTests
 
 	[Fact]
 	public void MaxValue_DateTime_IsGreaterThanNow()
-	{
-		var expression = new ExtendedExpression("maxValue('DateTime') > now()");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("maxValue('DateTime') > now()").Should().Be(true);
 
 	// Specific value validation tests
 
 	[Fact]
 	public void MaxValue_SByte_Equals127()
-	{
-		var expression = new ExtendedExpression("maxValue('sbyte')");
-		expression.Evaluate().Should().Be((sbyte)127);
-	}
+		=> Test("maxValue('sbyte')").Should().Be((sbyte)127);
 
 	[Fact]
 	public void MaxValue_Byte_Equals255()
-	{
-		var expression = new ExtendedExpression("maxValue('byte')");
-		expression.Evaluate().Should().Be((byte)255);
-	}
+		=> Test("maxValue('byte')").Should().Be((byte)255);
 
 	[Fact]
 	public void MaxValue_UShort_Equals65535()
-	{
-		var expression = new ExtendedExpression("maxValue('ushort')");
-		expression.Evaluate().Should().Be((ushort)65535);
-	}
+		=> Test("maxValue('ushort')").Should().Be((ushort)65535);
 
 	[Fact]
 	public void MaxValue_Int_Equals2147483647()
-	{
-		var expression = new ExtendedExpression("maxValue('int')");
-		expression.Evaluate().Should().Be(2147483647);
-	}
+		=> Test("maxValue('int')").Should().Be(2147483647);
 }

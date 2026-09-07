@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class TypeOfTests
+public class TypeOfTests : NCalcTest
 {
 	[Theory]
 	[InlineData("String", "'text'")]
@@ -8,8 +8,5 @@ public class TypeOfTests
 	[InlineData("Double", "1.1")]
 	[InlineData(null, "null")]
 	public void TypeOf_ReturnsExpected(string? expected, string input)
-	{
-		var expression = new ExtendedExpression($"typeOf({input})");
-		expression.Evaluate().Should().Be(expected);
-	}
+		=> Test($"typeOf({input})").Should().Be(expected);
 }

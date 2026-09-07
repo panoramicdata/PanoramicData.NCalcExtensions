@@ -176,17 +176,11 @@ public class SplitTests : NCalcTest
 
 	[Fact]
 	public void Split_ThenJoin_RoundTrip()
-	{
-		var expression = new ExtendedExpression("join(split('a,b,c', ','), ',')");
-		expression.Evaluate().Should().Be("a,b,c");
-	}
+		=> Test("join(split('a,b,c', ','), ',')").Should().Be("a,b,c");
 
 	[Fact]
 	public void Split_ThenCount_Works()
-	{
-		var expression = new ExtendedExpression("count(split('one two three four', ' '))");
-		expression.Evaluate().Should().Be(4);
-	}
+		=> Test("count(split('one two three four', ' '))").Should().Be(4);
 
 	[Fact]
 	public void Split_InSelect_Works()

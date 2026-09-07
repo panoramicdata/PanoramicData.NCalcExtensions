@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class IsInfiniteTests
+public class IsInfiniteTests : NCalcTest
 {
 	[Theory]
 	[InlineData("1", false)]
@@ -15,10 +15,7 @@ public class IsInfiniteTests
 	[InlineData("null", false)]
 	[InlineData("'text'", false)]
 	public void IsInfinite_VariousInputs_ReturnsExpected(string input, bool expected)
-	{
-		var expression = new ExtendedExpression($"isInfinite({input})");
-		expression.Evaluate().Should().Be(expected);
-	}
+		=> Test($"isInfinite({input})").Should().Be(expected);
 
 	[Theory]
 	[InlineData("isInfinite()")]

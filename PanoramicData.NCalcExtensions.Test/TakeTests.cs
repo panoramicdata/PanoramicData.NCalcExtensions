@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 
 namespace PanoramicData.NCalcExtensions.Test;
-public class TakeTests
+public class TakeTests : NCalcTest
 {
 	[Fact]
 	public void List_OfInts_ReturnsExpectedType()
-	{
-		var expression = new ExtendedExpression($"take(list(1, 2, 3), 1)");
-		expression.Evaluate().Should().BeOfType<List<object?>>();
-	}
+		=> Test($"take(list(1, 2, 3), 1)").Should().BeOfType<List<object?>>();
 
 	[Fact]
 	public void Array_OfInts_ReturnsExpectedType()
@@ -22,17 +19,11 @@ public class TakeTests
 
 	[Fact]
 	public void List_OfInts_ReturnsExpected()
-	{
-		var expression = new ExtendedExpression($"take(list('a', 2, 3), 1)");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { "a" }, options => options.WithStrictOrdering());
-	}
+		=> Test($"take(list('a', 2, 3), 1)").Should().BeEquivalentTo(new List<object> { "a" }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void TakingTooMany_ReturnsExpected()
-	{
-		var expression = new ExtendedExpression($"take(list(1, 2, 3), 10)");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
-	}
+		=> Test($"take(list(1, 2, 3), 10)").Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void Take_InvalidCountParameter_ThrowsException()

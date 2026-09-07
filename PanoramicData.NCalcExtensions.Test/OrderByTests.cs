@@ -119,10 +119,7 @@ public class OrderByTests : NCalcTest
 
 	[Fact]
 	public void OrderBy_Strings_SortsAlphabetically()
-	{
-		var expression = new ExtendedExpression("orderBy(list('zebra', 'apple', 'banana'), 's', 's')");
-		expression.Evaluate().Should().BeEquivalentTo(new[] { "apple", "banana", "zebra" }, options => options.WithStrictOrdering());
-	}
+		=> Test("orderBy(list('zebra', 'apple', 'banana'), 's', 's')").Should().BeEquivalentTo(new[] { "apple", "banana", "zebra" }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void OrderBy_EmptyList_ReturnsEmptyList()
@@ -135,10 +132,7 @@ public class OrderByTests : NCalcTest
 
 	[Fact]
 	public void OrderBy_SingleItem_ReturnsSingleItem()
-	{
-		var expression = new ExtendedExpression("orderBy(list(42), 'n', 'n')");
-		expression.Evaluate().Should().BeEquivalentTo(new[] { 42 });
-	}
+		=> Test("orderBy(list(42), 'n', 'n')").Should().BeEquivalentTo(new[] { 42 });
 
 	[Fact]
 	public void OrderBy_WithNulls_HandlesNulls()
@@ -154,10 +148,7 @@ public class OrderByTests : NCalcTest
 
 	[Fact]
 	public void OrderBy_ComplexLambda_Works()
-	{
-		var expression = new ExtendedExpression("orderBy(list(5, 3, 8, 1), 'n', 'n * -1')");
-		expression.Evaluate().Should().BeEquivalentTo(new[] { 8, 5, 3, 1 }, options => options.WithStrictOrdering());
-	}
+		=> Test("orderBy(list(5, 3, 8, 1), 'n', 'n * -1')").Should().BeEquivalentTo(new[] { 8, 5, 3, 1 }, options => options.WithStrictOrdering());
 
 	// Error cases
 	[Fact]
@@ -354,29 +345,17 @@ public class OrderByTests : NCalcTest
 
 	[Fact]
 	public void OrderBy_LargeList_Works()
-	{
-		var expression = new ExtendedExpression("orderBy(list(10, 9, 8, 7, 6, 5, 4, 3, 2, 1), 'n', 'n')");
-		expression.Evaluate().Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, options => options.WithStrictOrdering());
-	}
+		=> Test("orderBy(list(10, 9, 8, 7, 6, 5, 4, 3, 2, 1), 'n', 'n')").Should().BeEquivalentTo(new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void OrderBy_AllSameValues_ReturnsInOriginalOrder()
-	{
-		var expression = new ExtendedExpression("orderBy(list(5, 5, 5, 5), 'n', 'n')");
-		expression.Evaluate().Should().BeEquivalentTo(new[] { 5, 5, 5, 5 }, options => options.WithStrictOrdering());
-	}
+		=> Test("orderBy(list(5, 5, 5, 5), 'n', 'n')").Should().BeEquivalentTo(new[] { 5, 5, 5, 5 }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void OrderBy_ChainedWithSelect_Works()
-	{
-		var expression = new ExtendedExpression("orderBy(select(list(1, 2, 3), 'n', 'n * 2'), 'n', '-n')");
-		expression.Evaluate().Should().BeEquivalentTo(new[] { 6, 4, 2 }, options => options.WithStrictOrdering());
-	}
+		=> Test("orderBy(select(list(1, 2, 3), 'n', 'n * 2'), 'n', '-n')").Should().BeEquivalentTo(new[] { 6, 4, 2 }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void OrderBy_ChainedWithWhere_Works()
-	{
-		var expression = new ExtendedExpression("orderBy(where(list(5, 2, 8, 1, 9), 'n', 'n > 3'), 'n', 'n')");
-		expression.Evaluate().Should().BeEquivalentTo(new[] { 5, 8, 9 }, options => options.WithStrictOrdering());
-	}
+		=> Test("orderBy(where(list(5, 2, 8, 1, 9), 'n', 'n > 3'), 'n', 'n')").Should().BeEquivalentTo(new[] { 5, 8, 9 }, options => options.WithStrictOrdering());
 }

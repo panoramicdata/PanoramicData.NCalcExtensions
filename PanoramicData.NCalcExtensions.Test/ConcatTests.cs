@@ -2,7 +2,7 @@
 
 namespace PanoramicData.NCalcExtensions.Test;
 
-public class ConcatTests
+public class ConcatTests : NCalcTest
 {
 	[Theory]
 	[InlineData("concat(list(1, 2, 3))", new object[] { 1, 2, 3 })]
@@ -28,10 +28,7 @@ public class ConcatTests
 
 	[Fact]
 	public void Concat_Strings_Works()
-	{
-		var expression = new ExtendedExpression("concat(list('a', 'b'), list('c', 'd'))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { "a", "b", "c", "d" }, options => options.WithStrictOrdering());
-	}
+		=> Test("concat(list('a', 'b'), list('c', 'd'))").Should().BeEquivalentTo(new List<object> { "a", "b", "c", "d" }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void Concat_MixedTypes_Works()
@@ -77,22 +74,13 @@ public class ConcatTests
 
 	[Fact]
 	public void Concat_Chained_Works()
-	{
-		var expression = new ExtendedExpression("concat(concat(list(1), list(2)), list(3))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
-	}
+		=> Test("concat(concat(list(1), list(2)), list(3))").Should().BeEquivalentTo(new List<object> { 1, 2, 3 }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void Concat_WithSelect_Works()
-	{
-		var expression = new ExtendedExpression("concat(select(list(1, 2), 'n', 'n * 2'), list(5, 6))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 2, 4, 5, 6 }, options => options.WithStrictOrdering());
-	}
+		=> Test("concat(select(list(1, 2), 'n', 'n * 2'), list(5, 6))").Should().BeEquivalentTo(new List<object> { 2, 4, 5, 6 }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void Concat_BooleanValues_Works()
-	{
-		var expression = new ExtendedExpression("concat(list(true, false), list(true))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { true, false, true }, options => options.WithStrictOrdering());
-	}
+		=> Test("concat(list(true, false), list(true))").Should().BeEquivalentTo(new List<object> { true, false, true }, options => options.WithStrictOrdering());
 }

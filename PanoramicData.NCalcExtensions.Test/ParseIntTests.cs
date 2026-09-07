@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class ParseIntTests
+public class ParseIntTests : NCalcTest
 {
 	[Theory]
 	[InlineData("'1'", 1)]
@@ -12,10 +12,7 @@ public class ParseIntTests
 	[InlineData("'00042'", 42)]
 	[InlineData("'+42'", 42)]
 	public void ParseInt_ValidInput_ReturnsExpectedValue(string input, int expected)
-	{
-		var expression = new ExtendedExpression($"parseInt({input})");
-		expression.Evaluate().Should().Be(expected);
-	}
+		=> Test($"parseInt({input})").Should().Be(expected);
 
 	[Theory]
 	[InlineData("parseInt()")]
@@ -43,17 +40,11 @@ public class ParseIntTests
 
 	[Fact]
 	public void ParseInt_InExpression_Works()
-	{
-		var expression = new ExtendedExpression("parseInt('10') + parseInt('20')");
-		expression.Evaluate().Should().Be(30);
-	}
+		=> Test("parseInt('10') + parseInt('20')").Should().Be(30);
 
 	[Fact]
 	public void ParseInt_InComparison_Works()
-	{
-		var expression = new ExtendedExpression("parseInt('42') > 40");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("parseInt('42') > 40").Should().Be(true);
 
 	[Fact]
 	public void ParseInt_InList_Works()

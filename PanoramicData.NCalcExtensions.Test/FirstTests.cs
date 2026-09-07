@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class FirstTests
+public class FirstTests : NCalcTest
 {
 	[Fact]
 	public void First_Succeeds()
@@ -87,17 +87,11 @@ public class FirstTests
 	// Edge case tests
 	[Fact]
 	public void First_OneParameter_SingleElement_ReturnsElement()
-	{
-		var expression = new ExtendedExpression("first(list(42))");
-		expression.Evaluate().Should().Be(42);
-	}
+		=> Test("first(list(42))").Should().Be(42);
 
 	[Fact]
 	public void First_OneParameter_MultipleElements_ReturnsFirst()
-	{
-		var expression = new ExtendedExpression("first(list(10, 20, 30))");
-		expression.Evaluate().Should().Be(10);
-	}
+		=> Test("first(list(10, 20, 30))").Should().Be(10);
 
 	[Fact]
 	public void First_EmptyList_ThrowsException()
@@ -111,10 +105,7 @@ public class FirstTests
 	// Various data type tests
 	[Fact]
 	public void First_Strings_WithPredicate_ReturnsMatch()
-	{
-		var expression = new ExtendedExpression("first(list('apple', 'banana', 'cherry'), 's', 'startsWith(s, \"b\")')");
-		expression.Evaluate().Should().Be("banana");
-	}
+		=> Test("first(list('apple', 'banana', 'cherry'), 's', 'startsWith(s, \"b\")')").Should().Be("banana");
 
 	[Fact]
 	public void First_Strings_NoMatch_ThrowsException()
@@ -128,57 +119,33 @@ public class FirstTests
 
 	[Fact]
 	public void First_Numbers_GreaterThan_ReturnsFirst()
-	{
-		var expression = new ExtendedExpression("first(list(1, 5, 10, 15), 'n', 'n > 7')");
-		expression.Evaluate().Should().Be(10);
-	}
+		=> Test("first(list(1, 5, 10, 15), 'n', 'n > 7')").Should().Be(10);
 
 	[Fact]
 	public void First_Numbers_LessThan_ReturnsFirst()
-	{
-		var expression = new ExtendedExpression("first(list(10, 5, 3, 1), 'n', 'n < 5')");
-		expression.Evaluate().Should().Be(3);
-	}
+		=> Test("first(list(10, 5, 3, 1), 'n', 'n < 5')").Should().Be(3);
 
 	[Fact]
 	public void First_Doubles_Works()
-	{
-		var expression = new ExtendedExpression("first(list(1.5, 2.5, 3.5), 'n', 'n > 2.0')");
-		expression.Evaluate().Should().Be(2.5);
-	}
+		=> Test("first(list(1.5, 2.5, 3.5), 'n', 'n > 2.0')").Should().Be(2.5);
 
 	[Fact]
 	public void First_ComplexPredicate_Works()
-	{
-		var expression = new ExtendedExpression("first(list(1, 5, 10, 15, 20), 'n', 'n >= 10 && n <= 15')");
-		expression.Evaluate().Should().Be(10);
-	}
+		=> Test("first(list(1, 5, 10, 15, 20), 'n', 'n >= 10 && n <= 15')").Should().Be(10);
 
 	[Fact]
 	public void First_NegativeNumbers_Works()
-	{
-		var expression = new ExtendedExpression("first(list(-5, -2, 3, 7), 'n', 'n > 0')");
-		expression.Evaluate().Should().Be(3);
-	}
+		=> Test("first(list(-5, -2, 3, 7), 'n', 'n > 0')").Should().Be(3);
 
 	[Fact]
 	public void First_AllMatch_ReturnsFirst()
-	{
-		var expression = new ExtendedExpression("first(list(2, 4, 6, 8), 'n', 'n % 2 == 0')");
-		expression.Evaluate().Should().Be(2);
-	}
+		=> Test("first(list(2, 4, 6, 8), 'n', 'n % 2 == 0')").Should().Be(2);
 
 	[Fact]
 	public void First_LastItemMatches_ReturnsLast()
-	{
-		var expression = new ExtendedExpression("first(list(1, 3, 5, 8), 'n', 'n % 2 == 0')");
-		expression.Evaluate().Should().Be(8);
-	}
+		=> Test("first(list(1, 3, 5, 8), 'n', 'n % 2 == 0')").Should().Be(8);
 
 	[Fact]
 	public void First_Booleans_ReturnsFirstTrue()
-	{
-		var expression = new ExtendedExpression("first(list(false, true, false), 'b', 'b == true')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("first(list(false, true, false), 'b', 'b == true')").Should().Be(true);
 }

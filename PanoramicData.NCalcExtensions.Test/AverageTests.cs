@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace PanoramicData.NCalcExtensions.Test;
 
-public class AverageTests
+public class AverageTests : NCalcTest
 {
 	[Fact]
 	public void Average_OfIntegers_ReturnsExpectedResult()
@@ -46,10 +46,7 @@ public class AverageTests
 
 	[Fact]
 	public void Average_UsingListOf_ReturnsExpectedResult()
-	{
-		var expression = new ExtendedExpression("average(listOf('int', 2, 4, 6))");
-		expression.Evaluate().Should().Be(4.0);
-	}
+		=> Test("average(listOf('int', 2, 4, 6))").Should().Be(4.0);
 
 	[Fact]
 	public void Average_NullParameter_ThrowsException()

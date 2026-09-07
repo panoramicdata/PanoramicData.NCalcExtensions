@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class MinValueTests
+public class MinValueTests : NCalcTest
 {
 	[Theory]
 	[InlineData("sbyte", sbyte.MinValue)]
@@ -14,31 +14,19 @@ public class MinValueTests
 	[InlineData("float", float.MinValue)]
 	[InlineData("double", double.MinValue)]
 	public void MinValue_ReturnsExpectedValue(string type, object expectedOutput)
-	{
-		var expression = new ExtendedExpression($"minValue('{type}')");
-		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);
-	}
+		=> Test($"minValue('{type}')").Should().BeEquivalentTo(expectedOutput);
 
 	[Fact]
 	public void MinValue_ForDecimal_ReturnsExpectedValue()
-	{
-		var expression = new ExtendedExpression($"minValue('decimal')");
-		expression.Evaluate().Should().BeEquivalentTo(decimal.MinValue);
-	}
+		=> Test($"minValue('decimal')").Should().BeEquivalentTo(decimal.MinValue);
 
 	[Fact]
 	public void MinValue_ForDateTime_ReturnsExpectedValue()
-	{
-		var expression = new ExtendedExpression($"minValue('DateTime')");
-		expression.Evaluate().Should().BeEquivalentTo(DateTime.MinValue);
-	}
+		=> Test($"minValue('DateTime')").Should().BeEquivalentTo(DateTime.MinValue);
 
 	[Fact]
 	public void MinValue_ForDateTimeOffset_ReturnsExpectedValue()
-	{
-		var expression = new ExtendedExpression($"minValue('DateTimeOffset')");
-		expression.Evaluate().Should().BeEquivalentTo(DateTimeOffset.MinValue);
-	}
+		=> Test($"minValue('DateTimeOffset')").Should().BeEquivalentTo(DateTimeOffset.MinValue);
 
 	[Fact]
 	public void MinValue_ForUnsupportedType_ThrowsFormatException()
@@ -116,17 +104,11 @@ public class MinValueTests
 
 	[Fact]
 	public void MinValue_UsedInComparison_Works()
-	{
-		var expression = new ExtendedExpression("-1000 > minValue('int')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("-1000 > minValue('int')").Should().Be(true);
 
 	[Fact]
 	public void MinValue_UsedInArithmetic_Works()
-	{
-		var expression = new ExtendedExpression("minValue('byte') - 1");
-		expression.Evaluate().Should().Be(-1);
-	}
+		=> Test("minValue('byte') - 1").Should().Be(-1);
 
 	[Fact]
 	public void MinValue_ComparingWithVariable_Works()
@@ -146,38 +128,23 @@ public class MinValueTests
 
 	[Fact]
 	public void MinValue_DateTime_IsLessThanNow()
-	{
-		var expression = new ExtendedExpression("minValue('DateTime') < now()");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("minValue('DateTime') < now()").Should().Be(true);
 
 	// Specific value validation tests
 
 	[Fact]
 	public void MinValue_SByte_EqualsMinus128()
-	{
-		var expression = new ExtendedExpression("minValue('sbyte')");
-		expression.Evaluate().Should().Be((sbyte)-128);
-	}
+		=> Test("minValue('sbyte')").Should().Be((sbyte)-128);
 
 	[Fact]
 	public void MinValue_Byte_Equals0()
-	{
-		var expression = new ExtendedExpression("minValue('byte')");
-		expression.Evaluate().Should().Be((byte)0);
-	}
+		=> Test("minValue('byte')").Should().Be((byte)0);
 
 	[Fact]
 	public void MinValue_UInt_Equals0()
-	{
-		var expression = new ExtendedExpression("minValue('uint')");
-		expression.Evaluate().Should().Be(0u);
-	}
+		=> Test("minValue('uint')").Should().Be(0u);
 
 	[Fact]
 	public void MinValue_Int_EqualsMinus2147483648()
-	{
-		var expression = new ExtendedExpression("minValue('int')");
-		expression.Evaluate().Should().Be(-2147483648);
-	}
+		=> Test("minValue('int')").Should().Be(-2147483648);
 }

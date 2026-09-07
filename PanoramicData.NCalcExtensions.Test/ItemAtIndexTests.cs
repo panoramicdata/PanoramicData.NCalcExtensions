@@ -84,15 +84,9 @@ public class ItemAtIndexTests : NCalcTest
 
 	[Fact]
 	public void ItemAtIndexWithJArrayEmptyString_ReturnsString()
-	{
-		var expression = new ExtendedExpression("itemAtIndex(jArray('a', ''), 1)");
-		expression.Evaluate().Should().BeOfType<string>();
-	}
+		=> Test("itemAtIndex(jArray('a', ''), 1)").Should().BeOfType<string>();
 
 	[Fact]
 	public void ItemAtIndexWithJArrayEmptyString_MatchesEmptyString()
-	{
-		var expression = new ExtendedExpression("itemAtIndex(jArray('a', ''), 1) == ''");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("itemAtIndex(jArray('a', ''), 1) == ''").Should().Be(true);
 }

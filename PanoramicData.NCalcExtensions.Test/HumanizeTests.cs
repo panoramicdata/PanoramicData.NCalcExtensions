@@ -1,5 +1,5 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
-public class HumanizeTests
+public class HumanizeTests : NCalcTest
 {
 	[Theory]
 	[InlineData("3600000", "Milliseconds", "1 hour")]
@@ -18,17 +18,11 @@ public class HumanizeTests
 	// Test all time units explicitly
 	[Fact]
 	public void Humanize_Milliseconds_ReturnsExpected()
-	{
-		var expression = new ExtendedExpression("humanize(60000, 'milliseconds')");
-		expression.Evaluate().Should().Be("1 minute");
-	}
+		=> Test("humanize(60000, 'milliseconds')").Should().Be("1 minute");
 
 	[Fact]
 	public void Humanize_Seconds_ReturnsExpected()
-	{
-		var expression = new ExtendedExpression("humanize(120, 'seconds')");
-		expression.Evaluate().Should().Be("2 minutes");
-	}
+		=> Test("humanize(120, 'seconds')").Should().Be("2 minutes");
 
 	[Fact]
 	public void Humanize_Minutes_ReturnsExpected()
@@ -77,10 +71,7 @@ public class HumanizeTests
 	[InlineData("seconds")]
 	[InlineData("SeCoNdS")]
 	public void Humanize_CaseInsensitive_Works(string timeUnit)
-	{
-		var expression = new ExtendedExpression($"humanize(60, '{timeUnit}')");
-		expression.Evaluate().Should().Be("1 minute");
-	}
+		=> Test($"humanize(60, '{timeUnit}')").Should().Be("1 minute");
 
 	// Test zero value
 	[Fact]

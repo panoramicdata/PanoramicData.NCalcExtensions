@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class IfTests
+public class IfTests : NCalcTest
 {
 	[Theory]
 	[InlineData("1 == 1", "yes", "no", "yes")]
@@ -16,38 +16,23 @@ public class IfTests
 
 	[Fact]
 	public void If_TrueCondition_ReturnsTrueValue()
-	{
-		var expression = new ExtendedExpression("if(true, 'success', 'failure')");
-		expression.Evaluate().Should().Be("success");
-	}
+		=> Test("if(true, 'success', 'failure')").Should().Be("success");
 
 	[Fact]
 	public void If_FalseCondition_ReturnsFalseValue()
-	{
-		var expression = new ExtendedExpression("if(false, 'success', 'failure')");
-		expression.Evaluate().Should().Be("failure");
-	}
+		=> Test("if(false, 'success', 'failure')").Should().Be("failure");
 
 	[Fact]
 	public void If_NumericComparison_ReturnsCorrectBranch()
-	{
-		var expression = new ExtendedExpression("if(5 > 3, 100, 200)");
-		expression.Evaluate().Should().Be(100);
-	}
+		=> Test("if(5 > 3, 100, 200)").Should().Be(100);
 
 	[Fact]
 	public void If_WithNullTrueValue_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("if(true, null, 'value')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("if(true, null, 'value')").Should().BeNull();
 
 	[Fact]
 	public void If_WithNullFalseValue_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("if(false, 'value', null)");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("if(false, 'value', null)").Should().BeNull();
 
 	[Theory]
 	[InlineData("if()")]
@@ -72,45 +57,27 @@ public class IfTests
 
 	[Fact]
 	public void If_ComplexExpression_InTrueBranch_Evaluates()
-	{
-		var expression = new ExtendedExpression("if(true, 2 + 2, 3 + 3)");
-		expression.Evaluate().Should().Be(4);
-	}
+		=> Test("if(true, 2 + 2, 3 + 3)").Should().Be(4);
 
 	[Fact]
 	public void If_ComplexExpression_InFalseBranch_Evaluates()
-	{
-		var expression = new ExtendedExpression("if(false, 2 + 2, 3 + 3)");
-		expression.Evaluate().Should().Be(6);
-	}
+		=> Test("if(false, 2 + 2, 3 + 3)").Should().Be(6);
 
 	[Fact]
 	public void If_NestedIf_TrueBranch_EvaluatesCorrectly()
-	{
-		var expression = new ExtendedExpression("if(true, if(true, 'inner-true', 'inner-false'), 'outer-false')");
-		expression.Evaluate().Should().Be("inner-true");
-	}
+		=> Test("if(true, if(true, 'inner-true', 'inner-false'), 'outer-false')").Should().Be("inner-true");
 
 	[Fact]
 	public void If_NestedIf_FalseBranch_EvaluatesCorrectly()
-	{
-		var expression = new ExtendedExpression("if(false, 'outer-true', if(true, 'inner-true', 'inner-false'))");
-		expression.Evaluate().Should().Be("inner-true");
-	}
+		=> Test("if(false, 'outer-true', if(true, 'inner-true', 'inner-false'))").Should().Be("inner-true");
 
 	[Fact]
 	public void If_WithFunctionCall_InTrueBranch_Evaluates()
-	{
-		var expression = new ExtendedExpression("if(true, toUpper('hello'), toLower('WORLD'))");
-		expression.Evaluate().Should().Be("HELLO");
-	}
+		=> Test("if(true, toUpper('hello'), toLower('WORLD'))").Should().Be("HELLO");
 
 	[Fact]
 	public void If_WithFunctionCall_InFalseBranch_Evaluates()
-	{
-		var expression = new ExtendedExpression("if(false, toUpper('hello'), toLower('WORLD'))");
-		expression.Evaluate().Should().Be("world");
-	}
+		=> Test("if(false, toUpper('hello'), toLower('WORLD'))").Should().Be("world");
 
 	[Fact]
 	public void If_WithVariable_InCondition_Evaluates()
@@ -122,15 +89,9 @@ public class IfTests
 
 	[Fact]
 	public void If_WithListOperation_InTrueBranch_Evaluates()
-	{
-		var expression = new ExtendedExpression("if(true, length(list(1,2,3)), 0)");
-		expression.Evaluate().Should().Be(3);
-	}
+		=> Test("if(true, length(list(1,2,3)), 0)").Should().Be(3);
 
 	[Fact]
 	public void If_ReturningDifferentTypes_HandlesCorrectly()
-	{
-		var expression = new ExtendedExpression("if(true, 123, 'string')");
-		expression.Evaluate().Should().Be(123);
-	}
+		=> Test("if(true, 123, 'string')").Should().Be(123);
 }

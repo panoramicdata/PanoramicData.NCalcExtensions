@@ -1,27 +1,18 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class ToStringTests
+public class ToStringTests : NCalcTest
 {
 	[Fact]
 	public void ToString_IsNull_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("toString(null)");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("toString(null)").Should().BeNull();
 
 	[Fact]
 	public void ToString_Int_Succeeds()
-	{
-		var expression = new ExtendedExpression("toString(1)");
-		expression.Evaluate().Should().Be("1");
-	}
+		=> Test("toString(1)").Should().Be("1");
 
 	[Fact]
 	public void ToString_Int_Formatted_Succeeds()
-	{
-		var expression = new ExtendedExpression("toString(1000, 'N2')");
-		expression.Evaluate().Should().Be("1,000.00");
-	}
+		=> Test("toString(1000, 'N2')").Should().Be("1,000.00");
 
 	[Fact]
 	public void ToString_DateTime_Formatted_Succeeds()
@@ -66,10 +57,7 @@ public class ToStringTests
 
 	[Fact]
 	public void ToString_FixedPoint_Format_Succeeds()
-	{
-		var expression = new ExtendedExpression("toString(1234.567, 'F2')");
-		expression.Evaluate().Should().Be("1234.57");
-	}
+		=> Test("toString(1234.567, 'F2')").Should().Be("1234.57");
 
 	[Fact]
 	public void ToString_General_Format_Succeeds()
@@ -81,45 +69,27 @@ public class ToStringTests
 
 	[Fact]
 	public void ToString_Hexadecimal_Format_Succeeds()
-	{
-		var expression = new ExtendedExpression("toString(255, 'X')");
-		expression.Evaluate().Should().Be("FF");
-	}
+		=> Test("toString(255, 'X')").Should().Be("FF");
 
 	[Fact]
 	public void ToString_HexadecimalLowercase_Format_Succeeds()
-	{
-		var expression = new ExtendedExpression("toString(255, 'x')");
-		expression.Evaluate().Should().Be("ff");
-	}
+		=> Test("toString(255, 'x')").Should().Be("ff");
 
 	[Fact]
 	public void ToString_Double_NoFormat_Succeeds()
-	{
-		var expression = new ExtendedExpression("toString(123.456)");
-		expression.Evaluate().Should().Be("123.456");
-	}
+		=> Test("toString(123.456)").Should().Be("123.456");
 
 	[Fact]
 	public void ToString_String_NoFormat_ReturnsString()
-	{
-		var expression = new ExtendedExpression("toString('hello')");
-		expression.Evaluate().Should().Be("hello");
-	}
+		=> Test("toString('hello')").Should().Be("hello");
 
 	[Fact]
 	public void ToString_Boolean_True_ReturnsTrue()
-	{
-		var expression = new ExtendedExpression("toString(true)");
-		expression.Evaluate().Should().Be("True");
-	}
+		=> Test("toString(true)").Should().Be("True");
 
 	[Fact]
 	public void ToString_Boolean_False_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("toString(false)");
-		expression.Evaluate().Should().Be("False");
-	}
+		=> Test("toString(false)").Should().Be("False");
 
 	[Fact]
 	public void ToString_DateTime_CustomFormat_Succeeds()
@@ -175,17 +145,11 @@ public class ToStringTests
 
 	[Fact]
 	public void ToString_ZeroPadding_Format_Succeeds()
-	{
-		var expression = new ExtendedExpression("toString(42, '0000')");
-		expression.Evaluate().Should().Be("0042");
-	}
+		=> Test("toString(42, '0000')").Should().Be("0042");
 
 	[Fact]
 	public void ToString_CustomNumeric_Format_Succeeds()
-	{
-		var expression = new ExtendedExpression("toString(1234.567, '#,##0.00')");
-		expression.Evaluate().Should().Be("1,234.57");
-	}
+		=> Test("toString(1234.567, '#,##0.00')").Should().Be("1,234.57");
 
 	// Tests for all numeric types with format parameter
 	[Fact]
@@ -271,10 +235,7 @@ public class ToStringTests
 
 	[Fact]
 	public void ToString_NullWithFormat_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("toString(null, 'N2')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("toString(null, 'N2')").Should().BeNull();
 
 	[Fact]
 	public void ToString_Object_WithFormat_CallsObjectToString()

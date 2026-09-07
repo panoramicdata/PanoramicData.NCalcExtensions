@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class FormatTests
+public class FormatTests : NCalcTest
 {
 	[Fact]
 	public void Format_InvalidFormat_Fails()
@@ -31,24 +31,15 @@ public class FormatTests
 
 	[Fact]
 	public void Format_IntFormat_Succeeds()
-	{
-		var expression = new ExtendedExpression("format(1, '00')");
-		expression.Evaluate().Should().Be("01");
-	}
+		=> Test("format(1, '00')").Should().Be("01");
 
 	[Fact]
 	public void Format_DoubleFormat_Succeeds()
-	{
-		var expression = new ExtendedExpression("format(1.0, '00')");
-		expression.Evaluate().Should().Be("01");
-	}
+		=> Test("format(1.0, '00')").Should().Be("01");
 
 	[Fact]
 	public void Format_DateTimeFormat_Succeeds()
-	{
-		var expression = new ExtendedExpression("format(dateTime('UTC', 'yyyy-MM-dd'), 'yyyy-MM-dd')");
-		expression.Evaluate().Should().Be(DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
-	}
+		=> Test("format(dateTime('UTC', 'yyyy-MM-dd'), 'yyyy-MM-dd')").Should().Be(DateTime.UtcNow.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
 
 	[Fact]
 	public void Format_DateTimeFormatWithTimeZone_Succeeds()
@@ -62,39 +53,24 @@ public class FormatTests
 	[InlineData("Eastern Standard Time")]
 	[InlineData("America/New_York")]
 	public void Format_InlineToDateTimeWithTimeZone_Succeeds(string timeZoneId)
-	{
-		var expression = new ExtendedExpression($"format(toDateTime('2020-03-13 16:00:00', 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd HH:mm', '{timeZoneId}')");
-		expression.Evaluate().Should().Be("2020-03-13 12:00");
-	}
+		=> Test($"format(toDateTime('2020-03-13 16:00:00', 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd HH:mm', '{timeZoneId}')").Should().Be("2020-03-13 12:00");
 
 	[Fact]
 	public void Format_StringFormat_Succeeds()
-	{
-		var expression = new ExtendedExpression("format('02', '0')");
-		expression.Evaluate().Should().Be("2");
-	}
+		=> Test("format('02', '0')").Should().Be("2");
 
 	[Fact]
 	public void Format_DateFormat_DayOfYear_Succeeds()
-	{
-		var expression = new ExtendedExpression("format('2021-11-29', 'dayOfYear')");
-		expression.Evaluate().Should().Be("333");
-	}
+		=> Test("format('2021-11-29', 'dayOfYear')").Should().Be("333");
 
 	// Additional format type tests
 	[Fact]
 	public void Format_NullValue_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("format(null, 'yyyy-MM-dd')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("format(null, 'yyyy-MM-dd')").Should().BeNull();
 
 	[Fact]
 	public void Format_LongInteger_Succeeds()
-	{
-		var expression = new ExtendedExpression("format(123456789, '#,##0')");
-		expression.Evaluate().Should().Be("123,456,789");
-	}
+		=> Test("format(123456789, '#,##0')").Should().Be("123,456,789");
 
 	[Fact]
 	public void Format_DecimalNumber_Succeeds()
@@ -178,27 +154,18 @@ public class FormatTests
 	[InlineData("2021-11-30", 5)]
 	[InlineData("2022-02-09", 2)]
 	public void Format_DateFormat_WeekOfMonth_Succeeds(string dateTimeString, int expectedWeekOfMonth)
-	{
-		var expression = new ExtendedExpression($"format('{dateTimeString}', 'weekOfMonth')");
-		expression.Evaluate().Should().Be(expectedWeekOfMonth.ToString(CultureInfo.InvariantCulture));
-	}
+		=> Test($"format('{dateTimeString}', 'weekOfMonth')").Should().Be(expectedWeekOfMonth.ToString(CultureInfo.InvariantCulture));
 
 	[Theory(DisplayName = "weekDayOfMonth calculates the number of times (including this time) that the day of week has occurred so far.")]
 	[InlineData("2021-11-28", 4)] // This is in week 5 and is the 4th Sunday
 	[InlineData("2021-11-30", 5)] // This is in week 5 and is the 5th Tuesday
 	[InlineData("2022-02-09", 2)] // This is in week 2 and is the 2nd Wednesday
 	public void Format_DateFormat_WeekDayOfMonth_Succeeds(string dateTimeString, int expectedWeekDayOfMonth)
-	{
-		var expression = new ExtendedExpression($"format('{dateTimeString}', 'weekDayOfMonth')");
-		expression.Evaluate().Should().Be(expectedWeekDayOfMonth.ToString(CultureInfo.InvariantCulture));
-	}
+		=> Test($"format('{dateTimeString}', 'weekDayOfMonth')").Should().Be(expectedWeekDayOfMonth.ToString(CultureInfo.InvariantCulture));
 
 	[Fact]
 	public void Format_DateFormat_WeekOfMonthText_Succeeds()
-	{
-		var expression = new ExtendedExpression("format('2021-11-30', 'weekOfMonthText')");
-		expression.Evaluate().Should().Be("last");
-	}
+		=> Test("format('2021-11-30', 'weekOfMonthText')").Should().Be("last");
 
 	[Fact]
 	public void Format_DateFormat_WeekOfYear_Succeeds()
@@ -211,17 +178,11 @@ public class FormatTests
 
 	[Fact]
 	public void Format_DateFormat_IsoWeekOfYear_Succeeds()
-	{
-		var expression = new ExtendedExpression("format('2024-01-01', 'isoWeekOfYear')");
-		expression.Evaluate().Should().Be("1");
-	}
+		=> Test("format('2024-01-01', 'isoWeekOfYear')").Should().Be("1");
 
 	[Fact]
 	public void Format_DateTimeStringFormat_Succeeds()
-	{
-		var expression = new ExtendedExpression("format('01/01/2019', 'yyyy-MM-dd')");
-		expression.Evaluate().Should().Be("2019-01-01");
-	}
+		=> Test("format('01/01/2019', 'yyyy-MM-dd')").Should().Be("2019-01-01");
 
 	[Fact]
 	public void Format_InvalidStringFormat_Succeeds()
@@ -242,17 +203,11 @@ public class FormatTests
 	// Additional edge cases
 	[Fact]
 	public void Format_ZeroInteger_Succeeds()
-	{
-		var expression = new ExtendedExpression("format(0, '0000')");
-		expression.Evaluate().Should().Be("0000");
-	}
+		=> Test("format(0, '0000')").Should().Be("0000");
 
 	[Fact]
 	public void Format_NegativeNumber_Succeeds()
-	{
-		var expression = new ExtendedExpression("format(-123, '0000')");
-		expression.Evaluate().Should().Be("-0123");
-	}
+		=> Test("format(-123, '0000')").Should().Be("-0123");
 
 	[Fact]
 	public void Format_VeryLargeNumber_Succeeds()

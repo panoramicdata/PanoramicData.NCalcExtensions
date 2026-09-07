@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class GetPropertyTests
+public class GetPropertyTests : NCalcTest
 {
 	[Fact]
 	public void GetProperty()
@@ -33,10 +33,7 @@ public class GetPropertyTests
 	// JObject tests - all JTokenTypes
 	[Fact]
 	public void GetProperty_JObject_IntegerProperty_ReturnsInt()
-	{
-		var expression = new ExtendedExpression("getProperty(parse('jObject', '{\"count\": 42}'), 'count')");
-		expression.Evaluate().Should().Be(42);
-	}
+		=> Test("getProperty(parse('jObject', '{\"count\": 42}'), 'count')").Should().Be(42);
 
 	[Fact]
 	public void GetProperty_JObject_FloatProperty_ReturnsFloat()
@@ -48,24 +45,15 @@ public class GetPropertyTests
 
 	[Fact]
 	public void GetProperty_JObject_StringProperty_ReturnsString()
-	{
-		var expression = new ExtendedExpression("getProperty(parse('jObject', '{\"name\": \"test\"}'), 'name')");
-		expression.Evaluate().Should().Be("test");
-	}
+		=> Test("getProperty(parse('jObject', '{\"name\": \"test\"}'), 'name')").Should().Be("test");
 
 	[Fact]
 	public void GetProperty_JObject_BooleanProperty_ReturnsBool()
-	{
-		var expression = new ExtendedExpression("getProperty(parse('jObject', '{\"flag\": true}'), 'flag')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("getProperty(parse('jObject', '{\"flag\": true}'), 'flag')").Should().Be(true);
 
 	[Fact]
 	public void GetProperty_JObject_NullProperty_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("getProperty(parse('jObject', '{\"value\": null}'), 'value')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("getProperty(parse('jObject', '{\"value\": null}'), 'value')").Should().BeNull();
 
 	[Fact]
 	public void GetProperty_JObject_ArrayProperty_ReturnsJArray()
@@ -95,45 +83,27 @@ public class GetPropertyTests
 	// JsonDocument tests
 	[Fact]
 	public void GetProperty_JsonDocument_StringProperty_ReturnsString()
-	{
-		var expression = new ExtendedExpression("getProperty(jsonDocument('name', 'John', 'age', 30), 'name')");
-		expression.Evaluate().Should().Be("John");
-	}
+		=> Test("getProperty(jsonDocument('name', 'John', 'age', 30), 'name')").Should().Be("John");
 
 	[Fact]
 	public void GetProperty_JsonDocument_IntProperty_ReturnsInt()
-	{
-		var expression = new ExtendedExpression("getProperty(jsonDocument('name', 'John', 'age', 30), 'age')");
-		expression.Evaluate().Should().Be(30);
-	}
+		=> Test("getProperty(jsonDocument('name', 'John', 'age', 30), 'age')").Should().Be(30);
 
 	[Fact]
 	public void GetProperty_JsonDocument_BooleanTrue_ReturnsTrue()
-	{
-		var expression = new ExtendedExpression("getProperty(jsonDocument('isActive', true), 'isActive')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("getProperty(jsonDocument('isActive', true), 'isActive')").Should().Be(true);
 
 	[Fact]
 	public void GetProperty_JsonDocument_BooleanFalse_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("getProperty(jsonDocument('isActive', false), 'isActive')");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("getProperty(jsonDocument('isActive', false), 'isActive')").Should().Be(false);
 
 	[Fact]
 	public void GetProperty_JsonDocument_NullProperty_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("getProperty(jsonDocument('value', null), 'value')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("getProperty(jsonDocument('value', null), 'value')").Should().BeNull();
 
 	[Fact]
 	public void GetProperty_JsonDocument_MissingProperty_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("getProperty(jsonDocument('name', 'John'), 'age')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("getProperty(jsonDocument('name', 'John'), 'age')").Should().BeNull();
 
 	[Fact]
 	public void GetProperty_JsonDocument_LongNumber_ReturnsLong()
@@ -156,39 +126,24 @@ public class GetPropertyTests
 	// Dictionary tests
 	[Fact]
 	public void GetProperty_Dictionary_IntValue_ReturnsInt()
-	{
-		var expression = new ExtendedExpression("getProperty(dictionary('count', 5), 'count')");
-		expression.Evaluate().Should().Be(5);
-	}
+		=> Test("getProperty(dictionary('count', 5), 'count')").Should().Be(5);
 
 	[Fact]
 	public void GetProperty_Dictionary_NullValue_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("getProperty(dictionary('value', null), 'value')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("getProperty(dictionary('value', null), 'value')").Should().BeNull();
 
 	// Regular .NET object tests
 	[Fact]
 	public void GetProperty_DateTime_Month_ReturnsMonth()
-	{
-		var expression = new ExtendedExpression("getProperty(toDateTime('2020-03-15', 'yyyy-MM-dd'), 'Month')");
-		expression.Evaluate().Should().Be(3);
-	}
+		=> Test("getProperty(toDateTime('2020-03-15', 'yyyy-MM-dd'), 'Month')").Should().Be(3);
 
 	[Fact]
 	public void GetProperty_DateTime_Day_ReturnsDay()
-	{
-		var expression = new ExtendedExpression("getProperty(toDateTime('2020-03-15', 'yyyy-MM-dd'), 'Day')");
-		expression.Evaluate().Should().Be(15);
-	}
+		=> Test("getProperty(toDateTime('2020-03-15', 'yyyy-MM-dd'), 'Day')").Should().Be(15);
 
 	[Fact]
 	public void GetProperty_String_Length_ReturnsLength()
-	{
-		var expression = new ExtendedExpression("getProperty('hello', 'Length')");
-		expression.Evaluate().Should().Be(5);
-	}
+		=> Test("getProperty('hello', 'Length')").Should().Be(5);
 
 	// Error cases
 	[Fact]

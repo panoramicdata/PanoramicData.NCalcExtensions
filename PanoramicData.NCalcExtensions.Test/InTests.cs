@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class InTests
+public class InTests : NCalcTest
 {
 	[Theory]
 	[InlineData("1,2,3,4", "1", true)]
@@ -63,17 +63,11 @@ public class InTests
 	// Additional tests to improve coverage
 	[Fact]
 	public void In_TwoParameters_MinimumValid_Works()
-	{
-		var expression = new ExtendedExpression("in(1, 1)");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("in(1, 1)").Should().Be(true);
 
 	[Fact]
 	public void In_ManyParameters_Works()
-	{
-		var expression = new ExtendedExpression("in(100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 100)");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("in(100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 100)").Should().Be(true);
 
 	[Fact]
 	public void In_WithJObjects_Works()
@@ -86,47 +80,29 @@ public class InTests
 
 	[Fact]
 	public void In_WithMixedTypes_Works()
-	{
-		var expression = new ExtendedExpression("in(1, '1', 1.0, 1)");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("in(1, '1', 1.0, 1)").Should().Be(true);
 
 	[Fact]
 	public void In_CaseSensitiveStrings_Works()
-	{
-		var expression = new ExtendedExpression("in('Test', 'test', 'TEST', 'TeSt')");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("in('Test', 'test', 'TEST', 'TeSt')").Should().Be(false);
 
 	[Fact]
 	public void In_WithBooleans_Works()
-	{
-		var expression = new ExtendedExpression("in(false, true, true, false)");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("in(false, true, true, false)").Should().Be(true);
 
 	[Fact]
 	public void In_WithDoubles_Works()
-	{
-		var expression = new ExtendedExpression("in(2.5, 1.5, 2.5, 3.5)");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("in(2.5, 1.5, 2.5, 3.5)").Should().Be(true);
 
 	// AC-01: Existing varargs behavior unchanged - positive case
 	[Fact]
 	public void In_Varargs_ExistingBehavior_PositiveCase()
-	{
-		var expression = new ExtendedExpression("in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("in('needle', 'haystack', 'with', 'a', 'needle', 'in', 'it')").Should().Be(true);
 
 	// AC-01b: Existing varargs behavior unchanged - negative case
 	[Fact]
 	public void In_Varargs_ExistingBehavior_NegativeCase()
-	{
-		var expression = new ExtendedExpression("in('needle', 'haystack', 'with', 'only', 'hay')");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("in('needle', 'haystack', 'with', 'only', 'hay')").Should().Be(false);
 
 	// AC-02: Variable list support - positive case
 	[Fact]

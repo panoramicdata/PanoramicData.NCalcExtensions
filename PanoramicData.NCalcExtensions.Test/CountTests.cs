@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PanoramicData.NCalcExtensions.Test;
 
-public class CountTests
+public class CountTests : NCalcTest
 {
 	private readonly List<string> _stringList = ["a", "b", "c"];
 
@@ -13,10 +13,7 @@ public class CountTests
 	[InlineData("list(1,2,3,4,5)", 5)]
 	[InlineData("list()", 0)]
 	public void Count_VariousInputs_ReturnsExpected(string input, int expected)
-	{
-		var expression = new ExtendedExpression($"count({input})");
-		expression.Evaluate().Should().Be(expected);
-	}
+		=> Test($"count({input})").Should().Be(expected);
 
 	[Fact]
 	public void Count_OfListOfString_ReturnsExpectedResult()

@@ -29,73 +29,43 @@ public class AllTests : NCalcTest
 	// Additional comprehensive tests
 	[Fact]
 	public void All_EmptyList_ReturnsTrue()
-	{
-		var expression = new ExtendedExpression("all(list(), 'n', 'n > 0')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(list(), 'n', 'n > 0')").Should().Be(true);
 
 	[Fact]
 	public void All_NoParameters_ReturnsTrue()
-	{
-		var expression = new ExtendedExpression("all()");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all()").Should().Be(true);
 
 	[Fact]
 	public void All_AllMatch_ReturnsTrue()
-	{
-		var expression = new ExtendedExpression("all(list(2, 4, 6, 8), 'n', 'n % 2 == 0')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(list(2, 4, 6, 8), 'n', 'n % 2 == 0')").Should().Be(true);
 
 	[Fact]
 	public void All_OneDoesNotMatch_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("all(list(2, 4, 5, 8), 'n', 'n % 2 == 0')");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("all(list(2, 4, 5, 8), 'n', 'n % 2 == 0')").Should().Be(false);
 
 	[Fact]
 	public void All_NoneMatch_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("all(list(1, 3, 5, 7), 'n', 'n % 2 == 0')");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("all(list(1, 3, 5, 7), 'n', 'n % 2 == 0')").Should().Be(false);
 
 	[Fact]
 	public void All_Strings_Works()
-	{
-		var expression = new ExtendedExpression("all(list('apple', 'apricot', 'avocado'), 's', 'startsWith(s, \"a\")')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(list('apple', 'apricot', 'avocado'), 's', 'startsWith(s, \"a\")')").Should().Be(true);
 
 	[Fact]
 	public void All_Strings_OneFails()
-	{
-		var expression = new ExtendedExpression("all(list('apple', 'banana', 'avocado'), 's', 'startsWith(s, \"a\")')");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("all(list('apple', 'banana', 'avocado'), 's', 'startsWith(s, \"a\")')").Should().Be(false);
 
 	[Fact]
 	public void All_GreaterThan_Works()
-	{
-		var expression = new ExtendedExpression("all(list(10, 20, 30), 'n', 'n > 5')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(list(10, 20, 30), 'n', 'n > 5')").Should().Be(true);
 
 	[Fact]
 	public void All_LessThanOrEqual_Works()
-	{
-		var expression = new ExtendedExpression("all(list(1, 2, 3, 4, 5), 'n', 'n <= 5')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(list(1, 2, 3, 4, 5), 'n', 'n <= 5')").Should().Be(true);
 
 	[Fact]
 	public void All_ComplexCondition_Works()
-	{
-		var expression = new ExtendedExpression("all(list(10, 20, 30), 'n', 'n >= 10 && n <= 30')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(list(10, 20, 30), 'n', 'n >= 10 && n <= 30')").Should().Be(true);
 
 	[Fact]
 	public void All_WithVariables_Works()
@@ -107,38 +77,23 @@ public class AllTests : NCalcTest
 
 	[Fact]
 	public void All_SingleItemTrue_ReturnsTrue()
-	{
-		var expression = new ExtendedExpression("all(list(5), 'n', 'n > 0')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(list(5), 'n', 'n > 0')").Should().Be(true);
 
 	[Fact]
 	public void All_SingleItemFalse_ReturnsFalse()
-	{
-		var expression = new ExtendedExpression("all(list(-5), 'n', 'n > 0')");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("all(list(-5), 'n', 'n > 0')").Should().Be(false);
 
 	[Fact]
 	public void All_Doubles_Works()
-	{
-		var expression = new ExtendedExpression("all(list(1.5, 2.5, 3.5), 'n', 'n > 1.0')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(list(1.5, 2.5, 3.5), 'n', 'n > 1.0')").Should().Be(true);
 
 	[Fact]
 	public void All_NegativeNumbers_Works()
-	{
-		var expression = new ExtendedExpression("all(list(-10, -20, -30), 'n', 'n < 0')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("all(list(-10, -20, -30), 'n', 'n < 0')").Should().Be(true);
 
 	[Fact]
 	public void All_WithNulls_HandlesNull()
-	{
-		var expression = new ExtendedExpression("all(list(1, null, 3), 'n', 'n != null')");
-		expression.Evaluate().Should().Be(false);
-	}
+		=> Test("all(list(1, null, 3), 'n', 'n != null')").Should().Be(false);
 
 	// Error cases
 	[Fact]

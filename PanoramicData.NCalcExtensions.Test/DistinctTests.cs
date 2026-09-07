@@ -12,19 +12,13 @@ public class DistinctTests : NCalcTest
 	[InlineData("list(42)", new object[] { 42 })]
 	[InlineData("list(1, 2, 3, 4, 5, 1, 2, 3, 4, 5)", new object[] { 1, 2, 3, 4, 5 })]
 	public void Distinct_Numbers_ReturnsExpected(string input, object[] expected)
-	{
-		var expression = new ExtendedExpression($"distinct({input})");
-		expression.Evaluate().Should().BeEquivalentTo(expected);
-	}
+		=> Test($"distinct({input})").Should().BeEquivalentTo(expected);
 
 	[Theory]
 	[InlineData("list('a', 'b', 'a', 'c', 'b')", new[] { "a", "b", "c" })]
 	[InlineData("list('A', 'a', 'B', 'b')", new[] { "A", "a", "B", "b" })]
 	public void Distinct_Strings_ReturnsExpected(string input, string[] expected)
-	{
-		var expression = new ExtendedExpression($"distinct({input})");
-		expression.Evaluate().Should().BeEquivalentTo(expected);
-	}
+		=> Test($"distinct({input})").Should().BeEquivalentTo(expected);
 
 	[Fact]
 	public void Distinct_MixedTypes_Works()
@@ -46,24 +40,15 @@ public class DistinctTests : NCalcTest
 
 	[Fact]
 	public void Distinct_Booleans_Works()
-	{
-		var expression = new ExtendedExpression("distinct(list(true, false, true, false, true))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<bool> { true, false });
-	}
+		=> Test("distinct(list(true, false, true, false, true))").Should().BeEquivalentTo(new List<bool> { true, false });
 
 	[Fact]
 	public void Distinct_Doubles_Works()
-	{
-		var expression = new ExtendedExpression("distinct(list(1.5, 2.5, 1.5, 3.5))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<double> { 1.5, 2.5, 3.5 });
-	}
+		=> Test("distinct(list(1.5, 2.5, 1.5, 3.5))").Should().BeEquivalentTo(new List<double> { 1.5, 2.5, 3.5 });
 
 	[Fact]
 	public void Distinct_PreservesOrder()
-	{
-		var expression = new ExtendedExpression("distinct(list(3, 1, 2, 3, 1))");
-		expression.Evaluate().Should().BeEquivalentTo(new List<int> { 3, 1, 2 }, options => options.WithStrictOrdering());
-	}
+		=> Test("distinct(list(3, 1, 2, 3, 1))").Should().BeEquivalentTo(new List<int> { 3, 1, 2 }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void Distinct_WithVariables_Works()
@@ -89,10 +74,7 @@ public class DistinctTests : NCalcTest
 
 	[Fact]
 	public void Distinct_ThenJoin_Works()
-	{
-		var expression = new ExtendedExpression("join(distinct(list('x', 'y', 'x', 'z')), ',')");
-		expression.Evaluate().Should().Be("x,y,z");
-	}
+		=> Test("join(distinct(list('x', 'y', 'x', 'z')), ',')").Should().Be("x,y,z");
 
 	[Theory]
 	[InlineData("distinct(null)")]

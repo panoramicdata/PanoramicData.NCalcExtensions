@@ -1,6 +1,6 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class StartsWithTests
+public class StartsWithTests : NCalcTest
 {
 	[Theory]
 	[InlineData("abc", "a", true)]
@@ -17,10 +17,7 @@ public class StartsWithTests
 	[InlineData("x", "x", true)]
 	[InlineData("世界Hello", "世界", true)]
 	public void StartsWith_VariousInputs_ReturnsExpected(string text, string prefix, bool expected)
-	{
-		var expression = new ExtendedExpression($"startsWith('{text}','{prefix}')");
-		expression.Evaluate().Should().Be(expected);
-	}
+		=> Test($"startsWith('{text}','{prefix}')").Should().Be(expected);
 
 	[Theory]
 	[InlineData("startsWith()")]

@@ -2,7 +2,7 @@
 
 namespace PanoramicData.NCalcExtensions.Test;
 
-public class SkipTests
+public class SkipTests : NCalcTest
 {
 	[Fact]
 	public void List_OfInts_ReturnsExpectedType()
@@ -24,17 +24,11 @@ public class SkipTests
 
 	[Fact]
 	public void List_OfInts_ReturnsExpected()
-	{
-		var expression = new ExtendedExpression($"skip(list(1, 2, 3), 1)");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object> { 2, 3 }, options => options.WithStrictOrdering());
-	}
+		=> Test($"skip(list(1, 2, 3), 1)").Should().BeEquivalentTo(new List<object> { 2, 3 }, options => options.WithStrictOrdering());
 
 	[Fact]
 	public void SkippingTooMany_ReturnsExpected()
-	{
-		var expression = new ExtendedExpression($"skip(list(1, 2, 3), 10)");
-		expression.Evaluate().Should().BeEquivalentTo(new List<object>(), options => options.WithStrictOrdering());
-	}
+		=> Test($"skip(list(1, 2, 3), 10)").Should().BeEquivalentTo(new List<object>(), options => options.WithStrictOrdering());
 
 	[Fact]
 	public void Skip_InvalidCountParameter_ThrowsException()

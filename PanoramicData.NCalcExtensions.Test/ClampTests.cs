@@ -1,41 +1,26 @@
 namespace PanoramicData.NCalcExtensions.Test;
 
-public class ClampTests
+public class ClampTests : NCalcTest
 {
 	[Fact]
 	public void Clamp_ValueWithinRange_ReturnsValue()
-	{
-		var expression = new ExtendedExpression("clamp(5.0, 1.0, 10.0)");
-		expression.Evaluate().Should().Be(5.0);
-	}
+		=> Test("clamp(5.0, 1.0, 10.0)").Should().Be(5.0);
 
 	[Fact]
 	public void Clamp_ValueBelowMin_ReturnsMin()
-	{
-		var expression = new ExtendedExpression("clamp(-5.0, 0.0, 10.0)");
-		expression.Evaluate().Should().Be(0.0);
-	}
+		=> Test("clamp(-5.0, 0.0, 10.0)").Should().Be(0.0);
 
 	[Fact]
 	public void Clamp_ValueAboveMax_ReturnsMax()
-	{
-		var expression = new ExtendedExpression("clamp(15.0, 0.0, 10.0)");
-		expression.Evaluate().Should().Be(10.0);
-	}
+		=> Test("clamp(15.0, 0.0, 10.0)").Should().Be(10.0);
 
 	[Fact]
 	public void Clamp_ValueEqualsMin_ReturnsMin()
-	{
-		var expression = new ExtendedExpression("clamp(0.0, 0.0, 10.0)");
-		expression.Evaluate().Should().Be(0.0);
-	}
+		=> Test("clamp(0.0, 0.0, 10.0)").Should().Be(0.0);
 
 	[Fact]
 	public void Clamp_ValueEqualsMax_ReturnsMax()
-	{
-		var expression = new ExtendedExpression("clamp(10.0, 0.0, 10.0)");
-		expression.Evaluate().Should().Be(10.0);
-	}
+		=> Test("clamp(10.0, 0.0, 10.0)").Should().Be(10.0);
 
 	[Fact]
 	public void Clamp_IntegerValues_Succeeds()

@@ -2,7 +2,7 @@
 
 namespace PanoramicData.NCalcExtensions.Test;
 
-public class FirstOrDefaultTests
+public class FirstOrDefaultTests : NCalcTest
 {
 	[Fact]
 	public void FirstOrDefault_MatchingItem_Succeeds()
@@ -24,17 +24,11 @@ public class FirstOrDefaultTests
 
 	[Fact]
 	public void FirstOrDefault_OneParameter_ReturnsFirstElement()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(1, 2, 3))");
-		expression.Evaluate().Should().Be(1);
-	}
+		=> Test("firstOrDefault(list(1, 2, 3))").Should().Be(1);
 
 	[Fact]
 	public void FirstOrDefault_OneParameter_EmptyList_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list())");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("firstOrDefault(list())").Should().BeNull();
 
 	[Fact]
 	public void FirstOrDefault_NullFirstParameter_ThrowsException()
@@ -63,87 +57,51 @@ public class FirstOrDefaultTests
 	// Additional comprehensive tests
 	[Fact]
 	public void FirstOrDefault_Strings_ReturnsFirst()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list('apple', 'banana', 'cherry'))");
-		expression.Evaluate().Should().Be("apple");
-	}
+		=> Test("firstOrDefault(list('apple', 'banana', 'cherry'))").Should().Be("apple");
 
 	[Fact]
 	public void FirstOrDefault_Strings_WithPredicate_ReturnsMatch()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list('apple', 'banana', 'cherry'), 's', 'startsWith(s, \"b\")')");
-		expression.Evaluate().Should().Be("banana");
-	}
+		=> Test("firstOrDefault(list('apple', 'banana', 'cherry'), 's', 'startsWith(s, \"b\")')").Should().Be("banana");
 
 	[Fact]
 	public void FirstOrDefault_Strings_NoMatch_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list('apple', 'banana', 'cherry'), 's', 'startsWith(s, \"z\")')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("firstOrDefault(list('apple', 'banana', 'cherry'), 's', 'startsWith(s, \"z\")')").Should().BeNull();
 
 	[Fact]
 	public void FirstOrDefault_Numbers_GreaterThan_ReturnsFirst()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(1, 5, 10, 15), 'n', 'n > 7')");
-		expression.Evaluate().Should().Be(10);
-	}
+		=> Test("firstOrDefault(list(1, 5, 10, 15), 'n', 'n > 7')").Should().Be(10);
 
 	[Fact]
 	public void FirstOrDefault_Numbers_LessThan_ReturnsFirst()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(10, 5, 3, 1), 'n', 'n < 5')");
-		expression.Evaluate().Should().Be(3);
-	}
+		=> Test("firstOrDefault(list(10, 5, 3, 1), 'n', 'n < 5')").Should().Be(3);
 
 	[Fact]
 	public void FirstOrDefault_WithNullInList_SkipsNull()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(null, 1, 2, 3))");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("firstOrDefault(list(null, 1, 2, 3))").Should().BeNull();
 
 	[Fact]
 	public void FirstOrDefault_AllNulls_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(null, null, null))");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("firstOrDefault(list(null, null, null))").Should().BeNull();
 
 	[Fact]
 	public void FirstOrDefault_SingleItem_ReturnsIt()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(42))");
-		expression.Evaluate().Should().Be(42);
-	}
+		=> Test("firstOrDefault(list(42))").Should().Be(42);
 
 	[Fact]
 	public void FirstOrDefault_SingleItemNoMatch_ReturnsNull()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(42), 'n', 'n < 0')");
-		expression.Evaluate().Should().BeNull();
-	}
+		=> Test("firstOrDefault(list(42), 'n', 'n < 0')").Should().BeNull();
 
 	[Fact]
 	public void FirstOrDefault_Booleans_ReturnsFirstTrue()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(false, true, false), 'b', 'b == true')");
-		expression.Evaluate().Should().Be(true);
-	}
+		=> Test("firstOrDefault(list(false, true, false), 'b', 'b == true')").Should().Be(true);
 
 	[Fact]
 	public void FirstOrDefault_Doubles_Works()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(1.5, 2.5, 3.5), 'n', 'n > 2.0')");
-		expression.Evaluate().Should().Be(2.5);
-	}
+		=> Test("firstOrDefault(list(1.5, 2.5, 3.5), 'n', 'n > 2.0')").Should().Be(2.5);
 
 	[Fact]
 	public void FirstOrDefault_ComplexPredicate_Works()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(1, 5, 10, 15, 20), 'n', 'n >= 10 && n <= 15')");
-		expression.Evaluate().Should().Be(10);
-	}
+		=> Test("firstOrDefault(list(1, 5, 10, 15, 20), 'n', 'n >= 10 && n <= 15')").Should().Be(10);
 
 	[Fact]
 	public void FirstOrDefault_WithVariables_Works()
@@ -164,10 +122,7 @@ public class FirstOrDefaultTests
 
 	[Fact]
 	public void FirstOrDefault_ChainedWithOtherFunctions_Works()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(select(list(1, 2, 3), 'n', 'n * 2'), 'n', 'n > 3')");
-		expression.Evaluate().Should().Be(4);
-	}
+		=> Test("firstOrDefault(select(list(1, 2, 3), 'n', 'n * 2'), 'n', 'n > 3')").Should().Be(4);
 
 	[Fact]
 	public void FirstOrDefault_NonEnumerable_ThrowsException()
@@ -185,15 +140,9 @@ public class FirstOrDefaultTests
 
 	[Fact]
 	public void FirstOrDefault_NegativeNumbers_Works()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(-5, -2, 3, 7), 'n', 'n > 0')");
-		expression.Evaluate().Should().Be(3);
-	}
+		=> Test("firstOrDefault(list(-5, -2, 3, 7), 'n', 'n > 0')").Should().Be(3);
 
 	[Fact]
 	public void FirstOrDefault_AllMatch_ReturnsFirst()
-	{
-		var expression = new ExtendedExpression("firstOrDefault(list(2, 4, 6, 8), 'n', 'n % 2 == 0')");
-		expression.Evaluate().Should().Be(2);
-	}
+		=> Test("firstOrDefault(list(2, 4, 6, 8), 'n', 'n % 2 == 0')").Should().Be(2);
 }
