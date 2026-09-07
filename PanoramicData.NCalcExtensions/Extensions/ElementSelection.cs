@@ -28,15 +28,29 @@ internal static class ElementSelection
 		var enumerable = functionArgs.Parameters.Evaluate(0) as IList
 			?? throw new FormatException($"First {functionName} parameter must be an IEnumerable.");
 
-		// With only one parameter, take the element from the relevant end of the list.
-		if (functionArgs.Parameters.Count == 1)
-		{
-			functionArgs.Result = allowMissing && enumerable.Count == 0
-				? null
-				: JValueHelper.UnwrapJValue(enumerable[fromEnd ? enumerable.Count - 1 : 0]);
-			return;
-		}
+		functionArgs.Result = functionArgs.Parameters.Count == 1
+			? SelectFromEnd(enumerable, fromEnd, allowMissing)
+			: SelectMatch(functionArgs, enumerable, functionName, fromEnd, allowMissing);
+	}
 
+	/// <summary>
+	/// The element at the relevant end of the list, for the single-parameter form.
+	/// </summary>
+	private static object? SelectFromEnd(IList enumerable, bool fromEnd, bool allowMissing)
+		=> allowMissing && enumerable.Count == 0
+			? null
+			: JValueHelper.UnwrapJValue(enumerable[fromEnd ? enumerable.Count - 1 : 0]);
+
+	/// <summary>
+	/// The first element, searching from whichever end, for which the lambda evaluates to true.
+	/// </summary>
+	private static object? SelectMatch(
+		FunctionEventArgs functionArgs,
+		IList enumerable,
+		string functionName,
+		bool fromEnd,
+		bool allowMissing)
+	{
 		var predicate = functionArgs.Parameters.Evaluate(1) as string
 			?? throw new FormatException($"Second {functionName} parameter must be a string.");
 
@@ -55,16 +69,12 @@ internal static class ElementSelection
 		{
 			if (lambda.Evaluate(value) as bool? == true)
 			{
-				functionArgs.Result = JValueHelper.UnwrapJValue(value);
-				return;
+				return JValueHelper.UnwrapJValue(value);
 			}
 		}
 
-		if (!allowMissing)
-		{
-			throw new FormatException("No matching element found.");
-		}
-
-		functionArgs.Result = null;
+		return allowMissing
+			? null
+			: throw new FormatException("No matching element found.");
 	}
 }
