@@ -37,24 +37,14 @@ internal static class TimeSpan
 
 		try
 		{
-			var fromString = functionArgs.Parameters.Evaluate(0)?.ToString()
-				?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - first parameter cannot be null.");
-			var toString = functionArgs.Parameters.Evaluate(1)?.ToString()
-				?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - second parameter cannot be null.");
-			var timeFormat = functionArgs.Parameters.Evaluate(2)?.ToString()
-				?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - third parameter cannot be null.");
+			// All three parameters are read before any is parsed, so a null parameter is still
+			// reported ahead of an unparseable one.
+			var fromString = RequiredString(functionArgs, 0, "first");
+			var toString = RequiredString(functionArgs, 1, "second");
+			var timeFormat = RequiredString(functionArgs, 2, "third");
 
-			if (!DateTime.TryParse(fromString, out var fromDateTime))
-			{
-				throw new FormatException($"{ExtensionFunction.TimeSpan} function - could not convert '{fromString}' to DateTime");
-			}
-
-			if (!DateTime.TryParse(toString, out var toDateTime))
-			{
-				throw new FormatException($"{ExtensionFunction.TimeSpan} function - could not convert '{toString}' to DateTime");
-			}
-
-			// Determine the timespan
+			var fromDateTime = ParseDateTime(fromString);
+			var toDateTime = ParseDateTime(toString);
 			var timeSpan = toDateTime - fromDateTime;
 
 			functionArgs.Result = Enum.TryParse(timeFormat, true, out TimeUnit timeUnit)
@@ -66,6 +56,18 @@ internal static class TimeSpan
 			throw new FormatException($"{ExtensionFunction.TimeSpan} function - could not extract three parameters into strings: {e.Message}");
 		}
 	}
+
+	/// <summary>
+	/// Reads the parameter at <paramref name="index"/> as a non-null string.
+	/// </summary>
+	private static string RequiredString(FunctionEventArgs functionArgs, int index, string ordinal)
+		=> functionArgs.Parameters.Evaluate(index)?.ToString()
+			?? throw new FormatException($"{ExtensionFunction.TimeSpan} function - {ordinal} parameter cannot be null.");
+
+	private static DateTime ParseDateTime(string text)
+		=> DateTime.TryParse(text, out var dateTime)
+			? dateTime
+			: throw new FormatException($"{ExtensionFunction.TimeSpan} function - could not convert '{text}' to DateTime");
 
 	private static double GetUnits(System.TimeSpan timeSpan, TimeUnit timeUnit)
 		=> timeUnit switch

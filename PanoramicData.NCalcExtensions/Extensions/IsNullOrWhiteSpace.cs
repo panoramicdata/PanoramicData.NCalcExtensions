@@ -24,16 +24,25 @@ internal static class IsNullOrWhiteSpace
 
 		try
 		{
-			var outputObject = functionArgs.Parameters.Evaluate(0);
-			functionArgs.Result = outputObject is null ||
-				outputObject is JToken { Type: JTokenType.Null } ||
-				outputObject is JsonElement { ValueKind: JsonValueKind.Null } ||
-				(outputObject is string outputString && string.IsNullOrWhiteSpace(outputString)) ||
-				(outputObject is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.String && string.IsNullOrWhiteSpace(jsonElement.GetString()));
+			functionArgs.Result = IsMatch(functionArgs.Parameters.Evaluate(0));
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException(e.Message, e);
 		}
 	}
+
+	/// <summary>
+	/// Whether <paramref name="value"/> is null, a JSON null, or a string that is empty or all white space, in any of the
+	/// representations the expression language can produce.
+	/// </summary>
+	private static bool IsMatch(object? value) => value switch
+	{
+		null => true,
+		JToken { Type: JTokenType.Null } => true,
+		JsonElement { ValueKind: JsonValueKind.Null } => true,
+		string text => string.IsNullOrWhiteSpace(text),
+		JsonElement { ValueKind: JsonValueKind.String } element => string.IsNullOrWhiteSpace(element.GetString()),
+		_ => false,
+	};
 }

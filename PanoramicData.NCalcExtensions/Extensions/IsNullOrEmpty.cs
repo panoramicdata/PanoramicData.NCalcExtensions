@@ -24,16 +24,25 @@ internal static class IsNullOrEmpty
 
 		try
 		{
-			var outputObject = functionArgs.Parameters.Evaluate(0);
-			functionArgs.Result = outputObject is null ||
-				outputObject is JToken { Type: JTokenType.Null } ||
-				outputObject is JsonElement { ValueKind: JsonValueKind.Null } ||
-				(outputObject is string outputString && outputString == string.Empty) ||
-				(outputObject is JsonElement jsonElement && jsonElement.ValueKind == JsonValueKind.String && jsonElement.GetString() == string.Empty);
+			functionArgs.Result = IsMatch(functionArgs.Parameters.Evaluate(0));
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException(e.Message, e);
 		}
 	}
+
+	/// <summary>
+	/// Whether <paramref name="value"/> is null, a JSON null, or an empty string, in any of the
+	/// representations the expression language can produce.
+	/// </summary>
+	private static bool IsMatch(object? value) => value switch
+	{
+		null => true,
+		JToken { Type: JTokenType.Null } => true,
+		JsonElement { ValueKind: JsonValueKind.Null } => true,
+		string text => text.Length == 0,
+		JsonElement { ValueKind: JsonValueKind.String } element => element.GetString()?.Length == 0,
+		_ => false,
+	};
 }

@@ -62,22 +62,15 @@ internal static class TypedDefinitionTypeResolver
 		return true;
 	}
 
-	private static bool IsSupportedType(Type type)
+	/// <summary>
+	/// The types a typed definition may declare.
+	/// </summary>
+	private static readonly FrozenSet<Type> SupportedTypes = new[]
 	{
-		return type == typeof(string)
-			|| type == typeof(bool)
-			|| type == typeof(byte)
-			|| type == typeof(sbyte)
-			|| type == typeof(short)
-			|| type == typeof(ushort)
-			|| type == typeof(int)
-			|| type == typeof(uint)
-			|| type == typeof(long)
-			|| type == typeof(ulong)
-			|| type == typeof(float)
-			|| type == typeof(double)
-			|| type == typeof(decimal)
-			|| type == typeof(DateTime)
-			|| type == typeof(Guid);
-	}
+		typeof(string), typeof(bool), typeof(byte), typeof(sbyte), typeof(short), typeof(ushort),
+		typeof(int), typeof(uint), typeof(long), typeof(ulong), typeof(float), typeof(double),
+		typeof(decimal), typeof(DateTime), typeof(Guid),
+	}.ToFrozenSet();
+
+	private static bool IsSupportedType(Type type) => SupportedTypes.Contains(type);
 }

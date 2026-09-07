@@ -26,33 +26,41 @@ internal static class Switch
 
 		try
 		{
-			var valueParam = functionArgs.Parameters.Evaluate(0);
-
-			// Determine the pair count
-			var pairCount = (functionArgs.Parameters.Count - 1) / 2;
-			for (var pairIndex = 0; pairIndex < pairCount * 2; pairIndex += 2)
-			{
-				var caseIndex = 1 + pairIndex;
-				var @case = functionArgs.Parameters.Evaluate(caseIndex);
-				if (@case?.Equals(valueParam) == true || (@case == null && valueParam == null))
-				{
-					functionArgs.Result = functionArgs.Parameters.Evaluate(caseIndex + 1);
-					return;
-				}
-			}
-
-			var defaultIsPresent = functionArgs.Parameters.Count % 2 == 0;
-			if (defaultIsPresent)
-			{
-				functionArgs.Result = functionArgs.Parameters.Evaluate(functionArgs.Parameters.Count - 1);
-				return;
-			}
-
-			throw new FormatException($"Default {ExtensionFunction.Switch} condition occurred, but no default value was specified.");
+			functionArgs.Result = SelectResult(functionArgs);
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"Could not evaluate {ExtensionFunction.Switch} function parameter 1 '{functionArgs.Parameters[0]}'.", e);
 		}
 	}
+
+	/// <summary>
+	/// Returns the value paired with the first case equal to the switch value, or the trailing
+	/// default value if one was supplied.
+	/// </summary>
+	private static object? SelectResult(FunctionEventArgs functionArgs)
+	{
+		var value = functionArgs.Parameters.Evaluate(0);
+
+		var pairCount = (functionArgs.Parameters.Count - 1) / 2;
+		for (var pairIndex = 0; pairIndex < pairCount * 2; pairIndex += 2)
+		{
+			var caseIndex = 1 + pairIndex;
+			if (IsMatch(functionArgs.Parameters.Evaluate(caseIndex), value))
+			{
+				return functionArgs.Parameters.Evaluate(caseIndex + 1);
+			}
+		}
+
+		// An even parameter count means the last parameter is a default value rather than a case.
+		return functionArgs.Parameters.Count % 2 == 0
+			? functionArgs.Parameters.Evaluate(functionArgs.Parameters.Count - 1)
+			: throw new FormatException($"Default {ExtensionFunction.Switch} condition occurred, but no default value was specified.");
+	}
+
+	/// <summary>
+	/// Whether a case matches the switch value. Two nulls match.
+	/// </summary>
+	private static bool IsMatch(object? caseValue, object? value)
+		=> caseValue is null ? value is null : caseValue.Equals(value);
 }
