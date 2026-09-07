@@ -28,10 +28,8 @@ public static class ExtendedExpressionDocumentParser
 
 	private static LineAnalysis AnalyzeLines(string expression)
 	{
-		var parameters = new Dictionary<string, TypedDefinition>();
-		var comments = new List<string>();
+		var commentLines = new CommentAccumulator();
 		var tidiedExpression = new StringBuilder(expression.Length);
-		TypedDefinition? answer = null;
 		var lineStart = 0;
 		var isFirstTidiedLine = true;
 		var expressionSpan = expression.AsSpan();
@@ -53,18 +51,7 @@ public static class ExtendedExpressionDocumentParser
 
 			if (ExpressionCommentParsing.TryGetCommentContent(lineWithoutCarriageReturn, out ReadOnlySpan<char> commentContent))
 			{
-				if (ExpressionCommentParsing.TryParseParameterDefinition(commentContent, out var parameterName, out var definition))
-				{
-					parameters[parameterName] = definition;
-				}
-				else if (answer is null && ExpressionCommentParsing.TryParseAnswerDefinition(commentContent, out var answerDefinition))
-				{
-					answer = answerDefinition;
-				}
-				else
-				{
-					comments.Add(commentContent.ToString());
-				}
+				commentLines.Add(commentContent);
 			}
 			else
 			{
@@ -75,7 +62,44 @@ public static class ExtendedExpressionDocumentParser
 			lineStart = i + 1;
 		}
 
-		return new LineAnalysis(parameters, answer, comments, tidiedExpression.ToString().Trim());
+		return new LineAnalysis(
+			commentLines.Parameters,
+			commentLines.Answer,
+			commentLines.Comments,
+			tidiedExpression.ToString().Trim());
+	}
+
+	/// <summary>
+	/// Collects what an expression's comment lines contribute as it is scanned.
+	/// </summary>
+	private sealed class CommentAccumulator
+	{
+		public Dictionary<string, TypedDefinition> Parameters { get; } = [];
+
+		public List<string> Comments { get; } = [];
+
+		public TypedDefinition? Answer { get; private set; }
+
+		/// <summary>
+		/// Files one comment as a parameter definition, the answer definition, or a plain comment.
+		/// </summary>
+		public void Add(ReadOnlySpan<char> commentContent)
+		{
+			if (ExpressionCommentParsing.TryParseParameterDefinition(commentContent, out var parameterName, out var definition))
+			{
+				Parameters[parameterName] = definition;
+				return;
+			}
+
+			// Only the first answer definition is taken; any later one is kept as a comment.
+			if (Answer is null && ExpressionCommentParsing.TryParseAnswerDefinition(commentContent, out var answerDefinition))
+			{
+				Answer = answerDefinition;
+				return;
+			}
+
+			Comments.Add(commentContent.ToString());
+		}
 	}
 
 	private sealed record LineAnalysis(

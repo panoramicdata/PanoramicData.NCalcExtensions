@@ -27,86 +27,56 @@ internal static class DateTimeMethods
 {
 	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
-		if (functionArgs.Parameters.Count > 0)
-		{
-			// Time Zone
-			if (functionArgs.Parameters.Evaluate(0) is not string timeZone)
-			{
-				throw new FormatException($"{ExtensionFunction.DateTime} function - The first argument should be a string, e.g. 'UTC'");
-			}
-			// TODO - support more than just UTC
-			if (timeZone != "UTC")
-			{
-				throw new FormatException($"{ExtensionFunction.DateTime} function - Only UTC timeZone is currently supported.");
-			}
-		}
-		// Time zone has been determined
+		ValidateTimeZone(functionArgs);
 
-		// Format
 		var format = functionArgs.Parameters.Count > 1
 			? functionArgs.Parameters.Evaluate(1) as string
 			: "yyyy-MM-dd HH:mm:ss";
-		// Format has been determined
 
-		// Days to add
-		double daysToAdd = 0;
-		if (functionArgs.Parameters.Count > 2)
-		{
-			var daysToAddNullable = GetNullableDouble(functionArgs.Parameters.Evaluate(2));
-			if (!daysToAddNullable.HasValue)
-			{
-				throw new FormatException($"{ExtensionFunction.DateTime} function - Days to add must be a number.");
-			}
-
-			daysToAdd = daysToAddNullable.Value;
-		}
-
-		// Hours to add
-		double hoursToAdd = 0;
-		if (functionArgs.Parameters.Count > 3)
-		{
-			var hoursToAddNullable = GetNullableDouble(functionArgs.Parameters.Evaluate(3));
-			if (!hoursToAddNullable.HasValue)
-			{
-				throw new FormatException($"{ExtensionFunction.DateTime} function - Hours to add must be a number.");
-			}
-
-			hoursToAdd = hoursToAddNullable.Value;
-		}
-
-		// Minutes to add
-		double minutesToAdd = 0;
-		if (functionArgs.Parameters.Count > 4)
-		{
-			var minutesToAddNullable = GetNullableDouble(functionArgs.Parameters.Evaluate(4));
-			if (!minutesToAddNullable.HasValue)
-			{
-				throw new FormatException($"{ExtensionFunction.DateTime} function - Minutes to add must be a number.");
-			}
-
-			minutesToAdd = minutesToAddNullable.Value;
-		}
-
-		// Seconds to add
-		double secondsToAdd = 0;
-		if (functionArgs.Parameters.Count > 5)
-		{
-			var secondsToAddNullable = GetNullableDouble(functionArgs.Parameters.Evaluate(5));
-			if (!secondsToAddNullable.HasValue)
-			{
-				throw new FormatException($"{ExtensionFunction.DateTime} function - Seconds to add must be a number.");
-			}
-
-			secondsToAdd = secondsToAddNullable.Value;
-		}
-
+		// The offsets are read in parameter order, so the first bad one is the one reported.
 		functionArgs.Result = DateTimeOffset
 			.UtcNow
-			.AddDays(daysToAdd)
-			.AddHours(hoursToAdd)
-			.AddMinutes(minutesToAdd)
-			.AddSeconds(secondsToAdd)
+			.AddDays(ReadOffset(functionArgs, 2, "Days"))
+			.AddHours(ReadOffset(functionArgs, 3, "Hours"))
+			.AddMinutes(ReadOffset(functionArgs, 4, "Minutes"))
+			.AddSeconds(ReadOffset(functionArgs, 5, "Seconds"))
 			.ToString(format, cultureInfo);
+	}
+
+	/// <summary>
+	/// Checks the optional time zone parameter.
+	/// </summary>
+	private static void ValidateTimeZone(FunctionEventArgs functionArgs)
+	{
+		if (functionArgs.Parameters.Count == 0)
+		{
+			return;
+		}
+
+		if (functionArgs.Parameters.Evaluate(0) is not string timeZone)
+		{
+			throw new FormatException($"{ExtensionFunction.DateTime} function - The first argument should be a string, e.g. 'UTC'");
+		}
+
+		// TODO - support more than just UTC
+		if (timeZone != "UTC")
+		{
+			throw new FormatException($"{ExtensionFunction.DateTime} function - Only UTC timeZone is currently supported.");
+		}
+	}
+
+	/// <summary>
+	/// An optional numeric offset parameter, defaulting to zero when it was not supplied.
+	/// </summary>
+	private static double ReadOffset(FunctionEventArgs functionArgs, int index, string name)
+	{
+		if (functionArgs.Parameters.Count <= index)
+		{
+			return 0;
+		}
+
+		return GetNullableDouble(functionArgs.Parameters.Evaluate(index))
+			?? throw new FormatException($"{ExtensionFunction.DateTime} function - {name} to add must be a number.");
 	}
 
 	private static double? GetNullableDouble(object? value)

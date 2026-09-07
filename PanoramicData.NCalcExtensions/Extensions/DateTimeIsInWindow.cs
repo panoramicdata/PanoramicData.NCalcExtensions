@@ -28,11 +28,28 @@ internal static class DateTimeIsInWindow
 			throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - requires two or three arguments: a CRON expression, a duration in seconds and, optionally, a timezone.");
 		}
 
-		if (functionArgs.Parameters.Evaluate(0) is not string cronString || string.IsNullOrWhiteSpace(cronString))
-		{
-			throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The first argument must be a CRON expression string.");
-		}
+		// Read in parameter order, and parse the CRON expression only once every argument has
+		// been accepted, so the first bad argument is the one reported.
+		var cronString = ReadCronString(functionArgs);
+		var durationSeconds = ReadDurationSeconds(functionArgs);
+		var timeZoneInfo = ReadTimeZone(functionArgs);
+		var cronExpression = ParseCronExpression(cronString);
 
+		// A window containing now must have started within the last durationSeconds. The first
+		// fire time strictly after (now - duration) is at or before now exactly when now is
+		// inside that fire's window.
+		var nowUtc = timeProvider.GetUtcNow();
+		var windowStart = cronExpression.GetNextOccurrence(nowUtc.AddSeconds(-durationSeconds), timeZoneInfo);
+		functionArgs.Result = windowStart is not null && windowStart.Value <= nowUtc;
+	}
+
+	private static string ReadCronString(FunctionEventArgs functionArgs)
+		=> functionArgs.Parameters.Evaluate(0) is string cronString && !string.IsNullOrWhiteSpace(cronString)
+			? cronString
+			: throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The first argument must be a CRON expression string.");
+
+	private static double ReadDurationSeconds(FunctionEventArgs functionArgs)
+	{
 		double durationSeconds;
 		try
 		{
@@ -43,25 +60,33 @@ internal static class DateTimeIsInWindow
 			throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The second argument (durationSeconds) must be a number.");
 		}
 
-		if (durationSeconds <= 0)
+		return durationSeconds > 0
+			? durationSeconds
+			: throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The second argument (durationSeconds) must be positive.");
+	}
+
+	/// <summary>
+	/// The optional time zone parameter, defaulting to UTC.
+	/// </summary>
+	private static TimeZoneInfo ReadTimeZone(FunctionEventArgs functionArgs)
+	{
+		if (functionArgs.Parameters.Count <= 2)
 		{
-			throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The second argument (durationSeconds) must be positive.");
+			return TimeZoneInfo.Utc;
 		}
 
-		var timeZoneInfo = TimeZoneInfo.Utc;
-		if (functionArgs.Parameters.Count > 2)
+		if (functionArgs.Parameters.Evaluate(2) is not string timeZoneName)
 		{
-			if (functionArgs.Parameters.Evaluate(2) is not string timeZoneName)
-			{
-				throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The third argument should be a string, e.g. 'UTC'");
-			}
-
-			if (!TZConvert.TryGetTimeZoneInfo(timeZoneName, out timeZoneInfo))
-			{
-				throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The requested timezone was not recognized");
-			}
+			throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The third argument should be a string, e.g. 'UTC'");
 		}
 
+		return TZConvert.TryGetTimeZoneInfo(timeZoneName, out var timeZoneInfo)
+			? timeZoneInfo
+			: throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The requested timezone was not recognized");
+	}
+
+	private static CronExpression ParseCronExpression(string cronString)
+	{
 		// 5 fields is standard CRON; 6 includes a leading seconds field. Quartz-style 7-field
 		// expressions (with a trailing year) are not supported by Cronos.
 		var fieldCount = cronString.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
@@ -72,21 +97,14 @@ internal static class DateTimeIsInWindow
 			_ => throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - The CRON expression must have 5 fields, or 6 fields when including seconds.")
 		};
 
-		CronExpression cronExpression;
 		try
 		{
-			cronExpression = CronExpression.Parse(cronString, cronFormat);
+			return CronExpression.Parse(cronString, cronFormat);
 		}
 		catch (CronFormatException exception)
 		{
 			throw new FormatException($"{ExtensionFunction.DateTimeIsInWindow} function - '{cronString}' is not a valid CRON expression: {exception.Message}");
 		}
-
-		// A window containing now must have started within the last durationSeconds. The first
-		// fire time strictly after (now - duration) is at or before now exactly when now is
-		// inside that fire's window.
-		var nowUtc = timeProvider.GetUtcNow();
-		var windowStart = cronExpression.GetNextOccurrence(nowUtc.AddSeconds(-durationSeconds), timeZoneInfo);
-		functionArgs.Result = windowStart is not null && windowStart.Value <= nowUtc;
 	}
+
 }

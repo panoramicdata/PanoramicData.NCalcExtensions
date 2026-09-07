@@ -93,26 +93,8 @@ internal static class ExpressionCommentParsing
 		{
 			if (i < expression.Length - 1 && expression[i] == '/' && expression[i + 1] == '*')
 			{
-				var documentationStart = i + 2;
-				i += 2;
-				while (i < expression.Length - 1)
-				{
-					if (expression[i] == '*' && expression[i + 1] == '/')
-					{
-						if (documentation is null)
-						{
-							var documentationSpan = expression.AsSpan(documentationStart, i - documentationStart).Trim();
-							documentation = documentationSpan.IsEmpty ? null : documentationSpan.ToString();
-						}
-						i += 2;
-						break;
-					}
-					i++;
-				}
-				if (i >= expression.Length - 1 && (i >= expression.Length || expression[i - 1] != '/'))
-				{
-					i = expression.Length;
-				}
+				// However long it is, a comment collapses to a single space.
+				i = SkipComment(expression, i, ref documentation);
 				result.Append(' ');
 			}
 			else
@@ -123,6 +105,47 @@ internal static class ExpressionCommentParsing
 		}
 
 		return result.ToString();
+	}
+
+	/// <summary>
+	/// Skips the comment opening at <paramref name="start"/>, returning the index just past its
+	/// terminator, or the end of the expression if it has none.
+	/// </summary>
+	/// <param name="documentation">
+	/// Set to the comment's text if it is not already set and this comment is not blank, so that
+	/// the first non-blank comment becomes the expression's documentation.
+	/// </param>
+	private static int SkipComment(string expression, int start, ref string? documentation)
+	{
+		var documentationStart = start + 2;
+		var i = documentationStart;
+
+		while (i < expression.Length - 1)
+		{
+			if (expression[i] == '*' && expression[i + 1] == '/')
+			{
+				documentation ??= ReadDocumentation(expression, documentationStart, i);
+				i += 2;
+				break;
+			}
+
+			i++;
+		}
+
+		// The loop above stops one character short of the end, so a comment that was never
+		// terminated consumes the remainder of the expression.
+		return i >= expression.Length - 1 && (i >= expression.Length || expression[i - 1] != '/')
+			? expression.Length
+			: i;
+	}
+
+	/// <summary>
+	/// The trimmed comment text between the given indices, or null if it is blank.
+	/// </summary>
+	private static string? ReadDocumentation(string expression, int start, int end)
+	{
+		var documentationSpan = expression.AsSpan(start, end - start).Trim();
+		return documentationSpan.IsEmpty ? null : documentationSpan.ToString();
 	}
 
 	internal static bool TryParseParameterDefinition(
@@ -184,34 +207,49 @@ internal static class ExpressionCommentParsing
 
 		name = nameSpan.ToString();
 
-		string typeName;
-		string? value = null;
-		var hasValue = false;
-
-		var valueSeparatorIndex = definitionContent.IndexOf(':');
-		if (valueSeparatorIndex >= 0)
-		{
-			var typeNameSpan = definitionContent[..valueSeparatorIndex].Trim();
-			var valueSpan = definitionContent[(valueSeparatorIndex + 1)..].Trim();
-			typeName = typeNameSpan.ToString();
-			value = valueSpan.ToString();
-			hasValue = true;
-		}
-		else
-		{
-			typeName = definitionContent.ToString();
-		}
+		SplitTypeAndValue(definitionContent, out var typeName, out var value);
 
 		if (!TypedDefinitionTypeResolver.TryResolve(typeName, out _))
 		{
 			return false;
 		}
 
-		if (!hasValue)
+		if (value is null)
 		{
 			definition = TypedDefinition.FromTypeOnly(typeName);
 			return true;
 		}
+
+		return TryDefineFromValue(name, typeName, value, out definition);
+	}
+
+	/// <summary>
+	/// Splits a definition's content, which is either "type" or "type: value".
+	/// </summary>
+	/// <param name="value">
+	/// Null when no value was given at all, which is distinct from a value that is present but
+	/// blank — that is rejected rather than treated as type-only.
+	/// </param>
+	private static void SplitTypeAndValue(ReadOnlySpan<char> definitionContent, out string typeName, out string? value)
+	{
+		var valueSeparatorIndex = definitionContent.IndexOf(':');
+		if (valueSeparatorIndex < 0)
+		{
+			typeName = definitionContent.ToString();
+			value = null;
+			return;
+		}
+
+		typeName = definitionContent[..valueSeparatorIndex].Trim().ToString();
+		value = definitionContent[(valueSeparatorIndex + 1)..].Trim().ToString();
+	}
+
+	/// <summary>
+	/// Builds the definition for a "type: value" definition.
+	/// </summary>
+	private static bool TryDefineFromValue(string name, string typeName, string value, out TypedDefinition definition)
+	{
+		definition = null!;
 
 		if (string.IsNullOrWhiteSpace(value))
 		{
