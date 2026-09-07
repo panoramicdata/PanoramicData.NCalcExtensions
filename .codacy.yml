@@ -2,7 +2,7 @@
 engines:
   csslint:
     enabled: false
-  
+
 exclude_paths:
   - '**/*.Designer.cs'
   - '**/obj/**'
@@ -12,8 +12,38 @@ exclude_paths:
   - '**/*.AssemblyInfo.cs'
   - '**/*.AssemblyAttributes.cs'
 
-# Suppress specific patterns
+# Patterns that do not apply to this codebase.
+#
+# NOTE: Codacy applies pattern enable/disable from the project's Code Patterns
+# settings. If this section is not honoured by the configured analysis, these
+# two patterns need disabling there, with the reasoning below.
 patterns:
-  # Suppress 'partial' keyword warnings - needed for VS Code extension generation
-  - id: "Sonar.CSharp.S3260"
+  # SonarCSharp_S2333 — "'partial' is gratuitous in this context" (97 findings).
+  #
+  # False positive. IFunctionPrototypes is a single interface split across 97
+  # files, so that each function's editor-facing prototype sits beside its
+  # implementation. Every one of those declarations therefore requires the
+  # partial modifier: removing it from any single file fails the build with
+  # CS0260 ("Missing partial modifier on declaration of type
+  # 'IFunctionPrototypes'; another partial declaration of this type exists").
+  # The finding comes from analysing each file in isolation, where the other 96
+  # declarations are not visible.
+  - id: "SonarCSharp_S2333"
+    enabled: false
+
+  # SonarCSharp_S2360 — "Use the overloading mechanism instead of the optional
+  # parameters" (30 findings).
+  #
+  # Does not apply. 27 of these are on IFunctionPrototypes methods, which are
+  # never called — the interface exists only to describe each NCalc function to
+  # the Monaco editor for IntelliSense. The optional parameters are how a
+  # function's optional NCalc arguments are expressed, so replacing them with
+  # overloads would misdescribe the functions it documents.
+  #
+  # The remaining 3 (BaseExtendedExpression, ExtendedExpression,
+  # SimpleExtendedExpression) are `TimeProvider? timeProvider = null`, the
+  # convention .NET itself uses for injecting a time source. Splitting these
+  # into overloads would widen the public API surface of a published package
+  # for no behavioural gain.
+  - id: "SonarCSharp_S2360"
     enabled: false
