@@ -2,100 +2,37 @@ namespace PanoramicData.NCalcExtensions.Test;
 
 public class NowTests : NCalcTest
 {
-	[Fact]
-	public void Evaluate_NoParameters_ReturnsCurrentDateAndTime()
+	[Theory]
+	[InlineData("now()")]
+	[InlineData("now('UTC')")]
+	public void Now_InUtc_ReturnsCurrentDateAndTime(string expressionText)
 	{
-		var result = Test($"now()");
+		var result = Test(expressionText);
 		var desiredDateTime = DateTime.UtcNow;
 		result.Should().BeOfType<DateTime>();
 
-		var difference = desiredDateTime - (DateTime)result;
-		difference.Should().BeLessThan(TimeSpan.FromMilliseconds(1));
+		(desiredDateTime - (DateTime)result!).Should().BeLessThan(TimeSpan.FromMilliseconds(1));
 	}
 
 	[Fact]
-	public void Evaluate_NoParameters_ReturnsValueOfKindUtc()
-	{
-		var result = Test($"now()");
-		result.Should().BeOfType<DateTime>();
+	public void Now_NoParameters_ReturnsValueOfKindUtc()
+		=> KindOf(Test("now()")).Should().Be(DateTimeKind.Utc);
 
-		((DateTime)result).Kind.Should().Be(DateTimeKind.Utc);
-	}
-
-	[Fact]
-	public void Evaluate_UTCTimeZone_ReturnsCurrentDateAndTime()
-	{
-		var result = Test($"now('UTC')");
-		var desiredDateTime = DateTime.UtcNow;
-		result.Should().BeOfType<DateTime>();
-
-		var difference = desiredDateTime - (DateTime)result;
-		difference.Should().BeLessThan(TimeSpan.FromMilliseconds(1));
-	}
-
-	[Fact]
-	public void Evaluate_CETTimeZone_ReturnsValueOfKindUnspecified()
-	{
-		var result = Test($"now('Central European Standard Time')");
-		result.Should().BeOfType<DateTime>();
-
-		((DateTime)result).Kind.Should().Be(DateTimeKind.Unspecified);
-	}
-
-	// Additional comprehensive tests
+	[Theory]
+	[InlineData("Central European Standard Time")]
+	[InlineData("Pacific Standard Time")]
+	[InlineData("Tokyo Standard Time")]
+	public void Now_InNamedTimeZone_ReturnsValueOfKindUnspecified(string timeZone)
+		=> KindOf(Test($"now('{timeZone}')")).Should().Be(DateTimeKind.Unspecified);
 
 	[Fact]
 	public void Now_EasternTimeZone_ReturnsCorrectTime()
 	{
 		var result = Test("now('Eastern Standard Time')");
 		result.Should().BeOfType<DateTime>();
-		var nowEst = (DateTime)result;
-		var nowUtc = DateTime.UtcNow;
-		// EST is typically UTC-5 or UTC-4 (daylight saving), difference should be reasonable
-		var difference = Math.Abs((nowUtc - nowEst).TotalHours);
-		difference.Should().BeInRange(0, 7); // Account for timezone offset range
-	}
 
-	[Fact]
-	public void Now_PacificTimeZone_ReturnsCorrectTime()
-	{
-		var result = Test("now('Pacific Standard Time')");
-		result.Should().BeOfType<DateTime>();
-		((DateTime)result).Kind.Should().Be(DateTimeKind.Unspecified);
-	}
-
-	[Fact]
-	public void Now_InvalidTimeZone_ThrowsException()
-		=> new ExtendedExpression("now('Invalid/Timezone')")
-			.Invoking(e => e.Evaluate())
-			.Should()
-			.Throw<FormatException>();
-
-	[Fact]
-	public void Now_EmptyStringTimeZone_ThrowsException()
-		=> new ExtendedExpression("now('')")
-			.Invoking(e => e.Evaluate())
-			.Should()
-			.Throw<FormatException>();
-
-	[Fact]
-	public void Now_NonStringParameter_ThrowsException()
-		=> new ExtendedExpression("now(123)")
-			.Invoking(e => e.Evaluate())
-			.Should()
-			.Throw<FormatException>()
-			.WithMessage("*first argument should be a string*");
-
-	[Fact]
-	public void Now_RepeatedCalls_ReturnsIncreasingTime()
-	{
-		var result1 = Test("now()");
-		System.Threading.Thread.Sleep(10); // Small delay
-		var result2 = Test("now()");
-		
-		result1.Should().BeOfType<DateTime>();
-		result2.Should().BeOfType<DateTime>();
-		((DateTime)result2).Should().BeAfter((DateTime)result1);
+		// Eastern is UTC-5, or UTC-4 under daylight saving.
+		Math.Abs((DateTime.UtcNow - (DateTime)result!).TotalHours).Should().BeInRange(0, 7);
 	}
 
 	[Fact]
@@ -103,16 +40,35 @@ public class NowTests : NCalcTest
 	{
 		var result = Test("now()");
 		result.Should().NotBeNull();
-		var nowUtc = DateTime.UtcNow;
-		var difference = Math.Abs((nowUtc - (DateTime)result!).TotalSeconds);
-		difference.Should().BeLessThan(1); // Should be within 1 second
+
+		Math.Abs((DateTime.UtcNow - (DateTime)result!).TotalSeconds).Should().BeLessThan(1);
 	}
 
 	[Fact]
-	public void Now_TokyoTimeZone_ReturnsCorrectTime()
+	public void Now_RepeatedCalls_ReturnsIncreasingTime()
 	{
-		var result = Test("now('Tokyo Standard Time')");
+		var first = Test("now()");
+		System.Threading.Thread.Sleep(10);
+		var second = Test("now()");
+
+		first.Should().BeOfType<DateTime>();
+		second.Should().BeOfType<DateTime>();
+		((DateTime)second!).Should().BeAfter((DateTime)first!);
+	}
+
+	[Theory]
+	[InlineData("now('Invalid/Timezone')", "*")]
+	[InlineData("now('')", "*")]
+	[InlineData("now(123)", "*first argument should be a string*")]
+	public void Now_WithInvalidArguments_ThrowsFormatException(string expressionText, string messagePattern)
+		=> TestShouldThrow<FormatException>(expressionText, messagePattern);
+
+	/// <summary>
+	/// The kind of a now() result, which must be a DateTime.
+	/// </summary>
+	private static DateTimeKind KindOf(object? result)
+	{
 		result.Should().BeOfType<DateTime>();
-		((DateTime)result).Kind.Should().Be(DateTimeKind.Unspecified);
+		return ((DateTime)result!).Kind;
 	}
 }
