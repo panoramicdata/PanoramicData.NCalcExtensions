@@ -3,99 +3,52 @@ using System.Text.Json;
 
 namespace PanoramicData.NCalcExtensions.Test;
 
-public class JsonPathTests
+public class JsonPathTests : NCalcTest
 {
-	[Fact]
-	public void JsonPath_JsonDocument_PropertyAccess_Succeeds()
-	{
-		// Test basic property access on JsonDocument (equivalent to JPath basic functionality)
-		var expression = new ExtendedExpression("getProperty(source, 'name')");
-		var jsonDoc = JsonDocument.Parse("{\"name\": \"bob\", \"numbers\": [1, 2]}");
-		expression.Parameters["source"] = jsonDoc;
-		var result = expression.Evaluate();
-		result.Should().Be("bob");
-	}
+	private const string Bob = "{\"name\": \"bob\", \"numbers\": [1, 2]}";
 
-	[Fact]
-	public void JsonPath_JsonDocument_ArrayAccess_Succeeds()
+	[Theory]
+	[InlineData("getProperty(source, 'name')", Bob, "bob")]
+	[InlineData("getProperty(source, 'nonexistent')", "{\"name\": \"bob\"}", null)]
+	[InlineData("toString(typeOf(source))", "{\"name\": \"bob\"}", "JsonDocument")]
+	public void JsonPath_OfJsonDocument_ReturnsExpectedValue(string expressionText, string json, object? expectedOutput)
+		=> Test(expressionText, "source", JsonDocument.Parse(json)).Should().Be(expectedOutput);
+
+	[Theory]
+	[InlineData("getProperty(source, 'numbers')", Bob, JsonValueKind.Array)]
+	[InlineData("getProperty(source, 'details')", "{\"name\": \"bob\", \"details\": {\"age\": 30, \"city\": \"NYC\"}}", JsonValueKind.Object)]
+	public void JsonPath_OfJsonDocument_ReturnsElementOfExpectedKind(string expressionText, string json, JsonValueKind expectedKind)
 	{
-		// Test array property access
-		var expression = new ExtendedExpression("getProperty(source, 'numbers')");
-		var jsonDoc = JsonDocument.Parse("{\"name\": \"bob\", \"numbers\": [1, 2]}");
-		expression.Parameters["source"] = jsonDoc;
-		var result = expression.Evaluate();
+		var result = Test(expressionText, "source", JsonDocument.Parse(json));
 		result.Should().BeOfType<JsonElement>();
-
-		var jsonElement = (JsonElement)result;
-		jsonElement.ValueKind.Should().Be(JsonValueKind.Array);
-		jsonElement.GetArrayLength().Should().Be(2);
+		((JsonElement)result!).ValueKind.Should().Be(expectedKind);
 	}
 
 	[Fact]
-	public void JsonPath_JsonDocument_NestedObject_Succeeds()
-	{
-		var expression = new ExtendedExpression("getProperty(source, 'details')");
-		var jsonDoc = JsonDocument.Parse("{\"name\": \"bob\", \"details\": {\"age\": 30, \"city\": \"NYC\"}}");
-		expression.Parameters["source"] = jsonDoc;
-		var result = expression.Evaluate();
-		result.Should().BeOfType<JsonElement>();
-
-		var jsonElement = (JsonElement)result;
-		jsonElement.ValueKind.Should().Be(JsonValueKind.Object);
-	}
+	public void JsonPath_OfJsonDocument_ArrayProperty_HasExpectedLength()
+		=> ((JsonElement)Test("getProperty(source, 'numbers')", "source", JsonDocument.Parse(Bob))!)
+			.GetArrayLength().Should().Be(2);
 
 	[Fact]
-	public void JsonPath_JsonDocument_PropertyNames_Succeeds()
+	public void JsonPath_OfJsonDocument_PropertyNames_Succeeds()
 	{
-		var expression = new ExtendedExpression("getProperties(source)");
-		var jsonDoc = JsonDocument.Parse("{\"name\": \"bob\", \"numbers\": [1, 2], \"active\": true}");
-		expression.Parameters["source"] = jsonDoc;
-		var result = expression.Evaluate() as List<string>;
+		var json = "{\"name\": \"bob\", \"numbers\": [1, 2], \"active\": true}";
+		var result = Test("getProperties(source)", "source", JsonDocument.Parse(json)) as List<string>;
 
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
-		result.Should().Contain("name");
-		result.Should().Contain("numbers");
-		result.Should().Contain("active");
+		result.Should().Contain(["name", "numbers", "active"]);
 	}
 
 	[Fact]
-	public void JsonPath_JsonDocument_MissingProperty_ReturnsNull()
+	public void JsonPath_OfJsonElement_PropertyAccess_Succeeds()
 	{
-		var expression = new ExtendedExpression("getProperty(source, 'nonexistent')");
-		var jsonDoc = JsonDocument.Parse("{\"name\": \"bob\"}");
-		expression.Parameters["source"] = jsonDoc;
-		var result = expression.Evaluate();
-		result.Should().BeNull();
+		var element = JsonDocument.Parse("{\"person\": {\"name\": \"alice\", \"age\": 25}}").RootElement.GetProperty("person");
+		Test("getProperty(source, 'name')", "source", element).Should().Be("alice");
 	}
 
 	[Fact]
-	public void JsonPath_JsonElement_PropertyAccess_Succeeds()
-	{
-		var jsonDoc = JsonDocument.Parse("{\"person\": {\"name\": \"alice\", \"age\": 25}}");
-		var expression = new ExtendedExpression("getProperty(personElement, 'name')");
-		expression.Parameters["personElement"] = jsonDoc.RootElement.GetProperty("person");
-		var result = expression.Evaluate();
-		result.Should().Be("alice");
-	}
-
-	[Fact]
-	public void JsonPath_JsonDocument_TypeChecking_Succeeds()
-	{
-		var expression = new ExtendedExpression("toString(typeOf(source))");
-		var jsonDoc = JsonDocument.Parse("{\"name\": \"bob\"}");
-		expression.Parameters["source"] = jsonDoc;
-		var result = expression.Evaluate();
-		result.Should().Be("JsonDocument");
-	}
-
-	[Fact]
-	public void JsonPath_JsonElement_TypeChecking_Succeeds()
-	{
-		var jsonDoc = JsonDocument.Parse("{\"name\": \"bob\"}");
-		var expression = new ExtendedExpression("toString(typeOf(element))");
-		expression.Parameters["element"] = jsonDoc.RootElement;
-		var result = expression.Evaluate();
-		result.Should().Be("JsonElement");
-	}
+	public void JsonPath_OfJsonElement_TypeChecking_Succeeds()
+		=> Test("toString(typeOf(source))", "source", JsonDocument.Parse("{\"name\": \"bob\"}").RootElement)
+			.Should().Be("JsonElement");
 }

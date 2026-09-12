@@ -59,50 +59,37 @@ public abstract class ExtremumTests : NCalcTest
 	[Theory]
 	[MemberData("FailureCases")]
 	public void Extremum_WithInvalidArguments_ThrowsFormatException(string expressionText, string messagePattern)
-		=> new ExtendedExpression(expressionText)
-			.Invoking(expression => expression.Evaluate())
-			.Should().Throw<FormatException>()
-			.WithMessage(messagePattern);
+		=> TestShouldThrow<FormatException>(expressionText, messagePattern);
 
 	[Fact]
 	public void Extremum_OfListOfUnsupportedType_ThrowsFormatException()
-		=> ShouldFailWith(
+		=> TestShouldThrow<FormatException>(
 			$"{Function}(valuesList)",
+			"valuesList",
 			new List<object?> { new DateTime(2024, 1, 1), new DateTime(2024, 1, 2) },
 			"*Found unsupported type*");
 
 	[Fact]
 	public void Extremum_OfListOfUnsupportedJTokenType_ThrowsFormatException()
-		=> ShouldFailWith(
+		=> TestShouldThrow<FormatException>(
 			$"{Function}(valuesList)",
+			"valuesList",
 			new List<object?> { new JValue(true), new JValue(false) },
 			"*Found unsupported JToken type*");
 
 	[Fact]
 	public void Extremum_OfUnsupportedEnumerableType_ThrowsFormatException()
-		=> ShouldFailWith(
+		=> TestShouldThrow<FormatException>(
 			$"{Function}(valuesList)",
+			"valuesList",
 			new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(1) },
 			"*must be an IEnumerable of a numeric or string type*");
 
 	[Fact]
 	public void Extremum_WithLambda_OfUnsupportedEnumerableType_ThrowsFormatException()
-		=> ShouldFailWith(
+		=> TestShouldThrow<FormatException>(
 			$"{Function}(valuesList, 'x', 'x')",
+			"valuesList",
 			new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(1) },
 			"*must be an IEnumerable of a string or numeric type when processing as a lambda*");
-
-	/// <summary>
-	/// Asserts that <paramref name="expressionText"/>, evaluated over a "valuesList" parameter,
-	/// fails with a FormatException matching <paramref name="messagePattern"/>.
-	/// </summary>
-	private static void ShouldFailWith(string expressionText, object valuesList, string messagePattern)
-	{
-		var expression = new ExtendedExpression(expressionText);
-		expression.Parameters["valuesList"] = valuesList;
-
-		expression.Invoking(x => x.Evaluate())
-			.Should().Throw<FormatException>()
-			.WithMessage(messagePattern);
-	}
 }

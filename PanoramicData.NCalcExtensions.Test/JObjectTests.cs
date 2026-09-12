@@ -1,12 +1,11 @@
 ﻿namespace PanoramicData.NCalcExtensions.Test;
 
-public class JObjectTests
+public class JObjectTests : NCalcTest
 {
 	[Fact]
 	public void JObject_CreatesJObject()
 	{
-		var expression = new ExtendedExpression("jObject('a', 1, 'b', null)");
-		var result = expression.Evaluate() as JObject;
+		var result = Test("jObject('a', 1, 'b', null)") as JObject;
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(2);
@@ -19,34 +18,16 @@ public class JObjectTests
 	[Fact]
 	public void JObject_EmptyJObject_Succeeds()
 	{
-		var expression = new ExtendedExpression("jObject()");
-		var result = expression.Evaluate() as JObject;
+		var result = Test("jObject()") as JObject;
 		result.Should().BeOfType<JObject>();
 		result.Should().NotBeNull();
 		result.Should().HaveCount(0);
 	}
 
-	[Fact]
-	public void JObject_OddNumberOfParameters_ThrowsException()
-	{
-		var expression = new ExtendedExpression("jObject('a', 1, 'b')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
-			.WithMessage("*even number of parameters*");
-	}
-
-	[Fact]
-	public void JObject_NonStringKey_ThrowsException()
-	{
-		var expression = new ExtendedExpression("jObject(123, 'value')");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
-			.WithMessage("*requires a string key*");
-	}
-
-	[Fact]
-	public void JObject_DuplicateKey_ThrowsException()
-	{
-		var expression = new ExtendedExpression("jObject('a', 1, 'a', 2)");
-		expression.Invoking(e => e.Evaluate()).Should().ThrowExactly<FormatException>()
-			.WithMessage("*can only define property a once*");
-	}
+	[Theory]
+	[InlineData("jObject('a', 1, 'b')", "*even number of parameters*")]
+	[InlineData("jObject(123, 'value')", "*requires a string key*")]
+	[InlineData("jObject('a', 1, 'a', 2)", "*can only define property a once*")]
+	public void JObject_WithInvalidParameters_ThrowsFormatException(string expressionText, string messagePattern)
+		=> TestShouldThrowExactly<FormatException>(expressionText, messagePattern);
 }
