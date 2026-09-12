@@ -31,19 +31,13 @@ internal static class CountBy
 			IEnumerable<object?> enumerable => enumerable,
 			System.Collections.IEnumerable nonGenericEnumerable => nonGenericEnumerable.Cast<object?>(),
 			_ => null
-		} ?? throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
+		} ?? throw new FormatException($"{ExtensionFunction.CountBy}() requires IEnumerable parameter.");
 
-		var predicate = functionArgs.Parameters.Evaluate(1) as string
-			?? throw new FormatException($"Second {ExtensionFunction.Count} parameter must be a string.");
-
-		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
-			?? throw new FormatException($"Third {ExtensionFunction.Count} parameter must be a string.");
+		var lambda = Parameters.GetLambda(functionArgs, ExtensionFunction.CountBy);
 
 		var outputFormat = functionArgs.Parameters.Count > 3
 			? functionArgs.Parameters.Evaluate(3) as string
 			: null;
-
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
 
 		var dictionary = new Dictionary<string, int>();
 		foreach (var value in listEnumerable)

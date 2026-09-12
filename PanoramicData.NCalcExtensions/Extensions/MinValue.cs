@@ -15,33 +15,6 @@ public partial interface IFunctionPrototypes
 
 internal static class MinValue
 {
-	private const string ErrorMessage = $"{ExtensionFunction.MinValue} takes exactly one string parameter, which must be one of 'sbyte', 'byte', 'short', 'ushort', 'int', 'uint', 'long', 'ulong', 'float', 'double', 'decimal', 'DateTime' or 'DateTimeOffset'.";
-
 	internal static void Evaluate(FunctionEventArgs functionArgs)
-	{
-		var originalList = functionArgs.Parameters.Evaluate(0);
-
-		if (functionArgs.Parameters.Count != 1)
-		{
-			throw new FormatException(ErrorMessage);
-		}
-
-		functionArgs.Result = originalList switch
-		{
-			"sbyte" => sbyte.MinValue,
-			"byte" => byte.MinValue,
-			"short" => short.MinValue,
-			"ushort" => ushort.MinValue,
-			"int" => int.MinValue,
-			"uint" => uint.MinValue,
-			"long" => long.MinValue,
-			"ulong" => ulong.MinValue,
-			"float" => float.MinValue,
-			"double" => double.MinValue,
-			"decimal" => decimal.MinValue,
-			"DateTime" => DateTime.MinValue,
-			"DateTimeOffset" => DateTimeOffset.MinValue,
-			_ => throw new FormatException(ErrorMessage)
-		};
-	}
+		=> TypeLimit.Evaluate(functionArgs, ExtensionFunction.MinValue, isMax: false);
 }

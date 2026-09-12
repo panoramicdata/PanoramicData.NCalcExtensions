@@ -110,6 +110,21 @@ internal static class Parameters
 			Argument<T7>(args, 6, callerName));
 	}
 
+	/// <summary>
+	/// Builds the lambda from a function's predicate and expression arguments, which by
+	/// convention are its second and third.
+	/// </summary>
+	internal static Lambda GetLambda(FunctionEventArgs args, string function)
+	{
+		var predicate = args.Parameters.Evaluate(1) as string
+			?? throw new FormatException($"Second {function} parameter must be a string.");
+
+		var lambdaString = args.Parameters.Evaluate(2) as string
+			?? throw new FormatException($"Third {function} parameter must be a string.");
+
+		return new Lambda(predicate, lambdaString, args.Context.StaticParameters);
+	}
+
 	internal static void CheckParameterCount(
 		int? minCount,
 		int? maxCount,

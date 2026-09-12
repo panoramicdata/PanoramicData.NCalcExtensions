@@ -32,13 +32,7 @@ internal static class Sum
 			return;
 		}
 
-		var predicate = functionArgs.Parameters.Evaluate(1) as string
-			?? throw new FormatException($"Second {ExtensionFunction.Sum} parameter must be a string.");
-
-		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
-			?? throw new FormatException($"Third {ExtensionFunction.Sum} parameter must be a string.");
-
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+		var lambda = Parameters.GetLambda(functionArgs, ExtensionFunction.Sum);
 
 		functionArgs.Result = SumOf(originalList, lambda);
 	}
@@ -76,30 +70,5 @@ internal static class Sum
 	};
 
 	private static double GetSum(IEnumerable<object?> objectList)
-	{
-		double sum = 0;
-		foreach (var item in objectList)
-		{
-			sum += item switch
-			{
-				byte byteValue => byteValue,
-				short shortValue => shortValue,
-				int intValue => intValue,
-				long longValue => longValue,
-				float floatValue => floatValue,
-				double doubleValue => doubleValue,
-				decimal decimalValue => (double)decimalValue,
-				JValue jValue => jValue.Type switch
-				{
-					JTokenType.Float => jValue.Value<float>(),
-					JTokenType.Integer => jValue.Value<int>(),
-					_ => throw new FormatException($"Found unsupported JToken type '{jValue.Type}' when completing sum.")
-				},
-				null => 0,
-				_ => throw new FormatException($"Found unsupported type '{item.GetType().Name}' when completing sum.")
-			};
-		}
-
-		return sum;
-	}
+		=> objectList.Sum(item => Numeric.AsDouble(item, ExtensionFunction.Sum));
 }

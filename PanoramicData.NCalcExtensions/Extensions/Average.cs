@@ -42,18 +42,7 @@ internal static class AverageFunction
 		var count = 0;
 		foreach (var item in objectList)
 		{
-			sum += item switch
-			{
-				byte byteValue => byteValue,
-				short shortValue => shortValue,
-				int intValue => intValue,
-				long longValue => longValue,
-				float floatValue => floatValue,
-				double doubleValue => doubleValue,
-				decimal decimalValue => (double)decimalValue,
-				null => 0,
-				_ => throw new FormatException($"Found unsupported type '{item.GetType().Name}' when completing average.")
-			};
+			sum += Numeric.AsDouble(item, ExtensionFunction.Average);
 			count++;
 		}
 

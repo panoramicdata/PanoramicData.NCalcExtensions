@@ -15,33 +15,6 @@ public partial interface IFunctionPrototypes
 
 internal static class MaxValue
 {
-	private const string ErrorMessage = $"{ExtensionFunction.MaxValue} takes exactly one string parameter, which must be one of 'sbyte', 'byte', 'short', 'ushort', 'int', 'uint', 'long', 'ulong', 'float', 'double', 'decimal', 'DateTime' or 'DateTimeOffset'.";
-
 	internal static void Evaluate(FunctionEventArgs functionArgs)
-	{
-		var originalList = functionArgs.Parameters.Evaluate(0);
-
-		if (functionArgs.Parameters.Count != 1)
-		{
-			throw new FormatException(ErrorMessage);
-		}
-
-		functionArgs.Result = originalList switch
-		{
-			"sbyte" => sbyte.MaxValue,
-			"byte" => byte.MaxValue,
-			"short" => short.MaxValue,
-			"ushort" => ushort.MaxValue,
-			"int" => int.MaxValue,
-			"uint" => uint.MaxValue,
-			"long" => long.MaxValue,
-			"ulong" => ulong.MaxValue,
-			"float" => float.MaxValue,
-			"double" => double.MaxValue,
-			"decimal" => decimal.MaxValue,
-			"DateTime" => DateTime.MaxValue,
-			"DateTimeOffset" => DateTimeOffset.MaxValue,
-			_ => throw new FormatException(ErrorMessage)
-		};
-	}
+		=> TypeLimit.Evaluate(functionArgs, ExtensionFunction.MaxValue, isMax: true);
 }

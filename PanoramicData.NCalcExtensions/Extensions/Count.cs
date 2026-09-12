@@ -22,43 +22,24 @@ internal static class Count
 	internal static void Evaluate(FunctionEventArgs functionArgs)
 	{
 		var listObject = functionArgs.Parameters.Evaluate(0);
-		var listEnumerable = listObject as IEnumerable<object?>;
+
+		if (functionArgs.Parameters.Count == 1 && listObject is string text)
+		{
+			functionArgs.Result = text.Length;
+			return;
+		}
+
+		var listEnumerable = listObject as IEnumerable<object?>
+			?? throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
 
 		if (functionArgs.Parameters.Count == 1)
 		{
-			if (listObject is string text)
-			{
-				functionArgs.Result = text.Length;
-				return;
-			}
-
-			if (listEnumerable is null)
-			{
-				throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
-			}
-
 			functionArgs.Result = listEnumerable.Count();
 			return;
 		}
 
-		if (listEnumerable is null)
-		{
-			throw new FormatException($"{ExtensionFunction.Count}() requires IEnumerable parameter.");
-		}
+		var lambda = Parameters.GetLambda(functionArgs, ExtensionFunction.Count);
 
-		var predicate = functionArgs.Parameters.Evaluate(1) as string
-			?? throw new FormatException($"Second {ExtensionFunction.Count} parameter must be a string.");
-
-		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
-			?? throw new FormatException($"Third {ExtensionFunction.Count} parameter must be a string.");
-
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
-
-		functionArgs.Result = listEnumerable
-			.Count(value =>
-			{
-				var result = lambda.Evaluate(value) as bool?;
-				return result == true;
-			});
+		functionArgs.Result = listEnumerable.Count(value => lambda.Evaluate(value) as bool? == true);
 	}
 }
