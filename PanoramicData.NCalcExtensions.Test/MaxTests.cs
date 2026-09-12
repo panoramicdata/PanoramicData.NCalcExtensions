@@ -1,335 +1,110 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
+﻿namespace PanoramicData.NCalcExtensions.Test;
 
-namespace PanoramicData.NCalcExtensions.Test;
-
-public class MaxTests : NCalcTest
+public class MaxTests : ExtremumTests
 {
-	[Theory]
-	[InlineData("1, 2, 3", 3)]
-	[InlineData("3, 2, 1", 3)]
-	[InlineData("1, 3, 2", 3)]
-	[InlineData("1, 1, 1", 1)]
-	[InlineData("1, 1, 2", 2)]
-	[InlineData("1, null, 2", 2)]
-	[InlineData("1.1, null, 2", 2)]
-	[InlineData("null, null, null", null)]
+	protected override string Function => "max";
 
-	public void Max_OfListOfNullableDoubles_ReturnsExpectedValue(string values, object? expectedOutput)
-		=> Test($"max(listOf('double?', {values}), 'x', 'x')").Should().BeEquivalentTo(expectedOutput);
-
-	[Theory]
-	[InlineData("1, 2, 3", 3)]
-	[InlineData("3, 2, 1", 3)]
-	[InlineData("1, 3, 2", 3)]
-	[InlineData("1, 1, 1", 1)]
-	[InlineData("1, 1, 2", 2)]
-
-	public void Max_OfListNumbers_WithLambda_ReturnsExpectedValue(string values, int expectedOutput)
-		=> Test($"max(list({values}), 'x', 'x')").Should().BeEquivalentTo(expectedOutput);
-
-	[Theory]
-	[InlineData("1, 2, 3", 3)]
-	[InlineData("3, 2, 1", 3)]
-	[InlineData("1, 3, 2", 3)]
-	[InlineData("1, 1, 1", 1)]
-	[InlineData("1, 1, 2", 2)]
-
-	public void Max_OfListNumbers_WithIEnumerable_ReturnsExpectedValue(string values, int expectedOutput)
-		=> Test($"max(list({values}))").Should().BeEquivalentTo(expectedOutput);
-
-	[Theory]
-	[InlineData("'1', '2', '3'", "3")]
-	[InlineData("'3', '2', '1'", "3")]
-	[InlineData("'1', '3', null", "3")]
-	[InlineData("'abc', 'raf', 'bbc'", "raf")]
-	[InlineData("'abc', 'ABC', null", "ABC")]
-
-	public void Max_OfStrings_ReturnsExpectedValue(string values, string expectedOutput)
-		=> Test($"max(list({values}))").Should().BeEquivalentTo(expectedOutput);
-
-	[Theory]
-	[InlineData("1,2,3", "3")]
-	[InlineData("3,2,1", "3")]
-	[InlineData("1,3,null", "3")]
-	[InlineData("abc,raf,bbc", "raf")]
-	[InlineData("abc,ABC,null", "ABC")]
-
-	public void Max_OfStringsAsVariable_ReturnsExpectedValue(string values, string expectedOutput)
+	public static TheoryData<string, object?> EquivalentCases => new()
 	{
-		ArgumentException.ThrowIfNullOrEmpty(values, nameof(values));
+		{ "max(listOf('double?', 1, 2, 3), 'x', 'x')", 3 },
+		{ "max(listOf('double?', 3, 2, 1), 'x', 'x')", 3 },
+		{ "max(listOf('double?', 1, 3, 2), 'x', 'x')", 3 },
+		{ "max(listOf('double?', 1, 1, 1), 'x', 'x')", 1 },
+		{ "max(listOf('double?', 1, 1, 2), 'x', 'x')", 2 },
+		{ "max(listOf('double?', 1, null, 2), 'x', 'x')", 2 },
+		{ "max(listOf('double?', 1.1, null, 2), 'x', 'x')", 2 },
+		{ "max(listOf('double?', null, null, null), 'x', 'x')", null },
 
-		var expression = new ExtendedExpression($"max(valuesList)");
-		expression.Parameters["valuesList"] = values.Split(',').Select(x => x == "null" ? null : x).ToList();
-		expression.Evaluate().Should().BeEquivalentTo(expectedOutput);
-	}
+		{ "max(list(1, 2, 3), 'x', 'x')", 3 },
+		{ "max(list(3, 2, 1), 'x', 'x')", 3 },
+		{ "max(list(1, 3, 2), 'x', 'x')", 3 },
+		{ "max(list(1, 1, 1), 'x', 'x')", 1 },
+		{ "max(list(1, 1, 2), 'x', 'x')", 2 },
 
-	[Fact]
+		{ "max(list(1, 2, 3))", 3 },
+		{ "max(list(3, 2, 1))", 3 },
+		{ "max(list(1, 3, 2))", 3 },
+		{ "max(list(1, 1, 1))", 1 },
+		{ "max(list(1, 1, 2))", 2 },
 
-	public void Max_OfNull_ReturnsExpectedValue()
-		=> Test($"max(null)").Should().BeNull();
+		{ "max(list('1', '2', '3'))", "3" },
+		{ "max(list('3', '2', '1'))", "3" },
+		{ "max(list('1', '3', null))", "3" },
+		{ "max(list('abc', 'raf', 'bbc'))", "raf" },
+		{ "max(list('abc', 'ABC', null))", "ABC" },
 
+		{ "max(null)", null },
+		{ "max(list())", null },
+		{ "max(list(), 'x', 'x')", null },
+		{ "max(listOf('int?', null, null, null))", null },
+	};
 
-	[Fact]
-	public void Max_OfEmptyList_ReturnsNull()
-		=> Test($"max(list())").Should().BeNull();
-
-	[Fact]
-	public void Max_UsingLambdaForInt_ReturnsExpected()
-		=> Test($"max(listOf('int', 1, 2, 3), 'x', 'x + 1')").Should().Be(4);
-
-	[Fact]
-	public void Max_UsingLambdaForString_ReturnsExpected()
-		=> Test("max(listOf('string', '1', '2', '3'), 'x', 'x + x')").Should().Be("6");
-
-	// Additional comprehensive tests for all numeric types
-
-	[Fact]
-	public void Max_ByteType_ReturnsMaxByte()
-		=> Test("max(listOf('byte', 1, 255, 100))").Should().Be((byte)255);
-
-	[Fact]
-	public void Max_SByteType_ReturnsMaxSByte()
-		=> Test("max(listOf('sbyte', -128, 127, 0))").Should().Be((sbyte)127);
-
-	[Fact]
-	public void Max_ShortType_ReturnsMaxShort()
-		=> Test("max(listOf('short', -100, 32767, 100))").Should().Be((short)32767);
-
-	[Fact]
-	public void Max_UShortType_ReturnsMaxUShort()
-		=> Test("max(listOf('ushort', 1, 65535, 100))").Should().Be((ushort)65535);
-
-	[Fact]
-	public void Max_UIntType_ReturnsMaxUInt()
-		=> Test("max(listOf('uint', 1, 4294967295, 100))").Should().Be(4294967295u);
-
-	[Fact]
-	public void Max_LongType_ReturnsMaxLong()
-		=> Test("max(listOf('long', -1000, 9223372036854775807, 1000))").Should().Be(9223372036854775807L);
-
-	[Fact]
-	public void Max_ULongType_ReturnsMaxULong()
+	public static TheoryData<string, object?> ExactCases => new()
 	{
-		// Note: Using values that can be safely represented in double (which NCalc uses for numeric literals)
-		var expression = new ExtendedExpression("max(listOf('ulong', 1, 9999999999999, 100))");
-		expression.Evaluate().Should().Be(9999999999999UL);
-	}
+		{ "max(listOf('int', 1, 2, 3), 'x', 'x + 1')", 4 },
+		{ "max(listOf('string', '1', '2', '3'), 'x', 'x + x')", "6" },
 
-	[Fact]
-	public void Max_FloatType_ReturnsMaxFloat()
+		// One list of each numeric type.
+		{ "max(listOf('byte', 1, 255, 100))", (byte)255 },
+		{ "max(listOf('sbyte', -128, 127, 0))", (sbyte)127 },
+		{ "max(listOf('short', -100, 32767, 100))", (short)32767 },
+		{ "max(listOf('ushort', 1, 65535, 100))", (ushort)65535 },
+		{ "max(listOf('uint', 1, 4294967295, 100))", 4294967295u },
+		{ "max(listOf('long', -1000, 9223372036854775807, 1000))", 9223372036854775807L },
+		// Values that can be safely represented in the double NCalc uses for numeric literals.
+		{ "max(listOf('ulong', 1, 9999999999999, 100))", 9999999999999UL },
+		{ "max(listOf('decimal', 1.1, 2.2, 3.3))", 3.3m },
+
+		{ "max(listOf('int?', 1, null, 3, null, 2))", 3 },
+		{ "max(listOf('int?', 1, 2, 3), 'x', 'if(x == 2, null, x)')", 3 },
+		{ "max(listOf('long', 9223372036854775806, 9223372036854775807))", 9223372036854775807L },
+		{ "max(listOf('int', -100, -50, -200))", -50 },
+		{ "max(listOf('int', 42))", 42 },
+		{ "max(listOf('int', 1, 2, 3), 'x', 'x * x')", 9 },
+
+		// The lambda form, over one list of each type.
+		{ "max(listOf('sbyte', 10, -5, 3), 'x', 'x')", 10 },
+		{ "max(listOf('sbyte?', 10, null, -5, 3), 'x', 'x')", 10 },
+		{ "max(listOf('byte', 100, 50, 200), 'x', 'x')", 200 },
+		{ "max(listOf('byte?', 100, null, 50, 200), 'x', 'x')", 200 },
+		{ "max(listOf('short', 1000, 500, 2000), 'x', 'x')", 2000 },
+		{ "max(listOf('short?', 1000, null, 500, 2000), 'x', 'x')", 2000 },
+		{ "max(listOf('ushort', 1000, 500, 2000), 'x', 'x')", 2000 },
+		{ "max(listOf('ushort?', 1000, null, 500, 2000), 'x', 'x')", 2000 },
+		{ "max(listOf('uint', 100, 50, 200), 'x', 'x')", 200u },
+		{ "max(listOf('uint?', 100, null, 50, 200), 'x', 'x')", 200u },
+		{ "max(listOf('long', 1000, 500, 2000), 'x', 'x')", 2000L },
+		{ "max(listOf('long?', 1000, null, 500, 2000), 'x', 'x')", 2000L },
+		{ "max(listOf('ulong', 1000, 500, 2000), 'x', 'x')", 2000UL },
+		{ "max(listOf('ulong?', 1000, null, 500, 2000), 'x', 'x')", 2000UL },
+		{ "max(listOf('double', 3.3, 1.1, 2.2), 'x', 'x')", 3.3 },
+		{ "max(listOf('double?', 3.3, null, 1.1, 2.2), 'x', 'x')", 3.3 },
+		{ "max(listOf('decimal', 3.3, 1.1, 2.2), 'x', 'x')", 3.3m },
+		{ "max(listOf('decimal?', 3.3, null, 1.1, 2.2), 'x', 'x')", 3.3m },
+		{ "max(listOf('string', 'abc', 'xyz', 'def'), 'x', 'x')", "xyz" },
+		{ "max(listOf('string?', 'abc', null, 'xyz', 'def'), 'x', 'x')", "xyz" },
+	};
+
+	public static TheoryData<string, float> FloatCases => new()
 	{
-		var expression = new ExtendedExpression("max(listOf('float', 1.1, 2.2, 3.3))");
-		var result = (float)expression.Evaluate()!;
-		result.Should().BeApproximately(3.3f, 0.01f);
-	}
+		{ "max(listOf('float', 1.1, 2.2, 3.3))", 3.3f },
+		{ "max(listOf('float', 3.3, 1.1, 2.2), 'x', 'x')", 3.3f },
+		{ "max(listOf('float?', 3.3, null, 1.1, 2.2), 'x', 'x')", 3.3f },
+	};
 
-	[Fact]
-	public void Max_DecimalType_ReturnsMaxDecimal()
-		=> Test("max(listOf('decimal', 1.1, 2.2, 3.3))").Should().Be(3.3m);
-
-	[Fact]
-	public void Max_WithLambda_EmptyList_ReturnsNull()
-		=> Test("max(list(), 'x', 'x')").Should().BeNull();
-
-	[Fact]
-	public void Max_NullableInt_WithNulls_ReturnsMax()
-		=> Test("max(listOf('int?', 1, null, 3, null, 2))").Should().Be(3);
-
-	[Fact]
-	public void Max_NullableInt_AllNulls_ReturnsNull()
-		=> Test("max(listOf('int?', null, null, null))").Should().BeNull();
-
-	[Fact]
-	public void Max_WithLambda_ReturningNull_HandlesCorrectly()
-		=> Test("max(listOf('int?', 1, 2, 3), 'x', 'if(x == 2, null, x)')").Should().Be(3);
-
-	[Fact]
-	public void Max_VeryLargeNumbers_HandlesCorrectly()
-		=> Test("max(listOf('long', 9223372036854775806, 9223372036854775807))").Should().Be(9223372036854775807L);
-
-	[Fact]
-	public void Max_NegativeNumbers_ReturnsLeastNegative()
-		=> Test("max(listOf('int', -100, -50, -200))").Should().Be(-50);
-
-	[Fact]
-	public void Max_SingleElement_ReturnsThatElement()
-		=> Test("max(listOf('int', 42))").Should().Be(42);
-
-	[Fact]
-	public void Max_WithLambda_ComplexExpression_Works()
-		=> Test("max(listOf('int', 1, 2, 3), 'x', 'x * x')").Should().Be(9);
-
-	// Lambda form tests for additional numeric types
-
-	[Fact]
-	public void Max_WithLambda_UIntType_ReturnsMax()
-		=> Test("max(listOf('uint', 100, 50, 200), 'x', 'x')").Should().Be(200u);
-
-	[Fact]
-	public void Max_WithLambda_NullableUIntType_ReturnsMax()
-		=> Test("max(listOf('uint?', 100, null, 50, 200), 'x', 'x')").Should().Be(200u);
-
-	[Fact]
-	public void Max_WithLambda_ULongType_ReturnsMax()
-		=> Test("max(listOf('ulong', 1000, 500, 2000), 'x', 'x')").Should().Be(2000UL);
-
-	[Fact]
-	public void Max_WithLambda_NullableULongType_ReturnsMax()
-		=> Test("max(listOf('ulong?', 1000, null, 500, 2000), 'x', 'x')").Should().Be(2000UL);
-
-	[Fact]
-	public void Max_WithLambda_FloatType_ReturnsMax()
+	public static TheoryData<string, string> StringListParameterCases => new()
 	{
-		var expression = new ExtendedExpression("max(listOf('float', 3.3, 1.1, 2.2), 'x', 'x')");
-		var result = (float)expression.Evaluate()!;
-		result.Should().BeApproximately(3.3f, 0.01f);
-	}
+		{ "1,2,3", "3" },
+		{ "3,2,1", "3" },
+		{ "1,3,null", "3" },
+		{ "abc,raf,bbc", "raf" },
+		{ "abc,ABC,null", "ABC" },
+	};
 
-	[Fact]
-	public void Max_WithLambda_NullableFloatType_ReturnsMax()
+	public static TheoryData<string, string> FailureCases => new()
 	{
-		var expression = new ExtendedExpression("max(listOf('float?', 3.3, null, 1.1, 2.2), 'x', 'x')");
-		var result = (float)expression.Evaluate()!;
-		result.Should().BeApproximately(3.3f, 0.01f);
-	}
-
-	[Fact]
-	public void Max_WithLambda_DoubleType_ReturnsMax()
-		=> Test("max(listOf('double', 3.3, 1.1, 2.2), 'x', 'x')").Should().Be(3.3);
-
-	[Fact]
-	public void Max_WithLambda_NullableDoubleType_ReturnsMax()
-		=> Test("max(listOf('double?', 3.3, null, 1.1, 2.2), 'x', 'x')").Should().Be(3.3);
-
-	[Fact]
-	public void Max_WithLambda_DecimalType_ReturnsMax()
-		=> Test("max(listOf('decimal', 3.3, 1.1, 2.2), 'x', 'x')").Should().Be(3.3m);
-
-	[Fact]
-	public void Max_WithLambda_NullableDecimalType_ReturnsMax()
-		=> Test("max(listOf('decimal?', 3.3, null, 1.1, 2.2), 'x', 'x')").Should().Be(3.3m);
-
-	[Fact]
-	public void Max_WithLambda_SByteType_ReturnsMax()
-		=> Test("max(listOf('sbyte', 10, -5, 3), 'x', 'x')").Should().Be(10);
-
-	[Fact]
-	public void Max_WithLambda_NullableSByteType_ReturnsMax()
-		=> Test("max(listOf('sbyte?', 10, null, -5, 3), 'x', 'x')").Should().Be(10);
-
-	[Fact]
-	public void Max_WithLambda_ByteType_ReturnsMax()
-		=> Test("max(listOf('byte', 100, 50, 200), 'x', 'x')").Should().Be(200);
-
-	[Fact]
-	public void Max_WithLambda_NullableByteType_ReturnsMax()
-		=> Test("max(listOf('byte?', 100, null, 50, 200), 'x', 'x')").Should().Be(200);
-
-	[Fact]
-	public void Max_WithLambda_ShortType_ReturnsMax()
-		=> Test("max(listOf('short', 1000, 500, 2000), 'x', 'x')").Should().Be(2000);
-
-	[Fact]
-	public void Max_WithLambda_NullableShortType_ReturnsMax()
-		=> Test("max(listOf('short?', 1000, null, 500, 2000), 'x', 'x')").Should().Be(2000);
-
-	[Fact]
-	public void Max_WithLambda_UShortType_ReturnsMax()
-		=> Test("max(listOf('ushort', 1000, 500, 2000), 'x', 'x')").Should().Be(2000);
-
-	[Fact]
-	public void Max_WithLambda_NullableUShortType_ReturnsMax()
-		=> Test("max(listOf('ushort?', 1000, null, 500, 2000), 'x', 'x')").Should().Be(2000);
-
-	[Fact]
-	public void Max_WithLambda_LongType_ReturnsMax()
-		=> Test("max(listOf('long', 1000, 500, 2000), 'x', 'x')").Should().Be(2000L);
-
-	[Fact]
-	public void Max_WithLambda_NullableLongType_ReturnsMax()
-		=> Test("max(listOf('long?', 1000, null, 500, 2000), 'x', 'x')").Should().Be(2000L);
-
-	[Fact]
-	public void Max_WithLambda_StringType_ReturnsMax()
-		=> Test("max(listOf('string', 'abc', 'xyz', 'def'), 'x', 'x')").Should().Be("xyz");
-
-	[Fact]
-	public void Max_WithLambda_NullableStringType_ReturnsMax()
-		=> Test("max(listOf('string?', 'abc', null, 'xyz', 'def'), 'x', 'x')").Should().Be("xyz");
-
-	// Error path tests
-
-	[Fact]
-	public void Max_WithInvalidFirstParameter_ThrowsFormatException()
-	{
-		var expression = new ExtendedExpression("max('not a list')");
-		expression.Invoking(e => e.Evaluate())
-			.Should().Throw<FormatException>()
-			.WithMessage("*must be an IEnumerable*");
-	}
-
-	[Fact]
-	public void Max_WithLambda_InvalidSecondParameter_ThrowsFormatException()
-	{
-		var expression = new ExtendedExpression("max(list(1, 2, 3), 123, 'x')");
-		expression.Invoking(e => e.Evaluate())
-			.Should().Throw<FormatException>()
-			.WithMessage("*Second*parameter must be a string*");
-	}
-
-	[Fact]
-	public void Max_WithLambda_InvalidThirdParameter_ThrowsFormatException()
-	{
-		var expression = new ExtendedExpression("max(list(1, 2, 3), 'x', 456)");
-		expression.Invoking(e => e.Evaluate())
-			.Should().Throw<FormatException>()
-			.WithMessage("*Third*parameter must be a string*");
-	}
-
-	// Test for GetMax with unsupported type
-	[Fact]
-	public void Max_WithUnsupportedType_ThrowsFormatException()
-	{
-		var expression = new ExtendedExpression("max(unsupportedList)");
-		expression.Parameters["unsupportedList"] = new List<object?> { new System.DateTime(2024, 1, 1), new System.DateTime(2024, 1, 2) };
-		expression.Invoking(e => e.Evaluate())
-			.Should().Throw<FormatException>()
-			.WithMessage("*Found unsupported type*");
-	}
-
-	// Test for GetMax with unsupported JToken type (not Float, Integer, or String)
-	[Fact]
-	public void Max_WithUnsupportedJTokenType_ThrowsFormatException()
-	{
-		var expression = new ExtendedExpression("max(jValueList)");
-		// Create a JValue with an unsupported type (e.g., Boolean or Date)
-		expression.Parameters["jValueList"] = new List<object?> { new JValue(true), new JValue(false) };
-		expression.Invoking(e => e.Evaluate())
-			.Should().Throw<FormatException>()
-			.WithMessage("*Found unsupported JToken type*");
-	}
-
-	// Test for invalid IEnumerable type in single parameter mode
-	[Fact]
-	public void Max_WithUnsupportedEnumerableType_ThrowsFormatException()
-	{
-		var expression = new ExtendedExpression("max(dateList)");
-		expression.Parameters["dateList"] = new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(1) };
-		expression.Invoking(e => e.Evaluate())
-			.Should().Throw<FormatException>()
-			.WithMessage("*must be an IEnumerable of a numeric or string type*");
-	}
-
-	// Test for invalid IEnumerable type in lambda mode
-	[Fact]
-	public void Max_WithLambda_UnsupportedEnumerableType_ThrowsFormatException()
-	{
-		var expression = new ExtendedExpression("max(dateList, 'x', 'x')");
-		expression.Parameters["dateList"] = new List<DateTime> { DateTime.Now, DateTime.Now.AddDays(1) };
-		expression.Invoking(e => e.Evaluate())
-			.Should().Throw<FormatException>()
-			.WithMessage("*must be an IEnumerable of a string or numeric type when processing as a lambda*");
-	}
+		{ "max('not a list')", "*must be an IEnumerable*" },
+		{ "max(list(1, 2, 3), 123, 'x')", "*Second*parameter must be a string*" },
+		{ "max(list(1, 2, 3), 'x', 456)", "*Third*parameter must be a string*" },
+	};
 }
