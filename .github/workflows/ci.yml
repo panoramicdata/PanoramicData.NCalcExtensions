@@ -43,6 +43,71 @@ jobs:
         name: packages
         path: ./artifacts/*.nupkg
 
+  # Collects line coverage and publishes it to Codacy. Runs on the self-hosted
+  # pdl-public scale set rather than a GitHub-hosted runner.
+  # pdl-public is the hardened scale set that may serve a public repository: a
+  # fork pull request is untrusted code, so it has no dind, no privileged
+  # container, no hostPath and nothing shared between jobs.
+  coverage:
+    runs-on: [pdl-public]
+
+    env:
+      DOTNET_NOLOGO: 1
+      DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      # The actions-runner image does not offer the Node version several of these
+      # actions request by default; without this they fail before their first step.
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v7
+      with:
+        fetch-depth: 0 # Nerdbank.GitVersioning needs the full history.
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v6
+      env:
+        # The runner user cannot write /usr/share/dotnet, the default install location.
+        DOTNET_INSTALL_DIR: ${{ runner.temp }}/dotnet
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Build tests
+      run: dotnet build PanoramicData.NCalcExtensions.Test/PanoramicData.NCalcExtensions.Test.csproj --configuration Debug
+
+    # The test project is a Microsoft.Testing.Platform application
+    # (UseMicrosoftTestingPlatformRunner), so coverage is collected by running the
+    # test executable directly with Microsoft.Testing.Extensions.CodeCoverage rather
+    # than through `dotnet test`. On Linux the executable has no .exe extension.
+    # coverage.config ports coverlet's generated-code exclusions so figures stay
+    # comparable across the estate.
+    - name: Run tests with coverage
+      run: >-
+        ./PanoramicData.NCalcExtensions.Test/bin/Debug/net10.0/PanoramicData.NCalcExtensions.Test
+        --coverage
+        --coverage-settings coverage.config
+        --coverage-output-format cobertura
+        --coverage-output coverage.cobertura.xml
+
+    # continue-on-error: a Codacy outage must not turn a passing test run red. The
+    # trade-off is that an expired or missing project token fails silently, so
+    # check the step log for "Coverage received successfully".
+    - name: Upload coverage to Codacy
+      continue-on-error: true
+      uses: codacy/codacy-coverage-reporter-action@v1
+      with:
+        project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        coverage-reports: PanoramicData.NCalcExtensions.Test/bin/Debug/net10.0/TestResults/coverage.cobertura.xml
+
+    - name: Upload coverage artifact
+      if: always()
+      continue-on-error: true
+      uses: actions/upload-artifact@v7
+      with:
+        name: coverage
+        path: PanoramicData.NCalcExtensions.Test/bin/Debug/net10.0/TestResults/coverage.cobertura.xml
+        retention-days: 7
+
   publish:
     needs: build
     runs-on: ubuntu-latest
