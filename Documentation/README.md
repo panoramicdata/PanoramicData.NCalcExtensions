@@ -31,7 +31,7 @@ This index points to the generated documentation folders under `Documentation/<f
 | [format()](format/README.md) | Formats strings and numbers as output strings with the specified format. | 13 |
 | [getProperties()](getproperties/README.md) | Gets a list of an object's properties. | 3 |
 | [getProperty()](getproperty/README.md) | Gets an object's property. | 2 |
-| [humanize()](humanize/README.md) | Humanizes the value text. | 1 |
+| [humanize()](humanize/README.md) | Humanizes the value text. | 3 |
 | [if()](if/README.md) | Return one of two values, depending on the input function. | 2 |
 | [in()](in/README.md) | Determines whether a value (the first parameter) is in a set of other values (the remaining parameters). | 2 |
 | [indexOf()](indexof/README.md) | Determines the first position of a string within another string. | 2 |

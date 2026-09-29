@@ -201,4 +201,62 @@ public class HumanizeTests : NCalcTest
 		var result = expression.Evaluate() as string;
 		result.Should().Contain("minute"); // 120 seconds = 2 minutes
 	}
+
+	// MS-26854 resolution parameter: the worked examples from the ticket
+	[Theory]
+	[InlineData("humanize(0.51428, 'weeks')", "3 days 14 hours 23 minutes 56 seconds")]
+	[InlineData("humanize(0.51428, 'weeks', 'hours')", "3 days 14 hours")]
+	[InlineData("humanize(0.51428, 'weeks', 'minutes')", "3 days 14 hours 24 minutes")]
+	[InlineData("humanize(0.51428, 'weeks', 'days')", "4 days")]
+	[InlineData("humanize(0.51428, 'weeks', 'weeks')", "1 week")]
+	public void Humanize_Resolution_TicketExamples(string expression, string expected)
+		=> Test(expression).Should().Be(expected);
+
+	[Theory]
+	[InlineData("humanize(0.51428, 'weeks', 'hours')")]
+	[InlineData("humanise(0.51428, 'weeks', 'hours')")]
+	[InlineData("humanize(0.51428, 'weeks', 'HOURS')")]
+	public void Humanize_Resolution_BothSpellingsAndAnyCase(string expression)
+		=> Test(expression).Should().Be("3 days 14 hours");
+
+	[Theory]
+	[InlineData("humanize(90, 'seconds', 'minutes')", "2 minutes")]
+	[InlineData("humanize(89, 'seconds', 'minutes')", "1 minute")]
+	[InlineData("humanize(29, 'seconds', 'minutes')", "")]
+	[InlineData("humanize(56.5, 'seconds', 'seconds')", "57 seconds")]
+	[InlineData("humanize(59.6, 'minutes', 'minutes')", "1 hour")]
+	[InlineData("humanize(3, 'weeks', 'days')", "21 days")]
+	[InlineData("humanize(2.6, 'weeks', 'weeks')", "3 weeks")]
+	[InlineData("humanize(1.5, 'years', 'years')", "2 years")]
+	[InlineData("humanize(1, 'years', 'days')", "365 days")]
+	[InlineData("humanize(400, 'days', 'years')", "1 year")]
+	[InlineData("humanize(61500.4, 'milliseconds', 'milliseconds')", "1 minute 1 second 500 milliseconds")]
+	[InlineData("humanize(1.0004, 'hours', 'milliseconds')", "1 hour 1 second 440 milliseconds")]
+	[InlineData("humanize(-90, 'seconds', 'minutes')", "")]
+	public void Humanize_Resolution_RoundsToWholeUnits(string expression, string expected)
+		=> Test(expression).Should().Be(expected);
+
+	[Fact]
+	public void Humanize_Resolution_InvalidUnit_ThrowsException()
+		=> new ExtendedExpression("humanize(60, 'seconds', 'fortnights')")
+			.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*Parameter 3 must be a time unit*");
+
+	[Fact]
+	public void Humanize_Resolution_Null_ThrowsException()
+		=> new ExtendedExpression("humanize(60, 'seconds', null)")
+			.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*third parameter must be a string*");
+
+	[Fact]
+	public void Humanize_Resolution_OverflowValue_ThrowsException()
+	{
+		var expression = new ExtendedExpression("humanize(theValue, 'days', 'years')");
+		expression.Parameters["theValue"] = double.MaxValue;
+		expression.Invoking(e => e.Evaluate())
+			.Should().Throw<FormatException>()
+			.WithMessage("*floating point number*");
+	}
 }

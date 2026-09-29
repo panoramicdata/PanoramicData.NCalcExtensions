@@ -5,6 +5,8 @@ Keep upcoming changes under `## Unreleased`.
 creates a fresh `## Unreleased` section, commits the file, and then calls `Publish.ps1`.
 
 ## Unreleased
+- Added an optional third `resolution` parameter to `humanize()` / `humanise()`, naming a time unit to round the output to. The value is rounded half away from zero to a whole number of that unit and nothing finer is shown, so `humanize(0.51428, 'weeks', 'hours')` returns `'3 days 14 hours'` and `humanize(0.51428, 'weeks', 'days')` returns `'4 days'`. `'weeks'` and `'years'` give a single count such as `'1 week'`; `'milliseconds'` adds a milliseconds component. Two-argument calls are unchanged.
+- Added public `TimeSpanHumanizer.Humanize(double value, TimeUnit timeUnit, TimeUnit? resolution = null)` and `TimeSpanHumanizer.Humanize(TimeSpan, TimeUnit? resolution = null)`, the implementation behind `humanize()`, so other code can produce identical text. Both throw `OverflowException` for a duration too large to represent.
 
 ## 6.1.7 - 2026-08-20
 - Fixed `isNull()`, `isNullOrEmpty()`, `isNullOrWhiteSpace()`, `isNaN()` and `isInfinite()` discarding the original exception when converting an unexpected evaluation failure into a `FormatException`. The original is now passed through as `InnerException`, so a caller can distinguish an unbound parameter (`NCalcParameterNotDefinedException`) from a genuine formatting failure such as parsing a non-numeric string. The exception type and message are unchanged, so existing callers are unaffected.

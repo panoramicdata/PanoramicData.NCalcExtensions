@@ -1,6 +1,4 @@
-﻿using PanoramicData.NCalcExtensions.Helpers;
-
-namespace PanoramicData.NCalcExtensions.Extensions;
+﻿namespace PanoramicData.NCalcExtensions.Extensions;
 
 /// <summary>
 /// Used to provide IntelliSense in Monaco editor
@@ -13,7 +11,9 @@ public partial interface IFunctionPrototypes
 		[Description("The value to be humanized - must be a floating-point number.")]
 		object value,
 		[Description("Time unit that the value represents, example: 'seconds'")]
-		string timeUnit
+		string timeUnit,
+		[Description("(Optional) the time unit to round the output to, example: 'hours'. Nothing finer than this unit is shown.")]
+		string? resolution = null
 	);
 }
 
@@ -39,7 +39,21 @@ internal static class Humanize
 				throw new FormatException($"{ExtensionFunction.Humanize} function - Parameter 2 must be a time unit - one of {string.Join(", ", Enum.GetNames<TimeUnit>().Select(n => $"'{n}'"))}.");
 			}
 
-			functionArgs.Result = Humanise(param1Double, param2TimeUnit);
+			TimeUnit? resolution = null;
+			if (functionArgs.Parameters.Count > 2)
+			{
+				var param3 = functionArgs.Parameters.Evaluate(2) as string
+					?? throw new FormatException($"{ExtensionFunction.Humanize}() third parameter must be a string.");
+
+				if (!Enum.TryParse<TimeUnit>(param3, true, out var param3TimeUnit))
+				{
+					throw new FormatException($"{ExtensionFunction.Humanize} function - Parameter 3 must be a time unit - one of {string.Join(", ", Enum.GetNames<TimeUnit>().Select(n => $"'{n}'"))}.");
+				}
+
+				resolution = param3TimeUnit;
+			}
+
+			functionArgs.Result = Humanise(param1Double, param2TimeUnit, resolution);
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
@@ -47,21 +61,11 @@ internal static class Humanize
 		}
 	}
 
-	private static string Humanise(double param1Double, TimeUnit timeUnit)
+	private static string Humanise(double param1Double, TimeUnit timeUnit, TimeUnit? resolution)
 	{
 		try
 		{
-			return timeUnit switch
-			{
-				TimeUnit.Milliseconds => System.TimeSpan.FromMilliseconds(param1Double).Humanise(),
-				TimeUnit.Seconds => System.TimeSpan.FromSeconds(param1Double).Humanise(),
-				TimeUnit.Minutes => System.TimeSpan.FromMinutes(param1Double).Humanise(),
-				TimeUnit.Hours => System.TimeSpan.FromHours(param1Double).Humanise(),
-				TimeUnit.Days => System.TimeSpan.FromDays(param1Double).Humanise(),
-				TimeUnit.Weeks => System.TimeSpan.FromDays(param1Double * 7).Humanise(),
-				TimeUnit.Years => System.TimeSpan.FromDays(param1Double * 365.25).Humanise(),
-				_ => throw new FormatException($"{timeUnit} is not a supported time unit for humanization."),
-			};
+			return TimeSpanHumanizer.Humanize(param1Double, timeUnit, resolution);
 		}
 		catch (OverflowException)
 		{

@@ -1,0 +1,12 @@
+/*
+# humanize()
+
+Generated documentation example 3 for humanize().
+
+**Expected result**
+'4 days'
+*/
+
+// theAnswer:System.String:4 days
+
+humanize(0.51428, 'weeks', 'days')
