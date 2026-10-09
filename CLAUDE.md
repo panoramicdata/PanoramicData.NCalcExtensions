@@ -13,7 +13,7 @@ Panoramic Data Limited is a software company. This repository is a NuGet package
 publishes. Its build, CI, versioning, licensing and community files are governed by the open
 source PanoramicData.NugetManagement tool (https://github.com/panoramicdata/PanoramicData.NugetManagement),
 which assesses repositories against a shared set of rules and can apply fixes automatically.
-Files such as CLAUDE.md, AGENTS.md, SECURITY.md and CONTRIBUTING.md may be created or updated
+Files such as CLAUDE.md, AGENTS.md and SECURITY.md may be created or updated
 by that tool.
 
 ## Scope and boundaries
@@ -27,7 +27,7 @@ by that tool.
 ## Tools
 
 - Build and test with `dotnet build` / `dotnet test`.
-- Use `git` for version control, following `CONTRIBUTING.md` where present.
+- Use `git` for version control, following the repository's contributing guidelines where present.
 
 ## Shared instructions
 
