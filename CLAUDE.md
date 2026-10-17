@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Version: 1.2
+Version: 1.3
 
 ## Identity
 
@@ -23,6 +23,7 @@ by that tool.
 - Do not commit secrets, credentials, or API tokens.
 - Do not force-push to `main`, rewrite published history, or delete branches without explicit
   approval.
+- Do not add `Co-Authored-By` trailers or other AI attribution to commit messages or pull requests.
 
 ## Tools
 
