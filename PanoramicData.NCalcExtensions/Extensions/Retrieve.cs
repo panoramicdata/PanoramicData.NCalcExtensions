@@ -22,7 +22,7 @@ internal static class Retrieve
 			var key = functionArgs.Parameters.Evaluate(0) as string
 				?? throw new FormatException($"{ExtensionFunction.Retrieve}() requires one string parameter.");
 
-			var storageDictionary = functionArgs.Context.StaticParameters[ExtendedExpression.StorageDictionaryParameterName] as Dictionary<string, object?>
+			var storageDictionary = functionArgs.Context.Parameters[ExtendedExpression.StorageDictionaryParameterName] as Dictionary<string, object?>
 				?? throw new FormatException($"{ExtensionFunction.Retrieve}() requires a storage dictionary.");
 
 			functionArgs.Result = storageDictionary.TryGetValue(key, out var value)

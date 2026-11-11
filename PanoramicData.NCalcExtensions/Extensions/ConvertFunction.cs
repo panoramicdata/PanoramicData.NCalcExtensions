@@ -26,7 +26,7 @@ internal static class ConvertFunction
 
 		// Feed the result of the first parameter into the variables available to the second parameter
 		var param1 = functionArgs.Parameters.Evaluate(0);
-		functionArgs.Context.StaticParameters["value"] = param1;
+		functionArgs.Context.Parameters["value"] = param1;
 		functionArgs.Result = functionArgs.Parameters.Evaluate(1);
 	}
 }

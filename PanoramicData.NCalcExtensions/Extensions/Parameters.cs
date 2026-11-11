@@ -122,7 +122,7 @@ internal static class Parameters
 		var lambdaString = args.Parameters.Evaluate(2) as string
 			?? throw new FormatException($"Third {function} parameter must be a string.");
 
-		return new Lambda(predicate, lambdaString, args.Context.StaticParameters);
+		return new Lambda(predicate, lambdaString, args.Context.Parameters);
 	}
 
 	internal static void CheckParameterCount(

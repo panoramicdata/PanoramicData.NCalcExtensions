@@ -14,18 +14,21 @@ public class Lambda
 
 		var document = ExtendedExpressionDocumentParser.Parse(nCalcString);
 		_expression = new SimpleExtendedExpression(document.TidiedExpression, document);
-		_expression.Parameters = _parameters;
+		foreach (var (key, parameter) in _parameters)
+		{
+			_expression.Parameters[key] = parameter;
+		}
 	}
 
 	public object? Evaluate<T>(T value)
 	{
-		_parameters[_predicate] = UnwrapValue(value);
+		_expression.Parameters[_predicate] = UnwrapValue(value);
 		return _expression.Evaluate();
 	}
 
 	public TResult EvaluateTo<TValue, TResult>(TValue value)
 	{
-		_parameters[_predicate] = UnwrapValue(value);
+		_expression.Parameters[_predicate] = UnwrapValue(value);
 
 		var resultObject = _expression.Evaluate();
 

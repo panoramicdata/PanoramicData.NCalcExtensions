@@ -25,7 +25,7 @@ internal static class Store
 				?? throw new FormatException($"{ExtensionFunction.Store}() requires two parameters.");
 			var value = functionArgs.Parameters.Evaluate(1);
 
-			var storageDictionary = functionArgs.Context.StaticParameters[ExtendedExpression.StorageDictionaryParameterName] as Dictionary<string, object?>
+			var storageDictionary = functionArgs.Context.Parameters[ExtendedExpression.StorageDictionaryParameterName] as Dictionary<string, object?>
 				?? throw new FormatException($"{ExtensionFunction.Store}() requires a storage dictionary.");
 
 			storageDictionary[key] = value;

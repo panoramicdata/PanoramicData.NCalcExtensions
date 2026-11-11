@@ -45,7 +45,7 @@ internal static class Any
 		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
 			?? throw new FormatException($"Third {ExtensionFunction.Any} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
 
 		return list.Any(value => lambda.Evaluate(value) as bool? == true);
 	}

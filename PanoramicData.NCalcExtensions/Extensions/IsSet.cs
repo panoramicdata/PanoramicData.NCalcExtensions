@@ -22,6 +22,6 @@ internal static class IsSet
 			throw new FormatException($"{ExtensionFunction.IsSet}() requires one parameter.");
 		}
 
-		functionArgs.Result = functionArgs.Context.StaticParameters.Keys.Any(p => p == functionArgs.Parameters.Evaluate(0) as string);
+		functionArgs.Result = functionArgs.Context.Parameters.Keys.Any(p => p == functionArgs.Parameters.Evaluate(0) as string);
 	}
 }

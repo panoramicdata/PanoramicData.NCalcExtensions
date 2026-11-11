@@ -32,7 +32,7 @@ internal static class Where
 		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
 			?? throw new FormatException($"Third {ExtensionFunction.Where} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
 		var result = list switch
 		{
 			ICollection<object?> collection => new List<object?>(collection.Count),

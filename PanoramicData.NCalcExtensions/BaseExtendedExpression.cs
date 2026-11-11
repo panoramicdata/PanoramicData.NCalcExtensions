@@ -24,8 +24,9 @@ public abstract class BaseExtendedExpression : Expression
 		string expression,
 		ExpressionOptions expressionOptions,
 		CultureInfo cultureInfo,
-		TimeProvider? timeProvider = null) : base(expression, expressionOptions, cultureInfo)
+		TimeProvider? timeProvider = null) : base(expression, cultureInfo)
 	{
+		Options = expressionOptions;
 		CultureInfo = cultureInfo;
 		_timeProvider = timeProvider ?? TimeProvider.System;
 		Parameters[StorageDictionaryParameterName] = StorageDictionary;

@@ -32,7 +32,7 @@ internal static class SelectDistinct
 		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
 			?? throw new FormatException($"Third {ExtensionFunction.SelectDistinct} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
 
 		functionArgs.Result = enumerable
 			.Select(value =>

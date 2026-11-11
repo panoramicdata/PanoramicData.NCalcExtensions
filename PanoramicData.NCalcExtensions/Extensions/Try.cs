@@ -29,11 +29,11 @@ internal static class Try
 		{
 			if (functionArgs.Parameters.Count >= 2)
 			{
-				functionArgs.Context.StaticParameters["exception"] = e;
-				functionArgs.Context.StaticParameters["exception_message"] = e.Message;
-				functionArgs.Context.StaticParameters["exception_typeName"] = e.GetType().Name;
-				functionArgs.Context.StaticParameters["exception_typeFullName"] = e.GetType().FullName;
-				functionArgs.Context.StaticParameters["exception_type"] = e.GetType();
+				functionArgs.Context.Parameters["exception"] = e;
+				functionArgs.Context.Parameters["exception_message"] = e.Message;
+				functionArgs.Context.Parameters["exception_typeName"] = e.GetType().Name;
+				functionArgs.Context.Parameters["exception_typeFullName"] = e.GetType().FullName;
+				functionArgs.Context.Parameters["exception_type"] = e.GetType();
 				functionArgs.Result = functionArgs.Parameters.Evaluate(1);
 			}
 			else

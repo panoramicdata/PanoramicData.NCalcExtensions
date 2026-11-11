@@ -35,7 +35,7 @@ internal static class OrderBy
 		var lambdaString = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 			?? throw new FormatException($"Third {ExtensionFunction.OrderBy} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
 
 		var capturedLambda = lambda;
 		var orderable = list
@@ -51,7 +51,7 @@ internal static class OrderBy
 		{
 			lambdaString = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 				?? throw new FormatException($"{ExtensionFunction.OrderBy} parameter {parameterIndex + 1} must be a string.");
-			var thenByLambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+			var thenByLambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
 			orderable = orderable
 						.ThenBy(value =>
 						{

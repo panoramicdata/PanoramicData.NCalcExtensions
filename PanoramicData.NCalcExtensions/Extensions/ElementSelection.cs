@@ -57,7 +57,7 @@ internal static class ElementSelection
 		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
 			?? throw new FormatException($"Third {functionName} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.StaticParameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
 
 		var values = enumerable.Cast<object?>();
 		if (fromEnd)

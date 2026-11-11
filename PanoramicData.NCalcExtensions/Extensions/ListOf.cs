@@ -68,7 +68,15 @@ internal static class ListOf
 			[typeof(uint)] = static value => Convert.ToUInt32(value),
 			[typeof(ushort)] = static value => Convert.ToUInt16(value),
 			[typeof(sbyte)] = static value => Convert.ToSByte(value),
+			[typeof(decimal)] = static value => DoubleToDecimal(value),
 		}.ToFrozenDictionary();
+
+	// .NET 11 made double to decimal exact (1.1d is 1.1000000000000000888M); earlier runtimes rounded to 15 significant digits, which is what an expression's 1.1 means.
+	private static decimal DoubleToDecimal(double value)
+	{
+		_ = Convert.ToDecimal(value);
+		return decimal.Parse(value.ToString("G15", CultureInfo.InvariantCulture), NumberStyles.Float, CultureInfo.InvariantCulture);
+	}
 
 	internal static void Evaluate(FunctionEventArgs functionArgs, CultureInfo cultureInfo)
 	{
