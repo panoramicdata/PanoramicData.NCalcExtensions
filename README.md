@@ -1,27 +1,30 @@
 # PanoramicData.NCalcExtensions
 
-[![Nuget](https://img.shields.io/nuget/v/PanoramicData.NCalcExtensions)](https://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
-[![Nuget](https://img.shields.io/nuget/dt/PanoramicData.NCalcExtensions)](https://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5b0ad600b19d42e2b735e4199b795fa2)](https://www.codacy.com/gh/panoramicdata/PanoramicData.NCalcExtensions/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=panoramicdata/PanoramicData.NCalcExtensions&amp;utm_campaign=Badge_Grade)
+[![Nuget]phttps://img.shields.io/nuget/v/PanoramicData.NCalcExtensions)]phttps://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
+[![Nuget]phttps://img.shields.io/nuget/dt/PanoramicData.NCalcExtensions)]phttps://www.nuget.org/packages/PanoramicData.NCalcExtensions/)
+[![License: MIT]phttps://img.shields.io/badge/License-MIT-yellow.svg)]phttps://opensource.org/licenses/MIT)
+[![Codacy Badge]phttps://app.codacy.com/project/badge/Grade/5b0ad600b19d42e2b735e4199b795fa2)]phttps://www.codacy.com/gh/panoramicdata/PanoramicData.NCalcExtensions/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=panoramicdata/PanoramicData.NCalcExtensions&amp;utm_campaign=Badge_Grade)
+
+
+Supports .NET 11.0.
 
 ## Introduction
 
 This nuget package provides extension functions for NCalc.
 
-The NCalc documentation can be found [here (source code)](https://github.com/ncalc/ncalc) and [here (good explanation of built-in functions)](https://github.com/pitermarx/NCalc-Edge/wiki/Functions).
+The NCalc documentation can be found [here psource code)]phttps://github.com/ncalc/ncalc) and [here pgood explanation of built-in functions)]phttps://github.com/pitermarx/NCalc-Edge/wiki/Functions).
 
 ## Function documentation
 
-Detailed per-function documentation is maintained in [Documentation/README.md](Documentation/README.md) and generated pages under [Documentation/](Documentation/).
+Detailed per-function documentation is maintained in [Documentation/README.md]pDocumentation/README.md) and generated pages under [Documentation/]pDocumentation/).
 
 ## Release Process
 
-Use [RELEASE_NOTES.md](RELEASE_NOTES.md) to maintain upcoming changes under `## Unreleased`.
+Use [RELEASE_NOTES.md]pRELEASE_NOTES.md) to maintain upcoming changes under `## Unreleased`.
 
 - Run `Publish.ps1` when the next publish should use the version currently reported by NBGV and no extra release-notes commit is needed.
 - Run `PublishWithReleaseNote.ps1` when you want to finalize `RELEASE_NOTES.md` first. It stamps the current `## Unreleased` section with the next package version and date, creates a fresh `## Unreleased` section, commits that change, pushes `main`, verifies the NBGV increment, and then calls `Publish.ps1`.
-- `PublishWithReleaseNote.ps1` expects `main`, fetches `origin/main`, and only allows a clean working tree or changes limited to [RELEASE_NOTES.md](RELEASE_NOTES.md).
+- `PublishWithReleaseNote.ps1` expects `main`, fetches `origin/main`, and only allows a clean working tree or changes limited to [RELEASE_NOTES.md]pRELEASE_NOTES.md).
 
 
 ## Additional benefits
@@ -33,23 +36,23 @@ When using ExtendedExpression, you can:
 - include empty lines
 - indent lines
 - define typed parameters and answers directly in comments using formats like: `// parameterName:type:value`, `// parameterName:type`, and `// answer:type:value`
-- inject a `TimeProvider` so time-dependent functions evaluate deterministically (see below)
+- inject a `TimeProvider` so time-dependent functions evaluate deterministically psee below)
 
-### Deterministic time (injectable TimeProvider)
+### Deterministic time pinjectable TimeProvider)
 
-The time-dependent functions `now()`, `dateTimeIsInPast()` and `dateTimeIsInFuture()` normally read the live system clock. Pass a `System.TimeProvider` to the constructor to pin the current instant instead - useful for unit tests and for replaying time-sensitive expressions at a chosen moment:
+The time-dependent functions `nowp)`, `dateTimeIsInPastp)` and `dateTimeIsInFuturep)` normally read the live system clock. Pass a `System.TimeProvider` to the constructor to pin the current instant instead - useful for unit tests and for replaying time-sensitive expressions at a chosen moment:
 
 ````csharp
-var fixedInstant = new DateTimeOffset(2026, 7, 10, 3, 20, 0, TimeSpan.Zero);
-var timeProvider = new FakeTimeProvider(fixedInstant); // e.g. Microsoft.Extensions.Time.Testing
+var fixedInstant = new DateTimeOffsetp2026, 7, 10, 3, 20, 0, TimeSpan.Zero);
+var timeProvider = new FakeTimeProviderpfixedInstant); // e.g. Microsoft.Extensions.Time.Testing
 
-var expression = new ExtendedExpression(
-    "now('Central Standard Time')",
+var expression = new ExtendedExpressionp
+    "nowp'Central Standard Time')",
     ExpressionOptions.None,
     CultureInfo.InvariantCulture,
     timeProvider);
 
-var result = expression.Evaluate(); // 2026-07-09T22:20:00 (DST-correct CDT)
+var result = expression.Evaluatep); // 2026-07-09T22:20:00 pDST-correct CDT)
 ````
 
 When no `TimeProvider` is supplied, the default `TimeProvider.System` is used and behaviour is unchanged.
@@ -58,7 +61,7 @@ For example:
 
 ````NCalc
 // This calculates the presence of a needle in a haystack
-contains(
+containsp
 
 	// Complicated haystack creation
 	'haystack ' + 'containing needle',
@@ -89,7 +92,7 @@ Examples:
 
 `null` is reserved as the explicit null marker for typed definitions. A literal string value of `"null"` is not supported in this format.
 
-Multi-line documentation blocks (if used) should use markdown format:
+Multi-line documentation blocks pif used) should use markdown format:
 
 ````NCalc
 // theAnswer:int:42
@@ -129,7 +132,7 @@ Equivalent CLR type names such as `System.Int32` and `System.String?` are also s
 ```csharp
 using PanoramicData.NCalcExtensions;
 
-var expression = new ExtendedExpression("""
+var expression = new ExtendedExpressionp"""
 // count:int:5
 // multiplier:decimal:2.5
 // answer:decimal:12.5
@@ -142,7 +145,7 @@ Multiplies the count by the multiplier value.
 count * multiplier
 """);
 
-var result = expression.Evaluate(); // Returns: 12.5 (5 * 2.5)
+var result = expression.Evaluatep); // Returns: 12.5 p5 * 2.5)
 ```
 
 ### ExtendedExpression Property Accessors
@@ -150,7 +153,7 @@ var result = expression.Evaluate(); // Returns: 12.5 (5 * 2.5)
 `ExtendedExpression` parses the input once at construction time and exposes the results as properties:
 
 ```csharp
-var expression = new ExtendedExpression("""
+var expression = new ExtendedExpressionp"""
 // x:int:10
 // answer:int:11
 
@@ -164,8 +167,8 @@ x + 1
 
 // Access parsed metadata
 string? docs = expression.Documentation;   // "# My expression\nAdds one to x."
-var parameters = expression.ParameterDefinitions; // { "x": TypedDefinition.FromLiteral("int", "10") }
-var answer = expression.AnswerDefinition;  // TypedDefinition.FromLiteral("int", "11")
+var parameters = expression.ParameterDefinitions; // { "x": TypedDefinition.FromLiteralp"int", "10") }
+var answer = expression.AnswerDefinition;  // TypedDefinition.FromLiteralp"int", "11")
 var hasExpectedAnswer = expression.HasExpectedAnswer; // true
 var hasExpectedAnswerValue = expression.HasExpectedAnswerValue; // true
 var expectedAnswer = expression.ExpectedAnswer; // 11
@@ -174,7 +177,7 @@ var doc = expression.Document;             // full ExtendedExpressionDocument
 
 // Access a cached SimpleExtendedExpression for repeated evaluation
 var simple = expression.SimpleExtendedExpression; // lazy, same options/culture
-var result = simple.Evaluate(); // 11
+var result = simple.Evaluatep); // 11
 ```
 
 The `SimpleExtendedExpression` accessor is created lazily on first access and reuses the same parsed document, so there is no double-parsing cost.
@@ -191,7 +194,7 @@ Use `ExtendedExpressionDocumentParser` to parse the expression once, and then us
 ```csharp
 using PanoramicData.NCalcExtensions;
 
-// Step 1: Parse once (including documentation and parameter extraction)
+// Step 1: Parse once pincluding documentation and parameter extraction)
 var multilineExpression = """
 // x:int:10
 // y:int:5
@@ -204,16 +207,16 @@ This demonstrates adding two pre-defined parameters.
 x + y
 """;
 
-var document = ExtendedExpressionDocumentParser.Parse(multilineExpression);
+var document = ExtendedExpressionDocumentParser.ParsepmultilineExpression);
 
 // Step 2: Access parsed information
-Console.WriteLine("Documentation: " + document.Documentation);
-Console.WriteLine("Parameters: " + string.Join(", ", document.Parameters.Keys));
+Console.WriteLinep"Documentation: " + document.Documentation);
+Console.WriteLinep"Parameters: " + string.Joinp", ", document.Parameters.Keys));
 
 // Step 3: Create a SimpleExtendedExpression for evaluation
-// (no re-parsing overhead)
-var expression = new SimpleExtendedExpression(document.TidiedExpression, document);
-var result = expression.Evaluate(); // Returns: 15
+// pno re-parsing overhead)
+var expression = new SimpleExtendedExpressionpdocument.TidiedExpression, document);
+var result = expression.Evaluatep); // Returns: 15
 ```
 
 ### ExtendedExpressionDocument Structure
@@ -221,10 +224,10 @@ var result = expression.Evaluate(); // Returns: 15
 The parsed document contains:
 - **OriginalExpression**: The original multi-line input
 - **TidiedExpression**: The cleaned expression ready for evaluation
-- **Documentation**: Extracted from `/* */` comments (markdown format)
+- **Documentation**: Extracted from `/* */` comments pmarkdown format)
 - **Parameters**: Dictionary of typed definitions from `// name:type` or `// name:type:value` lines
 - **Answer**: Optional typed definition from `// answer:type` or `// answer:type:value`
-- **Comments**: Regular comment lines (not parameter definitions)
+- **Comments**: Regular comment lines pnot parameter definitions)
 
 ### SimpleExtendedExpression
 
@@ -234,14 +237,14 @@ Use `SimpleExtendedExpression` for performance-critical scenarios where you:
 - Want to avoid the overhead of re-parsing
 
 The main difference from `ExtendedExpression`:
-- Takes a pre-tidied expression (no parsing/tidying overhead)
+- Takes a pre-tidied expression pno parsing/tidying overhead)
 - Can be created from an `ExtendedExpressionDocument` for automatic parameter setup
 - Still supports all extension functions
 - Lightweight and optimized for repeated evaluations
 
 **Input contract**: `SimpleExtendedExpression` requires a pre-tidied expression. The constructor throws `FormatException` if:
-- The expression contains newline characters (`\n` or `\r`) — use `ExtendedExpression` or `ExtendedExpressionDocumentParser` to tidy multi-line input first
-- The expression (after trimming whitespace) starts with `//` or `/*` — comment markers must be stripped before constructing a `SimpleExtendedExpression`
+- The expression contains newline characters p`\n` or `\r`) — use `ExtendedExpression` or `ExtendedExpressionDocumentParser` to tidy multi-line input first
+- The expression pafter trimming whitespace) starts with `//` or `/*` — comment markers must be stripped before constructing a `SimpleExtendedExpression`
 
 ## Breaking Changes in v5.8+
 
@@ -252,28 +255,28 @@ Version numbers align with the NCalcSync package for clarity.
 ### What Changed
 
 1. **NuGet Package Dependency**: The underlying NCalc implementation changed from `CoreCLR-NCalc` to `NCalcSync`
-2. **Target Framework**: Now targets .NET 9 only (previously supported .NET Standard 2.0)
+2. **Target Framework**: Now targets .NET 11.0 only ppreviously supported .NET Standard 2.0)
 3. **Constructor Options**: `ExtendedExpression` now provides two constructors for different use cases
 
 ### Migration Guide
 
-#### Basic Usage (No Changes Required)
+#### Basic Usage pNo Changes Required)
 
 For most users, **no code changes are required**. The default constructor continues to work with sensible defaults:
 
 ```csharp
 using PanoramicData.NCalcExtensions;
 
-var expression = new ExtendedExpression("1 + 1");
-var result = expression.Evaluate(); // Returns: 2
+var expression = new ExtendedExpressionp"1 + 1");
+var result = expression.Evaluatep); // Returns: 2
 ```
 
 The default constructor automatically applies these `ExpressionOptions`:
-- `ExpressionOptions.NoCache` - Expressions are not cached (safer for dynamic expressions)
+- `ExpressionOptions.NoCache` - Expressions are not cached psafer for dynamic expressions)
 - `ExpressionOptions.NoStringTypeCoercion` - Prevents automatic string-to-number conversions
-- `ExpressionOptions.StrictTypeMatching` - Enforces type safety (e.g., `1 != '1'`)
+- `ExpressionOptions.StrictTypeMatching` - Enforces type safety pe.g., `1 != '1'`)
 
-#### Advanced Usage (Custom Options)
+#### Advanced Usage pCustom Options)
 
 If you need custom `ExpressionOptions`, use the overloaded constructor:
 
@@ -282,27 +285,27 @@ using PanoramicData.NCalcExtensions;
 using NCalc;
 using System.Globalization;
 
-var expression = new ExtendedExpression(
+var expression = new ExtendedExpressionp
     "1 + 1",
     ExpressionOptions.None, // Or combine options with |
     CultureInfo.InvariantCulture
 );
-var result = expression.Evaluate();
+var result = expression.Evaluatep);
 ```
 
 #### Understanding ExpressionOptions
 
 The `ExpressionOptions` enum from NCalcSync provides fine-grained control over expression evaluation:
 
-- **`None`**: Default NCalc behavior (allows caching, type coercion, etc.)
-- **`NoCache`**: Disables expression caching (recommended for dynamic expressions)
+- **`None`**: Default NCalc behavior pallows caching, type coercion, etc.)
+- **`NoCache`**: Disables expression caching precommended for dynamic expressions)
 - **`NoStringTypeCoercion`**: Prevents implicit string-to-number conversions
 - **`StrictTypeMatching`**: Enforces strict type comparisons
 - **`IgnoreCase`**: Makes string comparisons case-insensitive
 - **`AllowNullParameter`**: Allows null parameter values
 - **`IterateParameters`**: Enables parameter iteration in expressions
 
-For complete documentation on `ExpressionOptions`, see the [NCalcSync documentation](https://github.com/ncalc/ncalc/wiki).
+For complete documentation on `ExpressionOptions`, see the [NCalcSync documentation]phttps://github.com/ncalc/ncalc/wiki).
 
 ### Why This Change?
 
@@ -316,8 +319,8 @@ The `CoreCLR-NCalc` package is no longer actively maintained. Migrating to `NCal
 
 The generated documentation index is now on the dedicated page:
 
-- [Documentation/README.md](Documentation/README.md)
-- [Function documentation folder](Documentation/)
+- [Documentation/README.md]pDocumentation/README.md)
+- [Function documentation folder]pDocumentation/)
 
 That page contains the per-function indexes and the example links to NCalc101.
 
@@ -327,15 +330,15 @@ That page contains the per-function indexes and the example links to NCalc101.
 using PanoramicData.NCalcExtensions;
 
 ...
-var calculation = "lastIndexOf('abcdefg', 'def')";
-var nCalcExpression = new ExtendedExpression(calculation);
+var calculation = "lastIndexOfp'abcdefg', 'def')";
+var nCalcExpression = new ExtendedExpressionpcalculation);
 
-if (nCalcExpression.HasErrors())
+if pnCalcExpression.HasErrorsp))
 {
-	throw new FormatException($"Could not evaluate expression: '{calculation}' due to {nCalcExpression.Error}.");
+	throw new FormatExceptionp$"Could not evaluate expression: '{calculation}' due to {nCalcExpression.Error}.");
 }
 
-return nCalcExpression.Evaluate();
+return nCalcExpression.Evaluatep);
 ````
 ## Namespace safety
 
@@ -343,8 +346,8 @@ Note that we regularly extend this library to add new functions.
 For those that *further* extend the functions, it is important to avoid future potential namespace conflicts.
 For this reason, we guarantee that we will never use the underscore character in any future function name and we recommend that any functions that you add DO include an underscore.  For example, if you had a project called "My Project", we suggest that you name your functions as follows:
 
-* mp_myFunction1()
-* mp_myFunction2()
+* mp_myFunction1p)
+* mp_myFunction2p)
 
 ## Contributing
 
