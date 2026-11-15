@@ -92,10 +92,8 @@ internal static class Parse
 			throw new FormatException($"{ExtensionFunction.Parse} function - requires at least two string parameters.");
 		}
 
-		var typeString = functionArgs.Parameters.Evaluate(0) as string
-			?? throw new FormatException($"{ExtensionFunction.Parse} function - first parameter should be a string.");
-		var text = functionArgs.Parameters.Evaluate(1) as string
-			?? throw new FormatException($"{ExtensionFunction.Parse} function - second parameter should be a string.");
+		var typeString = ParseArguments.ReadString(functionArgs, 0, "first");
+		var text = ParseArguments.ReadString(functionArgs, 1, "second");
 
 		try
 		{
@@ -116,39 +114,21 @@ internal static class Parse
 		}
 	}
 
-	private static JObject ParseJObject(string text)
-	{
-		try
-		{
-			return JObject.Parse(text);
-		}
-		catch (JsonReaderException)
-		{
-			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JObject)}'.");
-		}
-	}
+	private static JObject ParseJObject(string text) => ParseJson(text, static value => JObject.Parse(value), nameof(JObject));
 
-	private static JArray ParseJArray(string text)
-	{
-		try
-		{
-			return JArray.Parse(text);
-		}
-		catch (JsonReaderException)
-		{
-			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JArray)}'.");
-		}
-	}
+	private static JArray ParseJArray(string text) => ParseJson(text, static value => JArray.Parse(value), nameof(JArray));
 
-	private static JsonDocument ParseJsonDocument(string text)
+	private static JsonDocument ParseJsonDocument(string text) => ParseJson(text, static value => JsonDocument.Parse(value), nameof(JsonDocument));
+
+	private static T ParseJson<T>(string text, Func<string, T> parse, string typeName)
 	{
 		try
 		{
-			return JsonDocument.Parse(text);
+			return parse(text);
 		}
-		catch (System.Text.Json.JsonException)
+		catch (Exception e) when (e is JsonReaderException or System.Text.Json.JsonException)
 		{
-			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{nameof(JsonDocument)}'.");
+			throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeName}'.");
 		}
 	}
 

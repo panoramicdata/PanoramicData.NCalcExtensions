@@ -13,8 +13,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void OrderBy_JArrayOfNumbers_ReturnsUnwrappedValues()
 	{
-		var expression = new ExtendedExpression("orderBy(jArray(3, 1, 4, 1, 5), 'n', 'n')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = Test("orderBy(jArray(3, 1, 4, 1, 5), 'n', 'n')") as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new object[] { 1L, 1L, 3L, 4L, 5L }, options => options.WithStrictOrdering());
 	}
@@ -22,8 +21,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void OrderBy_JArrayOfStrings_ReturnsStrings()
 	{
-		var expression = new ExtendedExpression("orderBy(jArray('zebra', 'apple', 'banana'), 's', 's')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = Test("orderBy(jArray('zebra', 'apple', 'banana'), 's', 's')") as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().AllBeOfType<string>();
 		result.Should().BeEquivalentTo(new[] { "apple", "banana", "zebra" }, options => options.WithStrictOrdering());
@@ -36,8 +34,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void Sum_JArrayOfNumbers_ReturnsCorrectSum()
 	{
-		var expression = new ExtendedExpression("sum(jArray(1, 2, 3, 4, 5))");
-		var result = expression.Evaluate();
+		var result = Test("sum(jArray(1, 2, 3, 4, 5))");
 		// Sum handles JValues internally
 		result.Should().Be(15.0); // GetSum returns double
 	}
@@ -45,8 +42,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void Sum_JArrayWithLambda_ReturnsCorrectSum()
 	{
-		var expression = new ExtendedExpression("sum(jArray(1, 2, 3), 'n', 'n * 2')");
-		var result = expression.Evaluate();
+		var result = Test("sum(jArray(1, 2, 3), 'n', 'n * 2')");
 		result.Should().BeOfType<double>();
 		result.Should().Be(12.0); // (1*2) + (2*2) + (3*2) = 12
 	}
@@ -77,8 +73,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void ItemAtIndex_WithSelect_ReturnsUnwrappedValue()
 	{
-		var expression = new ExtendedExpression("itemAtIndex(select(jArray('a', 'b', 'c'), 's', 's'), 1)");
-		var result = expression.Evaluate();
+		var result = Test("itemAtIndex(select(jArray('a', 'b', 'c'), 's', 's'), 1)");
 		result.Should().BeOfType<string>();
 		result.Should().Be("b");
 	}
@@ -101,8 +96,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void MixedTypes_JArray_HandlesCorrectly()
 	{
-		var expression = new ExtendedExpression("select(jArray(1, 'two', 3.0, true), 'x', 'toString(x)')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = Test("select(jArray(1, 'two', 3.0, true), 'x', 'toString(x)')") as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().AllBeOfType<string>();
 		result.Should().HaveCount(4);

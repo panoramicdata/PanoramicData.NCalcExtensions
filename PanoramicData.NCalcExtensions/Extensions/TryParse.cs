@@ -67,12 +67,9 @@ internal static class TryParse
 			throw new FormatException($"{ExtensionFunction.Parse} function - requires exactly three string parameters.");
 		}
 
-		var typeString = functionArgs.Parameters.Evaluate(0) as string
-			?? throw new FormatException($"{ExtensionFunction.Parse} function - first parameter should be a string.");
-		var text = functionArgs.Parameters.Evaluate(1) as string
-			?? throw new FormatException($"{ExtensionFunction.Parse} function - second parameter should be a string.");
-		var outputVariableName = functionArgs.Parameters.Evaluate(2) as string
-			?? throw new FormatException($"{ExtensionFunction.Parse} function - third parameter should be a string.");
+		var typeString = ParseArguments.ReadString(functionArgs, 0, "first");
+		var text = ParseArguments.ReadString(functionArgs, 1, "second");
+		var outputVariableName = ParseArguments.ReadString(functionArgs, 2, "third");
 
 		if (!Parsers.TryGetValue(typeString, out var parse))
 		{

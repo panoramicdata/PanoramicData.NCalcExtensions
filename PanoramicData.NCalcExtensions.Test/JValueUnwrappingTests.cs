@@ -21,8 +21,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void ItemAtIndex_JArrayWithString_ReturnsString()
 	{
-		var expression = new ExtendedExpression("itemAtIndex(jArray('hello', 'world'), 0)");
-		var result = expression.Evaluate();
+		var result = Test("itemAtIndex(jArray('hello', 'world'), 0)");
 		result.Should().BeOfType<string>();
 		result.Should().Be("hello");
 	}
@@ -30,8 +29,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void ItemAtIndex_JArrayWithNumber_ReturnsNumber()
 	{
-		var expression = new ExtendedExpression("itemAtIndex(jArray(1, 2, 3), 1)");
-		var result = expression.Evaluate();
+		var result = Test("itemAtIndex(jArray(1, 2, 3), 1)");
 		result.Should().BeOfType<int>(); // JSON integers are deserialized as int
 		result.Should().Be(2);
 	}
@@ -43,8 +41,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void ItemAtIndex_JArrayWithBoolean_ReturnsBoolean()
 	{
-		var expression = new ExtendedExpression("itemAtIndex(jArray(true, false), 0)");
-		var result = expression.Evaluate();
+		var result = Test("itemAtIndex(jArray(true, false), 0)");
 		result.Should().BeOfType<bool>();
 		result.Should().Be(true);
 	}
@@ -56,8 +53,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void First_JArrayWithStrings_ReturnsString()
 	{
-		var expression = new ExtendedExpression("first(jArray('a', 'b', 'c'))");
-		var result = expression.Evaluate();
+		var result = Test("first(jArray('a', 'b', 'c'))");
 		result.Should().BeOfType<string>();
 		result.Should().Be("a");
 	}
@@ -69,8 +65,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void First_JArrayWithLambda_ReturnsUnwrappedValue()
 	{
-		var expression = new ExtendedExpression("first(jArray(1, 2, 3, 4), 'n', 'n > 2')");
-		var result = expression.Evaluate();
+		var result = Test("first(jArray(1, 2, 3, 4), 'n', 'n > 2')");
 		result.Should().BeOfType<int>();
 		result.Should().Be(3);
 	}
@@ -78,8 +73,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void FirstOrDefault_JArrayWithStrings_ReturnsString()
 	{
-		var expression = new ExtendedExpression("firstOrDefault(jArray('x', 'y'))");
-		var result = expression.Evaluate();
+		var result = Test("firstOrDefault(jArray('x', 'y'))");
 		result.Should().BeOfType<string>();
 		result.Should().Be("x");
 	}
@@ -99,8 +93,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void Last_JArrayWithStrings_ReturnsString()
 	{
-		var expression = new ExtendedExpression("last(jArray('a', 'b', 'c'))");
-		var result = expression.Evaluate();
+		var result = Test("last(jArray('a', 'b', 'c'))");
 		result.Should().BeOfType<string>();
 		result.Should().Be("c");
 	}
@@ -112,8 +105,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void Last_JArrayWithLambda_ReturnsUnwrappedValue()
 	{
-		var expression = new ExtendedExpression("last(jArray(1, 2, 3, 4, 2), 'n', 'n == 2')");
-		var result = expression.Evaluate();
+		var result = Test("last(jArray(1, 2, 3, 4, 2), 'n', 'n == 2')");
 		result.Should().BeOfType<int>();
 		result.Should().Be(2);
 	}
@@ -121,8 +113,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void LastOrDefault_JArrayWithStrings_ReturnsString()
 	{
-		var expression = new ExtendedExpression("lastOrDefault(jArray('x', 'y', 'z'))");
-		var result = expression.Evaluate();
+		var result = Test("lastOrDefault(jArray('x', 'y', 'z'))");
 		result.Should().BeOfType<string>();
 		result.Should().Be("z");
 	}

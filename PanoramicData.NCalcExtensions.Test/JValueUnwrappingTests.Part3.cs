@@ -13,8 +13,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void Where_JArray_ReturnsListWithUnwrappedValues()
 	{
-		var expression = new ExtendedExpression("where(jArray(1, 2, 3, 4, 5), 'n', 'n > 2')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = Test("where(jArray(1, 2, 3, 4, 5), 'n', 'n > 2')") as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new object[] { 3L, 4L, 5L });
 	}
@@ -22,8 +21,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void Where_JArrayOfStrings_ReturnsStrings()
 	{
-		var expression = new ExtendedExpression("where(jArray('apple', 'banana', 'apricot'), 's', 'startsWith(s, \"a\")')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = Test("where(jArray('apple', 'banana', 'apricot'), 's', 'startsWith(s, \"a\")')") as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().AllBeOfType<string>();
 		result.Should().HaveCount(2);
@@ -32,8 +30,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void Where_JArrayWithEmptyString_PreservesEmptyString()
 	{
-		var expression = new ExtendedExpression("where(jArray('a', '', 'c'), 's', 's != null')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = Test("where(jArray('a', '', 'c'), 's', 's != null')") as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().HaveCount(3);
 		result![1].Should().Be("");
@@ -78,8 +75,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void SelectDistinct_JArray_ReturnsUnwrappedValues()
 	{
-		var expression = new ExtendedExpression("selectDistinct(jArray(1, 2, 2, 3), 'n', 'n')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = Test("selectDistinct(jArray(1, 2, 2, 3), 'n', 'n')") as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().BeEquivalentTo(new object[] { 1L, 2L, 3L });
 	}
@@ -87,8 +83,7 @@ public partial class JValueUnwrappingTests : NCalcTest
 	[Fact]
 	public void SelectDistinct_JArrayOfStrings_ReturnsStrings()
 	{
-		var expression = new ExtendedExpression("selectDistinct(jArray('a', 'b', 'a', 'c'), 's', 's')");
-		var result = expression.Evaluate() as List<object?>;
+		var result = Test("selectDistinct(jArray('a', 'b', 'a', 'c'), 's', 's')") as List<object?>;
 		result.Should().NotBeNull();
 		result.Should().AllBeOfType<string>();
 		result.Should().BeEquivalentTo(new[] { "a", "b", "c" });

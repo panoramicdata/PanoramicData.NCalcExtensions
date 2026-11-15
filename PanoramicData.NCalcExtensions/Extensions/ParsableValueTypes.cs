@@ -29,3 +29,11 @@ internal static class ParsableValueTypes
 		visitor.Add<Guid>(Guid.TryParse, "Guid", "System.Guid");
 	}
 }
+
+/// <summary>Reads the text arguments that parse() and tryParse() share.</summary>
+internal static class ParseArguments
+{
+	internal static string ReadString(FunctionEventArgs functionArgs, int index, string ordinal)
+		=> functionArgs.Parameters.Evaluate(index) as string
+			?? throw new FormatException($"{ExtensionFunction.Parse} function - {ordinal} parameter should be a string.");
+}
