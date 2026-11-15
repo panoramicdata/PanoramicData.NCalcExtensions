@@ -31,34 +31,27 @@ internal static class Humanize
 				throw new FormatException($"{ExtensionFunction.Humanize}() first parameter must be a number.");
 			}
 
-			var param2 = functionArgs.Parameters.Evaluate(1) as string
-				?? throw new FormatException($"{ExtensionFunction.Humanize}() second parameter must be a string.");
+			var timeUnit = ReadTimeUnit(functionArgs, 1, "second");
+			var resolution = functionArgs.Parameters.Count > 2
+				? ReadTimeUnit(functionArgs, 2, "third")
+				: (TimeUnit?)null;
 
-			if (!Enum.TryParse<TimeUnit>(param2, true, out var param2TimeUnit))
-			{
-				throw new FormatException($"{ExtensionFunction.Humanize} function - Parameter 2 must be a time unit - one of {string.Join(", ", Enum.GetNames<TimeUnit>().Select(n => $"'{n}'"))}.");
-			}
-
-			TimeUnit? resolution = null;
-			if (functionArgs.Parameters.Count > 2)
-			{
-				var param3 = functionArgs.Parameters.Evaluate(2) as string
-					?? throw new FormatException($"{ExtensionFunction.Humanize}() third parameter must be a string.");
-
-				if (!Enum.TryParse<TimeUnit>(param3, true, out var param3TimeUnit))
-				{
-					throw new FormatException($"{ExtensionFunction.Humanize} function - Parameter 3 must be a time unit - one of {string.Join(", ", Enum.GetNames<TimeUnit>().Select(n => $"'{n}'"))}.");
-				}
-
-				resolution = param3TimeUnit;
-			}
-
-			functionArgs.Result = Humanise(param1Double, param2TimeUnit, resolution);
+			functionArgs.Result = Humanise(param1Double, timeUnit, resolution);
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{
 			throw new FormatException($"{ExtensionFunction.Humanize} function - The first number should be a valid floating-point number and the second should be a time unit ({string.Join(", ", Enum.GetNames<TimeUnit>())}).");
 		}
+	}
+
+	private static TimeUnit ReadTimeUnit(FunctionEventArgs functionArgs, int index, string ordinal)
+	{
+		var text = functionArgs.Parameters.Evaluate(index) as string
+			?? throw new FormatException($"{ExtensionFunction.Humanize}() {ordinal} parameter must be a string.");
+
+		return Enum.TryParse<TimeUnit>(text, true, out var timeUnit)
+			? timeUnit
+			: throw new FormatException($"{ExtensionFunction.Humanize} function - Parameter {index + 1} must be a time unit - one of {string.Join(", ", Enum.GetNames<TimeUnit>().Select(n => $"'{n}'"))}.");
 	}
 
 	private static string Humanise(double param1Double, TimeUnit timeUnit, TimeUnit? resolution)

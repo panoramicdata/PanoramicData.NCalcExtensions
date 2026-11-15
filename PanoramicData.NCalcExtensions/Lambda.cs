@@ -3,7 +3,6 @@ public class Lambda
 {
 	private readonly string _predicate;
 	private readonly string _nCalcString;
-	private readonly IDictionary<string, object?> _parameters;
 	private readonly SimpleExtendedExpression _expression;
 
 	public Lambda(string predicate, string nCalcString, IDictionary<string, object?> parameters)
@@ -41,11 +40,10 @@ public class Lambda
 	{
 		_predicate = predicate;
 		_nCalcString = nCalcString;
-		_parameters = parameters;
 
 		var document = ExtendedExpressionDocumentParser.Parse(nCalcString);
 		_expression = new SimpleExtendedExpression(document.TidiedExpression, document, settings.Options, settings.CultureInfo);
-		foreach (var (key, parameter) in _parameters)
+		foreach (var (key, parameter) in parameters)
 		{
 			_expression.Parameters[key] = parameter;
 		}
