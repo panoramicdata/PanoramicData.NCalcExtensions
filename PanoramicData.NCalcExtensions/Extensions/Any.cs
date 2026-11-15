@@ -11,9 +11,9 @@ public partial interface IFunctionPrototypes
 		[Description("The original list")]
 		IEnumerable<object?> list,
 		[Description("(Optional) a string to represent the value to be evaluated")]
-		string? predicate = null,
+		[Optional] string? predicate,
 		[Description("(Optional, but must be provided if predicate is) the string to evaluate")]
-		string? exprStr = null
+		[Optional] string? exprStr
 	);
 }
 
@@ -45,7 +45,7 @@ internal static class Any
 		var lambdaString = functionArgs.Parameters.Evaluate(2) as string
 			?? throw new FormatException($"Third {ExtensionFunction.Any} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs);
 
 		return list.Any(value => lambda.Evaluate(value) as bool? == true);
 	}

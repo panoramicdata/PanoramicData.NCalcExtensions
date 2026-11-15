@@ -18,18 +18,27 @@ public abstract class BaseExtendedExpression : Expression
 	private readonly TimeProvider _timeProvider;
 
 	internal const string StorageDictionaryParameterName = "__storageDictionary";
+	internal const string SettingsParameterName = "__expressionSettings";
 	public static readonly ExpressionOptions ExtendedExpressionDefaults = ExpressionOptions.None;
 
 	protected BaseExtendedExpression(
 		string expression,
 		ExpressionOptions expressionOptions,
+		CultureInfo cultureInfo) : this(expression, expressionOptions, cultureInfo, null)
+	{
+	}
+
+	protected BaseExtendedExpression(
+		string expression,
+		ExpressionOptions expressionOptions,
 		CultureInfo cultureInfo,
-		TimeProvider? timeProvider = null) : base(expression, cultureInfo)
+		TimeProvider? timeProvider) : base(expression, cultureInfo)
 	{
 		Options = expressionOptions;
 		CultureInfo = cultureInfo;
 		_timeProvider = timeProvider ?? TimeProvider.System;
 		Parameters[StorageDictionaryParameterName] = StorageDictionary;
+		Parameters[SettingsParameterName] = new ExpressionSettings(expressionOptions, cultureInfo);
 		EvaluateFunction += Extend;
 		InitializeBuiltInParameters();
 	}
@@ -345,6 +354,8 @@ public abstract class BaseExtendedExpression : Expression
 		handlers[ExtensionFunction.Throw] = static (_, args) => throw Throw.Evaluate(args);
 		handlers[ExtensionFunction.Try] = static (_, args) => Try.Evaluate(args);
 	}
+
+	internal static bool IsBuiltInFunction(string functionName) => FunctionHandlers.ContainsKey(functionName);
 
 	internal void Extend(string functionName, FunctionEventArgs functionArgs)
 	{

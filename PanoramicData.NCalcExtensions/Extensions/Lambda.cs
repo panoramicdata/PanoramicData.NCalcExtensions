@@ -11,7 +11,7 @@ internal static class LambdaFunction
 			var nCalcString = functionArgs.Parameters.Evaluate(1) as string
 				?? throw new FormatException($"Lambda function requires two string parameters.");
 
-			functionArgs.Result = new Lambda(predicate, nCalcString, storageDictionary);
+			functionArgs.Result = new Lambda(predicate, nCalcString, storageDictionary, functionArgs);
 		}
 		catch (Exception e) when (e is not (NCalcExtensionsException or FormatException))
 		{

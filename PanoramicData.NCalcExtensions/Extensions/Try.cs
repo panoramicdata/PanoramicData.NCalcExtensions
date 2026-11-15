@@ -11,7 +11,7 @@ public partial interface IFunctionPrototypes
 		[Description("The expression / function to attempt.")]
 		object expression,
 		[Description("(Optional) The result to return if an exception is thrown (null is returned if this parameter is omitted and an exception is thrown).")]
-		object? returnResult = null
+		[Optional] object? returnResult
 	);
 }
 

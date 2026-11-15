@@ -13,9 +13,9 @@ public partial interface IFunctionPrototypes
 		[Description("The starting index (Zero based).")]
 		int startIndex,
 		[Description("(Optional) Number of characters to return.")]
-		int? length = null,
+		[Optional] int? length,
 		[Description("(Optional) Out-of-bounds handling strategy: 'Error' (default), 'Empty', 'Null', or 'Clip'.")]
-		string? mode = null
+		[Optional] string? mode
 	);
 }
 

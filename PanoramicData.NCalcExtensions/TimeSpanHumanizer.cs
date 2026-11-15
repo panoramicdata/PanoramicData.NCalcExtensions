@@ -10,7 +10,10 @@ public static class TimeSpanHumanizer
 	/// Humanizes <paramref name="value"/> <paramref name="timeUnit"/>s, optionally rounded to <paramref name="resolution"/>.
 	/// </summary>
 	/// <exception cref="OverflowException">The value is too large to represent as a duration.</exception>
-	public static string Humanize(double value, TimeUnit timeUnit, TimeUnit? resolution = null)
+	public static string Humanize(double value, TimeUnit timeUnit) => Humanize(value, timeUnit, null);
+
+	/// <summary>Humanizes a value in the given unit, rounded to the optional resolution.</summary>
+	public static string Humanize(double value, TimeUnit timeUnit, TimeUnit? resolution)
 	{
 		var timeSpan = timeUnit switch
 		{
@@ -34,7 +37,10 @@ public static class TimeSpanHumanizer
 	/// A zero, negative or (without a resolution) sub-second duration gives an empty string.
 	/// </summary>
 	/// <exception cref="OverflowException">The rounded duration is too large to represent.</exception>
-	public static string Humanize(System.TimeSpan timeSpan, TimeUnit? resolution = null)
+	public static string Humanize(System.TimeSpan timeSpan) => Humanize(timeSpan, null);
+
+	/// <summary>Humanizes a duration, rounded to the optional resolution.</summary>
+	public static string Humanize(System.TimeSpan timeSpan, TimeUnit? resolution)
 	{
 		if (resolution is null)
 		{

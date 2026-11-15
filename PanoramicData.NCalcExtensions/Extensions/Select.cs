@@ -37,7 +37,7 @@ internal static class Select
 				?? throw new FormatException($"Fourth {ExtensionFunction.Select} parameter must be a string.")
 			: "object";
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs);
 
 		switch (type)
 		{

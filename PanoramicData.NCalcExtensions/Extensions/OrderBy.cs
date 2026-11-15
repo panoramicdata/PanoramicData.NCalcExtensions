@@ -15,9 +15,9 @@ public partial interface IFunctionPrototypes
 		[Description("The first orderBy lambda expression")]
 		string nCalcString1,
 		[Description("(Optional) A second orderBy lambda expression")]
-		string? nCalcString2 = null,
+		[Optional] string? nCalcString2,
 		[Description("(Optional) A third orderBy lambda expression")]
-		string? nCalcString3 = null
+		[Optional] string? nCalcString3
 	);
 }
 
@@ -35,7 +35,7 @@ internal static class OrderBy
 		var lambdaString = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 			?? throw new FormatException($"Third {ExtensionFunction.OrderBy} parameter must be a string.");
 
-		var lambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
+		var lambda = new Lambda(predicate, lambdaString, functionArgs);
 
 		var capturedLambda = lambda;
 		var orderable = list
@@ -51,7 +51,7 @@ internal static class OrderBy
 		{
 			lambdaString = functionArgs.Parameters.Evaluate(parameterIndex++) as string
 				?? throw new FormatException($"{ExtensionFunction.OrderBy} parameter {parameterIndex + 1} must be a string.");
-			var thenByLambda = new Lambda(predicate, lambdaString, functionArgs.Context.Parameters);
+			var thenByLambda = new Lambda(predicate, lambdaString, functionArgs);
 			orderable = orderable
 						.ThenBy(value =>
 						{

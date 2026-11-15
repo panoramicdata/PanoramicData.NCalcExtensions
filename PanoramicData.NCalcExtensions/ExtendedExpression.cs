@@ -73,8 +73,15 @@ public class ExtendedExpression : BaseExtendedExpression
 	public ExtendedExpression(
 		string expression,
 		ExpressionOptions expressionOptions,
+		CultureInfo cultureInfo) : this(expression, expressionOptions, cultureInfo, null)
+	{
+	}
+
+	public ExtendedExpression(
+		string expression,
+		ExpressionOptions expressionOptions,
 		CultureInfo cultureInfo,
-		TimeProvider? timeProvider = null) : this(
+		TimeProvider? timeProvider) : this(
 		ExtendedExpressionDocumentParser.Parse(expression),
 		expressionOptions,
 		cultureInfo,
@@ -86,7 +93,7 @@ public class ExtendedExpression : BaseExtendedExpression
 		ExtendedExpressionDocument document,
 		ExpressionOptions expressionOptions,
 		CultureInfo cultureInfo,
-		TimeProvider? timeProvider = null) : base(document.TidiedExpression, expressionOptions, cultureInfo, timeProvider)
+		TimeProvider? timeProvider) : base(document.TidiedExpression, expressionOptions, cultureInfo, timeProvider)
 	{
 		Document = document;
 		_expressionOptions = expressionOptions;

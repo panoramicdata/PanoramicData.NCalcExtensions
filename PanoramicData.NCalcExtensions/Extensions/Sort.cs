@@ -11,7 +11,7 @@ public partial interface IFunctionPrototypes
 		[Description("The original list.")]
 		IEnumerable<object?> list,
 		[Description("(Optional) - 'asc' is the default, 'desc' is the other option.")]
-		string direction = "asc"
+		[Optional] string direction
 	);
 }
 
