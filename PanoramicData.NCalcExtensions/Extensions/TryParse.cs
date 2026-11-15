@@ -22,11 +22,6 @@ public partial interface IFunctionPrototypes
 internal static class TryParse
 {
 	/// <summary>
-	/// A type's TryParse method, as used by <see cref="ForValueType{T}"/>.
-	/// </summary>
-	private delegate bool TryParseValue<T>(string? text, out T value);
-
-	/// <summary>
 	/// Parses <paramref name="text"/> for one supported type name, storing the outcome in
 	/// <paramref name="store"/> under <paramref name="key"/> and returning whether it parsed.
 	/// </summary>
@@ -39,40 +34,31 @@ internal static class TryParse
 	/// A lookup table rather than a 15-case switch: choosing a parser by name is all the dispatch
 	/// ever did. Matching is case-sensitive and ordinal, as the switch was.
 	/// </remarks>
-	private static readonly FrozenDictionary<string, TryParseInto> Parsers =
-		new Dictionary<string, TryParseInto>(StringComparer.Ordinal)
+	private static readonly FrozenDictionary<string, TryParseInto> Parsers = BuildParsers();
+
+	private static FrozenDictionary<string, TryParseInto> BuildParsers()
+	{
+		var parsers = new Dictionary<string, TryParseInto>(StringComparer.Ordinal)
 		{
-			["bool"] = ForValueType<bool>(bool.TryParse),
-			["System.Boolean"] = ForValueType<bool>(bool.TryParse),
-			["sbyte"] = ForValueType<sbyte>(sbyte.TryParse),
-			["System.SByte"] = ForValueType<sbyte>(sbyte.TryParse),
-			["byte"] = ForValueType<byte>(byte.TryParse),
-			["System.Byte"] = ForValueType<byte>(byte.TryParse),
-			["short"] = ForValueType<short>(short.TryParse),
-			["System.Int16"] = ForValueType<short>(short.TryParse),
-			["ushort"] = ForValueType<ushort>(ushort.TryParse),
-			["System.UInt16"] = ForValueType<ushort>(ushort.TryParse),
-			["int"] = ForValueType<int>(int.TryParse),
-			["System.Int32"] = ForValueType<int>(int.TryParse),
-			["uint"] = ForValueType<uint>(uint.TryParse),
-			["System.UInt32"] = ForValueType<uint>(uint.TryParse),
-			["long"] = ForValueType<long>(long.TryParse),
-			["System.Int64"] = ForValueType<long>(long.TryParse),
-			["ulong"] = ForValueType<ulong>(ulong.TryParse),
-			["System.UInt64"] = ForValueType<ulong>(ulong.TryParse),
-			["double"] = ForValueType<double>(double.TryParse),
-			["System.Double"] = ForValueType<double>(double.TryParse),
-			["float"] = ForValueType<float>(float.TryParse),
-			["System.Single"] = ForValueType<float>(float.TryParse),
-			["decimal"] = ForValueType<decimal>(decimal.TryParse),
-			["System.Decimal"] = ForValueType<decimal>(decimal.TryParse),
-			["Guid"] = ForValueType<Guid>(Guid.TryParse),
-			["System.Guid"] = ForValueType<Guid>(Guid.TryParse),
 			["JObject"] = ForJsonToken<JObject>(),
 			["jObject"] = ForJsonToken<JObject>(),
 			["JArray"] = ForJsonToken<JArray>(),
 			["jArray"] = ForJsonToken<JArray>(),
-		}.ToFrozenDictionary(StringComparer.Ordinal);
+		};
+		ParsableValueTypes.Visit(new ParserRegistration(parsers));
+		return parsers.ToFrozenDictionary(StringComparer.Ordinal);
+	}
+
+	private sealed class ParserRegistration(Dictionary<string, TryParseInto> parsers) : IParsableValueTypeVisitor
+	{
+		public void Add<T>(TryParseValue<T> tryParse, params string[] typeNames)
+		{
+			foreach (var typeName in typeNames)
+			{
+				parsers[typeName] = ForValueType(tryParse);
+			}
+		}
+	}
 
 	internal static void Evaluate(FunctionEventArgs functionArgs, Dictionary<string, object?> dictionary)
 	{

@@ -38,11 +38,6 @@ public partial interface IFunctionPrototypes
 internal static class Parse
 {
 	/// <summary>
-	/// A type's TryParse method, as used by <see cref="AddValueType{T}"/>.
-	/// </summary>
-	private delegate bool TryParseValue<T>(string? text, out T value);
-
-	/// <summary>
 	/// The type names parse() accepts, mapped to the parser for each. Every parser throws
 	/// FormatException for text it cannot parse, which is what selects the fallback value.
 	/// </summary>
@@ -55,19 +50,7 @@ internal static class Parse
 	private static FrozenDictionary<string, Func<string, object?>> BuildParsers()
 	{
 		var parsers = new Dictionary<string, Func<string, object?>>(StringComparer.Ordinal);
-		AddValueType<bool>(parsers, bool.TryParse, "bool", "System.Boolean");
-		AddValueType<sbyte>(parsers, sbyte.TryParse, "sbyte", "System.SByte");
-		AddValueType<byte>(parsers, byte.TryParse, "byte", "System.Byte");
-		AddValueType<short>(parsers, short.TryParse, "short", "System.Int16");
-		AddValueType<ushort>(parsers, ushort.TryParse, "ushort", "System.UInt16");
-		AddValueType<int>(parsers, int.TryParse, "int", "System.Int32");
-		AddValueType<uint>(parsers, uint.TryParse, "uint", "System.UInt32");
-		AddValueType<long>(parsers, long.TryParse, "long", "System.Int64");
-		AddValueType<ulong>(parsers, ulong.TryParse, "ulong", "System.UInt64");
-		AddValueType<double>(parsers, double.TryParse, "double", "System.Double");
-		AddValueType<float>(parsers, float.TryParse, "float", "System.Single");
-		AddValueType<decimal>(parsers, decimal.TryParse, "decimal", "System.Decimal");
-		AddValueType<Guid>(parsers, Guid.TryParse, "Guid", "System.Guid");
+		ParsableValueTypes.Visit(new ParserRegistration(parsers));
 		parsers["JObject"] = ParseJObject;
 		parsers["jObject"] = ParseJObject;
 		parsers["Newtonsoft.Json.Linq.JObject"] = ParseJObject;
@@ -83,22 +66,22 @@ internal static class Parse
 	}
 
 	/// <summary>
-	/// Registers <paramref name="tryParse"/> under each of <paramref name="typeNames"/>.
+	/// Registers each value type's parser under each of its names.
 	/// </summary>
 	/// <remarks>
 	/// The failure message names the type as the caller spelled it, so each alias gets its own
 	/// parser rather than sharing one.
 	/// </remarks>
-	private static void AddValueType<T>(
-		Dictionary<string, Func<string, object?>> parsers,
-		TryParseValue<T> tryParse,
-		params string[] typeNames)
+	private sealed class ParserRegistration(Dictionary<string, Func<string, object?>> parsers) : IParsableValueTypeVisitor
 	{
-		foreach (var typeName in typeNames)
+		public void Add<T>(TryParseValue<T> tryParse, params string[] typeNames)
 		{
-			parsers[typeName] = text => tryParse(text, out var value)
-				? value
-				: throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeName}'.");
+			foreach (var typeName in typeNames)
+			{
+				parsers[typeName] = text => tryParse(text, out var value)
+					? value
+					: throw new FormatException($"{ExtensionFunction.Parse} function - parameter '{text}' could not be parsed to type '{typeName}'.");
+			}
 		}
 	}
 

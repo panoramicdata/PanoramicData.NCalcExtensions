@@ -267,7 +267,7 @@ public class ParametersHelperTests
 			.ToList();
 		
 		methods.Should().NotBeEmpty("GetParameters<T1,T2...> methods should exist for potential future use");
-		methods.Should().HaveCount(6, "Should have overloads for 2 through 7 parameters");
+		methods.Should().ContainSingle("only the two-parameter overload is used");
 		methods.Should().OnlyContain(m => m.IsGenericMethod, "All GetParameters methods should be generic");
 	}
 
@@ -280,9 +280,9 @@ public class ParametersHelperTests
 			.Where(m => m.Name == "GetParameters")
 			.ToList();
 		
-		// Should have overloads for 2, 3, 4, 5, 6, and 7 type parameters
+		// Only the two-parameter overload has a caller
 		var genericCounts = methods.Select(m => m.GetGenericArguments().Length).OrderBy(x => x).ToList();
-		genericCounts.Should().BeEquivalentTo([2, 3, 4, 5, 6, 7]);
+		genericCounts.Should().BeEquivalentTo([2]);
 	}
 
 	[Fact]
