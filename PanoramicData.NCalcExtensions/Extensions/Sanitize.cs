@@ -15,7 +15,7 @@ public partial interface IFunctionPrototypes
 		[Description("All of the characters that are allowed.")]
 		string allowedChars,
 		[Description("(Optional) The characters to insert in place of any that are not allowed (defaults : empty string).")]
-		string replacementChars = ""
+		[Optional] string replacementChars
 	);
 }
 

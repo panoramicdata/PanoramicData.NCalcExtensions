@@ -11,11 +11,11 @@ public partial interface IFunctionPrototypes
 		[Description("The original list")]
 		IEnumerable<object?> list,
 		[Description("A string to represent the value to be evaluated")]
-		string? predicate = null,
+		[Optional] string? predicate,
 		[Description("The string to evaluate. Must emit a string containing one or more characters: A-Z, a-z, 0-9 or _.")]
-		string? exprStr = null,
+		[Optional] string? exprStr,
 		[Description("Optional output format: 'JArray' returns [{name, count}] array; 'JObject' (default) returns flat {key: count} object.")]
-		string? outputFormat = null
+		[Optional] string? outputFormat
 	);
 }
 

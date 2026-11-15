@@ -24,8 +24,15 @@ public abstract class BaseExtendedExpression : Expression
 	protected BaseExtendedExpression(
 		string expression,
 		ExpressionOptions expressionOptions,
+		CultureInfo cultureInfo) : this(expression, expressionOptions, cultureInfo, null)
+	{
+	}
+
+	protected BaseExtendedExpression(
+		string expression,
+		ExpressionOptions expressionOptions,
 		CultureInfo cultureInfo,
-		TimeProvider? timeProvider = null) : base(expression, cultureInfo)
+		TimeProvider? timeProvider) : base(expression, cultureInfo)
 	{
 		Options = expressionOptions;
 		CultureInfo = cultureInfo;

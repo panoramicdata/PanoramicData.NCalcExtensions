@@ -11,9 +11,9 @@ public partial interface IFunctionPrototypes
 		[Description("The original list")]
 		IEnumerable<object?> list,
 		[Description("(Optional) a string to represent the value to be evaluated")]
-		string? predicate = null,
+		[Optional] string? predicate,
 		[Description("(Optional, but must be provided if predicate is) the string to evaluate")]
-		string? exprStr = null
+		[Optional] string? exprStr
 	);
 }
 

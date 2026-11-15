@@ -31,7 +31,7 @@ public partial interface IFunctionPrototypes
 		[Description("The value to be parsed, given as a string.")]
 		string value,
 		[Description("(Optional) value to be returned if the parse operation fails.")]
-		object? valueIfParseFails = null
+		[Optional] object? valueIfParseFails
 	);
 }
 

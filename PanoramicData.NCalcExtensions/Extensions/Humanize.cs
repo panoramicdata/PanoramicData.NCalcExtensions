@@ -13,7 +13,7 @@ public partial interface IFunctionPrototypes
 		[Description("Time unit that the value represents, example: 'seconds'")]
 		string timeUnit,
 		[Description("(Optional) the time unit to round the output to, example: 'hours'. Nothing finer than this unit is shown.")]
-		string? resolution = null
+		[Optional] string? resolution
 	);
 }
 

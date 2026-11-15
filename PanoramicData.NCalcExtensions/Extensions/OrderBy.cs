@@ -15,9 +15,9 @@ public partial interface IFunctionPrototypes
 		[Description("The first orderBy lambda expression")]
 		string nCalcString1,
 		[Description("(Optional) A second orderBy lambda expression")]
-		string? nCalcString2 = null,
+		[Optional] string? nCalcString2,
 		[Description("(Optional) A third orderBy lambda expression")]
-		string? nCalcString3 = null
+		[Optional] string? nCalcString3
 	);
 }
 

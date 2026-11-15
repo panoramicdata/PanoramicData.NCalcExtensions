@@ -13,9 +13,9 @@ public partial interface IFunctionPrototypes
 		[Description("The list of items.")]
 		IList list,
 		[Description("A string to represent the value to be evaluated")]
-		string? predicate = null,
+		[Optional] string? predicate,
 		[Description("The string to evaluate")]
-		string? exprStr = null
+		[Optional] string? exprStr
 	);
 }
 

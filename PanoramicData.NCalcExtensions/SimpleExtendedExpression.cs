@@ -46,12 +46,25 @@ public class SimpleExtendedExpression : BaseExtendedExpression
 	/// <param name="tidiedExpression">The expression with all comments and parameter definitions already removed.</param>
 	/// <param name="expressionOptions">The expression options to use.</param>
 	/// <param name="cultureInfo">The culture info for parsing values.</param>
-	/// <param name="timeProvider">Optional time source for time-dependent functions; defaults to the system clock.</param>
+	public SimpleExtendedExpression(
+		string tidiedExpression,
+		ExpressionOptions expressionOptions,
+		CultureInfo cultureInfo) : this(tidiedExpression, expressionOptions, cultureInfo, null)
+	{
+	}
+
+	/// <summary>
+	/// Create a SimpleExtendedExpression from a pre-tidied expression with custom options and time source.
+	/// </summary>
+	/// <param name="tidiedExpression">The expression with all comments and parameter definitions already removed.</param>
+	/// <param name="expressionOptions">The expression options to use.</param>
+	/// <param name="cultureInfo">The culture info for parsing values.</param>
+	/// <param name="timeProvider">Time source for time-dependent functions; null uses the system clock.</param>
 	public SimpleExtendedExpression(
 		string tidiedExpression,
 		ExpressionOptions expressionOptions,
 		CultureInfo cultureInfo,
-		TimeProvider? timeProvider = null) : base(ValidateTidiedExpression(tidiedExpression), expressionOptions, cultureInfo, timeProvider)
+		TimeProvider? timeProvider) : base(ValidateTidiedExpression(tidiedExpression), expressionOptions, cultureInfo, timeProvider)
 	{
 	}
 
@@ -81,13 +94,28 @@ public class SimpleExtendedExpression : BaseExtendedExpression
 	/// <param name="document">The parsed document containing parameter definitions.</param>
 	/// <param name="expressionOptions">The expression options to use.</param>
 	/// <param name="cultureInfo">The culture info for parsing values.</param>
-	/// <param name="timeProvider">Optional time source for time-dependent functions; defaults to the system clock.</param>
+	public SimpleExtendedExpression(
+		string tidiedExpression,
+		ExtendedExpressionDocument document,
+		ExpressionOptions expressionOptions,
+		CultureInfo cultureInfo) : this(tidiedExpression, document, expressionOptions, cultureInfo, null)
+	{
+	}
+
+	/// <summary>
+	/// Create a SimpleExtendedExpression from a document and tidied expression with custom options and time source.
+	/// </summary>
+	/// <param name="tidiedExpression">The expression with all comments and parameter definitions already removed.</param>
+	/// <param name="document">The parsed document containing parameter definitions.</param>
+	/// <param name="expressionOptions">The expression options to use.</param>
+	/// <param name="cultureInfo">The culture info for parsing values.</param>
+	/// <param name="timeProvider">Time source for time-dependent functions; null uses the system clock.</param>
 	public SimpleExtendedExpression(
 		string tidiedExpression,
 		ExtendedExpressionDocument document,
 		ExpressionOptions expressionOptions,
 		CultureInfo cultureInfo,
-		TimeProvider? timeProvider = null) : base(ValidateTidiedExpression(tidiedExpression), expressionOptions, cultureInfo, timeProvider)
+		TimeProvider? timeProvider) : base(ValidateTidiedExpression(tidiedExpression), expressionOptions, cultureInfo, timeProvider)
 	{
 		SetParametersFromDefinitions(document.Parameters);
 		AnswerDefinition = document.Answer;

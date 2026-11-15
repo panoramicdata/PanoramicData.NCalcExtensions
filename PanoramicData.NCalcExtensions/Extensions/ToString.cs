@@ -11,7 +11,7 @@ public partial interface IFunctionPrototypes
 		[Description("The string value to be converted.")]
 		object value,
 		[Description("(Optional) Format of the output.")]
-		string? format = null
+		[Optional] string? format
 	);
 }
 
