@@ -3,20 +3,13 @@
 public abstract class NCalcTest
 {
 	protected static object? Test(string expressionText)
-	{
-		var expression = new ExtendedExpression(expressionText);
-		return expression.Evaluate();
-	}
+		=> new ExtendedExpression(expressionText).Evaluate();
 
 	/// <summary>
 	/// Evaluates <paramref name="expressionText"/> with one named parameter in scope.
 	/// </summary>
 	protected static object? Test(string expressionText, string parameterName, object? parameterValue)
-	{
-		var expression = new ExtendedExpression(expressionText);
-		expression.Parameters[parameterName] = parameterValue;
-		return expression.Evaluate();
-	}
+		=> WithParameter(expressionText, parameterName, parameterValue).Evaluate();
 
 	/// <summary>
 	/// Asserts that <paramref name="expressionText"/> fails with <typeparamref name="TException"/>,
@@ -24,10 +17,7 @@ public abstract class NCalcTest
 	/// </summary>
 	protected static void TestShouldThrow<TException>(string expressionText, string messagePattern)
 		where TException : Exception
-		=> new ExtendedExpression(expressionText)
-			.Invoking(expression => expression.Evaluate())
-			.Should().Throw<TException>()
-			.WithMessage(messagePattern);
+		=> AssertThrows<TException>(new ExtendedExpression(expressionText), messagePattern, exactly: false);
 
 	/// <summary>
 	/// As <see cref="TestShouldThrow{TException}(string, string)"/>, with one named parameter in
@@ -39,14 +29,7 @@ public abstract class NCalcTest
 		object? parameterValue,
 		string messagePattern)
 		where TException : Exception
-	{
-		var expression = new ExtendedExpression(expressionText);
-		expression.Parameters[parameterName] = parameterValue;
-
-		expression.Invoking(x => x.Evaluate())
-			.Should().Throw<TException>()
-			.WithMessage(messagePattern);
-	}
+		=> AssertThrows<TException>(WithParameter(expressionText, parameterName, parameterValue), messagePattern, exactly: false);
 
 	/// <summary>
 	/// Asserts that <paramref name="expressionText"/> fails with exactly
@@ -55,10 +38,7 @@ public abstract class NCalcTest
 	/// </summary>
 	protected static void TestShouldThrowExactly<TException>(string expressionText, string messagePattern)
 		where TException : Exception
-		=> new ExtendedExpression(expressionText)
-			.Invoking(expression => expression.Evaluate())
-			.Should().ThrowExactly<TException>()
-			.WithMessage(messagePattern);
+		=> AssertThrows<TException>(new ExtendedExpression(expressionText), messagePattern, exactly: true);
 
 	/// <summary>
 	/// As <see cref="TestShouldThrowExactly{TException}(string, string)"/>, with one named
@@ -70,12 +50,27 @@ public abstract class NCalcTest
 		object? parameterValue,
 		string messagePattern)
 		where TException : Exception
+		=> AssertThrows<TException>(WithParameter(expressionText, parameterName, parameterValue), messagePattern, exactly: true);
+
+	private static ExtendedExpression WithParameter(string expressionText, string parameterName, object? parameterValue)
 	{
 		var expression = new ExtendedExpression(expressionText);
 		expression.Parameters[parameterName] = parameterValue;
+		return expression;
+	}
 
-		expression.Invoking(x => x.Evaluate())
-			.Should().ThrowExactly<TException>()
-			.WithMessage(messagePattern);
+	private static void AssertThrows<TException>(ExtendedExpression expression, string messagePattern, bool exactly)
+		where TException : Exception
+	{
+		var assertion = expression.Invoking(x => x.Evaluate()).Should();
+
+		if (exactly)
+		{
+			assertion.ThrowExactly<TException>().WithMessage(messagePattern);
+		}
+		else
+		{
+			assertion.Throw<TException>().WithMessage(messagePattern);
+		}
 	}
 }
