@@ -7,13 +7,44 @@ public class Lambda
 	private readonly SimpleExtendedExpression _expression;
 
 	public Lambda(string predicate, string nCalcString, IDictionary<string, object?> parameters)
+		: this(predicate, nCalcString, parameters, ExpressionSettings.From(parameters))
+	{
+	}
+
+	/// <summary>Creates a lambda that evaluates with the options, culture and event handlers of the calling expression.</summary>
+	public Lambda(string predicate, string nCalcString, FunctionEventArgs functionArgs)
+		: this(predicate, nCalcString, (functionArgs ?? throw new ArgumentNullException(nameof(functionArgs))).Context.Parameters, functionArgs)
+	{
+	}
+
+	internal Lambda(string predicate, string nCalcString, IDictionary<string, object?> parameters, FunctionEventArgs functionArgs)
+		: this(predicate, nCalcString, parameters, ExpressionSettings.From(functionArgs.Context.Parameters))
+	{
+		var context = functionArgs.Context;
+
+		// The lambda registers its own built-in functions, so only names it does not know go to the caller's handler.
+		_expression.EvaluateFunction += (name, args) =>
+		{
+			if (!BaseExtendedExpression.IsBuiltInFunction(name))
+			{
+				context.EvaluateFunctionHandler?.Invoke(name, args);
+			}
+		};
+		_expression.EvaluateParameter += (name, args) => context.EvaluateParameterHandler?.Invoke(name, args);
+	}
+
+	private Lambda(
+		string predicate,
+		string nCalcString,
+		IDictionary<string, object?> parameters,
+		ExpressionSettings settings)
 	{
 		_predicate = predicate;
 		_nCalcString = nCalcString;
 		_parameters = parameters;
 
 		var document = ExtendedExpressionDocumentParser.Parse(nCalcString);
-		_expression = new SimpleExtendedExpression(document.TidiedExpression, document);
+		_expression = new SimpleExtendedExpression(document.TidiedExpression, document, settings.Options, settings.CultureInfo);
 		foreach (var (key, parameter) in _parameters)
 		{
 			_expression.Parameters[key] = parameter;
