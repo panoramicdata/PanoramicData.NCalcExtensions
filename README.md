@@ -350,6 +350,32 @@ For this reason, we guarantee that we will never use the underscore character in
 * mp_myFunction1()
 * mp_myFunction2()
 
+### Structured answer and parameter types
+
+Beyond the simple types, a typed definition may name these types:
+- `List<T>` and `Dictionary<string, T>`, where `T` is any supported type such as `string?`, `int?`, `object`, `object?` or `JObject`
+- `JObject`, `JArray` and `JsonDocument`
+- `DateTimeOffset`, `Type`, `Exception` and `object` (with `?` for nullable)
+
+Rules for the value segment:
+- Simple values keep their existing literal format; `DateTimeOffset` takes an ISO 8601 timestamp with an offset.
+- `List`, `Dictionary`, `JObject`, `JArray` and `JsonDocument` values are JSON. A value that is not valid JSON means the line is not a definition and stays an ordinary comment.
+- `Type`, `Exception` and `object` values are kept as text, and the type-only form is always valid when the exact value is unstable.
+- `null` is the explicit null marker, as before (`// answer:object?:null`).
+- Apart from `DateTimeOffset`, these types are for declaring what an expression returns. A parameter that gives a value for one of them fails when the expression is built, because the value cannot be converted.
+
+Examples:
+- `// answer:List<string?>:["a",null,"b"]`
+- `// answer:Dictionary<string, object?>:{"KEY1":"Hello","KEY2":false}`
+- `// answer:JObject:{"a":1,"b":null}`
+- `// answer:DateTimeOffset:9999-12-31T23:59:59.9999999+00:00`
+- `// answer:Exception`
+
+## Breaking changes
+
+- A comment line such as `// answer:JObject`, `// answer:List<string?>` or `// someName:DateTimeOffset:...` was previously treated as an ordinary comment. It is now read as a typed definition, so it no longer appears in the document's comments and, for `answer`, is reported as the answer definition.
+- A parameter definition naming `DateTimeOffset` now sets that parameter's value; the other newly supported types are accepted in type-only form for parameters.
+
 ## Contributing
 
 Pull requests are welcome!
