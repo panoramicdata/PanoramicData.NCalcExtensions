@@ -169,20 +169,18 @@ internal static class TypedDefinitionTypeResolver
 		var start = 0;
 		for (var i = 0; i < arguments.Length; i++)
 		{
-			switch (arguments[i])
+			if (arguments[i] == '<')
 			{
-				case '<':
-					depth++;
-					break;
-				case '>':
-					depth--;
-					break;
-				case ',' when depth == 0:
-					parts.Add(arguments[start..i].Trim());
-					start = i + 1;
-					break;
-				default:
-					break;
+				depth++;
+			}
+			else if (arguments[i] == '>')
+			{
+				depth--;
+			}
+			else if (arguments[i] == ',' && depth == 0)
+			{
+				parts.Add(arguments[start..i].Trim());
+				start = i + 1;
 			}
 		}
 
