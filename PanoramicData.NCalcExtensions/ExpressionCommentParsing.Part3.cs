@@ -63,7 +63,7 @@ internal static partial class ExpressionCommentParsing
 
 		SplitTypeAndValue(definitionContent, out var typeName, out var value);
 
-		if (!TypedDefinitionTypeResolver.TryResolve(typeName, out _))
+		if (!TypedDefinitionTypeResolver.TryResolve(typeName, out var resolvedType))
 		{
 			return false;
 		}
@@ -72,6 +72,12 @@ internal static partial class ExpressionCommentParsing
 		{
 			definition = TypedDefinition.FromTypeOnly(typeName);
 			return true;
+		}
+
+		if (!value.Equals("null", StringComparison.OrdinalIgnoreCase)
+			&& !TypedDefinitionTypeResolver.IsValidValue(resolvedType, value))
+		{
+			return false;
 		}
 
 		return TryDefineFromValue(name, typeName, value, out definition);

@@ -113,6 +113,7 @@ public abstract class BaseExtendedExpression : Expression
 			[typeof(double)] = static (value, culture) => double.Parse(value, culture),
 			[typeof(decimal)] = static (value, culture) => decimal.Parse(value, culture),
 			[typeof(DateTime)] = static (value, culture) => DateTime.Parse(value, culture),
+			[typeof(DateTimeOffset)] = static (value, culture) => DateTimeOffset.Parse(value, culture),
 		}.ToFrozenDictionary();
 
 	protected object? ConvertDefinitionValue(string definitionName, TypedDefinition definition)
