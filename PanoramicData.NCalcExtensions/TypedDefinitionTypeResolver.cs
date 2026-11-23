@@ -1,7 +1,12 @@
 namespace PanoramicData.NCalcExtensions;
 
-internal readonly record struct ResolvedTypedDefinitionType(Type UnderlyingType, bool IsNullable, bool RequiresJsonValue = false)
+internal readonly record struct ResolvedTypedDefinitionType(Type UnderlyingType, bool IsNullable, bool RequiresJsonValue)
 {
+	internal ResolvedTypedDefinitionType(Type underlyingType, bool isNullable)
+		: this(underlyingType, isNullable, false)
+	{
+	}
+
 	internal bool AllowsNull => IsNullable || !UnderlyingType.IsValueType;
 
 	/// <summary>
