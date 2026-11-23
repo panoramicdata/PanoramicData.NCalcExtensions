@@ -181,6 +181,8 @@ internal static class TypedDefinitionTypeResolver
 					parts.Add(arguments[start..i].Trim());
 					start = i + 1;
 					break;
+				default:
+					break;
 			}
 		}
 
